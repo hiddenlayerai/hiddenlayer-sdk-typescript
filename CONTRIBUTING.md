@@ -1,6 +1,6 @@
-# Contributing to [Project Name]
+# Contributing to HiddenLayer SDK TypeScript
 
-Thank you for your interest in contributing to [Project Name]! We welcome contributions from the community to help improve and grow this project. By contributing, you agree to abide by our [Code of Conduct](link-to-code-of-conduct.md).
+Thank you for your interest in contributing to HiddenLayer SDK TypeScript! We welcome contributions from the community to help improve and grow this project. By contributing, you agree to abide by our [Code of Conduct](link-to-code-of-conduct.md).
 
 ## Ways to Contribute
 
@@ -16,12 +16,12 @@ There are several ways you can contribute to this project:
 
 ## Getting Started
 
-To get started with contributing to [Project Name], follow these steps:
+To get started with contributing to HiddenLayer SDK TypeScript, follow these steps:
 
 1. Fork the repository on GitHub.
 2. Clone your forked repository to your local machine.
    ```
-   git clone https://github.com/your-username/project-name.git
+   git clone https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript.git
    ```
 3. Create a new branch for your changes.
    ```
@@ -45,4 +45,4 @@ Please note that all contributors are expected to adhere to the [Code of Conduct
 
 If you have any questions, feedback, or need further assistance, please don't hesitate to reach out to us by opening an issue on GitHub or contacting [maintainer's name or email].
 
-Thank you for contributing to [Project Name]!
+Thank you for contributing to HiddenLayer SDK TypeScript!

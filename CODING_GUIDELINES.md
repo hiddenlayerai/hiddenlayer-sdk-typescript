@@ -1,6 +1,6 @@
 # Coding Guidelines
 
-Welcome to the [Project Name] coding guidelines! These guidelines are designed to ensure consistency and maintainability in our codebase. Please follow these guidelines when contributing to the project.
+Welcome to the HiddenLayer SDK TypeScript coding guidelines! These guidelines are designed to ensure consistency and maintainability in our codebase. Please follow these guidelines when contributing to the project.
 
 ## General Principles
 
