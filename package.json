@@ -1,0 +1,21 @@
+{
+  "name": "hiddenlayer-sdk",
+  "version": "0.1.0",
+  "description": "Official HiddenLayer TypeScript SDK",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript.git"
+  },
+  "scripts": {
+    "build": "tsc --outDir dist"
+  },
+  "author": "HiddenLayer",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@types/node": "^20.14.8",
+    "azure-pipelines-task-lib": "^4.13.0",
+    "http": "^0.0.1-security",
+    "request": "^2.88.2",
+    "typescript": "^5.5.2"
+  }
+}
