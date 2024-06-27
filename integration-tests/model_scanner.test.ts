@@ -15,7 +15,7 @@ describe('Integration test to scan a model', () => {
             throw new Error("HL_CLIENT_SECRET is not set");
         }
 
-        return new HiddenLayerServiceClient(clientId, clientSecret);
+        return HiddenLayerServiceClient.createSaaSClient(clientId, clientSecret);
     }
 
     it('should scan a model', async () => {

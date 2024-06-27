@@ -6,10 +6,11 @@ export class HiddenLayerServiceClient {
     private clientSecret: string;
     private host: string;
 
-    constructor(clientId: string, clientSecret: string, host: string = "https://api.us.hiddenlayer.ai") {
+    private constructor(host?: string, clientId?: string, clientSecret?: string) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
-        this.host = host;
+        console.log(host);
+        this.host = host ?? "https://api.us.hiddenlayer.ai";
         this.isSaaS = this.isHostSaaS(this.host);
 
         if (this.isSaaS) {
@@ -29,6 +30,14 @@ export class HiddenLayerServiceClient {
                 basePath: this.host
             });
         }
+    }
+
+    static createSaaSClient(clientId: string, clientSecret: string, host?: string): HiddenLayerServiceClient {
+        return new HiddenLayerServiceClient(host, clientId, clientSecret);
+    }
+
+    static createEnterpriseClient(host: string): HiddenLayerServiceClient {
+        return new HiddenLayerServiceClient(host);
     }
 
     readonly isSaaS: boolean;

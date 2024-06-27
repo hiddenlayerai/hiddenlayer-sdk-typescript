@@ -23,7 +23,7 @@ import { HiddenLayerServiceClient } from './hiddenlayer/HiddenLayerServiceClient
 const clientId = 'YOUR_CLIENT_ID';
 const clientSecret = 'YOUR_CLIENT_SECRET';
 
-const client = new HiddenLayerService(clientId, clientSecret);
+const client = HiddenLayerServiceClient.createSaaSClient(clientId, clientSecret);
 ```
 
 If you are using the Enterprise version of the production, you can instantiate the `HiddenLayerServiceClient` as follows:
