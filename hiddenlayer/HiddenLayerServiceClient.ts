@@ -40,7 +40,7 @@ export class HiddenLayerServiceClient {
      * @returns True if the client is using the SaaS version of the HiddenLayer API.
      */
     private isHostSaaS(host: string): boolean {
-        const url = new URL(this.host);
+        const url = new URL(host);
         if (url.hostname.endsWith("hiddenlayer.ai")) {
             return true;
         }
