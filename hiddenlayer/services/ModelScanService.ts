@@ -27,7 +27,7 @@ export class ModelScanService {
         const sensor = await this.sensorApi.createSensor({createSensorRequest: {plaintextName: modelName}});
         const upload = await this.sensorApi.beginMultipartUpload({xContentLength: fileSize, sensorId: sensor.sensorId});
 
-        var file: fs.promises.FileHandle;
+        let file: fs.promises.FileHandle;
         try {
             file = await fs.promises.open(modelPath, 'r')
             for (let i = 0; i < upload.parts.length; i++) {
