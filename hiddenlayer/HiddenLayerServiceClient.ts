@@ -9,7 +9,6 @@ export class HiddenLayerServiceClient {
     private constructor(host?: string, clientId?: string, clientSecret?: string) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
-        console.log(host);
         this.host = host ?? "https://api.us.hiddenlayer.ai";
         this.isSaaS = this.isHostSaaS(this.host);
 
