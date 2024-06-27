@@ -10,15 +10,42 @@ export class HiddenLayerServiceClient {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.host = host;
+        this.isSaaS = this.isHostSaaS(this.host);
 
-        const token = this.getJwt()
-        DefaultConfig.config = new Configuration({
-            basePath: this.host,
-            accessToken: token
-        });
+        if (this.isSaaS) {
+            if (!this.clientId) {
+                throw new Error("clientId is required for SaaS access");
+            }
+            if (!this.clientSecret) {
+                throw new Error("clientSecret is required for SaaS access");
+            }
+            const token = this.getJwt()
+            DefaultConfig.config = new Configuration({
+                basePath: this.host,
+                accessToken: token
+            });
+        } else {
+            DefaultConfig.config = new Configuration({
+                basePath: this.host
+            });
+        }
     }
 
+    readonly isSaaS: boolean;
     readonly modelScanner: ModelScanService = new ModelScanService();
+
+    /**
+     * Check if the client is using the SaaS version of the HiddenLayer API.
+     * 
+     * @returns True if the client is using the SaaS version of the HiddenLayer API.
+     */
+    private isHostSaaS(host: string): boolean {
+        const url = new URL(this.host);
+        if (url.hostname.endsWith("hiddenlayer.ai")) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Get the JWT token to auth to the HiddenLayer API.
