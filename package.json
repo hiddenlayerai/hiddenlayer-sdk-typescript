@@ -6,8 +6,14 @@
     "type": "git",
     "url": "git+https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript.git"
   },
+  "source": "index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.m.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc --outDir dist",
+    "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
+    "clean": "rm -rf dist",
     "test": "jest"
   },
   "author": "HiddenLayer",
@@ -25,6 +31,7 @@
   "dependencies": {
     "@types/node": "^20.14.8",
     "azure-pipelines-task-lib": "^4.13.0",
+    "microbundle": "^0.15.1",
     "request": "^2.88.2",
     "typescript": "^5.5.2",
     "uuid": "^10.0.0"
