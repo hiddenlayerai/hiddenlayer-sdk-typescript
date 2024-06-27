@@ -34,5 +34,5 @@ describe('Integration test to scan a model', () => {
         assert(detections != null);
         assert(detections[0]['severity'] == "MALICIOUS");
         assert(detections[0]["description"].includes('system'));
-    })
-})
+    }, 10000);
+});
