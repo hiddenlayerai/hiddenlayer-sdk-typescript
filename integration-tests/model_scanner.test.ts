@@ -3,7 +3,10 @@ import { HiddenLayerServiceClient } from '../hiddenlayer/HiddenLayerServiceClien
 import assert from 'assert';
 
 describe('Integration test to scan a model', () => {
-    function getClient() {
+    it('should scan a model in SaaS', async () => await performModelScanTest(getSaaSClient()), 10000);
+    it('should scan a model in Enterprise', async () => await performModelScanTest(getEnterpriseClient()), 10000);
+
+    function getSaaSClient() {
         const clientId = process.env.HL_CLIENT_ID;
         const clientSecret = process.env.HL_CLIENT_SECRET;
 
@@ -18,26 +21,37 @@ describe('Integration test to scan a model', () => {
         return HiddenLayerServiceClient.createSaaSClient(clientId, clientSecret);
     }
 
-    it('should scan a model', async () => {
-        const modelPath = `./integration-tests/malicious_model.pkl`;
-        const modelName = `sdk-integration-scan-model-${uuidv4()}`;
+    function getEnterpriseClient() {
+        return HiddenLayerServiceClient.createEnterpriseClient("http://localhost:8000");
+    }
 
-        const client = getClient()
-        const results = await client.modelScanner.scanFile(modelName, modelPath);
+    async function performModelScanTest(client: HiddenLayerServiceClient): Promise<void> {
+        try {
+            const modelPath = `./integration-tests/malicious_model.pkl`;
+            const modelName = `sdk-integration-scan-model-${uuidv4()}`;
 
-        const detections = results.detections;
+            const results = await client.modelScanner.scanFile(modelName, modelPath);
 
-        console.log(results);
+            const detections = results.detections;
 
-        assert(results.results.pickle_modules.length > 0);
-        assert(results.results.pickle_modules.includes("builtins.exec"));
+            console.log(results);
 
-        assert(detections != null);
-        assert(detections[0]['severity'] == "MALICIOUS");
-        assert(detections[0]["description"].includes('system'));
+            assert(results.results.pickle_modules.length > 0);
+            assert(results.results.pickle_modules.includes("builtins.exec"));
 
-        if (client.isSaaS) {
-            await client.model.delete(modelName);
+            assert(detections != null);
+            assert(detections[0]['severity'] == "MALICIOUS");
+            assert(detections[0]["description"].includes('system'));
+
+            if (client.isSaaS) {
+                await client.model.delete(modelName);
+            }
+        } catch (error) {
+            if (!client.isSaaS && error.cause?.code == 'ECONNREFUSED') {
+                console.warn("Enterprise client test skipped because the server is not running")
+            } else {
+                throw error;
+            }
         }
-    }, 10000);
+    }
 });

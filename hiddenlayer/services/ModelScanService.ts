@@ -1,14 +1,26 @@
 import fs from 'fs';
+import {v4 as uuidv4} from 'uuid';
 
-import { ScanResultsV2, SensorApi, ModelScanApi, ScanResultsV2StatusEnum } from "../../generated";
+import { ScanResultsV2, SensorApi, ModelScanApi, ScanResultsV2StatusEnum, Model } from "../../generated";
 import { sleep } from './utils';
 import { ScanResultsMetadata } from '../models/ScanResultsMetadata';
 import { ModelService } from './ModelService';
+import { EnterpriseModelScanApi } from '../enterprise/EnterpriseModelScanApi';
 
 export class ModelScanService {
     readonly sensorApi = new SensorApi();
-    readonly modelScanApi = new ModelScanApi();
+    readonly modelScanApi;
     readonly modelService = new ModelService();
+    readonly isSaaS: boolean;
+
+    constructor(isSaaS: boolean) {
+        this.isSaaS = isSaaS;
+        if (isSaaS) {
+            this.modelScanApi = new ModelScanApi();
+        } else {
+            this.modelScanApi = new EnterpriseModelScanApi();
+        }
+    }
 
     /**
      * Scan a local model file using the HiddenLayer Model Scanner.
@@ -23,39 +35,7 @@ export class ModelScanService {
         modelPath: string,
         waitForResults: boolean = true) : Promise<ScanResultsV2 & ScanResultsMetadata> {
 
-        const fileStats = await fs.promises.stat(modelPath);
-        const fileSize = fileStats.size;
-
-        const sensor = await this.modelService.create(modelName);
-        const upload = await this.sensorApi.beginMultipartUpload({xContentLength: fileSize, sensorId: sensor.sensorId});
-
-        let file: fs.promises.FileHandle;
-        try {
-            file = await fs.promises.open(modelPath, 'r')
-            for (let i = 0; i < upload.parts.length; i++) {
-                const part = upload.parts[i];
-                const readAmount = part.endOffset - part.startOffset;
-                const partData = await file.read(Buffer.alloc(readAmount), 0, readAmount, part.startOffset);
-
-                if (part.uploadUrl) {
-                    // When upload URL is provided, this is wher we should upload the part
-                    await fetch(part.uploadUrl, {
-                        method: 'PUT',
-                        body: partData.buffer,
-                        headers: {
-                            'Content-Type': 'application/octet-stream'
-                        }
-                    });
-                } else {
-                    await this.sensorApi.uploadModelPart({sensorId: sensor.sensorId, uploadId: upload.uploadId, part: part.partNumber, body: partData.buffer});
-                }
-            }
-        } finally {
-            await file.close();
-        }
-
-        await this.sensorApi.completeMultipartUpload({sensorId: sensor.sensorId, uploadId: upload.uploadId});
-        await this.modelScanApi.scanModel({sensorId: sensor.sensorId});
+        const sensor = await this.submitFileToModelScanner(modelPath, modelName);
 
         let scanResults = await this.modelScanApi.scanStatus({sensorId: sensor.sensorId});
 
@@ -80,5 +60,74 @@ export class ModelScanService {
             filePath: modelPath,
             sensorId: sensor.sensorId
         };
+    }
+
+    private async submitFileToModelScanner(modelPath: string, modelName: string): Promise<Model> {
+        if (this.isSaaS) {
+            return await this.submitFileToSaaSModelScanner(modelPath, modelName);
+        } else {
+            return await this.submitFileToEnterpriseModelScanner(modelPath, modelName);
+        }
+    }
+
+    private async submitFileToSaaSModelScanner(modelPath: string, modelName: string): Promise<Model> {
+        const fileStats = await fs.promises.stat(modelPath);
+        const fileSize = fileStats.size;
+
+        const model = await this.modelService.create(modelName);
+        const upload = await this.sensorApi.beginMultipartUpload({ xContentLength: fileSize, sensorId: model.sensorId });
+
+        let file: fs.promises.FileHandle;
+        try {
+            file = await fs.promises.open(modelPath, 'r');
+            for (let i = 0; i < upload.parts.length; i++) {
+                const part = upload.parts[i];
+                const readAmount = part.endOffset - part.startOffset;
+                const partData = await file.read(Buffer.alloc(readAmount), 0, readAmount, part.startOffset);
+
+                if (part.uploadUrl) {
+                    // When upload URL is provided, this is wher we should upload the part
+                    await fetch(part.uploadUrl, {
+                        method: 'PUT',
+                        body: partData.buffer,
+                        headers: {
+                            'Content-Type': 'application/octet-stream'
+                        }
+                    });
+                } else {
+                    await this.sensorApi.uploadModelPart({ sensorId: model.sensorId, uploadId: upload.uploadId, part: part.partNumber, body: partData.buffer });
+                }
+            }
+        } finally {
+            await file.close();
+        }
+
+        await this.sensorApi.completeMultipartUpload({ sensorId: model.sensorId, uploadId: upload.uploadId });
+        await this.modelScanApi.scanModel({ sensorId: model.sensorId });
+        return model;
+    }
+
+    private async submitFileToEnterpriseModelScanner(modelPath: string, modelName: string): Promise<Model> {
+        let file: fs.promises.FileHandle;
+        let data: Buffer;
+        try {
+            file = await fs.promises.open(modelPath, 'r');
+            data = await file.readFile();
+        } finally {
+            await file.close();
+        }
+
+        const model: Model = {
+            sensorId: uuidv4(),
+            createdAt: new Date(),
+            tenantId: "0000",
+            plaintextName: modelName,
+            active: true,
+            version: 1,
+        };
+
+        await this.modelScanApi.scanModel({ sensorId: model.sensorId, scanModelRequest: { location: modelPath } });
+
+        return model;
     }
 }
