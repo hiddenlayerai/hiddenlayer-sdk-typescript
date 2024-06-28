@@ -17,9 +17,9 @@ import * as runtime from '../runtime';
 import type {
   CreateSensorRequest,
   GetMultipartUploadResponse,
-  SensorSORItemResponse,
+  Model,
+  ModelQueryResponse,
   SensorSORQueryRequest,
-  SensorSORQueryResponse,
   ValidationErrorModel,
 } from '../models/index';
 import {
@@ -27,12 +27,12 @@ import {
     CreateSensorRequestToJSON,
     GetMultipartUploadResponseFromJSON,
     GetMultipartUploadResponseToJSON,
-    SensorSORItemResponseFromJSON,
-    SensorSORItemResponseToJSON,
+    ModelFromJSON,
+    ModelToJSON,
+    ModelQueryResponseFromJSON,
+    ModelQueryResponseToJSON,
     SensorSORQueryRequestFromJSON,
     SensorSORQueryRequestToJSON,
-    SensorSORQueryResponseFromJSON,
-    SensorSORQueryResponseToJSON,
     ValidationErrorModelFromJSON,
     ValidationErrorModelToJSON,
 } from '../models/index';
@@ -49,6 +49,14 @@ export interface CompleteMultipartUploadRequest {
 
 export interface CreateSensorOperationRequest {
     createSensorRequest: CreateSensorRequest;
+}
+
+export interface DeleteModelRequest {
+    sensorId: string;
+}
+
+export interface GetModelRequest {
+    sensorId: string;
 }
 
 export interface QuerySensorRequest {
@@ -174,7 +182,7 @@ export class SensorApi extends runtime.BaseAPI {
     /**
      * Create a Sensor
      */
-    async createSensorRaw(requestParameters: CreateSensorOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SensorSORItemResponse>> {
+    async createSensorRaw(requestParameters: CreateSensorOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Model>> {
         if (requestParameters['createSensorRequest'] == null) {
             throw new runtime.RequiredError(
                 'createSensorRequest',
@@ -204,21 +212,102 @@ export class SensorApi extends runtime.BaseAPI {
             body: CreateSensorRequestToJSON(requestParameters['createSensorRequest']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SensorSORItemResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ModelFromJSON(jsonValue));
     }
 
     /**
      * Create a Sensor
      */
-    async createSensor(requestParameters: CreateSensorOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SensorSORItemResponse> {
+    async createSensor(requestParameters: CreateSensorOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Model> {
         const response = await this.createSensorRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Remove an Adhoc Sensor
+     */
+    async deleteModelRaw(requestParameters: DeleteModelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['sensorId'] == null) {
+            throw new runtime.RequiredError(
+                'sensorId',
+                'Required parameter "sensorId" was null or undefined when calling deleteModel().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/v2/sensors/{sensor_id}`.replace(`{${"sensor_id"}}`, encodeURIComponent(String(requestParameters['sensorId']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Remove an Adhoc Sensor
+     */
+    async deleteModel(requestParameters: DeleteModelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteModelRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Get Model
+     */
+    async getModelRaw(requestParameters: GetModelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Model>> {
+        if (requestParameters['sensorId'] == null) {
+            throw new runtime.RequiredError(
+                'sensorId',
+                'Required parameter "sensorId" was null or undefined when calling getModel().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/v2/sensors/{sensor_id}`.replace(`{${"sensor_id"}}`, encodeURIComponent(String(requestParameters['sensorId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ModelFromJSON(jsonValue));
+    }
+
+    /**
+     * Get Model
+     */
+    async getModel(requestParameters: GetModelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Model> {
+        const response = await this.getModelRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Query a Sensor
      */
-    async querySensorRaw(requestParameters: QuerySensorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SensorSORQueryResponse>> {
+    async querySensorRaw(requestParameters: QuerySensorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelQueryResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -241,13 +330,13 @@ export class SensorApi extends runtime.BaseAPI {
             body: SensorSORQueryRequestToJSON(requestParameters['sensorSORQueryRequest']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SensorSORQueryResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ModelQueryResponseFromJSON(jsonValue));
     }
 
     /**
      * Query a Sensor
      */
-    async querySensor(requestParameters: QuerySensorRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SensorSORQueryResponse> {
+    async querySensor(requestParameters: QuerySensorRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ModelQueryResponse> {
         const response = await this.querySensorRaw(requestParameters, initOverrides);
         return await response.value();
     }

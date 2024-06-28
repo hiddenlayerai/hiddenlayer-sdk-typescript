@@ -13,49 +13,49 @@
  */
 
 import { mapValues } from '../runtime';
-import type { SensorSORItemResponse } from './SensorSORItemResponse';
+import type { Model } from './Model';
 import {
-    SensorSORItemResponseFromJSON,
-    SensorSORItemResponseFromJSONTyped,
-    SensorSORItemResponseToJSON,
-} from './SensorSORItemResponse';
+    ModelFromJSON,
+    ModelFromJSONTyped,
+    ModelToJSON,
+} from './Model';
 
 /**
  * 
  * @export
- * @interface SensorSORQueryResponse
+ * @interface ModelQueryResponse
  */
-export interface SensorSORQueryResponse {
+export interface ModelQueryResponse {
     /**
      * 
      * @type {number}
-     * @memberof SensorSORQueryResponse
+     * @memberof ModelQueryResponse
      */
     totalCount: number;
     /**
      * 
      * @type {number}
-     * @memberof SensorSORQueryResponse
+     * @memberof ModelQueryResponse
      */
     pageSize: number;
     /**
      * 
      * @type {number}
-     * @memberof SensorSORQueryResponse
+     * @memberof ModelQueryResponse
      */
     pageNumber: number;
     /**
      * 
-     * @type {Array<SensorSORItemResponse>}
-     * @memberof SensorSORQueryResponse
+     * @type {Array<Model>}
+     * @memberof ModelQueryResponse
      */
-    results: Array<SensorSORItemResponse>;
+    results: Array<Model>;
 }
 
 /**
- * Check if a given object implements the SensorSORQueryResponse interface.
+ * Check if a given object implements the ModelQueryResponse interface.
  */
-export function instanceOfSensorSORQueryResponse(value: object): value is SensorSORQueryResponse {
+export function instanceOfModelQueryResponse(value: object): value is ModelQueryResponse {
     if (!('totalCount' in value) || value['totalCount'] === undefined) return false;
     if (!('pageSize' in value) || value['pageSize'] === undefined) return false;
     if (!('pageNumber' in value) || value['pageNumber'] === undefined) return false;
@@ -63,11 +63,11 @@ export function instanceOfSensorSORQueryResponse(value: object): value is Sensor
     return true;
 }
 
-export function SensorSORQueryResponseFromJSON(json: any): SensorSORQueryResponse {
-    return SensorSORQueryResponseFromJSONTyped(json, false);
+export function ModelQueryResponseFromJSON(json: any): ModelQueryResponse {
+    return ModelQueryResponseFromJSONTyped(json, false);
 }
 
-export function SensorSORQueryResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): SensorSORQueryResponse {
+export function ModelQueryResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelQueryResponse {
     if (json == null) {
         return json;
     }
@@ -76,11 +76,11 @@ export function SensorSORQueryResponseFromJSONTyped(json: any, ignoreDiscriminat
         'totalCount': json['total_count'],
         'pageSize': json['page_size'],
         'pageNumber': json['page_number'],
-        'results': ((json['results'] as Array<any>).map(SensorSORItemResponseFromJSON)),
+        'results': ((json['results'] as Array<any>).map(ModelFromJSON)),
     };
 }
 
-export function SensorSORQueryResponseToJSON(value?: SensorSORQueryResponse | null): any {
+export function ModelQueryResponseToJSON(value?: ModelQueryResponse | null): any {
     if (value == null) {
         return value;
     }
@@ -89,7 +89,7 @@ export function SensorSORQueryResponseToJSON(value?: SensorSORQueryResponse | nu
         'total_count': value['totalCount'],
         'page_size': value['pageSize'],
         'page_number': value['pageNumber'],
-        'results': ((value['results'] as Array<any>).map(SensorSORItemResponseToJSON)),
+        'results': ((value['results'] as Array<any>).map(ModelToJSON)),
     };
 }
 

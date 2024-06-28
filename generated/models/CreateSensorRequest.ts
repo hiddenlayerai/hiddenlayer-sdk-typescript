@@ -43,6 +43,12 @@ export interface CreateSensorRequest {
      * @memberof CreateSensorRequest
      */
     tags?: { [key: string]: any; };
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateSensorRequest
+     */
+    adhoc?: boolean;
 }
 
 /**
@@ -67,6 +73,7 @@ export function CreateSensorRequestFromJSONTyped(json: any, ignoreDiscriminator:
         'version': json['version'] == null ? undefined : json['version'],
         'active': json['active'] == null ? undefined : json['active'],
         'tags': json['tags'] == null ? undefined : json['tags'],
+        'adhoc': json['adhoc'] == null ? undefined : json['adhoc'],
     };
 }
 
@@ -80,6 +87,7 @@ export function CreateSensorRequestToJSON(value?: CreateSensorRequest | null): a
         'version': value['version'],
         'active': value['active'],
         'tags': value['tags'],
+        'adhoc': value['adhoc'],
     };
 }
 

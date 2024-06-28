@@ -37,6 +37,12 @@ export interface MultipartUploadPart {
      * @memberof MultipartUploadPart
      */
     endOffset: number;
+    /**
+     * only provided when part is to be directly uploaded to a cloud provider (adhoc)
+     * @type {string}
+     * @memberof MultipartUploadPart
+     */
+    uploadUrl?: string;
 }
 
 /**
@@ -62,6 +68,7 @@ export function MultipartUploadPartFromJSONTyped(json: any, ignoreDiscriminator:
         'partNumber': json['part_number'],
         'startOffset': json['start_offset'],
         'endOffset': json['end_offset'],
+        'uploadUrl': json['upload_url'] == null ? undefined : json['upload_url'],
     };
 }
 
@@ -74,6 +81,7 @@ export function MultipartUploadPartToJSON(value?: MultipartUploadPart | null): a
         'part_number': value['partNumber'],
         'start_offset': value['startOffset'],
         'end_offset': value['endOffset'],
+        'upload_url': value['uploadUrl'],
     };
 }
 

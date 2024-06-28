@@ -50,6 +50,12 @@ export interface FileInfo {
      * @memberof FileInfo
      */
     tlsh?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof FileInfo
+     */
+    pickleModules?: Array<string>;
 }
 
 /**
@@ -75,6 +81,7 @@ export function FileInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'type': json['type'] == null ? undefined : json['type'],
         'subtype': json['subtype'] == null ? undefined : json['subtype'],
         'tlsh': json['tlsh'] == null ? undefined : json['tlsh'],
+        'pickleModules': json['pickle_modules'] == null ? undefined : json['pickle_modules'],
     };
 }
 
@@ -90,6 +97,7 @@ export function FileInfoToJSON(value?: FileInfo | null): any {
         'type': value['type'],
         'subtype': value['subtype'],
         'tlsh': value['tlsh'],
+        'pickle_modules': value['pickleModules'],
     };
 }
 

@@ -49,7 +49,24 @@ export interface SensorSORQueryFilter {
      * @memberof SensorSORQueryFilter
      */
     createdAtStop?: Date;
+    /**
+     * 
+     * @type {string}
+     * @memberof SensorSORQueryFilter
+     */
+    source?: SensorSORQueryFilterSourceEnum;
 }
+
+
+/**
+ * @export
+ */
+export const SensorSORQueryFilterSourceEnum = {
+    Adhoc: 'adhoc',
+    UnknownDefaultOpenApi: '11184809'
+} as const;
+export type SensorSORQueryFilterSourceEnum = typeof SensorSORQueryFilterSourceEnum[keyof typeof SensorSORQueryFilterSourceEnum];
+
 
 /**
  * Check if a given object implements the SensorSORQueryFilter interface.
@@ -73,6 +90,7 @@ export function SensorSORQueryFilterFromJSONTyped(json: any, ignoreDiscriminator
         'version': json['version'] == null ? undefined : json['version'],
         'createdAtStart': json['created_at_start'] == null ? undefined : (new Date(json['created_at_start'])),
         'createdAtStop': json['created_at_stop'] == null ? undefined : (new Date(json['created_at_stop'])),
+        'source': json['source'] == null ? undefined : json['source'],
     };
 }
 
@@ -87,6 +105,7 @@ export function SensorSORQueryFilterToJSON(value?: SensorSORQueryFilter | null):
         'version': value['version'],
         'created_at_start': value['createdAtStart'] == null ? undefined : ((value['createdAtStart']).toISOString()),
         'created_at_stop': value['createdAtStop'] == null ? undefined : ((value['createdAtStop']).toISOString()),
+        'source': value['source'],
     };
 }
 

@@ -16,57 +16,57 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface SensorSORItemResponse
+ * @interface Model
  */
-export interface SensorSORItemResponse {
+export interface Model {
     /**
      * 
      * @type {string}
-     * @memberof SensorSORItemResponse
+     * @memberof Model
      */
     sensorId: string;
     /**
      * 
      * @type {Date}
-     * @memberof SensorSORItemResponse
+     * @memberof Model
      */
     createdAt: Date;
     /**
      * 
      * @type {string}
-     * @memberof SensorSORItemResponse
+     * @memberof Model
      */
     tenantId: string;
     /**
      * 
      * @type {string}
-     * @memberof SensorSORItemResponse
+     * @memberof Model
      */
     plaintextName: string;
     /**
      * 
      * @type {boolean}
-     * @memberof SensorSORItemResponse
+     * @memberof Model
      */
     active: boolean;
     /**
      * 
      * @type {number}
-     * @memberof SensorSORItemResponse
+     * @memberof Model
      */
     version: number;
     /**
      * 
      * @type {{ [key: string]: any; }}
-     * @memberof SensorSORItemResponse
+     * @memberof Model
      */
     tags?: { [key: string]: any; };
 }
 
 /**
- * Check if a given object implements the SensorSORItemResponse interface.
+ * Check if a given object implements the Model interface.
  */
-export function instanceOfSensorSORItemResponse(value: object): value is SensorSORItemResponse {
+export function instanceOfModel(value: object): value is Model {
     if (!('sensorId' in value) || value['sensorId'] === undefined) return false;
     if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('tenantId' in value) || value['tenantId'] === undefined) return false;
@@ -76,11 +76,11 @@ export function instanceOfSensorSORItemResponse(value: object): value is SensorS
     return true;
 }
 
-export function SensorSORItemResponseFromJSON(json: any): SensorSORItemResponse {
-    return SensorSORItemResponseFromJSONTyped(json, false);
+export function ModelFromJSON(json: any): Model {
+    return ModelFromJSONTyped(json, false);
 }
 
-export function SensorSORItemResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): SensorSORItemResponse {
+export function ModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): Model {
     if (json == null) {
         return json;
     }
@@ -96,7 +96,7 @@ export function SensorSORItemResponseFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function SensorSORItemResponseToJSON(value?: SensorSORItemResponse | null): any {
+export function ModelToJSON(value?: Model | null): any {
     if (value == null) {
         return value;
     }
