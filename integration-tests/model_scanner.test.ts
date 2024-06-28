@@ -20,9 +20,10 @@ describe('Integration test to scan a model', () => {
 
     it('should scan a model', async () => {
         const modelPath = `./integration-tests/malicious_model.pkl`;
+        const modelName = `sdk-integration-scan-model-${uuidv4()}`;
 
         const client = getClient()
-        const results = await client.modelScanner.scanFile(`sdk-integration-scan-model-${uuidv4()}`, modelPath);
+        const results = await client.modelScanner.scanFile(modelName, modelPath);
 
         const detections = results.detections;
 
@@ -34,5 +35,9 @@ describe('Integration test to scan a model', () => {
         assert(detections != null);
         assert(detections[0]['severity'] == "MALICIOUS");
         assert(detections[0]["description"].includes('system'));
+
+        if (client.isSaaS) {
+            await client.model.delete(modelName);
+        }
     }, 10000);
 });
