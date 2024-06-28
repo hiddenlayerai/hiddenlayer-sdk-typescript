@@ -28,8 +28,10 @@ const client = HiddenLayerServiceClient.createSaaSClient(clientId, clientSecret)
 
 If you are using the Enterprise version of the production, you can instantiate the `HiddenLayerServiceClient` as follows:
 
-TODO
 ```typescript
+const host = 'https://your.hiddenlayer.enterprise.test';
+
+const client = HiddenLayerServiceClient.createEnterpriseClient(host);
 ```
 
 ### Scanning Models
