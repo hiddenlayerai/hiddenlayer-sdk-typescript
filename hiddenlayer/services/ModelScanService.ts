@@ -108,15 +108,6 @@ export class ModelScanService {
     }
 
     private async submitFileToEnterpriseModelScanner(modelPath: string, modelName: string): Promise<Model> {
-        let file: fs.promises.FileHandle;
-        let data: Buffer;
-        try {
-            file = await fs.promises.open(modelPath, 'r');
-            data = await file.readFile();
-        } finally {
-            await file.close();
-        }
-
         const model: Model = {
             sensorId: uuidv4(),
             createdAt: new Date(),

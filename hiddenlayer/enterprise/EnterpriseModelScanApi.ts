@@ -22,7 +22,7 @@ export class EnterpriseModelScanApi extends ModelScanApi {
             );
         }
 
-        const queryParameters: any = {};
+        const queryParameters = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -56,7 +56,7 @@ export class EnterpriseModelScanApi extends ModelScanApi {
             );
         }
 
-        const queryParameters: any = {};
+        const queryParameters = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -80,9 +80,9 @@ export class EnterpriseModelScanApi extends ModelScanApi {
         return new runtime.JSONApiResponse(response, (jsonValue) => ScanResultsV2FromJSON(jsonValue));
     }
 
-    private async ScanModelRequestToData(value?: ScanModelRequest | null): Promise<any> {
+    private async ScanModelRequestToData(value?: ScanModelRequest | null): Promise<Buffer|null> {
         if (value == null) {
-            return value;
+            return null;
         }
         let file: fs.promises.FileHandle;
         let data: Buffer;
