@@ -22,7 +22,7 @@ describe('Integration test to scan a model', () => {
         const modelPath = `./integration-tests/malicious_model.pkl`;
 
         const client = getClient()
-        const results = await client.modelScanner.scanFile(`sdk-integration-scan-mobdel-${uuidv4()}`, modelPath);
+        const results = await client.modelScanner.scanFile(`sdk-integration-scan-model-${uuidv4()}`, modelPath);
 
         const detections = results.detections;
 
