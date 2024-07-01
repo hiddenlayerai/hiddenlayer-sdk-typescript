@@ -12,6 +12,7 @@ on:
 
 jobs:
     validate:
+        runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
             - name: Validate package.json version matches release tag
@@ -22,6 +23,7 @@ jobs:
                   exit 1
                 fi
     publish:
+        runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
             - name: Setup .npmrc file to publish to npm
