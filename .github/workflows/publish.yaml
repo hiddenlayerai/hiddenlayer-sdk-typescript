@@ -31,6 +31,8 @@ jobs:
               with:
                 node-version: '20.x'
                 registry-url: 'https://registry.npmjs.org'
+                scope: '@hiddenlayerai'
+            - run: npm run addscope
             - name: Install modules
               run: npm install --legacy-peer-deps
             - name: Build
