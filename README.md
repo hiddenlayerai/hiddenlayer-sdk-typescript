@@ -11,7 +11,11 @@ HiddenLayer SDK Typescript is a library that provides a set of tools to interact
 
 ## Installation
 
-TODO
+To install the HiddenLayer SDK for TypeScript, use the following commands:
+
+```
+npm install @hiddenlayerai/hiddenlayer-sdk
+```
 
 ## Getting Started
 
@@ -42,13 +46,9 @@ const modelPath = 'path/to/model/file.pkl';
 const results = await client.modelScanner.scanFile(modelName, modelPath);
 ```
 
-### Using MLDR
-
-TODO
-
 ## Code Examples
 
-TODO
+Code examples can be found in the repo [here](./examples).
 
 ## Interface Stability
 
