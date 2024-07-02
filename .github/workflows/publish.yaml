@@ -24,7 +24,7 @@ jobs:
                 fi
     publish:
         runs-on: ubuntu-latest
-        depends-on: validate
+        needs: validate
         permissions:
           packages: write
         steps:
