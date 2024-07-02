@@ -90,7 +90,6 @@ export class ModelScanService {
         sasKey?: string,
         waitForResults: boolean = true): Promise<ScanResultsV2 & ScanResultsMetadata> {
         
-        const credentials = new AzureSASCredential(sasKey);
         let connectionString = `BlobEndpoint=${accountUrl}`
         if (sasKey) {
             connectionString += `;SharedAccessSignature=${sasKey}`;
@@ -100,7 +99,7 @@ export class ModelScanService {
         const blobClient = containerClient.getBlobClient(blob);
 
         const tmpFile = `/tmp/${uuidv4()}`;
-        const download = await blobClient.downloadToFile(tmpFile);
+        await blobClient.downloadToFile(tmpFile);
 
         return await this.scanFile(modelName, tmpFile, waitForResults);
     }
