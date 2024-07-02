@@ -5,11 +5,6 @@ on:
         types:
             - published
 
-    workflow_dispatch:
-    push:
-        tags:
-            - v0.*.*
-
 jobs:
     validate:
         runs-on: ubuntu-latest
