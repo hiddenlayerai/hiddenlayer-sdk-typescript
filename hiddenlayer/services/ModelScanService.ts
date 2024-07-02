@@ -5,7 +5,6 @@ import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { NodeJsClient } from '@smithy/types';
 
 import { BlobServiceClient } from '@azure/storage-blob';
-import { AzureSASCredential } from '@azure/core-auth';
 
 import { ScanResultsV2, SensorApi, ModelScanApi, ScanResultsV2StatusEnum, Model } from "../../generated";
 import { sleep } from './utils';
