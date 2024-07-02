@@ -1,6 +1,12 @@
 import fs from 'fs';
 import {v4 as uuidv4} from 'uuid';
 
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { NodeJsClient } from '@smithy/types';
+
+import { BlobServiceClient } from '@azure/storage-blob';
+import { AzureSASCredential } from '@azure/core-auth';
+
 import { ScanResultsV2, SensorApi, ModelScanApi, ScanResultsV2StatusEnum, Model } from "../../generated";
 import { sleep } from './utils';
 import { ScanResultsMetadata } from '../models/ScanResultsMetadata';
@@ -60,6 +66,43 @@ export class ModelScanService {
             filePath: modelPath,
             sensorId: sensor.sensorId
         };
+    }
+
+    async scanS3Model(modelName: string,
+        bucket: string,
+        key: string,
+        waitForResults: boolean = true): Promise<ScanResultsV2 & ScanResultsMetadata> {
+        const s3Client = new S3Client() as NodeJsClient<S3Client>;
+        const body = await s3Client.send(new GetObjectCommand({
+            Bucket: bucket,
+            Key: key
+        }));
+        const tmpFile = `/tmp/${uuidv4()}`;
+        await fs.promises.writeFile(tmpFile, body.Body);
+
+        return await this.scanFile(modelName, tmpFile, waitForResults);
+    }
+
+    async scanAzureBlobModel(modelName: string,
+        accountUrl: string,
+        container: string,
+        blob: string,
+        sasKey?: string,
+        waitForResults: boolean = true): Promise<ScanResultsV2 & ScanResultsMetadata> {
+        
+        const credentials = new AzureSASCredential(sasKey);
+        let connectionString = `BlobEndpoint=${accountUrl}`
+        if (sasKey) {
+            connectionString += `;SharedAccessSignature=${sasKey}`;
+        };
+        const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+        const containerClient = blobServiceClient.getContainerClient(container);
+        const blobClient = containerClient.getBlobClient(blob);
+
+        const tmpFile = `/tmp/${uuidv4()}`;
+        const download = await blobClient.downloadToFile(tmpFile);
+
+        return await this.scanFile(modelName, tmpFile, waitForResults);
     }
 
     private async submitFileToModelScanner(modelPath: string, modelName: string): Promise<Model> {
