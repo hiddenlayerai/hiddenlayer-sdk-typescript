@@ -24,6 +24,9 @@ jobs:
                 fi
     publish:
         runs-on: ubuntu-latest
+        depends-on: validate
+        permissions:
+          packages: write
         steps:
             - uses: actions/checkout@v4
             - name: Setup .npmrc file to publish to npm
