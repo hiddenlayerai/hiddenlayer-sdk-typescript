@@ -3,8 +3,8 @@ import { HiddenLayerServiceClient } from '../hiddenlayer/HiddenLayerServiceClien
 import assert from 'assert';
 
 describe('Integration test to scan a model', () => {
-    it('should scan a model in SaaS', async () => await performModelScanTest(getSaaSClient()), 10000);
-    it('should scan a model in Enterprise', async () => await performModelScanTest(getEnterpriseClient()), 10000);
+    it('should scan a model in SaaS', async () => await performModelScanTest(getSaaSClient()), 20000);
+    it('should scan a model in Enterprise', async () => await performModelScanTest(getEnterpriseClient()), 20000);
 
     function getSaaSClient() {
         const clientId = process.env.HL_CLIENT_ID;

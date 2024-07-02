@@ -15,7 +15,7 @@
     "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
     "clean": "rm -rf dist && rm -rf node_modules",
     "lint": "eslint",
-    "test": "jest"
+    "test": "jest --forceExit"
   },
   "author": "HiddenLayer",
   "license": "Apache-2.0",
