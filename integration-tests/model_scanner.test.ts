@@ -37,7 +37,7 @@ describe('Integration test to scan a model', () => {
             console.log(results);
 
             assert(results.results.pickle_modules.length > 0);
-            assert(results.results.pickle_modules.includes("builtins.exec"));
+            assert(results.results.pickle_modules.includes("callable: builtins.exec"));
 
             assert(detections != null);
             assert(detections[0]['severity'] == "MALICIOUS");
