@@ -38,8 +38,19 @@ jobs:
                       ${{ runner.os }}-
             - name: Lint code
               run: npm run lint
+            - name: Login to Quay
+              uses: docker/login-action@v3
+              with:
+                registry: quay.io
+                username: ${{ vars.QUAY_USERNAME }}
+                password: ${{ secrets.QUAY_TOKEN }}
+            - name: Start Enterprise Model Scanner
+              run: docker-compose -f integration-tests/enterprise-modscan/docker-compose.yaml up -d
             - name: Run tests
               run: npm run test
               env:
                   HL_CLIENT_ID: ${{ secrets.HL_CLIENT_ID}}
                   HL_CLIENT_SECRET: ${{ secrets.HL_CLIENT_SECRET}}
+            - name: Stop Enterprise Model Scanner
+              if: always()
+              run: docker-compose -f integration-tests/enterprise-modscan/docker-compose.yaml down
