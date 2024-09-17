@@ -1,5 +1,17 @@
 version: '3.7'
 
+x-common-environment: &common-environment
+  - AWS_ENDPOINT=http://modelscan-s3:9000
+  - AWS_ACCESS_KEY_ID=${MINIO_ROOT_USER}
+  - AWS_SECRET_ACCESS_KEY=${MINIO_ROOT_PASSWORD}
+  - HL_FILE_STORAGE_PROVIDER=AWS:S3
+  - HL_MODEL_SCANNER_ENABLE_RDS_SCANNING=true
+  - HL_MODEL_SCANNER_ENABLE_UNSUPPORTED_FILES_TYPE_AS_UNKNOWN=true
+  - HL_MODEL_SCANNER_REQUIRE_TENANT_ID=false
+  - HL_STORAGE_SCANS=hl-modelscan
+  - REDIS_ENDPOINT=modelscan-redis:6379
+  - REDIS_PASSWORD=${REDIS_PASSWORD}
+
 services:
   modscan-server:
     image: quay.io/hiddenlayer/distro-enterprise-modelscanner:latest
@@ -9,33 +21,13 @@ services:
     depends_on:
       - redis
       - minio
-    environment:
-      - AWS_ENDPOINT=http://modelscan-s3:9000
-      - AWS_ACCESS_KEY_ID=${MINIO_ROOT_USER}
-      - AWS_SECRET_ACCESS_KEY=${MINIO_ROOT_PASSWORD}
-      - HL_FILE_STORAGE_PROVIDER=AWS:S3
-      - HL_MODEL_SCANNER_ENABLE_RDS_SCANNING=true
-      - HL_MODEL_SCANNER_ENABLE_UNSUPPORTED_FILES_TYPE_AS_UNKNOWN=true
-      - HL_MODEL_SCANNER_REQUIRE_TENANT_ID=false
-      - HL_STORAGE_SCANS=hl-modelscan
-      - REDIS_ENDPOINT=modelscan-redis:6379
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    environment: *common-environment
  
   modscan-worker:
     image: quay.io/hiddenlayer/distro-enterprise-modelscanner:latest
     container_name: scanner-worker
     entrypoint: /modelscan/worker
-    environment:
-      - AWS_ENDPOINT=http://modelscan-s3:9000
-      - AWS_ACCESS_KEY_ID=${MINIO_ROOT_USER}
-      - AWS_SECRET_ACCESS_KEY=${MINIO_ROOT_PASSWORD}
-      - HL_FILE_STORAGE_PROVIDER=AWS:S3
-      - HL_MODEL_SCANNER_ENABLE_RDS_SCANNING=true
-      - HL_MODEL_SCANNER_ENABLE_UNSUPPORTED_FILES_TYPE_AS_UNKNOWN=true
-      - HL_MODEL_SCANNER_REQUIRE_TENANT_ID=false
-      - HL_STORAGE_SCANS=hl-modelscan
-      - REDIS_ENDPOINT=modelscan-redis:6379
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    environment: *common-environment
     depends_on:
       - redis
       - minio
