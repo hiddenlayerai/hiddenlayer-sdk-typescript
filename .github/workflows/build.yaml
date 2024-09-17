@@ -45,7 +45,7 @@ jobs:
                 username: ${{ vars.QUAY_USERNAME }}
                 password: ${{ secrets.QUAY_TOKEN }}
             - name: Start Enterprise Model Scanner
-              run: docker-compose -f integration-tests/enterprise-modscan/docker-compose.yaml up -d
+              run: docker compose -f integration-tests/enterprise-modscan/docker-compose.yaml up -d
             - name: Run tests
               run: npm run test
               env:
@@ -53,4 +53,4 @@ jobs:
                   HL_CLIENT_SECRET: ${{ secrets.HL_CLIENT_SECRET}}
             - name: Stop Enterprise Model Scanner
               if: always()
-              run: docker-compose -f integration-tests/enterprise-modscan/docker-compose.yaml down
+              run: docker compose -f integration-tests/enterprise-modscan/docker-compose.yaml down
