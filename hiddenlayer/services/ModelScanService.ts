@@ -1,7 +1,7 @@
 import fs from 'fs';
 import {v4 as uuidv4} from 'uuid';
 
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { GetObjectCommand, S3Client, GetObjectCommandOutput } from '@aws-sdk/client-s3';
 import { NodeJsClient } from '@smithy/types';
 
 import { BlobServiceClient } from '@azure/storage-blob';
@@ -72,12 +72,13 @@ export class ModelScanService {
         key: string,
         waitForResults: boolean = true): Promise<ScanResultsV2 & ScanResultsMetadata> {
         const s3Client = new S3Client() as NodeJsClient<S3Client>;
-        const body = await s3Client.send(new GetObjectCommand({
+        const body: GetObjectCommandOutput = await s3Client.send(new GetObjectCommand({
             Bucket: bucket,
             Key: key
         }));
         const tmpFile = `/tmp/${uuidv4()}`;
-        await fs.promises.writeFile(tmpFile, body.Body);
+        const bodyString = await body.Body.transformToString();
+        await fs.promises.writeFile(tmpFile, bodyString);
 
         return await this.scanFile(modelName, tmpFile, waitForResults);
     }
