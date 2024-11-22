@@ -45,11 +45,11 @@ jobs:
                 registry-url: 'https://registry.npmjs.org'
                 scope: '@hiddenlayerai'
             - name: Install modules
-              run: npm install --legacy-peer-deps
+              run: npm install
             - name: Build
               run: npm run build
             - name: Prune modules
-              run: npm prune --production --legacy-peer-deps
+              run: npm prune --production
             - name: Publish to npm
               run: npm publish --access public
               env:
