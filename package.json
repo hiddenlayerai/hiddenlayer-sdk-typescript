@@ -1,6 +1,6 @@
 {
   "name": "@hiddenlayerai/hiddenlayer-sdk",
-  "version": "0.4.3-alpha",
+  "version": "1.0.0",
   "description": "Official HiddenLayer TypeScript SDK",
   "repository": {
     "type": "git",
