@@ -1,7 +1,11 @@
-import { Model, SensorApi, ResponseError } from "../../generated";
+import { Model, SensorApi, ResponseError, Configuration } from "../../generated";
 
 export class ModelService {
-    readonly sensorApi = new SensorApi();
+    readonly sensorApi;
+
+    constructor(config: Configuration) {
+        this.sensorApi = new SensorApi(config);
+    }
 
     /**
      * Creates a model in the HiddenLayer Platform

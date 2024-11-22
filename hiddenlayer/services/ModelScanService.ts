@@ -6,25 +6,27 @@ import { NodeJsClient } from '@smithy/types';
 
 import { BlobServiceClient } from '@azure/storage-blob';
 
-import { ScanResultsV2, SensorApi, ModelScanApi, ScanResultsV2StatusEnum, Model } from "../../generated";
+import { ScanResultsV2, SensorApi, ModelScanApi, ScanResultsV2StatusEnum, Model, Configuration } from "../../generated";
 import { sleep } from './utils';
 import { ScanResultsMetadata } from '../models/ScanResultsMetadata';
 import { ModelService } from './ModelService';
 import { EnterpriseModelScanApi } from '../enterprise/EnterpriseModelScanApi';
 
 export class ModelScanService {
-    readonly sensorApi = new SensorApi();
+    readonly sensorApi;
     readonly modelScanApi;
-    readonly modelService = new ModelService();
+    readonly modelService;
     readonly isSaaS: boolean;
 
-    constructor(isSaaS: boolean) {
+    constructor(isSaaS: boolean, config: Configuration) {
         this.isSaaS = isSaaS;
         if (isSaaS) {
-            this.modelScanApi = new ModelScanApi();
+            this.modelScanApi = new ModelScanApi(config);
         } else {
-            this.modelScanApi = new EnterpriseModelScanApi();
+            this.modelScanApi = new EnterpriseModelScanApi(config);
         }
+        this.sensorApi = new SensorApi(config);
+        this.modelService = new ModelService(config);
     }
 
     /**

@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 import * as runtime from '../../generated';
-import { ModelScanApi, ScanModelOperationRequest, ScanModelRequest } from '../../generated/';
+import { Configuration, ModelScanApi, ScanModelOperationRequest, ScanModelRequest } from '../../generated/';
 import { ScanResultsV2FromJSON } from '../../generated/models/index';
 
 /**
@@ -10,8 +10,8 @@ import { ScanResultsV2FromJSON } from '../../generated/models/index';
  * When they are in sync, this file and related references can be deleted.
  */
 export class EnterpriseModelScanApi extends ModelScanApi {
-    constructor() {
-        super();
+    constructor(config: Configuration) {
+        super(config);
     }
 
     async scanModelRaw(requestParameters: ScanModelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {

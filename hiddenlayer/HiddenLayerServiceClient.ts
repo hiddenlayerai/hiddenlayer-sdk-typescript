@@ -13,6 +13,7 @@ export class HiddenLayerServiceClient {
         this.host = host ?? "https://api.us.hiddenlayer.ai";
         this.isSaaS = this.isHostSaaS(this.host);
 
+        let config: Configuration = null;
         if (this.isSaaS) {
             if (!this.clientId) {
                 throw new Error("clientId is required for SaaS access");
@@ -21,16 +22,17 @@ export class HiddenLayerServiceClient {
                 throw new Error("clientSecret is required for SaaS access");
             }
             const token = this.getJwt()
-            DefaultConfig.config = new Configuration({
+            config = new Configuration({
                 basePath: this.host,
                 accessToken: token
             });
         } else {
-            DefaultConfig.config = new Configuration({
+            config = new Configuration({
                 basePath: this.host
             });
         }
-        this.modelScanner = new ModelScanService(this.isSaaS);
+        this.modelScanner = new ModelScanService(this.isSaaS, config);
+        this.model = new ModelService(config);
     }
 
     static createSaaSClient(clientId: string, clientSecret: string, host?: string): HiddenLayerServiceClient {
@@ -43,7 +45,7 @@ export class HiddenLayerServiceClient {
 
     readonly isSaaS: boolean;
     readonly modelScanner: ModelScanService;
-    readonly model: ModelService = new ModelService();
+    readonly model: ModelService;
 
     /**
      * Check if the client is using the SaaS version of the HiddenLayer API.
