@@ -42,9 +42,11 @@ function getSaaSClient() {
     return HiddenLayerServiceClient.createSaaSClient(clientId, clientSecret);
 }
 
+/*
 function getEnterpriseClient() {
     return HiddenLayerServiceClient.createEnterpriseClient("http://localhost:8000");
 }
+*/
 
 async function performModelScanTest(client: HiddenLayerServiceClient, modelVersion?: number): Promise<void> {
     try {
