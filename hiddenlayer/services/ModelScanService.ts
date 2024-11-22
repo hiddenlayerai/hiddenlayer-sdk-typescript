@@ -146,7 +146,7 @@ export class ModelScanService {
             await file.close();
         }
 
-        await this.sensorApi.completeMultipartUpload({ sensorId: model.sensorId, uploadId: upload.uploadId });
+        await this.sensorApi.completeMultipartUploadRaw({ sensorId: model.sensorId, uploadId: upload.uploadId });
         await this.modelScanApi.scanModel({ sensorId: model.sensorId });
         return model;
     }

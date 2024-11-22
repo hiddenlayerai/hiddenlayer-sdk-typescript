@@ -62,7 +62,6 @@ async function performModelScanTest(client: HiddenLayerServiceClient): Promise<v
         if (!client.isSaaS && error.cause?.code == 'ECONNREFUSED') {
             console.warn("Enterprise client test skipped because the server is not running")
         } else {
-            console.warn(JSON.stringify(client))
             throw error;
         }
     }

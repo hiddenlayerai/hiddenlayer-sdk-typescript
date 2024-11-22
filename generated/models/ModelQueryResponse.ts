@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * HiddenLayer ModelScan
+ * HiddenLayer ModelScan V2
  * HiddenLayer ModelScan API for scanning of models
  *
  * The version of the OpenAPI document: 1

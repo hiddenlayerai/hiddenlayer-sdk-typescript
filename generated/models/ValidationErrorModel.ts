@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * HiddenLayer ModelScan
+ * HiddenLayer ModelScan V2
  * HiddenLayer ModelScan API for scanning of models
  *
  * The version of the OpenAPI document: 1
@@ -13,12 +13,12 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ValidationErrorModelLocInner } from './ValidationErrorModelLocInner';
+import type { LocationInner } from './LocationInner';
 import {
-    ValidationErrorModelLocInnerFromJSON,
-    ValidationErrorModelLocInnerFromJSONTyped,
-    ValidationErrorModelLocInnerToJSON,
-} from './ValidationErrorModelLocInner';
+    LocationInnerFromJSON,
+    LocationInnerFromJSONTyped,
+    LocationInnerToJSON,
+} from './LocationInner';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface ValidationErrorModel {
     /**
      * 
-     * @type {Array<ValidationErrorModelLocInner>}
+     * @type {Array<LocationInner>}
      * @memberof ValidationErrorModel
      */
-    loc: Array<ValidationErrorModelLocInner>;
+    loc: Array<LocationInner>;
     /**
      * 
      * @type {string}
@@ -66,7 +66,7 @@ export function ValidationErrorModelFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'loc': ((json['loc'] as Array<any>).map(ValidationErrorModelLocInnerFromJSON)),
+        'loc': ((json['loc'] as Array<any>).map(LocationInnerFromJSON)),
         'msg': json['msg'],
         'type': json['type'],
     };
@@ -78,7 +78,7 @@ export function ValidationErrorModelToJSON(value?: ValidationErrorModel | null):
     }
     return {
         
-        'loc': ((value['loc'] as Array<any>).map(ValidationErrorModelLocInnerToJSON)),
+        'loc': ((value['loc'] as Array<any>).map(LocationInnerToJSON)),
         'msg': value['msg'],
         'type': value['type'],
     };

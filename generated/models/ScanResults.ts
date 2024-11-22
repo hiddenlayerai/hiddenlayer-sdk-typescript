@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * HiddenLayer ModelScan
+ * HiddenLayer ModelScan V2
  * HiddenLayer ModelScan API for scanning of models
  *
  * The version of the OpenAPI document: 1
@@ -16,60 +16,84 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface FileInfo
+ * @interface ScanResults
  */
-export interface FileInfo {
+export interface ScanResults {
     [key: string]: any | any;
     /**
      * 
      * @type {string}
-     * @memberof FileInfo
+     * @memberof ScanResults
      */
     md5?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileInfo
+     * @memberof ScanResults
+     */
+    rdsEncoding?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ScanResults
+     */
+    rdsMinReaderVersion?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ScanResults
+     */
+    rdsVersion?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ScanResults
+     */
+    rdsWriterVersion?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ScanResults
      */
     sha256?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileInfo
+     * @memberof ScanResults
      */
     type?: string;
     /**
      * 
      * @type {Array<string>}
-     * @memberof FileInfo
+     * @memberof ScanResults
      */
     subtype?: Array<string>;
     /**
      * 
      * @type {string}
-     * @memberof FileInfo
+     * @memberof ScanResults
      */
     tlsh?: string;
     /**
      * 
      * @type {Array<string>}
-     * @memberof FileInfo
+     * @memberof ScanResults
      */
     pickleModules?: Array<string>;
 }
 
 /**
- * Check if a given object implements the FileInfo interface.
+ * Check if a given object implements the ScanResults interface.
  */
-export function instanceOfFileInfo(value: object): value is FileInfo {
+export function instanceOfScanResults(value: object): value is ScanResults {
     return true;
 }
 
-export function FileInfoFromJSON(json: any): FileInfo {
-    return FileInfoFromJSONTyped(json, false);
+export function ScanResultsFromJSON(json: any): ScanResults {
+    return ScanResultsFromJSONTyped(json, false);
 }
 
-export function FileInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileInfo {
+export function ScanResultsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ScanResults {
     if (json == null) {
         return json;
     }
@@ -77,6 +101,10 @@ export function FileInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         
             ...json,
         'md5': json['md5'] == null ? undefined : json['md5'],
+        'rdsEncoding': json['rds_encoding'] == null ? undefined : json['rds_encoding'],
+        'rdsMinReaderVersion': json['rds_min_reader_version'] == null ? undefined : json['rds_min_reader_version'],
+        'rdsVersion': json['rds_version'] == null ? undefined : json['rds_version'],
+        'rdsWriterVersion': json['rds_writer_version'] == null ? undefined : json['rds_writer_version'],
         'sha256': json['sha256'] == null ? undefined : json['sha256'],
         'type': json['type'] == null ? undefined : json['type'],
         'subtype': json['subtype'] == null ? undefined : json['subtype'],
@@ -85,7 +113,7 @@ export function FileInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     };
 }
 
-export function FileInfoToJSON(value?: FileInfo | null): any {
+export function ScanResultsToJSON(value?: ScanResults | null): any {
     if (value == null) {
         return value;
     }
@@ -93,6 +121,10 @@ export function FileInfoToJSON(value?: FileInfo | null): any {
         
             ...value,
         'md5': value['md5'],
+        'rds_encoding': value['rdsEncoding'],
+        'rds_min_reader_version': value['rdsMinReaderVersion'],
+        'rds_version': value['rdsVersion'],
+        'rds_writer_version': value['rdsWriterVersion'],
         'sha256': value['sha256'],
         'type': value['type'],
         'subtype': value['subtype'],
