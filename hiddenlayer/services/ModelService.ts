@@ -1,7 +1,7 @@
 import { Model, SensorApi, ResponseError, Configuration } from "../../generated";
 
 export class ModelService {
-    readonly sensorApi;
+    readonly sensorApi: SensorApi;
 
     constructor(config: Configuration) {
         this.sensorApi = new SensorApi(config);

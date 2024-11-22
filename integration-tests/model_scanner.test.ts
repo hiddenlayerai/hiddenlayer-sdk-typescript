@@ -1,6 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import { HiddenLayerServiceClient } from '../hiddenlayer/HiddenLayerServiceClient';
 import assert from 'assert';
+import { ScanDetectionV3SeverityEnum } from '../generated';
 
 describe('Integration test suite in SaaS', () => {
     const client = getSaaSClient();
@@ -16,6 +17,7 @@ describe('Integration test suite in Enterprise', () => {
 
 function runTestSuite(client: HiddenLayerServiceClient) {
     it('should scan a model', async () => await performModelScanTest(client), 20000);
+    it('should scan a folder', async () => await performScanFolderTest(client), 20000);
 }
 
 function getSaaSClient() {
@@ -44,17 +46,61 @@ async function performModelScanTest(client: HiddenLayerServiceClient): Promise<v
 
         const results = await client.modelScanner.scanFile(modelName, modelPath);
 
-        const detections = results.detections;
+        assert(results.fileCount === 1);
+        assert(results.filesWithDetectionsCount === 1);
 
-        console.log(results);
+        assert(results.fileResults != null && results.fileResults.length > 0)
 
-        assert(results.results.pickle_modules.length > 0);
-        assert(results.results.pickle_modules.includes("callable: builtins.exec"));
+        const fileResults = results.fileResults[0];
+        const detections = fileResults.detections;
+
+        assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
+        assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.exec"));
 
         assert(detections != null);
-        assert(detections[0]['severity'] == "MALICIOUS");
-        assert(detections[0]["description"].includes('system'));
+        assert(detections[0].severity === ScanDetectionV3SeverityEnum.High);
+        assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
 
+        if (client.isSaaS) {
+            await client.model.delete(modelName);
+        }
+    } catch (error) {
+        if (!client.isSaaS && error.cause?.code == 'ECONNREFUSED') {
+            console.warn("Enterprise client test skipped because the server is not running")
+        } else {
+            throw error;
+        }
+    }
+}
+
+async function performScanFolderTest(client: HiddenLayerServiceClient): Promise<void> {
+    try {
+        const folderPath = `./integration-tests/models/`;
+        const modelName = `sdk-integration-scan-model-folder-${uuidv4()}`;
+
+        const results = await client.modelScanner.scanFolder(modelName, folderPath);
+
+        assert(results.fileCount === 3);
+        assert(results.filesWithDetectionsCount === 2);
+
+        const safeModel = 'safe_model.pkl';
+        const maliciousModel = 'malicious_model.pkl';
+
+        for (const fileResults of results.fileResults) {
+            if (fileResults.fileLocation.includes(safeModel)) {
+                const detections = fileResults.detections;
+                assert(!detections);
+                assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
+                assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.print"));
+            } else if (fileResults.fileLocation.includes(maliciousModel)) {
+                const detections = fileResults.detections;
+                assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
+                assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.exec"));
+
+                assert (detections[0].severity === ScanDetectionV3SeverityEnum.High);
+                assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
+            }
+        }
         if (client.isSaaS) {
             await client.model.delete(modelName);
         }
