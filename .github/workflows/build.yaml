@@ -30,7 +30,7 @@ jobs:
                   node-version: ${{ matrix.node-version }}
 
             - name: Install modules
-              run: npm install --legacy-peer-deps
+              run: npm install
 
             - name: Cache node modules
               uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
