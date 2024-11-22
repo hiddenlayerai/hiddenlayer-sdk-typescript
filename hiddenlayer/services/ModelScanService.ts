@@ -42,7 +42,7 @@ export class ModelScanService {
         modelVersion?: number,
         waitForResults: boolean = true) : Promise<ScanReportV3> {
 
-        const sensor = await this.submitFileToModelScanner(modelPath, modelName, modelVersion);
+        await this.submitFileToModelScanner(modelPath, modelName, modelVersion);
 
         let scanReport = await this.getScanResults(modelName)
 

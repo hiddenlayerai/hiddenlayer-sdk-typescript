@@ -19,7 +19,7 @@ declare module "../../generated" {
           );
       }
 
-      const queryParameters: any = {};
+      const queryParameters: runtime.HTTPQuery = {};
 
       if (requestParameters['hasDetections'] != null) {
           queryParameters['has_detections'] = requestParameters['hasDetections'];
