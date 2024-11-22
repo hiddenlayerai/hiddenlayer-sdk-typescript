@@ -9,11 +9,15 @@ describe('Integration test suite in SaaS', () => {
     runTestSuite(client);
 });
 
+/*
+ * Enterprise client tests are skipped. We will bring these back when Enterprise model scanner supports v3 endpoints
+ *
 describe('Integration test suite in Enterprise', () => {
     const client = getEnterpriseClient();
-    
+
     runTestSuite(client);
 });
+ */
 
 function runTestSuite(client: HiddenLayerServiceClient) {
     it('should scan a model', async () => await performModelScanTest(client), 20000);
