@@ -20,6 +20,7 @@ function runTestSuite(client: HiddenLayerServiceClient) {
     it('should scan a folder', async () => await performScanFolderTest(client), 20000);
     it('should scan a model with a specified version', async () => await performModelScanTest(client, 123), 20000);
     it('should scan a folder with a specified version', async () => await performScanFolderTest(client, 123), 20000);
+    it('should get sarif results for a model', async () => await getSarifResultsTest(client), 20000);
 }
 
 function getSaaSClient() {
@@ -111,6 +112,34 @@ async function performScanFolderTest(client: HiddenLayerServiceClient, modelVers
                 assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
             }
         }
+        if (client.isSaaS) {
+            await client.model.delete(modelName);
+        }
+    } catch (error) {
+        if (!client.isSaaS && error.cause?.code == 'ECONNREFUSED') {
+            console.warn("Enterprise client test skipped because the server is not running")
+        } else {
+            throw error;
+        }
+    }
+}
+
+async function getSarifResultsTest(client: HiddenLayerServiceClient): Promise<void> {
+    try {
+        const modelName = `sdk-integration-scan-model-${uuidv4()}`;
+        const modelPath = `./integration-tests/models/malicious_model.pkl`;
+
+        const results = await client.modelScanner.scanFile(modelName, modelPath);
+        const sarifResults = await client.modelScanner.getSarifResults(modelName);
+
+        assert(sarifResults.version === "2.1.0");
+        assert(sarifResults.runs.length === 1);
+        const run = sarifResults.runs[0];
+        assert(run.tool.driver.name === "HiddenLayer Model Scanner");
+        assert(run.results.length > 0);
+        const runResults = run.results[0];
+        assert(runResults.level === "error");
+        assert(runResults.ruleId === "PICKLE_0002_202408");
         if (client.isSaaS) {
             await client.model.delete(modelName);
         }

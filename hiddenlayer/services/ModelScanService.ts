@@ -7,10 +7,11 @@ import { NodeJsClient } from '@smithy/types';
 
 import { BlobServiceClient } from '@azure/storage-blob';
 
-import { SensorApi, ModelScanApi, Model, Configuration, ModelSupplyChainApi, ScanReportV3, ScanReportV3StatusEnum } from "../../generated";
+import { SensorApi, ModelScanApi, Model, Configuration, ModelSupplyChainApi, ScanReportV3, ScanReportV3StatusEnum, Sarif210 } from "../../generated";
 import AdmZip from 'adm-zip';
 import { sleep } from './utils';
 import { ModelService } from './ModelService';
+import "../extensions/ModelSupplyChainApiExtensions";
 
 export class ModelScanService {
     readonly sensorApi: SensorApi;
@@ -143,7 +144,7 @@ export class ModelScanService {
         return await this.scanFile(modelName, filename, modelVersion, waitForResults);
     }
 
-    async getScanResults(modelName: string): Promise<ScanReportV3> {
+    async getScanResults(modelName: string, modelVersion?: number): Promise<ScanReportV3> {
         const response = await this.sensorApi.sensorSorApiV3ModelCardsQueryGet({
             modelNameEq: modelName,
             limit: 1
@@ -159,11 +160,22 @@ export class ModelScanService {
         if (scans.total == 0 || scans.items == null) {
             return null;
         }
-        const scan = scans.items[0];
+        let scan = scans.items[0];
+        if (modelVersion) {
+            scan = scans.items.find(s => s.inventory.modelVersion === modelVersion.toString());
+        }
         const scanReport = this.modelSupplyChainApi.modelScanApiV3ScanModelVersionIdGet({
             scanId: scan.scanId
         })
         return scanReport;
+    }
+
+    async getSarifResults(modelName: string, modelVersion?: number) : Promise<Sarif210> {
+        const scan = await this.getScanResults(modelName, modelVersion);
+        if (scan == null) return null;
+
+        const sarif = await this.modelSupplyChainApi.modelScanApiV3ScanModelVersionIdGetSarif({scanId: scan.scanId})
+        return sarif;
     }
 
     private async submitFileToModelScanner(modelPath: string, modelName: string, modelVersion?: number): Promise<Model> {
