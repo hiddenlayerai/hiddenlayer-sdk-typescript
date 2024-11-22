@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * HiddenLayer ModelScan
+ * HiddenLayer ModelScan V2
  * HiddenLayer ModelScan API for scanning of models
  *
  * The version of the OpenAPI document: 1
@@ -13,7 +13,7 @@
  */
 
 
-export const BASE_PATH = "http://localhost".replace(/\/+$/, "");
+export const BASE_PATH = "https://api.hiddenlayer.ai".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path

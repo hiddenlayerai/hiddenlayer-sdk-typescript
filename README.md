@@ -30,20 +30,19 @@ const clientSecret = 'YOUR_CLIENT_SECRET';
 const client = HiddenLayerServiceClient.createSaaSClient(clientId, clientSecret);
 ```
 
-If you are using the Enterprise version of the production, you can instantiate the `HiddenLayerServiceClient` as follows:
-
-```typescript
-const host = 'https://your.hiddenlayer.enterprise.test';
-
-const client = HiddenLayerServiceClient.createEnterpriseClient(host);
-```
-
 ### Scanning Models
 
 ```typescript
 const modelName = 'YOUR_MODEL';
 const modelPath = 'path/to/model/file.pkl';
 const results = await client.modelScanner.scanFile(modelName, modelPath);
+```
+
+### Scanning Foalders
+```typescript
+const modelName = 'YOUR_MODEL';
+const modelPath = 'path/to/model/';
+const results = await client.modelScanner.scanFolder(modelName, modelPath);
 ```
 
 ## Code Examples

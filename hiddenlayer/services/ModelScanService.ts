@@ -2,29 +2,30 @@ import fs from 'fs';
 import {v4 as uuidv4} from 'uuid';
 
 import { GetObjectCommand, S3Client, GetObjectCommandOutput } from '@aws-sdk/client-s3';
+import { glob } from 'glob';
 import { NodeJsClient } from '@smithy/types';
 
 import { BlobServiceClient } from '@azure/storage-blob';
 
-import { ScanResultsV2, SensorApi, ModelScanApi, ScanResultsV2StatusEnum, Model } from "../../generated";
+import { SensorApi, ModelScanApi, Model, Configuration, ModelSupplyChainApi, ScanReportV3, ScanReportV3StatusEnum, Sarif210 } from "../../generated";
+import AdmZip from 'adm-zip';
 import { sleep } from './utils';
-import { ScanResultsMetadata } from '../models/ScanResultsMetadata';
 import { ModelService } from './ModelService';
-import { EnterpriseModelScanApi } from '../enterprise/EnterpriseModelScanApi';
+import "../extensions/ModelSupplyChainApiExtensions";
 
 export class ModelScanService {
-    readonly sensorApi = new SensorApi();
-    readonly modelScanApi;
-    readonly modelService = new ModelService();
+    readonly sensorApi: SensorApi;
+    readonly modelScanApi : ModelScanApi;
+    readonly modelSupplyChainApi: ModelSupplyChainApi;
+    readonly modelService: ModelService;
     readonly isSaaS: boolean;
 
-    constructor(isSaaS: boolean) {
+    constructor(isSaaS: boolean, config: Configuration) {
         this.isSaaS = isSaaS;
-        if (isSaaS) {
-            this.modelScanApi = new ModelScanApi();
-        } else {
-            this.modelScanApi = new EnterpriseModelScanApi();
-        }
+        this.sensorApi = new SensorApi(config);
+        this.modelScanApi = new ModelScanApi(config);
+        this.modelService = new ModelService(config);
+        this.modelSupplyChainApi = new ModelSupplyChainApi(config);
     }
 
     /**
@@ -38,39 +39,37 @@ export class ModelScanService {
      */
     async scanFile(modelName: string,
         modelPath: string,
-        waitForResults: boolean = true) : Promise<ScanResultsV2 & ScanResultsMetadata> {
+        modelVersion?: number,
+        waitForResults: boolean = true) : Promise<ScanReportV3> {
 
-        const sensor = await this.submitFileToModelScanner(modelPath, modelName);
+        await this.submitFileToModelScanner(modelPath, modelName, modelVersion);
 
-        let scanResults = await this.modelScanApi.scanStatus({sensorId: sensor.sensorId});
+        let scanReport = await this.getScanResults(modelName)
 
         const baseDelay = 0.1; // seconds
         let retries = 0;
 
         if (waitForResults) {
-            console.log(`${modelPath} scan status: ${scanResults.status}`);
-            while (scanResults.status != ScanResultsV2StatusEnum.Done 
-                && scanResults.status != ScanResultsV2StatusEnum.Failed) {
+            console.log(`${modelPath} scan status: ${scanReport.status}`);
+            while (scanReport.status != ScanReportV3StatusEnum.Done 
+                && scanReport.status != ScanReportV3StatusEnum.Failed) {
                 retries += 1;
                 const delay = baseDelay * Math.pow(2, retries) + Math.random(); // exponential back off retry
                 await sleep(delay);
-                scanResults = await this.modelScanApi.scanStatus({sensorId: sensor.sensorId});
-                console.log(`${modelPath} scan status: ${scanResults.status}`);
+
+                scanReport = await this.getScanResults(modelName);
+                console.log(`${modelPath} scan status: ${scanReport.status}`);
             }
         }
 
-        return {
-            ...scanResults,
-            fileName: modelName,
-            filePath: modelPath,
-            sensorId: sensor.sensorId
-        };
+        return scanReport;
     }
 
     async scanS3Model(modelName: string,
         bucket: string,
         key: string,
-        waitForResults: boolean = true): Promise<ScanResultsV2 & ScanResultsMetadata> {
+        modelVersion?: number,
+        waitForResults: boolean = true): Promise<ScanReportV3> {
         const s3Client = new S3Client() as NodeJsClient<S3Client>;
         const body: GetObjectCommandOutput = await s3Client.send(new GetObjectCommand({
             Bucket: bucket,
@@ -80,15 +79,16 @@ export class ModelScanService {
         const bodyString = await body.Body.transformToString();
         await fs.promises.writeFile(tmpFile, bodyString);
 
-        return await this.scanFile(modelName, tmpFile, waitForResults);
+        return await this.scanFile(modelName, tmpFile, modelVersion, waitForResults);
     }
 
     async scanAzureBlobModel(modelName: string,
         accountUrl: string,
         container: string,
         blob: string,
+        modelVersion?: number,
         sasKey?: string,
-        waitForResults: boolean = true): Promise<ScanResultsV2 & ScanResultsMetadata> {
+        waitForResults: boolean = true): Promise<ScanReportV3> {
         
         let connectionString = `BlobEndpoint=${accountUrl}`
         if (sasKey) {
@@ -101,22 +101,88 @@ export class ModelScanService {
         const tmpFile = `/tmp/${uuidv4()}`;
         await blobClient.downloadToFile(tmpFile);
 
-        return await this.scanFile(modelName, tmpFile, waitForResults);
+        return await this.scanFile(modelName, tmpFile, modelVersion, waitForResults);
     }
 
-    private async submitFileToModelScanner(modelPath: string, modelName: string): Promise<Model> {
-        if (this.isSaaS) {
-            return await this.submitFileToSaaSModelScanner(modelPath, modelName);
-        } else {
-            return await this.submitFileToEnterpriseModelScanner(modelPath, modelName);
+    async scanFolder(modelName: string,
+        path: string,
+        modelVersion?: number,
+        allowFilePatterns: string[] = [],
+        ignoreFilePatterns: string[] = [],
+        waitForResults: boolean = true): Promise<ScanReportV3> {
+
+        const excludedFileTypes = [
+            "**/*.txt",
+            "**/*.md",
+            "**/*.lock",
+            "**/.gitattributes",
+            "**/.git",
+            "**/.git/*",
+            "**/.git/**"
+        ]
+
+        ignoreFilePatterns.push(...excludedFileTypes);
+
+        for (let i = 0; i < allowFilePatterns.length; i++) {
+            allowFilePatterns[i] = `${path}/**/${allowFilePatterns}`;
         }
+        if (allowFilePatterns.length === 0) {
+            allowFilePatterns.push(`${path}/**/*`);
+        }
+
+        const tmpDirectory = fs.mkdtempSync('/tmp/')
+        const filename = `${tmpDirectory}/${uuidv4()}.zip`;
+
+        const files = await glob(allowFilePatterns, { ignore: ignoreFilePatterns, nodir: true });
+
+        const zip = new AdmZip();
+        for (const file of files) {
+            zip.addLocalFile(file);
+        }
+        zip.writeZip(filename);
+
+        return await this.scanFile(modelName, filename, modelVersion, waitForResults);
     }
 
-    private async submitFileToSaaSModelScanner(modelPath: string, modelName: string): Promise<Model> {
+    async getScanResults(modelName: string, modelVersion?: number): Promise<ScanReportV3> {
+        const response = await this.sensorApi.sensorSorApiV3ModelCardsQueryGet({
+            modelNameEq: modelName,
+            limit: 1
+        })
+        const modelId = response.results[0].modelId;
+
+        const scans = await this.modelSupplyChainApi.modelScanApiV3ScanQuery(
+            {
+                modelIds: [modelId],
+                latestPerModelVersionOnly: true
+            }
+        );
+        if (scans.total == 0 || scans.items == null) {
+            return null;
+        }
+        let scan = scans.items[0];
+        if (modelVersion) {
+            scan = scans.items.find(s => s.inventory.modelVersion === modelVersion.toString());
+        }
+        const scanReport = this.modelSupplyChainApi.modelScanApiV3ScanModelVersionIdGet({
+            scanId: scan.scanId
+        })
+        return scanReport;
+    }
+
+    async getSarifResults(modelName: string, modelVersion?: number) : Promise<Sarif210> {
+        const scan = await this.getScanResults(modelName, modelVersion);
+        if (scan == null) return null;
+
+        const sarif = await this.modelSupplyChainApi.modelScanApiV3ScanModelVersionIdGetSarif({scanId: scan.scanId})
+        return sarif;
+    }
+
+    private async submitFileToModelScanner(modelPath: string, modelName: string, modelVersion?: number): Promise<Model> {
         const fileStats = await fs.promises.stat(modelPath);
         const fileSize = fileStats.size;
 
-        const model = await this.modelService.create(modelName);
+        const model = await this.modelService.create(modelName, modelVersion);
         const upload = await this.sensorApi.beginMultipartUpload({ xContentLength: fileSize, sensorId: model.sensorId });
 
         let file: fs.promises.FileHandle;
@@ -144,23 +210,8 @@ export class ModelScanService {
             await file.close();
         }
 
-        await this.sensorApi.completeMultipartUpload({ sensorId: model.sensorId, uploadId: upload.uploadId });
+        await this.sensorApi.completeMultipartUploadRaw({ sensorId: model.sensorId, uploadId: upload.uploadId });
         await this.modelScanApi.scanModel({ sensorId: model.sensorId });
-        return model;
-    }
-
-    private async submitFileToEnterpriseModelScanner(modelPath: string, modelName: string): Promise<Model> {
-        const model: Model = {
-            sensorId: uuidv4(),
-            createdAt: new Date(),
-            tenantId: "0000",
-            plaintextName: modelName,
-            active: true,
-            version: 1,
-        };
-
-        await this.modelScanApi.scanModel({ sensorId: model.sensorId, scanModelRequest: { location: modelPath } });
-
         return model;
     }
 }

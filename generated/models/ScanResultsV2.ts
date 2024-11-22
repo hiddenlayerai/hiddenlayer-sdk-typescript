@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * HiddenLayer ModelScan
+ * HiddenLayer ModelScan V2
  * HiddenLayer ModelScan API for scanning of models
  *
  * The version of the OpenAPI document: 1
@@ -13,12 +13,18 @@
  */
 
 import { mapValues } from '../runtime';
-import type { FileInfo } from './FileInfo';
+import type { ScanResults } from './ScanResults';
 import {
-    FileInfoFromJSON,
-    FileInfoFromJSONTyped,
-    FileInfoToJSON,
-} from './FileInfo';
+    ScanResultsFromJSON,
+    ScanResultsFromJSONTyped,
+    ScanResultsToJSON,
+} from './ScanResults';
+import type { Detections } from './Detections';
+import {
+    DetectionsFromJSON,
+    DetectionsFromJSONTyped,
+    DetectionsToJSON,
+} from './Detections';
 
 /**
  * 
@@ -52,16 +58,22 @@ export interface ScanResultsV2 {
     endTime: number;
     /**
      * 
-     * @type {FileInfo}
+     * @type {ScanResults}
      * @memberof ScanResultsV2
      */
-    results: FileInfo;
+    results?: ScanResults;
     /**
      * 
-     * @type {Array<object>}
+     * @type {string}
      * @memberof ScanResultsV2
      */
-    detections: Array<object>;
+    severity?: ScanResultsV2SeverityEnum;
+    /**
+     * 
+     * @type {Array<Detections>}
+     * @memberof ScanResultsV2
+     */
+    detections: Array<Detections>;
 }
 
 
@@ -75,9 +87,22 @@ export const ScanResultsV2StatusEnum = {
     Pending: 'pending',
     Created: 'created',
     Retry: 'retry',
+    Unknown: 'unknown',
     UnknownDefaultOpenApi: '11184809'
 } as const;
 export type ScanResultsV2StatusEnum = typeof ScanResultsV2StatusEnum[keyof typeof ScanResultsV2StatusEnum];
+
+/**
+ * @export
+ */
+export const ScanResultsV2SeverityEnum = {
+    Unknown: 'UNKNOWN',
+    Safe: 'SAFE',
+    Suspicious: 'SUSPICIOUS',
+    Malicious: 'MALICIOUS',
+    UnknownDefaultOpenApi: '11184809'
+} as const;
+export type ScanResultsV2SeverityEnum = typeof ScanResultsV2SeverityEnum[keyof typeof ScanResultsV2SeverityEnum];
 
 
 /**
@@ -88,7 +113,6 @@ export function instanceOfScanResultsV2(value: object): value is ScanResultsV2 {
     if (!('status' in value) || value['status'] === undefined) return false;
     if (!('startTime' in value) || value['startTime'] === undefined) return false;
     if (!('endTime' in value) || value['endTime'] === undefined) return false;
-    if (!('results' in value) || value['results'] === undefined) return false;
     if (!('detections' in value) || value['detections'] === undefined) return false;
     return true;
 }
@@ -107,8 +131,9 @@ export function ScanResultsV2FromJSONTyped(json: any, ignoreDiscriminator: boole
         'status': json['status'],
         'startTime': json['start_time'],
         'endTime': json['end_time'],
-        'results': FileInfoFromJSON(json['results']),
-        'detections': json['detections'],
+        'results': json['results'] == null ? undefined : ScanResultsFromJSON(json['results']),
+        'severity': json['severity'] == null ? undefined : json['severity'],
+        'detections': ((json['detections'] as Array<any>).map(DetectionsFromJSON)),
     };
 }
 
@@ -122,8 +147,9 @@ export function ScanResultsV2ToJSON(value?: ScanResultsV2 | null): any {
         'status': value['status'],
         'start_time': value['startTime'],
         'end_time': value['endTime'],
-        'results': FileInfoToJSON(value['results']),
-        'detections': value['detections'],
+        'results': ScanResultsToJSON(value['results']),
+        'severity': value['severity'],
+        'detections': ((value['detections'] as Array<any>).map(DetectionsToJSON)),
     };
 }
 

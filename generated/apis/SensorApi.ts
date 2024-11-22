@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * HiddenLayer ModelScan
+ * HiddenLayer ModelScan V2
  * HiddenLayer ModelScan API for scanning of models
  *
  * The version of the OpenAPI document: 1
@@ -19,6 +19,7 @@ import type {
   GetMultipartUploadResponse,
   Model,
   ModelQueryResponse,
+  SensorSORModelCardQueryResponse,
   SensorSORQueryRequest,
   ValidationErrorModel,
 } from '../models/index';
@@ -31,6 +32,8 @@ import {
     ModelToJSON,
     ModelQueryResponseFromJSON,
     ModelQueryResponseToJSON,
+    SensorSORModelCardQueryResponseFromJSON,
+    SensorSORModelCardQueryResponseToJSON,
     SensorSORQueryRequestFromJSON,
     SensorSORQueryRequestToJSON,
     ValidationErrorModelFromJSON,
@@ -38,8 +41,8 @@ import {
 } from '../models/index';
 
 export interface BeginMultipartUploadRequest {
-    xContentLength: number;
     sensorId: string;
+    xContentLength: number;
 }
 
 export interface CompleteMultipartUploadRequest {
@@ -63,6 +66,14 @@ export interface QuerySensorRequest {
     sensorSORQueryRequest?: SensorSORQueryRequest;
 }
 
+export interface SensorSorApiV3ModelCardsQueryGetRequest {
+    modelNameEq?: string;
+    modelNameContains?: string;
+    limit?: number;
+    offset?: number;
+    sort?: string;
+}
+
 export interface UploadModelPartRequest {
     sensorId: string;
     uploadId: string;
@@ -79,17 +90,17 @@ export class SensorApi extends runtime.BaseAPI {
      * Begin Multipart Upload
      */
     async beginMultipartUploadRaw(requestParameters: BeginMultipartUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMultipartUploadResponse>> {
-        if (requestParameters['xContentLength'] == null) {
-            throw new runtime.RequiredError(
-                'xContentLength',
-                'Required parameter "xContentLength" was null or undefined when calling beginMultipartUpload().'
-            );
-        }
-
         if (requestParameters['sensorId'] == null) {
             throw new runtime.RequiredError(
                 'sensorId',
                 'Required parameter "sensorId" was null or undefined when calling beginMultipartUpload().'
+            );
+        }
+
+        if (requestParameters['xContentLength'] == null) {
+            throw new runtime.RequiredError(
+                'xContentLength',
+                'Required parameter "xContentLength" was null or undefined when calling beginMultipartUpload().'
             );
         }
 
@@ -130,7 +141,7 @@ export class SensorApi extends runtime.BaseAPI {
     /**
      * Complete Multipart Upload
      */
-    async completeMultipartUploadRaw(requestParameters: CompleteMultipartUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async completeMultipartUploadRaw(requestParameters: CompleteMultipartUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
         if (requestParameters['sensorId'] == null) {
             throw new runtime.RequiredError(
                 'sensorId',
@@ -164,17 +175,13 @@ export class SensorApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse<any>(response);
     }
 
     /**
      * Complete Multipart Upload
      */
-    async completeMultipartUpload(requestParameters: CompleteMultipartUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+    async completeMultipartUpload(requestParameters: CompleteMultipartUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
         const response = await this.completeMultipartUploadRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -342,9 +349,63 @@ export class SensorApi extends runtime.BaseAPI {
     }
 
     /**
+     * List Model Cards
+     */
+    async sensorSorApiV3ModelCardsQueryGetRaw(requestParameters: SensorSorApiV3ModelCardsQueryGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SensorSORModelCardQueryResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['modelNameEq'] != null) {
+            queryParameters['model_name[eq]'] = requestParameters['modelNameEq'];
+        }
+
+        if (requestParameters['modelNameContains'] != null) {
+            queryParameters['model_name[contains]'] = requestParameters['modelNameContains'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['sort'] != null) {
+            queryParameters['sort'] = requestParameters['sort'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/models/v3/cards`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SensorSORModelCardQueryResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * List Model Cards
+     */
+    async sensorSorApiV3ModelCardsQueryGet(requestParameters: SensorSorApiV3ModelCardsQueryGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SensorSORModelCardQueryResponse> {
+        const response = await this.sensorSorApiV3ModelCardsQueryGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Upload part
      */
-    async uploadModelPartRaw(requestParameters: UploadModelPartRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async uploadModelPartRaw(requestParameters: UploadModelPartRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
         if (requestParameters['sensorId'] == null) {
             throw new runtime.RequiredError(
                 'sensorId',
@@ -395,17 +456,13 @@ export class SensorApi extends runtime.BaseAPI {
             body: requestParameters['body'] as any,
         }, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse<any>(response);
     }
 
     /**
      * Upload part
      */
-    async uploadModelPart(requestParameters: UploadModelPartRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+    async uploadModelPart(requestParameters: UploadModelPartRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
         const response = await this.uploadModelPartRaw(requestParameters, initOverrides);
         return await response.value();
     }
