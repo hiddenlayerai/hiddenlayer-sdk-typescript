@@ -11,11 +11,12 @@ export class ModelService {
      * Creates a model in the HiddenLayer Platform
      * 
      * @param modelName Name of the model
+     * @param version Version of the model
      * 
      * @returns Model
      */
-    async create(modelName: string): Promise<Model> {
-        const model = await this.sensorApi.createSensor({createSensorRequest: {plaintextName: modelName, adhoc: true}});
+    async create(modelName: string, version?: number): Promise<Model> {
+        const model = await this.sensorApi.createSensor({createSensorRequest: {plaintextName: modelName, adhoc: true, version: version }});
         return model;
     }
 

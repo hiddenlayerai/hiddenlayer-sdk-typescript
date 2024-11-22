@@ -18,6 +18,8 @@ describe('Integration test suite in Enterprise', () => {
 function runTestSuite(client: HiddenLayerServiceClient) {
     it('should scan a model', async () => await performModelScanTest(client), 20000);
     it('should scan a folder', async () => await performScanFolderTest(client), 20000);
+    it('should scan a model with a specified version', async () => await performModelScanTest(client, 123), 20000);
+    it('should scan a folder with a specified version', async () => await performScanFolderTest(client, 123), 20000);
 }
 
 function getSaaSClient() {
@@ -39,12 +41,16 @@ function getEnterpriseClient() {
     return HiddenLayerServiceClient.createEnterpriseClient("http://localhost:8000");
 }
 
-async function performModelScanTest(client: HiddenLayerServiceClient): Promise<void> {
+async function performModelScanTest(client: HiddenLayerServiceClient, modelVersion?: number): Promise<void> {
     try {
         const modelPath = `./integration-tests/models/malicious_model.pkl`;
         const modelName = `sdk-integration-scan-model-${uuidv4()}`;
 
-        const results = await client.modelScanner.scanFile(modelName, modelPath);
+        const results = await client.modelScanner.scanFile(modelName, modelPath, modelVersion);
+
+        if (modelVersion) {
+            assert(results.inventory.modelVersion === modelVersion.toString());
+        }
 
         assert(results.fileCount === 1);
         assert(results.filesWithDetectionsCount === 1);
@@ -73,12 +79,16 @@ async function performModelScanTest(client: HiddenLayerServiceClient): Promise<v
     }
 }
 
-async function performScanFolderTest(client: HiddenLayerServiceClient): Promise<void> {
+async function performScanFolderTest(client: HiddenLayerServiceClient, modelVersion?: number): Promise<void> {
     try {
         const folderPath = `./integration-tests/models/`;
         const modelName = `sdk-integration-scan-model-folder-${uuidv4()}`;
 
-        const results = await client.modelScanner.scanFolder(modelName, folderPath);
+        const results = await client.modelScanner.scanFolder(modelName, folderPath, modelVersion);
+
+        if (modelVersion) {
+            assert(results.inventory.modelVersion === modelVersion.toString());
+        }
 
         assert(results.fileCount === 3);
         assert(results.filesWithDetectionsCount === 2);

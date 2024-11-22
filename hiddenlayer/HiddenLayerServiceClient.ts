@@ -1,4 +1,4 @@
-import { Configuration, DefaultConfig } from "../generated";
+import { Configuration } from "../generated";
 import { ModelScanService } from "./services/ModelScanService";
 import { ModelService } from "./services/ModelService";
 
