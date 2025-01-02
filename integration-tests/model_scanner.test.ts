@@ -98,7 +98,7 @@ async function performScanFolderTest(client: HiddenLayerServiceClient, modelVers
         }
 
         assert(results.fileCount === 3);
-        assert(results.filesWithDetectionsCount === 1);
+        assert(results.filesWithDetectionsCount === 1, `Expected 1 file with detections, got ${results.filesWithDetectionsCount}`);
 
         const safeModel = 'safe_model.pkl';
         const maliciousModel = 'malicious_model.pkl';
