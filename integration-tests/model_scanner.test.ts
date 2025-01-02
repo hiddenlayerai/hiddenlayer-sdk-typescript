@@ -98,7 +98,9 @@ async function performScanFolderTest(client: HiddenLayerServiceClient, modelVers
         }
 
         assert(results.fileCount === 3);
-        assert(results.filesWithDetectionsCount === 1, `Expected 1 file with detections, got ${results.filesWithDetectionsCount}`);
+        // v2 scans roll detections up to parent zip, v3 do not. A v2 submission generates a v2 and v3 scan, we don't kow which hits db last
+        // hence why we can see either 1 or 2 detections at top level count
+        assert([1,2].indexOf(results.filesWithDetectionsCount) > -1);
 
         const safeModel = 'safe_model.pkl';
         const maliciousModel = 'malicious_model.pkl';
