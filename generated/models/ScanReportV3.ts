@@ -19,12 +19,12 @@ import {
     ModelInventoryInfoFromJSONTyped,
     ModelInventoryInfoToJSON,
 } from './ModelInventoryInfo';
-import type { FileResultsInner } from './FileResultsInner';
+import type { FileScanReportV3 } from './FileScanReportV3';
 import {
-    FileResultsInnerFromJSON,
-    FileResultsInnerFromJSONTyped,
-    FileResultsInnerToJSON,
-} from './FileResultsInner';
+    FileScanReportV3FromJSON,
+    FileScanReportV3FromJSONTyped,
+    FileScanReportV3ToJSON,
+} from './FileScanReportV3';
 
 /**
  * 
@@ -100,10 +100,10 @@ export interface ScanReportV3 {
     severity?: ScanReportV3SeverityEnum;
     /**
      * 
-     * @type {Array<FileResultsInner>}
+     * @type {Array<FileScanReportV3>}
      * @memberof ScanReportV3
      */
-    fileResults?: Array<FileResultsInner>;
+    fileResults?: Array<FileScanReportV3>;
 }
 
 
@@ -171,7 +171,7 @@ export function ScanReportV3FromJSONTyped(json: any, ignoreDiscriminator: boolea
         'endTime': json['end_time'] == null ? undefined : (new Date(json['end_time'])),
         'status': json['status'],
         'severity': json['severity'] == null ? undefined : json['severity'],
-        'fileResults': json['file_results'] == null ? undefined : ((json['file_results'] as Array<any>).map(FileResultsInnerFromJSON)),
+        'fileResults': json['file_results'] == null ? undefined : ((json['file_results'] as Array<any>).map(FileScanReportV3FromJSON)),
     };
 }
 
@@ -192,7 +192,7 @@ export function ScanReportV3ToJSON(value?: ScanReportV3 | null): any {
         'end_time': value['endTime'] == null ? undefined : ((value['endTime']).toISOString()),
         'status': value['status'],
         'severity': value['severity'],
-        'file_results': value['fileResults'] == null ? undefined : ((value['fileResults'] as Array<any>).map(FileResultsInnerToJSON)),
+        'file_results': value['fileResults'] == null ? undefined : ((value['fileResults'] as Array<any>).map(FileScanReportV3ToJSON)),
     };
 }
 

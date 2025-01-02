@@ -33,11 +33,11 @@ export interface SensorSORModelCardResponse {
      */
     modelId: string;
     /**
-     * Unix timestamp
-     * @type {number}
+     * 
+     * @type {Date}
      * @memberof SensorSORModelCardResponse
      */
-    createdAt: number;
+    createdAt: Date;
     /**
      * 
      * @type {string}
@@ -46,10 +46,10 @@ export interface SensorSORModelCardResponse {
     plaintextName: string;
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<string>}
      * @memberof SensorSORModelCardResponse
      */
-    activeVersions: Array<number>;
+    activeVersions: Array<string>;
     /**
      * 
      * @type {string}
@@ -131,7 +131,7 @@ export function SensorSORModelCardResponseFromJSONTyped(json: any, ignoreDiscrim
     return {
         
         'modelId': json['model_id'],
-        'createdAt': json['created_at'],
+        'createdAt': (new Date(json['created_at'])),
         'plaintextName': json['plaintext_name'],
         'activeVersions': json['active_versions'],
         'source': json['source'],
@@ -149,7 +149,7 @@ export function SensorSORModelCardResponseToJSON(value?: SensorSORModelCardRespo
     return {
         
         'model_id': value['modelId'],
-        'created_at': value['createdAt'],
+        'created_at': ((value['createdAt']).toISOString()),
         'plaintext_name': value['plaintextName'],
         'active_versions': value['activeVersions'],
         'source': value['source'],

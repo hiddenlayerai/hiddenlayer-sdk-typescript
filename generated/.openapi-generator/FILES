@@ -25,8 +25,8 @@ models/ExternalProperties.ts
 models/ExternalPropertyFileReference.ts
 models/ExternalPropertyFileReferences.ts
 models/FileDetailsV3.ts
-models/FileResultsInner.ts
 models/FileScanReportV3.ts
+models/FileScanReportsV3.ts
 models/Fix.ts
 models/GetMultipartUploadResponse.ts
 models/Graph.ts
