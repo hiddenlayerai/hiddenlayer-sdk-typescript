@@ -102,8 +102,8 @@ async function performScanFolderTest(client: HiddenLayerServiceClient, modelVers
 
         const safeModel = 'safe_model.pkl';
         const maliciousModel = 'malicious_model.pkl';
-        var safeModelFound = false;
-        var maliciousModelFound = false;
+        let safeModelFound = false;
+        let maliciousModelFound = false;
 
         for (const topFileResults of results.fileResults) {
             for (const fileResults of topFileResults.fileResults) {
