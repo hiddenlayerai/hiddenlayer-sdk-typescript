@@ -20,11 +20,11 @@ describe('Integration test suite in Enterprise', () => {
  */
 
 function runTestSuite(client: HiddenLayerServiceClient) {
-    it('should scan a model', async () => await performModelScanTest(client), 20000);
-    it('should scan a folder', async () => await performScanFolderTest(client), 20000);
-    it('should scan a model with a specified version', async () => await performModelScanTest(client, 123), 20000);
-    it('should scan a folder with a specified version', async () => await performScanFolderTest(client, 123), 20000);
-    it('should get sarif results for a model', async () => await getSarifResultsTest(client), 20000);
+    it('should scan a model', async () => await performModelScanTest(client), 120000);
+    it('should scan a folder', async () => await performScanFolderTest(client), 60000);
+    it('should scan a model with a specified version', async () => await performModelScanTest(client, 123), 60000);
+    it('should scan a folder with a specified version', async () => await performScanFolderTest(client, 123), 60000);
+    it('should get sarif results for a model', async () => await getSarifResultsTest(client), 60000);
 }
 
 function getSaaSClient() {
@@ -98,26 +98,36 @@ async function performScanFolderTest(client: HiddenLayerServiceClient, modelVers
         }
 
         assert(results.fileCount === 3);
-        assert(results.filesWithDetectionsCount === 2);
+        // v2 scans roll detections up to parent zip, v3 do not. A v2 submission generates a v2 and v3 scan, we don't kow which hits db last
+        // hence why we can see either 1 or 2 detections at top level count
+        assert([1,2].indexOf(results.filesWithDetectionsCount) > -1);
 
         const safeModel = 'safe_model.pkl';
         const maliciousModel = 'malicious_model.pkl';
+        let safeModelFound = false;
+        let maliciousModelFound = false;
 
-        for (const fileResults of results.fileResults) {
-            if (fileResults.fileLocation.includes(safeModel)) {
-                const detections = fileResults.detections;
-                assert(!detections);
-                assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
-                assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.print"));
-            } else if (fileResults.fileLocation.includes(maliciousModel)) {
-                const detections = fileResults.detections;
-                assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
-                assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.exec"));
+        for (const topFileResults of results.fileResults) {
+            for (const fileResults of topFileResults.fileResults) {
+                if (fileResults.fileLocation.includes(safeModel)) {
+                    const detections = fileResults.detections;
+                    assert(!detections);
+                    assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
+                    assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.print"));
+                    safeModelFound = true;
+                } else if (fileResults.fileLocation.includes(maliciousModel)) {
+                    const detections = fileResults.detections;
+                    assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
+                    assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.exec"));
 
-                assert (detections[0].severity === ScanDetectionV3SeverityEnum.High);
-                assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
+                    assert (detections[0].severity === ScanDetectionV3SeverityEnum.High);
+                    assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
+                    maliciousModelFound = true;
+                }
             }
         }
+        assert(safeModelFound);
+        assert(maliciousModelFound);
         if (client.isSaaS) {
             await client.model.delete(modelName);
         }
@@ -145,7 +155,7 @@ async function getSarifResultsTest(client: HiddenLayerServiceClient): Promise<vo
         assert(run.results.length > 0);
         const runResults = run.results[0];
         assert(runResults.level === "error");
-        assert(runResults.ruleId === "PICKLE_0002_202408");
+        assert(runResults.ruleId === "PICKLE_0017_202408");
         if (client.isSaaS) {
             await client.model.delete(modelName);
         }

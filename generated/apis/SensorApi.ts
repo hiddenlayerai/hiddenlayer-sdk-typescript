@@ -141,7 +141,7 @@ export class SensorApi extends runtime.BaseAPI {
     /**
      * Complete Multipart Upload
      */
-    async completeMultipartUploadRaw(requestParameters: CompleteMultipartUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async completeMultipartUploadRaw(requestParameters: CompleteMultipartUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['sensorId'] == null) {
             throw new runtime.RequiredError(
                 'sensorId',
@@ -175,15 +175,14 @@ export class SensorApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
      * Complete Multipart Upload
      */
-    async completeMultipartUpload(requestParameters: CompleteMultipartUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
-        const response = await this.completeMultipartUploadRaw(requestParameters, initOverrides);
-        return await response.value();
+    async completeMultipartUpload(requestParameters: CompleteMultipartUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.completeMultipartUploadRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -405,7 +404,7 @@ export class SensorApi extends runtime.BaseAPI {
     /**
      * Upload part
      */
-    async uploadModelPartRaw(requestParameters: UploadModelPartRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async uploadModelPartRaw(requestParameters: UploadModelPartRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['sensorId'] == null) {
             throw new runtime.RequiredError(
                 'sensorId',
@@ -456,15 +455,14 @@ export class SensorApi extends runtime.BaseAPI {
             body: requestParameters['body'] as any,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
      * Upload part
      */
-    async uploadModelPart(requestParameters: UploadModelPartRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
-        const response = await this.uploadModelPartRaw(requestParameters, initOverrides);
-        return await response.value();
+    async uploadModelPart(requestParameters: UploadModelPartRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.uploadModelPartRaw(requestParameters, initOverrides);
     }
 
 }

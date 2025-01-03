@@ -1,6 +1,6 @@
 {
   "name": "@hiddenlayerai/hiddenlayer-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Official HiddenLayer TypeScript SDK",
   "repository": {
     "type": "git",
@@ -49,7 +49,7 @@
     "microbundle": "^0.15.1",
     "ts-jest": "^29.1.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4",
+    "typescript": "^5.7.2",
     "typescript-eslint": "^8.6.0"
   }
 }

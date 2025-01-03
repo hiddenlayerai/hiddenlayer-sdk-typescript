@@ -33,7 +33,7 @@ export interface SensorSORModelCardResponse {
      */
     modelId: string;
     /**
-     * Unix timestamp
+     * Unix Nano Epoch
      * @type {number}
      * @memberof SensorSORModelCardResponse
      */
