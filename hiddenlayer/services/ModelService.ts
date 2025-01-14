@@ -1,4 +1,8 @@
 import { Model, SensorApi, ResponseError, Configuration } from "../../generated";
+import { sleep } from './utils';
+
+export class ModelNotFoundError extends Error {
+}
 
 export class ModelService {
     readonly sensorApi: SensorApi;
@@ -21,6 +25,52 @@ export class ModelService {
     }
 
     /**
+     * Creates a model in the HiddenLayer Platfom if it does not exist
+     * If the model and version already exists, returns the existing model.
+     *
+     * @param modelName Name of the model
+     * @param version Version of the model
+     *
+     * @returns Model
+     */
+    async createOrGet(modelName: string, version?: number): Promise<Model> {
+        try {
+            return await this.create(modelName, version);
+        } catch (error) {
+            if (error instanceof ResponseError && error.response.status == 400) {
+                const body = await error.response.text();
+                if (body.includes('already exists')) {
+                    return await this.getWithRetry(modelName, version, 3);
+                }
+            }
+            throw error;
+        }
+    }
+
+    async getWithRetry(modelName: string, version?: number, retries?: number): Promise<Model> {
+        let attempts = 0;
+        let model: Model;
+        if (!retries) {
+            retries = 1;
+        }
+        const baseDelay = 0.1; // seconds
+        while (attempts < retries) {
+            try {
+                model = await this.get(modelName, version);
+                return model;
+            } catch (error) {
+                if (error instanceof ModelNotFoundError) {
+                    sleep(baseDelay * Math.pow(2, attempts) + Math.random());
+                    attempts++;
+                } else {
+                    throw error;
+                }
+            }
+        }
+        throw new Error(`Model ${modelName} not found after ${retries} attempts`);
+    }
+
+    /**
      * Gets a HiddenLayer model object. If no version is supplied, the latest model is returned.
      * 
      * @param modelName Name of the model
@@ -28,7 +78,7 @@ export class ModelService {
      * 
      * @returns Model
      */
-    async get (modelName: string, version?: number): Promise<Model> {
+    async get(modelName: string, version?: number): Promise<Model> {
         const request = {
             sensorSORQueryRequest: {
                 filter: {
@@ -43,7 +93,7 @@ export class ModelService {
             if (version) {
                 msg += ` with version ${version}`;
             }
-            throw new Error(msg);
+            throw new ModelNotFoundError(msg);
         }
         if (!version) {
             // Sort by version in descending order

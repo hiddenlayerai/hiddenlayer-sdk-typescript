@@ -25,6 +25,7 @@ function runTestSuite(client: HiddenLayerServiceClient) {
     it('should scan a model with a specified version', async () => await performModelScanTest(client, 123), 60000);
     it('should scan a folder with a specified version', async () => await performScanFolderTest(client, 123), 60000);
     it('should get sarif results for a model', async () => await getSarifResultsTest(client), 60000);
+    it('should rescan a model with the same version', async () => await performRescanTest(client), 60000);
 }
 
 function getSaaSClient() {
@@ -128,6 +129,42 @@ async function performScanFolderTest(client: HiddenLayerServiceClient, modelVers
         }
         assert(safeModelFound);
         assert(maliciousModelFound);
+        if (client.isSaaS) {
+            await client.model.delete(modelName);
+        }
+    } catch (error) {
+        if (!client.isSaaS && error.cause?.code == 'ECONNREFUSED') {
+            console.warn("Enterprise client test skipped because the server is not running")
+        } else {
+            throw error;
+        }
+    }
+}
+
+async function performRescanTest(client: HiddenLayerServiceClient): Promise<void>{
+    try {
+        const modelPath = `./integration-tests/models/malicious_model.pkl`;
+        const modelName = `sdk-integration-scan-model-${uuidv4()}`;
+        const modelVersion = 456;
+
+        let results = await client.modelScanner.scanFile(modelName, modelPath, modelVersion);
+        results = await client.modelScanner.scanFile(modelName, modelPath, modelVersion);
+
+        assert(results.fileCount === 1);
+        assert(results.filesWithDetectionsCount === 1);
+
+        assert(results.fileResults != null && results.fileResults.length > 0)
+
+        const fileResults = results.fileResults[0];
+        const detections = fileResults.detections;
+
+        assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
+        assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.exec"));
+
+        assert(detections != null);
+        assert(detections[0].severity === ScanDetectionV3SeverityEnum.High);
+        assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
+
         if (client.isSaaS) {
             await client.model.delete(modelName);
         }
