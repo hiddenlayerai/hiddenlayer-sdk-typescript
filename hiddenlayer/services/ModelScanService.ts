@@ -182,7 +182,7 @@ export class ModelScanService {
         const fileStats = await fs.promises.stat(modelPath);
         const fileSize = fileStats.size;
 
-        const model = await this.modelService.create(modelName, modelVersion);
+        const model = await this.modelService.createOrGet(modelName, modelVersion);
         const upload = await this.sensorApi.beginMultipartUpload({ xContentLength: fileSize, sensorId: model.sensorId });
 
         let file: fs.promises.FileHandle;
