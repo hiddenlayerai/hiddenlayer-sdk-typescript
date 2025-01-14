@@ -50,8 +50,11 @@ export class ModelService {
     async getWithRetry(modelName: string, version?: number, retries?: number): Promise<Model> {
         let attempts = 0;
         let model: Model;
+        if (!retries) {
+            retries = 1;
+        }
         const baseDelay = 0.1; // seconds
-        while (attempts < retries || 1) {
+        while (attempts < retries) {
             try {
                 model = await this.get(modelName, version);
                 return model;
