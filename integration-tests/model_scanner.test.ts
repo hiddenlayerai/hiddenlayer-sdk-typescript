@@ -182,7 +182,7 @@ async function getSarifResultsTest(client: HiddenLayerServiceClient): Promise<vo
         const modelName = `sdk-integration-scan-model-${uuidv4()}`;
         const modelPath = `./integration-tests/models/malicious_model.pkl`;
 
-        let scanResult = await client.modelScanner.scanFile(modelName, modelPath);
+        const scanResult = await client.modelScanner.scanFile(modelName, modelPath);
         const sarifResults = await client.modelScanner.getSarifResults(scanResult.scanId);
 
         assert(sarifResults.version === "2.1.0");
