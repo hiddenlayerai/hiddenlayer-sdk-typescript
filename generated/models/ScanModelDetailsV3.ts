@@ -36,7 +36,7 @@ export interface ScanModelDetailsV3 {
      * @type {string}
      * @memberof ScanModelDetailsV3
      */
-    modelSource: string;
+    modelSource?: string;
     /**
      * Location to be scanned
      * @type {string}
@@ -57,7 +57,6 @@ export interface ScanModelDetailsV3 {
 export function instanceOfScanModelDetailsV3(value: object): value is ScanModelDetailsV3 {
     if (!('modelName' in value) || value['modelName'] === undefined) return false;
     if (!('modelVersion' in value) || value['modelVersion'] === undefined) return false;
-    if (!('modelSource' in value) || value['modelSource'] === undefined) return false;
     if (!('requestedScanLocation' in value) || value['requestedScanLocation'] === undefined) return false;
     return true;
 }
@@ -74,7 +73,7 @@ export function ScanModelDetailsV3FromJSONTyped(json: any, ignoreDiscriminator: 
         
         'modelName': json['model_name'],
         'modelVersion': json['model_version'],
-        'modelSource': json['model_source'],
+        'modelSource': json['model_source'] == null ? undefined : json['model_source'],
         'requestedScanLocation': json['requested_scan_location'],
         'requestingEntity': json['requesting_entity'] == null ? undefined : json['requesting_entity'],
     };

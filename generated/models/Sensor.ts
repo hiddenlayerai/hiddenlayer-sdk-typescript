@@ -16,57 +16,57 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Model
+ * @interface Sensor
  */
-export interface Model {
+export interface Sensor {
     /**
      * 
      * @type {string}
-     * @memberof Model
+     * @memberof Sensor
      */
     sensorId: string;
     /**
      * 
      * @type {Date}
-     * @memberof Model
+     * @memberof Sensor
      */
     createdAt: Date;
     /**
      * 
      * @type {string}
-     * @memberof Model
+     * @memberof Sensor
      */
     tenantId: string;
     /**
      * 
      * @type {string}
-     * @memberof Model
+     * @memberof Sensor
      */
     plaintextName: string;
     /**
      * 
      * @type {boolean}
-     * @memberof Model
+     * @memberof Sensor
      */
     active: boolean;
     /**
      * 
      * @type {number}
-     * @memberof Model
+     * @memberof Sensor
      */
     version: number;
     /**
      * 
      * @type {{ [key: string]: any; }}
-     * @memberof Model
+     * @memberof Sensor
      */
     tags?: { [key: string]: any; };
 }
 
 /**
- * Check if a given object implements the Model interface.
+ * Check if a given object implements the Sensor interface.
  */
-export function instanceOfModel(value: object): value is Model {
+export function instanceOfSensor(value: object): value is Sensor {
     if (!('sensorId' in value) || value['sensorId'] === undefined) return false;
     if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('tenantId' in value) || value['tenantId'] === undefined) return false;
@@ -76,11 +76,11 @@ export function instanceOfModel(value: object): value is Model {
     return true;
 }
 
-export function ModelFromJSON(json: any): Model {
-    return ModelFromJSONTyped(json, false);
+export function SensorFromJSON(json: any): Sensor {
+    return SensorFromJSONTyped(json, false);
 }
 
-export function ModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): Model {
+export function SensorFromJSONTyped(json: any, ignoreDiscriminator: boolean): Sensor {
     if (json == null) {
         return json;
     }
@@ -96,7 +96,7 @@ export function ModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): Mod
     };
 }
 
-export function ModelToJSON(value?: Model | null): any {
+export function SensorToJSON(value?: Sensor | null): any {
     if (value == null) {
         return value;
     }

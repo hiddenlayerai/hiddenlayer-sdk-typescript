@@ -30,7 +30,7 @@ export interface FileDetailsV3 {
      * @type {string}
      * @memberof FileDetailsV3
      */
-    md5: string;
+    md5?: string;
     /**
      * hexadecimal sha256 hash of file
      * @type {string}
@@ -42,7 +42,7 @@ export interface FileDetailsV3 {
      * @type {string}
      * @memberof FileDetailsV3
      */
-    tlsh: string;
+    tlsh?: string;
     /**
      * size of the file in human readable format
      * @type {string}
@@ -60,7 +60,7 @@ export interface FileDetailsV3 {
      * @type {string}
      * @memberof FileDetailsV3
      */
-    fileType: FileDetailsV3FileTypeEnum;
+    fileType: string;
     /**
      * 
      * @type {{ [key: string]: any; }}
@@ -69,37 +69,12 @@ export interface FileDetailsV3 {
     fileTypeDetails?: { [key: string]: any; };
 }
 
-
-/**
- * @export
- */
-export const FileDetailsV3FileTypeEnum = {
-    Safetensors: 'safetensors',
-    Rds: 'RDS',
-    Onnx: 'onnx',
-    Tensorflow: 'tensorflow',
-    Keras: 'keras',
-    Pytorch: 'pytorch',
-    Pickle: 'pickle',
-    Nemo: 'NEMO',
-    Numpy: 'numpy',
-    Unknown: 'unknown',
-    Zip: 'ZIP',
-    Tar: 'TAR',
-    Gguf: 'gguf',
-    UnknownDefaultOpenApi: '11184809'
-} as const;
-export type FileDetailsV3FileTypeEnum = typeof FileDetailsV3FileTypeEnum[keyof typeof FileDetailsV3FileTypeEnum];
-
-
 /**
  * Check if a given object implements the FileDetailsV3 interface.
  */
 export function instanceOfFileDetailsV3(value: object): value is FileDetailsV3 {
     if (!('estimatedTime' in value) || value['estimatedTime'] === undefined) return false;
-    if (!('md5' in value) || value['md5'] === undefined) return false;
     if (!('sha256' in value) || value['sha256'] === undefined) return false;
-    if (!('tlsh' in value) || value['tlsh'] === undefined) return false;
     if (!('fileType' in value) || value['fileType'] === undefined) return false;
     return true;
 }
@@ -115,9 +90,9 @@ export function FileDetailsV3FromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'estimatedTime': json['estimated_time'],
-        'md5': json['md5'],
+        'md5': json['md5'] == null ? undefined : json['md5'],
         'sha256': json['sha256'],
-        'tlsh': json['tlsh'],
+        'tlsh': json['tlsh'] == null ? undefined : json['tlsh'],
         'fileSize': json['file_size'] == null ? undefined : json['file_size'],
         'fileSizeBytes': json['file_size_bytes'] == null ? undefined : json['file_size_bytes'],
         'fileType': json['file_type'],

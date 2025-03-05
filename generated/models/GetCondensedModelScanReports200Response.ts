@@ -23,50 +23,50 @@ import {
 /**
  * 
  * @export
- * @interface ModelScanApiV3ScanQuery200Response
+ * @interface GetCondensedModelScanReports200Response
  */
-export interface ModelScanApiV3ScanQuery200Response {
+export interface GetCondensedModelScanReports200Response {
     /**
      * 
      * @type {Array<ScanReportV3>}
-     * @memberof ModelScanApiV3ScanQuery200Response
+     * @memberof GetCondensedModelScanReports200Response
      */
     items?: Array<ScanReportV3>;
     /**
      * Total number of items available based on the query criteria.
      * @type {number}
-     * @memberof ModelScanApiV3ScanQuery200Response
+     * @memberof GetCondensedModelScanReports200Response
      */
     total: number;
     /**
      * Maximum number of items to return
      * @type {number}
-     * @memberof ModelScanApiV3ScanQuery200Response
+     * @memberof GetCondensedModelScanReports200Response
      */
     limit: number;
     /**
      * Begin returning the results from this offset
      * @type {number}
-     * @memberof ModelScanApiV3ScanQuery200Response
+     * @memberof GetCondensedModelScanReports200Response
      */
     offset: number;
 }
 
 /**
- * Check if a given object implements the ModelScanApiV3ScanQuery200Response interface.
+ * Check if a given object implements the GetCondensedModelScanReports200Response interface.
  */
-export function instanceOfModelScanApiV3ScanQuery200Response(value: object): value is ModelScanApiV3ScanQuery200Response {
+export function instanceOfGetCondensedModelScanReports200Response(value: object): value is GetCondensedModelScanReports200Response {
     if (!('total' in value) || value['total'] === undefined) return false;
     if (!('limit' in value) || value['limit'] === undefined) return false;
     if (!('offset' in value) || value['offset'] === undefined) return false;
     return true;
 }
 
-export function ModelScanApiV3ScanQuery200ResponseFromJSON(json: any): ModelScanApiV3ScanQuery200Response {
-    return ModelScanApiV3ScanQuery200ResponseFromJSONTyped(json, false);
+export function GetCondensedModelScanReports200ResponseFromJSON(json: any): GetCondensedModelScanReports200Response {
+    return GetCondensedModelScanReports200ResponseFromJSONTyped(json, false);
 }
 
-export function ModelScanApiV3ScanQuery200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelScanApiV3ScanQuery200Response {
+export function GetCondensedModelScanReports200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetCondensedModelScanReports200Response {
     if (json == null) {
         return json;
     }
@@ -79,7 +79,7 @@ export function ModelScanApiV3ScanQuery200ResponseFromJSONTyped(json: any, ignor
     };
 }
 
-export function ModelScanApiV3ScanQuery200ResponseToJSON(value?: ModelScanApiV3ScanQuery200Response | null): any {
+export function GetCondensedModelScanReports200ResponseToJSON(value?: GetCondensedModelScanReports200Response | null): any {
     if (value == null) {
         return value;
     }

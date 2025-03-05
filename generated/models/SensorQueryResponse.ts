@@ -13,49 +13,49 @@
  */
 
 import { mapValues } from '../runtime';
-import type { Model } from './Model';
+import type { Sensor } from './Sensor';
 import {
-    ModelFromJSON,
-    ModelFromJSONTyped,
-    ModelToJSON,
-} from './Model';
+    SensorFromJSON,
+    SensorFromJSONTyped,
+    SensorToJSON,
+} from './Sensor';
 
 /**
  * 
  * @export
- * @interface ModelQueryResponse
+ * @interface SensorQueryResponse
  */
-export interface ModelQueryResponse {
+export interface SensorQueryResponse {
     /**
      * 
      * @type {number}
-     * @memberof ModelQueryResponse
+     * @memberof SensorQueryResponse
      */
     totalCount: number;
     /**
      * 
      * @type {number}
-     * @memberof ModelQueryResponse
+     * @memberof SensorQueryResponse
      */
     pageSize: number;
     /**
      * 
      * @type {number}
-     * @memberof ModelQueryResponse
+     * @memberof SensorQueryResponse
      */
     pageNumber: number;
     /**
      * 
-     * @type {Array<Model>}
-     * @memberof ModelQueryResponse
+     * @type {Array<Sensor>}
+     * @memberof SensorQueryResponse
      */
-    results: Array<Model>;
+    results: Array<Sensor>;
 }
 
 /**
- * Check if a given object implements the ModelQueryResponse interface.
+ * Check if a given object implements the SensorQueryResponse interface.
  */
-export function instanceOfModelQueryResponse(value: object): value is ModelQueryResponse {
+export function instanceOfSensorQueryResponse(value: object): value is SensorQueryResponse {
     if (!('totalCount' in value) || value['totalCount'] === undefined) return false;
     if (!('pageSize' in value) || value['pageSize'] === undefined) return false;
     if (!('pageNumber' in value) || value['pageNumber'] === undefined) return false;
@@ -63,11 +63,11 @@ export function instanceOfModelQueryResponse(value: object): value is ModelQuery
     return true;
 }
 
-export function ModelQueryResponseFromJSON(json: any): ModelQueryResponse {
-    return ModelQueryResponseFromJSONTyped(json, false);
+export function SensorQueryResponseFromJSON(json: any): SensorQueryResponse {
+    return SensorQueryResponseFromJSONTyped(json, false);
 }
 
-export function ModelQueryResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelQueryResponse {
+export function SensorQueryResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): SensorQueryResponse {
     if (json == null) {
         return json;
     }
@@ -76,11 +76,11 @@ export function ModelQueryResponseFromJSONTyped(json: any, ignoreDiscriminator: 
         'totalCount': json['total_count'],
         'pageSize': json['page_size'],
         'pageNumber': json['page_number'],
-        'results': ((json['results'] as Array<any>).map(ModelFromJSON)),
+        'results': ((json['results'] as Array<any>).map(SensorFromJSON)),
     };
 }
 
-export function ModelQueryResponseToJSON(value?: ModelQueryResponse | null): any {
+export function SensorQueryResponseToJSON(value?: SensorQueryResponse | null): any {
     if (value == null) {
         return value;
     }
@@ -89,7 +89,7 @@ export function ModelQueryResponseToJSON(value?: ModelQueryResponse | null): any
         'total_count': value['totalCount'],
         'page_size': value['pageSize'],
         'page_number': value['pageNumber'],
-        'results': ((value['results'] as Array<any>).map(ModelToJSON)),
+        'results': ((value['results'] as Array<any>).map(SensorToJSON)),
     };
 }
 
