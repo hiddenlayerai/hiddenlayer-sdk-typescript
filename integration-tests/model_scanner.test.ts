@@ -22,8 +22,8 @@ describe('Integration test suite in Enterprise', () => {
 function runTestSuite(client: HiddenLayerServiceClient) {
     it('should scan a model', async () => await performModelScanTest(client), 120000);
     it('should scan a folder', async () => await performScanFolderTest(client), 60000);
-    it('should scan a model with a specified version', async () => await performModelScanTest(client, 123), 60000);
-    it('should scan a folder with a specified version', async () => await performScanFolderTest(client, 123), 60000);
+    it('should scan a model with a specified version', async () => await performModelScanTest(client, "123"), 60000);
+    it('should scan a folder with a specified version', async () => await performScanFolderTest(client, "123"), 60000);
     it('should get sarif results for a model', async () => await getSarifResultsTest(client), 60000);
     it('should rescan a model with the same version', async () => await performRescanTest(client), 60000);
 }
@@ -49,7 +49,7 @@ function getEnterpriseClient() {
 }
 */
 
-async function performModelScanTest(client: HiddenLayerServiceClient, modelVersion?: number): Promise<void> {
+async function performModelScanTest(client: HiddenLayerServiceClient, modelVersion?: string): Promise<void> {
     try {
         const modelPath = `./integration-tests/models/malicious_model.pkl`;
         const modelName = `sdk-integration-scan-model-${uuidv4()}`;
@@ -87,7 +87,7 @@ async function performModelScanTest(client: HiddenLayerServiceClient, modelVersi
     }
 }
 
-async function performScanFolderTest(client: HiddenLayerServiceClient, modelVersion?: number): Promise<void> {
+async function performScanFolderTest(client: HiddenLayerServiceClient, modelVersion?: string): Promise<void> {
     try {
         const folderPath = `./integration-tests/models/`;
         const modelName = `sdk-integration-scan-model-folder-${uuidv4()}`;
@@ -145,7 +145,7 @@ async function performRescanTest(client: HiddenLayerServiceClient): Promise<void
     try {
         const modelPath = `./integration-tests/models/malicious_model.pkl`;
         const modelName = `sdk-integration-scan-model-${uuidv4()}`;
-        const modelVersion = 456;
+        const modelVersion = "456";
 
         let results = await client.modelScanner.scanFile(modelName, modelPath, modelVersion);
         results = await client.modelScanner.scanFile(modelName, modelPath, modelVersion);
@@ -182,8 +182,8 @@ async function getSarifResultsTest(client: HiddenLayerServiceClient): Promise<vo
         const modelName = `sdk-integration-scan-model-${uuidv4()}`;
         const modelPath = `./integration-tests/models/malicious_model.pkl`;
 
-        await client.modelScanner.scanFile(modelName, modelPath);
-        const sarifResults = await client.modelScanner.getSarifResults(modelName);
+        let scanResult = await client.modelScanner.scanFile(modelName, modelPath);
+        const sarifResults = await client.modelScanner.getSarifResults(scanResult.scanId);
 
         assert(sarifResults.version === "2.1.0");
         assert(sarifResults.runs.length === 1);
