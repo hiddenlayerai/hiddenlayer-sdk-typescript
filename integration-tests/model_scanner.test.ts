@@ -76,7 +76,7 @@ async function performModelScanTest(client: HiddenLayerServiceClient, modelVersi
         assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
 
         if (client.isSaaS) {
-            await client.model.delete(modelName);
+            await client.model.deleteModel(results.inventory.modelId);
         }
     } catch (error) {
         if (!client.isSaaS && error.cause?.code == 'ECONNREFUSED') {
@@ -130,7 +130,7 @@ async function performScanFolderTest(client: HiddenLayerServiceClient, modelVers
         assert(safeModelFound);
         assert(maliciousModelFound);
         if (client.isSaaS) {
-            await client.model.delete(modelName);
+            await client.model.deleteModel(results.inventory.modelId);
         }
     } catch (error) {
         if (!client.isSaaS && error.cause?.code == 'ECONNREFUSED') {
@@ -166,7 +166,7 @@ async function performRescanTest(client: HiddenLayerServiceClient): Promise<void
         assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
 
         if (client.isSaaS) {
-            await client.model.delete(modelName);
+            await client.model.deleteModel(results.inventory.modelId);
         }
     } catch (error) {
         if (!client.isSaaS && error.cause?.code == 'ECONNREFUSED') {
@@ -194,7 +194,7 @@ async function getSarifResultsTest(client: HiddenLayerServiceClient): Promise<vo
         assert(runResults.level === "error");
         assert(runResults.ruleId === "PICKLE_0017_202408");
         if (client.isSaaS) {
-            await client.model.delete(modelName);
+            await client.model.deleteModel(scanResult.inventory.modelId);
         }
     } catch (error) {
         if (!client.isSaaS && error.cause?.code == 'ECONNREFUSED') {

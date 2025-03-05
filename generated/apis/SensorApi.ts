@@ -41,6 +41,10 @@ export interface CreateSensorOperationRequest {
     createSensorRequest: CreateSensorRequest;
 }
 
+export interface DeleteSensorRequest {
+    sensorId: string;
+}
+
 export interface GetSensorRequest {
     sensorId: string;
 }
@@ -104,6 +108,46 @@ export class SensorApi extends runtime.BaseAPI {
     async createSensor(requestParameters: CreateSensorOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Sensor> {
         const response = await this.createSensorRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * Delete Sensor
+     */
+    async deleteSensorRaw(requestParameters: DeleteSensorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['sensorId'] == null) {
+            throw new runtime.RequiredError(
+                'sensorId',
+                'Required parameter "sensorId" was null or undefined when calling deleteSensor().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/v2/sensors/{sensor_id}`.replace(`{${"sensor_id"}}`, encodeURIComponent(String(requestParameters['sensorId']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Delete Sensor
+     */
+    async deleteSensor(requestParameters: DeleteSensorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteSensorRaw(requestParameters, initOverrides);
     }
 
     /**

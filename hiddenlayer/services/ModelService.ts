@@ -1,4 +1,5 @@
-import { Model, SensorApi, ResponseError, Configuration } from "../../generated";
+import { UUID } from "crypto";
+import { ModelApi, Model, Sensor, SensorApi, ResponseError, Configuration } from "../../generated";
 import { sleep } from './utils';
 
 export class ModelNotFoundError extends Error {
@@ -6,20 +7,22 @@ export class ModelNotFoundError extends Error {
 
 export class ModelService {
     readonly sensorApi: SensorApi;
+    readonly modelApi: ModelApi;
 
     constructor(config: Configuration) {
         this.sensorApi = new SensorApi(config);
+        this.modelApi = new ModelApi(config);
     }
 
     /**
-     * Creates a model in the HiddenLayer Platform
+     * Creates a sensor in the HiddenLayer Platform
      * 
      * @param modelName Name of the model
      * @param version Version of the model
      * 
-     * @returns Model
+     * @returns Sensor
      */
-    async create(modelName: string, version?: number): Promise<Model> {
+    async createSensor(modelName: string, version?: number): Promise<Sensor> {
         const model = await this.sensorApi.createSensor({createSensorRequest: {plaintextName: modelName, adhoc: true, version: version }});
         return model;
     }
@@ -31,33 +34,33 @@ export class ModelService {
      * @param modelName Name of the model
      * @param version Version of the model
      *
-     * @returns Model
+     * @returns Sensor
      */
-    async createOrGet(modelName: string, version?: number): Promise<Model> {
+    async createOrGetSensor(modelName: string, version?: number): Promise<Sensor> {
         try {
-            return await this.create(modelName, version);
+            return await this.createSensor(modelName, version);
         } catch (error) {
             if (error instanceof ResponseError && error.response.status == 400) {
                 const body = await error.response.text();
                 if (body.includes('already exists')) {
-                    return await this.getWithRetry(modelName, version, 3);
+                    return await this.getSensorWithRetry(modelName, version, 3);
                 }
             }
             throw error;
         }
     }
 
-    async getWithRetry(modelName: string, version?: number, retries?: number): Promise<Model> {
+    async getSensorWithRetry(modelName: string, version?: number, retries?: number): Promise<Sensor> {
         let attempts = 0;
-        let model: Model;
+        let sensor: Sensor;
         if (!retries) {
             retries = 1;
         }
         const baseDelay = 0.1; // seconds
         while (attempts < retries) {
             try {
-                model = await this.get(modelName, version);
-                return model;
+                sensor = await this.getSensor(modelName, version);
+                return sensor;
             } catch (error) {
                 if (error instanceof ModelNotFoundError) {
                     sleep(baseDelay * Math.pow(2, attempts) + Math.random());
@@ -67,7 +70,7 @@ export class ModelService {
                 }
             }
         }
-        throw new Error(`Model ${modelName} not found after ${retries} attempts`);
+        throw new Error(`Sensor ${modelName} not found after ${retries} attempts`);
     }
 
     /**
@@ -78,7 +81,7 @@ export class ModelService {
      * 
      * @returns Model
      */
-    async get(modelName: string, version?: number): Promise<Model> {
+    async getSensor(modelName: string, version?: number): Promise<Sensor> {
         const request = {
             sensorSORQueryRequest: {
                 filter: {
@@ -103,20 +106,44 @@ export class ModelService {
     }
 
     /**
-     * Delete a model.
+     * Delete a sensor.
      * 
-     * @param modelName Name of the model to be deleted
+     * @param sensorId id of the sensor
      */
-    async delete(modelName: string): Promise<void> {
-        const model = await this.get(modelName);
-
+    async deleteSensor(sensorId: string): Promise<void> {
         try {
-            await this.sensorApi.deleteModel({sensorId: model.sensorId});
+            await this.sensorApi.deleteSensor({sensorId: sensorId});
         } catch (error) {
             if (error instanceof ResponseError && error.response.status == 409) {
-                throw new Error('This type of model is unable to be deleted');
+                throw new Error('A sensor associated with this type of model is unable to be deleted');
             }
             throw error;
         }
+    }
+
+    /**
+     * Delete a model
+     * 
+     * @param modelId id of the model
+     */
+    async deleteModel(modelId: string): Promise<void> {
+        try {
+            await this.modelApi.deleteModel({modelId: modelId});
+        } catch (error) {
+            if (error instanceof ResponseError && error.response.status == 409) {
+                throw new Error('A model of this type unable to be deleted');
+            }
+            throw error;
+        }
+    }
+
+    /**
+     * Get a model by id
+     * 
+     * @param modelId id of the model
+     */
+    async getModel(modelId: string): Promise<Model> {
+        const response = await this.modelApi.getModel({modelId: modelId});
+        return response;
     }
 }

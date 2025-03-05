@@ -1,6 +1,7 @@
 .openapi-generator-ignore
 apis/AidrPredictiveApi.ts
 apis/HealthApi.ts
+apis/ModelApi.ts
 apis/ModelSupplyChainApi.ts
 apis/ReadinessApi.ts
 apis/SensorApi.ts
@@ -42,7 +43,9 @@ models/LocationRelationship.ts
 models/LogicalLocation.ts
 models/MITREAtlasInner.ts
 models/Message.ts
+models/Model.ts
 models/ModelInventoryInfo.ts
+models/ModelVersion.ts
 models/MultiFileUploadRequestV3.ts
 models/MultiformatMessageString.ts
 models/Node.ts
