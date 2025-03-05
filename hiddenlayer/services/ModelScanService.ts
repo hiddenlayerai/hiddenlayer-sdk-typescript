@@ -42,7 +42,7 @@ export class ModelScanService {
         modelVersion?: string,
         waitForResults: boolean = true) : Promise<ScanReportV3> {
 
-        let scanId = await this.submitFileToModelScanner(modelPath, modelName, modelVersion);
+        const scanId = await this.submitFileToModelScanner(modelPath, modelName, modelVersion);
 
         let scanReport = await this.getScanResults(scanId)
 
@@ -170,7 +170,7 @@ export class ModelScanService {
         let file: fs.promises.FileHandle;
         try {
             file = await fs.promises.open(modelPath, 'r');
-            let multiPartUpload = await this.modelSupplyChainApi.beginMultipartFileUpload({scanId: multiFileUpload.scanId, fileName: modelPath, fileContentLength: fileSize});
+            const multiPartUpload = await this.modelSupplyChainApi.beginMultipartFileUpload({scanId: multiFileUpload.scanId, fileName: modelPath, fileContentLength: fileSize});
             for (let i = 0; i < multiPartUpload.parts.length; i++) {
                 const part = multiPartUpload.parts[i];
                 const readAmount = part.endOffset - part.startOffset;
