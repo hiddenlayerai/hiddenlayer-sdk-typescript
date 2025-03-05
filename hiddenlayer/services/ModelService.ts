@@ -1,4 +1,3 @@
-import { UUID } from "crypto";
 import { ModelApi, Model, Sensor, SensorApi, ResponseError, Configuration } from "../../generated";
 import { sleep } from './utils';
 
