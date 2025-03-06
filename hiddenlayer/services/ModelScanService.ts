@@ -42,27 +42,12 @@ export class ModelScanService {
         modelVersion?: string,
         waitForResults: boolean = true) : Promise<ScanReportV3> {
 
-        const scanId = await this.submitFileToModelScanner(modelPath, modelName, modelVersion);
-
-        let scanReport = await this.getScanResults(scanId)
-
-        const baseDelay = 0.1; // seconds
-        let retries = 0;
-
-        if (waitForResults) {
-            console.log(`${modelPath} scan status: ${scanReport.status}`);
-            while (scanReport.status != ScanReportV3StatusEnum.Done 
-                && scanReport.status != ScanReportV3StatusEnum.Failed) {
-                retries += 1;
-                const delay = baseDelay * Math.pow(2, retries) + Math.random(); // exponential back off retry
-                await sleep(delay);
-
-                scanReport = await this.getScanResults(modelName);
-                console.log(`${modelPath} scan status: ${scanReport.status}`);
-            }
-        }
-
-        return scanReport;
+        const scanId = await this.startMultiFileUpload(modelName, modelVersion);
+        await this.submitFileToModelScanner(modelPath, scanId);
+        await this.completeMultiFileUpload(scanId);
+        
+        return await this.getScanResults(scanId, waitForResults);
+        
     }
 
     async scanS3Model(modelName: string,
@@ -135,42 +120,68 @@ export class ModelScanService {
 
         const files = await glob(allowFilePatterns, { ignore: ignoreFilePatterns, nodir: true });
 
-        const zip = new AdmZip();
+        const scanId = await this.startMultiFileUpload(modelName, modelVersion);
         for (const file of files) {
-            zip.addLocalFile(file);
+            await this.submitFileToModelScanner(file, scanId);
         }
-        zip.writeZip(filename);
+        await this.completeMultiFileUpload(scanId);
 
-        return await this.scanFile(modelName, filename, modelVersion, waitForResults);
+        return await this.getScanResults(scanId, waitForResults);
     }
 
-    async getScanResults(scanId: string): Promise<ScanReportV3> {
-        const scanReport = this.modelSupplyChainApi.getScanResults({
+    async getScanResults(scanId: string, waitForResults: boolean): Promise<ScanReportV3> {
+        let scanReport = await this.modelSupplyChainApi.getScanResults({
             scanId: scanId
         })
+
+        const baseDelay = 0.1; // seconds
+        let retries = 0;
+
+        if (waitForResults) {
+            console.log(`${scanId} scan status: ${scanReport.status}`);
+            while (scanReport.status != ScanReportV3StatusEnum.Done 
+                && scanReport.status != ScanReportV3StatusEnum.Failed) {
+                retries += 1;
+                const delay = baseDelay * Math.pow(2, retries) + Math.random(); // exponential back off retry
+                await sleep(delay);
+
+                scanReport = await this.modelSupplyChainApi.getScanResults({
+                    scanId: scanId
+                });
+                console.log(`${scanId} scan status: ${scanReport.status}`);
+            }
+        }
+
         return scanReport;
     }
 
     async getSarifResults(scanId: string) : Promise<Sarif210> {
-        const scan = await this.getScanResults(scanId);
+        const scan = await this.getScanResults(scanId, true);
         if (scan == null) return null;
 
         const sarif = await this.modelSupplyChainApi.modelScanApiV3ScanModelVersionIdGetSarif({scanId: scan.scanId})
         return sarif;
     }
 
-    private async submitFileToModelScanner(modelPath: string, modelName: string, modelVersion?: string): Promise<string> {
-        const fileStats = await fs.promises.stat(modelPath);
-        const fileSize = fileStats.size;
-
-        const multiFileUpload = await this.modelSupplyChainApi.beginMultiFileUpload({ 
+    private async startMultiFileUpload(modelName: string, modelVersion?: string): Promise<string> {
+        const multiFileUpload = await this.modelSupplyChainApi.beginMultiFileUpload({
             multiFileUploadRequestV3: { modelVersion: modelVersion, modelName: modelName, requestingEntity: 'hiddenlayer-typescript-sdk' }
         });
+        return multiFileUpload.scanId;
+    }
+
+    private async completeMultiFileUpload(scanId: string): Promise<void> {
+        await this.modelSupplyChainApi.completeMultiFileUpload({scanId: scanId});
+    }
+
+    private async submitFileToModelScanner(modelPath: string, scanId: string): Promise<void> {
+        const fileStats = await fs.promises.stat(modelPath);
+        const fileSize = fileStats.size;
 
         let file: fs.promises.FileHandle;
         try {
             file = await fs.promises.open(modelPath, 'r');
-            const multiPartUpload = await this.modelSupplyChainApi.beginMultipartFileUpload({scanId: multiFileUpload.scanId, fileName: modelPath, fileContentLength: fileSize});
+            const multiPartUpload = await this.modelSupplyChainApi.beginMultipartFileUpload({scanId: scanId, fileName: modelPath, fileContentLength: fileSize});
             for (let i = 0; i < multiPartUpload.parts.length; i++) {
                 const part = multiPartUpload.parts[i];
                 const readAmount = part.endOffset - part.startOffset;
@@ -184,10 +195,9 @@ export class ModelScanService {
                     }
                 });
             }
-            await this.modelSupplyChainApi.completeMultipartFileUpload({scanId: multiFileUpload.scanId, fileId: multiPartUpload.uploadId});
+            await this.modelSupplyChainApi.completeMultipartFileUpload({scanId: scanId, fileId: multiPartUpload.uploadId});
         } finally {
             await file.close();
         }
-        return multiFileUpload.scanId;
     }
 }

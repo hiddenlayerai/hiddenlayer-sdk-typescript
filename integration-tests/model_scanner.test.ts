@@ -98,7 +98,7 @@ async function performScanFolderTest(client: HiddenLayerServiceClient, modelVers
             assert(results.inventory.modelVersion === modelVersion.toString());
         }
 
-        assert(results.fileCount === 3);
+        assert(results.fileCount === 2);
         // v2 scans roll detections up to parent zip, v3 do not. A v2 submission generates a v2 and v3 scan, we don't kow which hits db last
         // hence why we can see either 1 or 2 detections at top level count
         assert([1,2].indexOf(results.filesWithDetectionsCount) > -1);
@@ -108,23 +108,21 @@ async function performScanFolderTest(client: HiddenLayerServiceClient, modelVers
         let safeModelFound = false;
         let maliciousModelFound = false;
 
-        for (const topFileResults of results.fileResults) {
-            for (const fileResults of topFileResults.fileResults) {
-                if (fileResults.fileLocation.includes(safeModel)) {
-                    const detections = fileResults.detections;
-                    assert(!detections);
-                    assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
-                    assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.print"));
-                    safeModelFound = true;
-                } else if (fileResults.fileLocation.includes(maliciousModel)) {
-                    const detections = fileResults.detections;
-                    assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
-                    assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.exec"));
+        for (const fileResults of results.fileResults) {
+            if (fileResults.fileLocation.includes(safeModel)) {
+                const detections = fileResults.detections;
+                assert(!detections);
+                assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
+                assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.print"));
+                safeModelFound = true;
+            } else if (fileResults.fileLocation.includes(maliciousModel)) {
+                const detections = fileResults.detections;
+                assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
+                assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.exec"));
 
-                    assert (detections[0].severity === ScanDetectionV3SeverityEnum.High);
-                    assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
-                    maliciousModelFound = true;
-                }
+                assert (detections[0].severity === ScanDetectionV3SeverityEnum.High);
+                assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
+                maliciousModelFound = true;
             }
         }
         assert(safeModelFound);
