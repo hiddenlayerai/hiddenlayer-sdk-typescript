@@ -114,8 +114,6 @@ export class ModelScanService {
             allowFilePatterns.push(`${path}/**/*`);
         }
 
-        const tmpDirectory = fs.mkdtempSync('/tmp/')
-
         const files = await glob(allowFilePatterns, { ignore: ignoreFilePatterns, nodir: true });
 
         const scanId = await this.startMultiFileUpload(modelName, modelVersion);
