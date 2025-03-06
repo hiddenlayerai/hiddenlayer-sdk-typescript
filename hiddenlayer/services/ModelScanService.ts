@@ -8,7 +8,6 @@ import { NodeJsClient } from '@smithy/types';
 import { BlobServiceClient } from '@azure/storage-blob';
 
 import { SensorApi, Configuration, ModelSupplyChainApi, ScanReportV3, ScanReportV3StatusEnum, Sarif210 } from "../../generated";
-import AdmZip from 'adm-zip';
 import { sleep } from './utils';
 import { ModelService } from './ModelService';
 import "../extensions/ModelSupplyChainApiExtensions";
@@ -116,7 +115,6 @@ export class ModelScanService {
         }
 
         const tmpDirectory = fs.mkdtempSync('/tmp/')
-        const filename = `${tmpDirectory}/${uuidv4()}.zip`;
 
         const files = await glob(allowFilePatterns, { ignore: ignoreFilePatterns, nodir: true });
 
