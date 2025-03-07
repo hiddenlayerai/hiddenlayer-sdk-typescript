@@ -52,3 +52,4 @@ Code examples can be found in the repo [here](./examples).
 ## Interface Stability
 
 HiddenLayer is actively working on stabilizing the HiddenLayer SDK for TypeScript. You are highly encouraged to pin the exact dependency version.
+
