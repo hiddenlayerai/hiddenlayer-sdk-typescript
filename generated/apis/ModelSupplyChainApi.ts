@@ -15,20 +15,32 @@
 
 import * as runtime from '../runtime';
 import type {
-  ModelScanApiV3ScanModelVersionIdPatch200Response,
-  ModelScanApiV3ScanQuery200Response,
+  BeginMultiFileUpload200Response,
+  BeginMultipartFileUpload200Response,
+  GetCondensedModelScanReports200Response,
+  MultiFileUploadRequestV3,
+  NotifyModelScanCompleted200Response,
+  ProblemDetails,
   Sarif210,
   ScanCreateRequest,
   ScanJob,
   ScanReportV3,
-  ScanResultsV2,
+  ScanResultsMapV3,
   ValidationErrorModel,
 } from '../models/index';
 import {
-    ModelScanApiV3ScanModelVersionIdPatch200ResponseFromJSON,
-    ModelScanApiV3ScanModelVersionIdPatch200ResponseToJSON,
-    ModelScanApiV3ScanQuery200ResponseFromJSON,
-    ModelScanApiV3ScanQuery200ResponseToJSON,
+    BeginMultiFileUpload200ResponseFromJSON,
+    BeginMultiFileUpload200ResponseToJSON,
+    BeginMultipartFileUpload200ResponseFromJSON,
+    BeginMultipartFileUpload200ResponseToJSON,
+    GetCondensedModelScanReports200ResponseFromJSON,
+    GetCondensedModelScanReports200ResponseToJSON,
+    MultiFileUploadRequestV3FromJSON,
+    MultiFileUploadRequestV3ToJSON,
+    NotifyModelScanCompleted200ResponseFromJSON,
+    NotifyModelScanCompleted200ResponseToJSON,
+    ProblemDetailsFromJSON,
+    ProblemDetailsToJSON,
     Sarif210FromJSON,
     Sarif210ToJSON,
     ScanCreateRequestFromJSON,
@@ -37,30 +49,36 @@ import {
     ScanJobToJSON,
     ScanReportV3FromJSON,
     ScanReportV3ToJSON,
-    ScanResultsV2FromJSON,
-    ScanResultsV2ToJSON,
+    ScanResultsMapV3FromJSON,
+    ScanResultsMapV3ToJSON,
     ValidationErrorModelFromJSON,
     ValidationErrorModelToJSON,
 } from '../models/index';
 
-export interface ModelScanApiV3ScanModelVersionIdGetRequest {
-    scanId: string;
-    hasDetections?: boolean;
+export interface BeginMultiFileUploadRequest {
+    multiFileUploadRequestV3: MultiFileUploadRequestV3;
 }
 
-export interface ModelScanApiV3ScanModelVersionIdPatchRequest {
+export interface BeginMultipartFileUploadRequest {
+    fileContentLength: number;
+    fileName: string;
     scanId: string;
-    scanReportV3: ScanReportV3;
-    hasDetections?: boolean;
 }
 
-export interface ModelScanApiV3ScanModelVersionIdPostRequest {
+export interface CompleteMultiFileUploadRequest {
     scanId: string;
-    scanReportV3: ScanReportV3;
-    hasDetections?: boolean;
 }
 
-export interface ModelScanApiV3ScanQueryRequest {
+export interface CompleteMultipartFileUploadRequest {
+    scanId: string;
+    fileId: string;
+}
+
+export interface CreateScanJobRequest {
+    scanJob: Omit<ScanJob, 'scan_id'|'status'>;
+}
+
+export interface GetCondensedModelScanReportsRequest {
     modelVersionIds?: Array<string>;
     modelIds?: Array<string>;
     startTime?: Date;
@@ -73,17 +91,32 @@ export interface ModelScanApiV3ScanQueryRequest {
     latestPerModelVersionOnly?: boolean;
 }
 
-export interface ModelscanApiV3GetScanResultsRequest {
-    scanId?: string;
+export interface GetScanResultsRequest {
+    scanId: string;
+    hasDetections?: boolean;
 }
 
-export interface ModelscanApiV3PostScanResultsRequest {
+export interface GetScanResults1Request {
+    scanId?: string;
+    cursor?: string;
+    pageSize?: number;
+}
+
+export interface NotifyModelScanCompletedRequest {
+    scanId: string;
+    scanReportV3: ScanReportV3;
+    hasDetections?: boolean;
+}
+
+export interface NotifyModelScanStartedRequest {
+    scanId: string;
+    scanReportV3: ScanReportV3;
+    hasDetections?: boolean;
+}
+
+export interface ReportScanResultsRequest {
     scanId: string;
     scanCreateRequest: ScanCreateRequest;
-}
-
-export interface ModelscannerApiV3PostRequestRequest {
-    scanJob: Omit<ScanJob, 'scan_id'|'status'>;
 }
 
 /**
@@ -92,73 +125,17 @@ export interface ModelscannerApiV3PostRequestRequest {
 export class ModelSupplyChainApi extends runtime.BaseAPI {
 
     /**
-     * Get Result of a Model Scan
+     * Start V3 Upload
      */
-    async modelScanApiV3ScanModelVersionIdGetRaw(requestParameters: ModelScanApiV3ScanModelVersionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScanReportV3>> {
-        if (requestParameters['scanId'] == null) {
+    async beginMultiFileUploadRaw(requestParameters: BeginMultiFileUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BeginMultiFileUpload200Response>> {
+        if (requestParameters['multiFileUploadRequestV3'] == null) {
             throw new runtime.RequiredError(
-                'scanId',
-                'Required parameter "scanId" was null or undefined when calling modelScanApiV3ScanModelVersionIdGet().'
+                'multiFileUploadRequestV3',
+                'Required parameter "multiFileUploadRequestV3" was null or undefined when calling beginMultiFileUpload().'
             );
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters['hasDetections'] != null) {
-            queryParameters['has_detections'] = requestParameters['hasDetections'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/scan/v3/results/{scan_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ScanReportV3FromJSON(jsonValue));
-    }
-
-    /**
-     * Get Result of a Model Scan
-     */
-    async modelScanApiV3ScanModelVersionIdGet(requestParameters: ModelScanApiV3ScanModelVersionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ScanReportV3> {
-        const response = await this.modelScanApiV3ScanModelVersionIdGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Indicate part (file or files) of a model scan has completed
-     */
-    async modelScanApiV3ScanModelVersionIdPatchRaw(requestParameters: ModelScanApiV3ScanModelVersionIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelScanApiV3ScanModelVersionIdPatch200Response>> {
-        if (requestParameters['scanId'] == null) {
-            throw new runtime.RequiredError(
-                'scanId',
-                'Required parameter "scanId" was null or undefined when calling modelScanApiV3ScanModelVersionIdPatch().'
-            );
-        }
-
-        if (requestParameters['scanReportV3'] == null) {
-            throw new runtime.RequiredError(
-                'scanReportV3',
-                'Required parameter "scanReportV3" was null or undefined when calling modelScanApiV3ScanModelVersionIdPatch().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        if (requestParameters['hasDetections'] != null) {
-            queryParameters['has_detections'] = requestParameters['hasDetections'];
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -173,82 +150,223 @@ export class ModelSupplyChainApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/scan/v3/results/{scan_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
-            method: 'PATCH',
-            headers: headerParameters,
-            query: queryParameters,
-            body: ScanReportV3ToJSON(requestParameters['scanReportV3']),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ModelScanApiV3ScanModelVersionIdPatch200ResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Indicate part (file or files) of a model scan has completed
-     */
-    async modelScanApiV3ScanModelVersionIdPatch(requestParameters: ModelScanApiV3ScanModelVersionIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ModelScanApiV3ScanModelVersionIdPatch200Response> {
-        const response = await this.modelScanApiV3ScanModelVersionIdPatchRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Indicate model scan has started
-     */
-    async modelScanApiV3ScanModelVersionIdPostRaw(requestParameters: ModelScanApiV3ScanModelVersionIdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['scanId'] == null) {
-            throw new runtime.RequiredError(
-                'scanId',
-                'Required parameter "scanId" was null or undefined when calling modelScanApiV3ScanModelVersionIdPost().'
-            );
-        }
-
-        if (requestParameters['scanReportV3'] == null) {
-            throw new runtime.RequiredError(
-                'scanReportV3',
-                'Required parameter "scanReportV3" was null or undefined when calling modelScanApiV3ScanModelVersionIdPost().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        if (requestParameters['hasDetections'] != null) {
-            queryParameters['has_detections'] = requestParameters['hasDetections'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/scan/v3/results/{scan_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
+            path: `/scan/v3/upload`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ScanReportV3ToJSON(requestParameters['scanReportV3']),
+            body: MultiFileUploadRequestV3ToJSON(requestParameters['multiFileUploadRequestV3']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => BeginMultiFileUpload200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Start V3 Upload
+     */
+    async beginMultiFileUpload(requestParameters: BeginMultiFileUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BeginMultiFileUpload200Response> {
+        const response = await this.beginMultiFileUploadRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Add file to V3 Upload
+     */
+    async beginMultipartFileUploadRaw(requestParameters: BeginMultipartFileUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BeginMultipartFileUpload200Response>> {
+        if (requestParameters['fileContentLength'] == null) {
+            throw new runtime.RequiredError(
+                'fileContentLength',
+                'Required parameter "fileContentLength" was null or undefined when calling beginMultipartFileUpload().'
+            );
+        }
+
+        if (requestParameters['fileName'] == null) {
+            throw new runtime.RequiredError(
+                'fileName',
+                'Required parameter "fileName" was null or undefined when calling beginMultipartFileUpload().'
+            );
+        }
+
+        if (requestParameters['scanId'] == null) {
+            throw new runtime.RequiredError(
+                'scanId',
+                'Required parameter "scanId" was null or undefined when calling beginMultipartFileUpload().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['fileContentLength'] != null) {
+            headerParameters['file-content-length'] = String(requestParameters['fileContentLength']);
+        }
+
+        if (requestParameters['fileName'] != null) {
+            headerParameters['file-name'] = String(requestParameters['fileName']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/scan/v3/upload/{scan_id}/file`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => BeginMultipartFileUpload200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Add file to V3 Upload
+     */
+    async beginMultipartFileUpload(requestParameters: BeginMultipartFileUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BeginMultipartFileUpload200Response> {
+        const response = await this.beginMultipartFileUploadRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Indicate All files are uploaded and start the scan
+     */
+    async completeMultiFileUploadRaw(requestParameters: CompleteMultiFileUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BeginMultiFileUpload200Response>> {
+        if (requestParameters['scanId'] == null) {
+            throw new runtime.RequiredError(
+                'scanId',
+                'Required parameter "scanId" was null or undefined when calling completeMultiFileUpload().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/scan/v3/upload/{scan_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => BeginMultiFileUpload200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Indicate All files are uploaded and start the scan
+     */
+    async completeMultiFileUpload(requestParameters: CompleteMultiFileUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BeginMultiFileUpload200Response> {
+        const response = await this.completeMultiFileUploadRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Indicate that upload is completed for {file_id}
+     */
+    async completeMultipartFileUploadRaw(requestParameters: CompleteMultipartFileUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BeginMultiFileUpload200Response>> {
+        if (requestParameters['scanId'] == null) {
+            throw new runtime.RequiredError(
+                'scanId',
+                'Required parameter "scanId" was null or undefined when calling completeMultipartFileUpload().'
+            );
+        }
+
+        if (requestParameters['fileId'] == null) {
+            throw new runtime.RequiredError(
+                'fileId',
+                'Required parameter "fileId" was null or undefined when calling completeMultipartFileUpload().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/scan/v3/upload/{scan_id}/file/{file_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))).replace(`{${"file_id"}}`, encodeURIComponent(String(requestParameters['fileId']))),
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => BeginMultiFileUpload200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Indicate that upload is completed for {file_id}
+     */
+    async completeMultipartFileUpload(requestParameters: CompleteMultipartFileUploadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BeginMultiFileUpload200Response> {
+        const response = await this.completeMultipartFileUploadRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Request a Model Scan Job
+     */
+    async createScanJobRaw(requestParameters: CreateScanJobRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['scanJob'] == null) {
+            throw new runtime.RequiredError(
+                'scanJob',
+                'Required parameter "scanJob" was null or undefined when calling createScanJob().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json; charset=utf-8';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/scans/v3/jobs`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ScanJobToJSON(requestParameters['scanJob']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
 
     /**
-     * Indicate model scan has started
+     * Request a Model Scan Job
      */
-    async modelScanApiV3ScanModelVersionIdPost(requestParameters: ModelScanApiV3ScanModelVersionIdPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.modelScanApiV3ScanModelVersionIdPostRaw(requestParameters, initOverrides);
+    async createScanJob(requestParameters: CreateScanJobRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createScanJobRaw(requestParameters, initOverrides);
     }
 
     /**
      * Get condensed reports for a Model Scan
      */
-    async modelScanApiV3ScanQueryRaw(requestParameters: ModelScanApiV3ScanQueryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelScanApiV3ScanQuery200Response>> {
+    async getCondensedModelScanReportsRaw(requestParameters: GetCondensedModelScanReportsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetCondensedModelScanReports200Response>> {
         const queryParameters: any = {};
 
         if (requestParameters['modelVersionIds'] != null) {
@@ -308,105 +426,21 @@ export class ModelSupplyChainApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ModelScanApiV3ScanQuery200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetCondensedModelScanReports200ResponseFromJSON(jsonValue));
     }
 
     /**
      * Get condensed reports for a Model Scan
      */
-    async modelScanApiV3ScanQuery(requestParameters: ModelScanApiV3ScanQueryRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ModelScanApiV3ScanQuery200Response> {
-        const response = await this.modelScanApiV3ScanQueryRaw(requestParameters, initOverrides);
+    async getCondensedModelScanReports(requestParameters: GetCondensedModelScanReportsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetCondensedModelScanReports200Response> {
+        const response = await this.getCondensedModelScanReportsRaw(requestParameters, initOverrides);
         return await response.value();
-    }
-
-    /**
-     * Retrieve Model Scan Results
-     */
-    async modelscanApiV3GetScanResultsRaw(requestParameters: ModelscanApiV3GetScanResultsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ScanResultsV2>>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/scans/v3/results/{scan_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ScanResultsV2FromJSON));
-    }
-
-    /**
-     * Retrieve Model Scan Results
-     */
-    async modelscanApiV3GetScanResults(requestParameters: ModelscanApiV3GetScanResultsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ScanResultsV2>> {
-        const response = await this.modelscanApiV3GetScanResultsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Engine Report Endpoint of Model Scan Results
-     */
-    async modelscanApiV3PostScanResultsRaw(requestParameters: ModelscanApiV3PostScanResultsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['scanId'] == null) {
-            throw new runtime.RequiredError(
-                'scanId',
-                'Required parameter "scanId" was null or undefined when calling modelscanApiV3PostScanResults().'
-            );
-        }
-
-        if (requestParameters['scanCreateRequest'] == null) {
-            throw new runtime.RequiredError(
-                'scanCreateRequest',
-                'Required parameter "scanCreateRequest" was null or undefined when calling modelscanApiV3PostScanResults().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/scans/v3/reports/{scan_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: ScanCreateRequestToJSON(requestParameters['scanCreateRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Engine Report Endpoint of Model Scan Results
-     */
-    async modelscanApiV3PostScanResults(requestParameters: ModelscanApiV3PostScanResultsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.modelscanApiV3PostScanResultsRaw(requestParameters, initOverrides);
     }
 
     /**
      * List all Model Scan Jobs
      */
-    async modelscannerApiV3GetJobsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ScanJob>>> {
+    async getScanJobsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ScanJob>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -432,8 +466,95 @@ export class ModelSupplyChainApi extends runtime.BaseAPI {
     /**
      * List all Model Scan Jobs
      */
-    async modelscannerApiV3GetJobs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ScanJob>> {
-        const response = await this.modelscannerApiV3GetJobsRaw(initOverrides);
+    async getScanJobs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ScanJob>> {
+        const response = await this.getScanJobsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get Result of a Model Scan
+     */
+    async getScanResultsRaw(requestParameters: GetScanResultsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScanReportV3>> {
+        if (requestParameters['scanId'] == null) {
+            throw new runtime.RequiredError(
+                'scanId',
+                'Required parameter "scanId" was null or undefined when calling getScanResults().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['hasDetections'] != null) {
+            queryParameters['has_detections'] = requestParameters['hasDetections'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/scan/v3/results/{scan_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ScanReportV3FromJSON(jsonValue));
+    }
+
+    /**
+     * Get Result of a Model Scan
+     */
+    async getScanResults(requestParameters: GetScanResultsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ScanReportV3> {
+        const response = await this.getScanResultsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve Model Scan Results
+     */
+    async getScanResults1Raw(requestParameters: GetScanResults1Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ScanResultsMapV3>>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
+        }
+
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['page_size'] = requestParameters['pageSize'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/scans/v3/results/{scan_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ScanResultsMapV3FromJSON));
+    }
+
+    /**
+     * Retrieve Model Scan Results
+     */
+    async getScanResults1(requestParameters: GetScanResults1Request = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ScanResultsMapV3>> {
+        const response = await this.getScanResults1Raw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -471,49 +592,6 @@ export class ModelSupplyChainApi extends runtime.BaseAPI {
     }
 
     /**
-     * Request a Model Scan Job
-     */
-    async modelscannerApiV3PostRequestRaw(requestParameters: ModelscannerApiV3PostRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['scanJob'] == null) {
-            throw new runtime.RequiredError(
-                'scanJob',
-                'Required parameter "scanJob" was null or undefined when calling modelscannerApiV3PostRequest().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json; charset=utf-8';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/scans/v3/jobs`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: ScanJobToJSON(requestParameters['scanJob']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Request a Model Scan Job
-     */
-    async modelscannerApiV3PostRequest(requestParameters: ModelscannerApiV3PostRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.modelscannerApiV3PostRequestRaw(requestParameters, initOverrides);
-    }
-
-    /**
      * Readiness check endpoint for Model Supply Chain Services
      */
     async modelscannerApiV3ReadinessCheckRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -544,6 +622,165 @@ export class ModelSupplyChainApi extends runtime.BaseAPI {
      */
     async modelscannerApiV3ReadinessCheck(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.modelscannerApiV3ReadinessCheckRaw(initOverrides);
+    }
+
+    /**
+     * Indicate part (file or files) of a model scan has completed
+     */
+    async notifyModelScanCompletedRaw(requestParameters: NotifyModelScanCompletedRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NotifyModelScanCompleted200Response>> {
+        if (requestParameters['scanId'] == null) {
+            throw new runtime.RequiredError(
+                'scanId',
+                'Required parameter "scanId" was null or undefined when calling notifyModelScanCompleted().'
+            );
+        }
+
+        if (requestParameters['scanReportV3'] == null) {
+            throw new runtime.RequiredError(
+                'scanReportV3',
+                'Required parameter "scanReportV3" was null or undefined when calling notifyModelScanCompleted().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['hasDetections'] != null) {
+            queryParameters['has_detections'] = requestParameters['hasDetections'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/scan/v3/results/{scan_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ScanReportV3ToJSON(requestParameters['scanReportV3']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => NotifyModelScanCompleted200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Indicate part (file or files) of a model scan has completed
+     */
+    async notifyModelScanCompleted(requestParameters: NotifyModelScanCompletedRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<NotifyModelScanCompleted200Response> {
+        const response = await this.notifyModelScanCompletedRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Indicate model scan has started
+     */
+    async notifyModelScanStartedRaw(requestParameters: NotifyModelScanStartedRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['scanId'] == null) {
+            throw new runtime.RequiredError(
+                'scanId',
+                'Required parameter "scanId" was null or undefined when calling notifyModelScanStarted().'
+            );
+        }
+
+        if (requestParameters['scanReportV3'] == null) {
+            throw new runtime.RequiredError(
+                'scanReportV3',
+                'Required parameter "scanReportV3" was null or undefined when calling notifyModelScanStarted().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['hasDetections'] != null) {
+            queryParameters['has_detections'] = requestParameters['hasDetections'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/scan/v3/results/{scan_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ScanReportV3ToJSON(requestParameters['scanReportV3']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Indicate model scan has started
+     */
+    async notifyModelScanStarted(requestParameters: NotifyModelScanStartedRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.notifyModelScanStartedRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Engine Report Endpoint of Model Scan Results
+     */
+    async reportScanResultsRaw(requestParameters: ReportScanResultsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['scanId'] == null) {
+            throw new runtime.RequiredError(
+                'scanId',
+                'Required parameter "scanId" was null or undefined when calling reportScanResults().'
+            );
+        }
+
+        if (requestParameters['scanCreateRequest'] == null) {
+            throw new runtime.RequiredError(
+                'scanCreateRequest',
+                'Required parameter "scanCreateRequest" was null or undefined when calling reportScanResults().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/scans/v3/reports/{scan_id}`.replace(`{${"scan_id"}}`, encodeURIComponent(String(requestParameters['scanId']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ScanCreateRequestToJSON(requestParameters['scanCreateRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Engine Report Endpoint of Model Scan Results
+     */
+    async reportScanResults(requestParameters: ReportScanResultsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.reportScanResultsRaw(requestParameters, initOverrides);
     }
 
 }

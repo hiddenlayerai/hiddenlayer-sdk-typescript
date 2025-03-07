@@ -36,7 +36,7 @@ export interface ModelInventoryInfo {
      * @type {string}
      * @memberof ModelInventoryInfo
      */
-    modelSource: string;
+    modelSource?: string;
     /**
      * Location to be scanned
      * @type {string}
@@ -69,7 +69,6 @@ export interface ModelInventoryInfo {
 export function instanceOfModelInventoryInfo(value: object): value is ModelInventoryInfo {
     if (!('modelName' in value) || value['modelName'] === undefined) return false;
     if (!('modelVersion' in value) || value['modelVersion'] === undefined) return false;
-    if (!('modelSource' in value) || value['modelSource'] === undefined) return false;
     if (!('requestedScanLocation' in value) || value['requestedScanLocation'] === undefined) return false;
     if (!('modelId' in value) || value['modelId'] === undefined) return false;
     if (!('modelVersionId' in value) || value['modelVersionId'] === undefined) return false;
@@ -88,7 +87,7 @@ export function ModelInventoryInfoFromJSONTyped(json: any, ignoreDiscriminator: 
         
         'modelName': json['model_name'],
         'modelVersion': json['model_version'],
-        'modelSource': json['model_source'],
+        'modelSource': json['model_source'] == null ? undefined : json['model_source'],
         'requestedScanLocation': json['requested_scan_location'],
         'requestingEntity': json['requesting_entity'] == null ? undefined : json['requesting_entity'],
         'modelId': json['model_id'],

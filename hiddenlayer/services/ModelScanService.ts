@@ -7,15 +7,13 @@ import { NodeJsClient } from '@smithy/types';
 
 import { BlobServiceClient } from '@azure/storage-blob';
 
-import { SensorApi, ModelScanApi, Model, Configuration, ModelSupplyChainApi, ScanReportV3, ScanReportV3StatusEnum, Sarif210 } from "../../generated";
-import AdmZip from 'adm-zip';
+import { SensorApi, Configuration, ModelSupplyChainApi, ScanReportV3, ScanReportV3StatusEnum, Sarif210 } from "../../generated";
 import { sleep } from './utils';
 import { ModelService } from './ModelService';
 import "../extensions/ModelSupplyChainApiExtensions";
 
 export class ModelScanService {
     readonly sensorApi: SensorApi;
-    readonly modelScanApi : ModelScanApi;
     readonly modelSupplyChainApi: ModelSupplyChainApi;
     readonly modelService: ModelService;
     readonly isSaaS: boolean;
@@ -23,7 +21,6 @@ export class ModelScanService {
     constructor(isSaaS: boolean, config: Configuration) {
         this.isSaaS = isSaaS;
         this.sensorApi = new SensorApi(config);
-        this.modelScanApi = new ModelScanApi(config);
         this.modelService = new ModelService(config);
         this.modelSupplyChainApi = new ModelSupplyChainApi(config);
     }
@@ -35,40 +32,25 @@ export class ModelScanService {
      * @param modelPath Local path to the model file
      * @param waitForResults True whether to wait for the scan to finish, defaults to true.
      * 
-     * @returns ScanResultsV2
+     * @returns ScanReportV3
      */
     async scanFile(modelName: string,
         modelPath: string,
-        modelVersion?: number,
+        modelVersion?: string,
         waitForResults: boolean = true) : Promise<ScanReportV3> {
 
-        await this.submitFileToModelScanner(modelPath, modelName, modelVersion);
-
-        let scanReport = await this.getScanResults(modelName)
-
-        const baseDelay = 0.1; // seconds
-        let retries = 0;
-
-        if (waitForResults) {
-            console.log(`${modelPath} scan status: ${scanReport.status}`);
-            while (scanReport.status != ScanReportV3StatusEnum.Done 
-                && scanReport.status != ScanReportV3StatusEnum.Failed) {
-                retries += 1;
-                const delay = baseDelay * Math.pow(2, retries) + Math.random(); // exponential back off retry
-                await sleep(delay);
-
-                scanReport = await this.getScanResults(modelName);
-                console.log(`${modelPath} scan status: ${scanReport.status}`);
-            }
-        }
-
-        return scanReport;
+        const scanId = await this.startMultiFileUpload(modelName, modelVersion);
+        await this.submitFileToModelScanner(modelPath, scanId);
+        await this.completeMultiFileUpload(scanId);
+        
+        return await this.getScanResults(scanId, waitForResults);
+        
     }
 
     async scanS3Model(modelName: string,
         bucket: string,
         key: string,
-        modelVersion?: number,
+        modelVersion?: string,
         waitForResults: boolean = true): Promise<ScanReportV3> {
         const s3Client = new S3Client() as NodeJsClient<S3Client>;
         const body: GetObjectCommandOutput = await s3Client.send(new GetObjectCommand({
@@ -86,7 +68,7 @@ export class ModelScanService {
         accountUrl: string,
         container: string,
         blob: string,
-        modelVersion?: number,
+        modelVersion?: string,
         sasKey?: string,
         waitForResults: boolean = true): Promise<ScanReportV3> {
         
@@ -106,7 +88,7 @@ export class ModelScanService {
 
     async scanFolder(modelName: string,
         path: string,
-        modelVersion?: number,
+        modelVersion?: string,
         allowFilePatterns: string[] = [],
         ignoreFilePatterns: string[] = [],
         waitForResults: boolean = true): Promise<ScanReportV3> {
@@ -130,88 +112,86 @@ export class ModelScanService {
             allowFilePatterns.push(`${path}/**/*`);
         }
 
-        const tmpDirectory = fs.mkdtempSync('/tmp/')
-        const filename = `${tmpDirectory}/${uuidv4()}.zip`;
-
         const files = await glob(allowFilePatterns, { ignore: ignoreFilePatterns, nodir: true });
 
-        const zip = new AdmZip();
+        const scanId = await this.startMultiFileUpload(modelName, modelVersion);
         for (const file of files) {
-            zip.addLocalFile(file);
+            await this.submitFileToModelScanner(file, scanId);
         }
-        zip.writeZip(filename);
+        await this.completeMultiFileUpload(scanId);
 
-        return await this.scanFile(modelName, filename, modelVersion, waitForResults);
+        return await this.getScanResults(scanId, waitForResults);
     }
 
-    async getScanResults(modelName: string, modelVersion?: number): Promise<ScanReportV3> {
-        const response = await this.sensorApi.sensorSorApiV3ModelCardsQueryGet({
-            modelNameEq: modelName,
-            limit: 1
+    async getScanResults(scanId: string, waitForResults: boolean): Promise<ScanReportV3> {
+        let scanReport = await this.modelSupplyChainApi.getScanResults({
+            scanId: scanId
         })
-        const modelId = response.results[0].modelId;
 
-        const scans = await this.modelSupplyChainApi.modelScanApiV3ScanQuery(
-            {
-                modelIds: [modelId],
-                latestPerModelVersionOnly: true
+        const baseDelay = 0.1; // seconds
+        let retries = 0;
+
+        if (waitForResults) {
+            console.log(`${scanId} scan status: ${scanReport.status}`);
+            while (scanReport.status != ScanReportV3StatusEnum.Done 
+                && scanReport.status != ScanReportV3StatusEnum.Failed) {
+                retries += 1;
+                const delay = baseDelay * Math.pow(2, retries) + Math.random(); // exponential back off retry
+                await sleep(delay);
+
+                scanReport = await this.modelSupplyChainApi.getScanResults({
+                    scanId: scanId
+                });
+                console.log(`${scanId} scan status: ${scanReport.status}`);
             }
-        );
-        if (scans.total == 0 || scans.items == null) {
-            return null;
         }
-        let scan = scans.items[0];
-        if (modelVersion) {
-            scan = scans.items.find(s => s.inventory.modelVersion === modelVersion.toString());
-        }
-        const scanReport = this.modelSupplyChainApi.modelScanApiV3ScanModelVersionIdGet({
-            scanId: scan.scanId
-        })
+
         return scanReport;
     }
 
-    async getSarifResults(modelName: string, modelVersion?: number) : Promise<Sarif210> {
-        const scan = await this.getScanResults(modelName, modelVersion);
+    async getSarifResults(scanId: string) : Promise<Sarif210> {
+        const scan = await this.getScanResults(scanId, true);
         if (scan == null) return null;
 
         const sarif = await this.modelSupplyChainApi.modelScanApiV3ScanModelVersionIdGetSarif({scanId: scan.scanId})
         return sarif;
     }
 
-    private async submitFileToModelScanner(modelPath: string, modelName: string, modelVersion?: number): Promise<Model> {
+    private async startMultiFileUpload(modelName: string, modelVersion?: string): Promise<string> {
+        const multiFileUpload = await this.modelSupplyChainApi.beginMultiFileUpload({
+            multiFileUploadRequestV3: { modelVersion: modelVersion, modelName: modelName, requestingEntity: 'hiddenlayer-typescript-sdk' }
+        });
+        return multiFileUpload.scanId;
+    }
+
+    private async completeMultiFileUpload(scanId: string): Promise<void> {
+        await this.modelSupplyChainApi.completeMultiFileUpload({scanId: scanId});
+    }
+
+    private async submitFileToModelScanner(modelPath: string, scanId: string): Promise<void> {
         const fileStats = await fs.promises.stat(modelPath);
         const fileSize = fileStats.size;
-
-        const model = await this.modelService.createOrGet(modelName, modelVersion);
-        const upload = await this.sensorApi.beginMultipartUpload({ xContentLength: fileSize, sensorId: model.sensorId });
 
         let file: fs.promises.FileHandle;
         try {
             file = await fs.promises.open(modelPath, 'r');
-            for (let i = 0; i < upload.parts.length; i++) {
-                const part = upload.parts[i];
+            const multiPartUpload = await this.modelSupplyChainApi.beginMultipartFileUpload({scanId: scanId, fileName: modelPath, fileContentLength: fileSize});
+            for (let i = 0; i < multiPartUpload.parts.length; i++) {
+                const part = multiPartUpload.parts[i];
                 const readAmount = part.endOffset - part.startOffset;
                 const partData = await file.read(Buffer.alloc(readAmount), 0, readAmount, part.startOffset);
 
-                if (part.uploadUrl) {
-                    // When upload URL is provided, this is wher we should upload the part
-                    await fetch(part.uploadUrl, {
-                        method: 'PUT',
-                        body: partData.buffer,
-                        headers: {
-                            'Content-Type': 'application/octet-stream'
-                        }
-                    });
-                } else {
-                    await this.sensorApi.uploadModelPart({ sensorId: model.sensorId, uploadId: upload.uploadId, part: part.partNumber, body: partData.buffer });
-                }
+                await fetch(part.uploadUrl, {
+                    method: 'PUT',
+                    body: partData.buffer,
+                    headers: {
+                        'Content-Type': 'application/octet-stream'
+                    }
+                });
             }
+            await this.modelSupplyChainApi.completeMultipartFileUpload({scanId: scanId, fileId: multiPartUpload.uploadId});
         } finally {
             await file.close();
         }
-
-        await this.sensorApi.completeMultipartUploadRaw({ sensorId: model.sensorId, uploadId: upload.uploadId });
-        await this.modelScanApi.scanModel({ sensorId: model.sensorId });
-        return model;
     }
 }

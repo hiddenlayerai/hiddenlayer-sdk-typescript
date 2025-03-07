@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { ModelVersion } from './ModelVersion';
+import {
+    ModelVersionFromJSON,
+    ModelVersionFromJSONTyped,
+    ModelVersionToJSON,
+} from './ModelVersion';
+
 /**
  * 
  * @export
@@ -24,55 +31,39 @@ export interface Model {
      * @type {string}
      * @memberof Model
      */
-    sensorId: string;
-    /**
-     * 
-     * @type {Date}
-     * @memberof Model
-     */
-    createdAt: Date;
+    modelId?: string;
     /**
      * 
      * @type {string}
      * @memberof Model
      */
-    tenantId: string;
+    tenantId?: string;
     /**
      * 
      * @type {string}
      * @memberof Model
      */
-    plaintextName: string;
+    name: string;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof Model
      */
-    active: boolean;
+    source: string;
     /**
      * 
-     * @type {number}
+     * @type {Array<ModelVersion>}
      * @memberof Model
      */
-    version: number;
-    /**
-     * 
-     * @type {{ [key: string]: any; }}
-     * @memberof Model
-     */
-    tags?: { [key: string]: any; };
+    versions?: Array<ModelVersion>;
 }
 
 /**
  * Check if a given object implements the Model interface.
  */
 export function instanceOfModel(value: object): value is Model {
-    if (!('sensorId' in value) || value['sensorId'] === undefined) return false;
-    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
-    if (!('tenantId' in value) || value['tenantId'] === undefined) return false;
-    if (!('plaintextName' in value) || value['plaintextName'] === undefined) return false;
-    if (!('active' in value) || value['active'] === undefined) return false;
-    if (!('version' in value) || value['version'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('source' in value) || value['source'] === undefined) return false;
     return true;
 }
 
@@ -86,13 +77,11 @@ export function ModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): Mod
     }
     return {
         
-        'sensorId': json['sensor_id'],
-        'createdAt': (new Date(json['created_at'])),
-        'tenantId': json['tenant_id'],
-        'plaintextName': json['plaintext_name'],
-        'active': json['active'],
-        'version': json['version'],
-        'tags': json['tags'] == null ? undefined : json['tags'],
+        'modelId': json['model_id'] == null ? undefined : json['model_id'],
+        'tenantId': json['tenant_id'] == null ? undefined : json['tenant_id'],
+        'name': json['name'],
+        'source': json['source'],
+        'versions': json['versions'] == null ? undefined : ((json['versions'] as Array<any>).map(ModelVersionFromJSON)),
     };
 }
 
@@ -102,13 +91,11 @@ export function ModelToJSON(value?: Model | null): any {
     }
     return {
         
-        'sensor_id': value['sensorId'],
-        'created_at': ((value['createdAt']).toISOString()),
+        'model_id': value['modelId'],
         'tenant_id': value['tenantId'],
-        'plaintext_name': value['plaintextName'],
-        'active': value['active'],
-        'version': value['version'],
-        'tags': value['tags'],
+        'name': value['name'],
+        'source': value['source'],
+        'versions': value['versions'] == null ? undefined : ((value['versions'] as Array<any>).map(ModelVersionToJSON)),
     };
 }
 

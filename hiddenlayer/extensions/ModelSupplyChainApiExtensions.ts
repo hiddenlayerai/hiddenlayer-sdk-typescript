@@ -1,17 +1,17 @@
 import * as runtime from '../../generated/runtime';
-import { ModelScanApiV3ScanModelVersionIdGetRequest, ModelSupplyChainApi, Sarif210, Sarif210FromJSON } from "../../generated";
+import { GetScanResultsRequest, ModelSupplyChainApi, Sarif210, Sarif210FromJSON } from "../../generated";
 
 declare module "../../generated" {
   interface ModelSupplyChainApi {
-    modelScanApiV3ScanModelVersionIdGetSarifRaw(requestParameters: ModelScanApiV3ScanModelVersionIdGetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Sarif210>>
-    modelScanApiV3ScanModelVersionIdGetSarif(requestParameters: ModelScanApiV3ScanModelVersionIdGetRequest): Promise<Sarif210>
+    modelScanApiV3ScanModelVersionIdGetSarifRaw(requestParameters: GetScanResultsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Sarif210>>
+    modelScanApiV3ScanModelVersionIdGetSarif(requestParameters: GetScanResultsRequest): Promise<Sarif210>
   }
 }
 
     /**
      * Get Result of a Model Scan
      */
-    async function modelScanApiV3ScanModelVersionIdGetSarifRaw(this: ModelSupplyChainApi, requestParameters: ModelScanApiV3ScanModelVersionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Sarif210>> {
+    async function modelScanApiV3ScanModelVersionIdGetSarifRaw(this: ModelSupplyChainApi, requestParameters: GetScanResultsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Sarif210>> {
       if (requestParameters['scanId'] == null) {
           throw new runtime.RequiredError(
               'scanId',
@@ -47,7 +47,7 @@ declare module "../../generated" {
       return new runtime.JSONApiResponse(response, (jsonValue) => Sarif210FromJSON(jsonValue));
   }
 
-async function modelScanApiV3ScanModelVersionIdGetSarif(this: ModelSupplyChainApi, requestParameters: ModelScanApiV3ScanModelVersionIdGetRequest): Promise<Sarif210> {
+async function modelScanApiV3ScanModelVersionIdGetSarif(this: ModelSupplyChainApi, requestParameters: GetScanResultsRequest): Promise<Sarif210> {
   const response = await this.modelScanApiV3ScanModelVersionIdGetSarifRaw(requestParameters);
   return await response.value();
 }
