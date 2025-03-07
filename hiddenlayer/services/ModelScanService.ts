@@ -14,7 +14,6 @@ import "../extensions/ModelSupplyChainApiExtensions";
 
 export class ModelScanService {
     readonly sensorApi: SensorApi;
-    //readonly modelScanApi : ModelScanApi;
     readonly modelSupplyChainApi: ModelSupplyChainApi;
     readonly modelService: ModelService;
     readonly isSaaS: boolean;
@@ -22,7 +21,6 @@ export class ModelScanService {
     constructor(isSaaS: boolean, config: Configuration) {
         this.isSaaS = isSaaS;
         this.sensorApi = new SensorApi(config);
-        //this.modelScanApi = new ModelScanApi(config);
         this.modelService = new ModelService(config);
         this.modelSupplyChainApi = new ModelSupplyChainApi(config);
     }
