@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * HiddenLayer ModelScan V2
- * HiddenLayer ModelScan API for scanning of models
+ * HiddenLayer-API
+ * HiddenLayer-API
  *
  * The version of the OpenAPI document: 1
  * 
@@ -43,7 +43,7 @@ export interface ScanDetectionV3 {
      * @type {string}
      * @memberof ScanDetectionV3
      */
-    risk: ScanDetectionV3RiskEnum;
+    risk?: ScanDetectionV3RiskEnum;
     /**
      * detection severity
      * @type {string}
@@ -154,7 +154,6 @@ export type ScanDetectionV3SeverityEnum = typeof ScanDetectionV3SeverityEnum[key
  */
 export function instanceOfScanDetectionV3(value: object): value is ScanDetectionV3 {
     if (!('description' in value) || value['description'] === undefined) return false;
-    if (!('risk' in value) || value['risk'] === undefined) return false;
     if (!('severity' in value) || value['severity'] === undefined) return false;
     if (!('detectionId' in value) || value['detectionId'] === undefined) return false;
     if (!('ruleId' in value) || value['ruleId'] === undefined) return false;
@@ -175,7 +174,7 @@ export function ScanDetectionV3FromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'description': json['description'],
-        'risk': json['risk'],
+        'risk': json['risk'] == null ? undefined : json['risk'],
         'severity': json['severity'],
         'detectionId': json['detection_id'],
         'impact': json['impact'] == null ? undefined : json['impact'],
