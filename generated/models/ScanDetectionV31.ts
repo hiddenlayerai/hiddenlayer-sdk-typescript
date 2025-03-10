@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * HiddenLayer ModelScan V2
- * HiddenLayer ModelScan API for scanning of models
+ * HiddenLayer-API
+ * HiddenLayer-API
  *
  * The version of the OpenAPI document: 1
  * 
@@ -49,7 +49,7 @@ export interface ScanDetectionV31 {
      * @type {string}
      * @memberof ScanDetectionV31
      */
-    risk: ScanDetectionV31RiskEnum;
+    risk?: ScanDetectionV31RiskEnum;
     /**
      * Vulnerability category for the detection
      * @type {string}
@@ -161,7 +161,6 @@ export type ScanDetectionV31SeverityEnum = typeof ScanDetectionV31SeverityEnum[k
 export function instanceOfScanDetectionV31(value: object): value is ScanDetectionV31 {
     if (!('detectionId' in value) || value['detectionId'] === undefined) return false;
     if (!('ruleId' in value) || value['ruleId'] === undefined) return false;
-    if (!('risk' in value) || value['risk'] === undefined) return false;
     if (!('category' in value) || value['category'] === undefined) return false;
     if (!('description' in value) || value['description'] === undefined) return false;
     if (!('likelihood' in value) || value['likelihood'] === undefined) return false;
@@ -187,7 +186,7 @@ export function ScanDetectionV31FromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'detectionId': json['detection_id'],
         'ruleId': json['rule_id'],
-        'risk': json['risk'],
+        'risk': json['risk'] == null ? undefined : json['risk'],
         'category': json['category'],
         'description': json['description'],
         'likelihood': json['likelihood'],
