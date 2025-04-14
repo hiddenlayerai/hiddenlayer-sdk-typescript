@@ -681,4 +681,7 @@ export declare namespace HiddenlayerSDK {
   export { Scan as Scan };
 
   export { Scans as Scans };
+
+  export type Exception = API.Exception;
+  export type Node = API.Node;
 }

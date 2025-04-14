@@ -1,3 +1,10 @@
+# Shared
+
+Types:
+
+- <code><a href="./src/resources/shared.ts">Exception</a></code>
+- <code><a href="./src/resources/shared.ts">Node</a></code>
+
 # API
 
 ## V2
