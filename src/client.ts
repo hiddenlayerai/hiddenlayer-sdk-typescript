@@ -15,6 +15,8 @@ import * as Opts from './internal/request-options';
 import * as qs from './internal/qs';
 import { VERSION } from './version';
 import * as Errors from './core/error';
+import * as Pagination from './core/pagination';
+import { AbstractPage, type CursorPaginationParams, CursorPaginationResponse } from './core/pagination';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
@@ -441,6 +443,25 @@ export class HiddenlayerSDK {
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
 
+  getAPIList<Item, PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>>(
+    path: string,
+    Page: new (...args: any[]) => PageClass,
+    opts?: RequestOptions,
+  ): Pagination.PagePromise<PageClass, Item> {
+    return this.requestAPIList(Page, { method: 'get', path, ...opts });
+  }
+
+  requestAPIList<
+    Item = unknown,
+    PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>,
+  >(
+    Page: new (...args: ConstructorParameters<typeof Pagination.AbstractPage>) => PageClass,
+    options: FinalRequestOptions,
+  ): Pagination.PagePromise<PageClass, Item> {
+    const request = this.makeRequest(options, null, undefined);
+    return new Pagination.PagePromise<PageClass, Item>(this as any as HiddenlayerSDK, request, Page);
+  }
+
   async fetchWithTimeout(
     url: RequestInfo,
     init: RequestInit | undefined,
@@ -684,6 +705,12 @@ HiddenlayerSDK.Vectors = Vectors;
 HiddenlayerSDK.Scans = Scans;
 export declare namespace HiddenlayerSDK {
   export type RequestOptions = Opts.RequestOptions;
+
+  export import CursorPagination = Pagination.CursorPagination;
+  export {
+    type CursorPaginationParams as CursorPaginationParams,
+    type CursorPaginationResponse as CursorPaginationResponse,
+  };
 
   export { Models as Models, type ModelRetrieveResponse as ModelRetrieveResponse };
 
