@@ -55,12 +55,12 @@ $ cd hiddenlayer-sdk-typescript
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link hiddenlayer-sdk
+$ yarn link hiddenlayer
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global hiddenlayer-sdk
+$ pnpm link -—global hiddenlayer
 ```
 
 ## Running tests

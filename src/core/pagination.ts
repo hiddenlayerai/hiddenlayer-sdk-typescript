@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { HiddenlayerSDKError } from './error';
+import { HiddenLayerError } from './error';
 import { FinalRequestOptions } from '../internal/request-options';
 import { defaultParseResponse } from '../internal/parse';
-import { type HiddenlayerSDK } from '../client';
+import { type HiddenLayer } from '../client';
 import { APIPromise } from './api-promise';
 import { type APIResponseProps } from '../internal/parse';
 import { maybeObj } from '../internal/utils/values';
@@ -11,13 +11,13 @@ import { maybeObj } from '../internal/utils/values';
 export type PageRequestOptions = Pick<FinalRequestOptions, 'query' | 'headers' | 'body' | 'path' | 'method'>;
 
 export abstract class AbstractPage<Item> implements AsyncIterable<Item> {
-  #client: HiddenlayerSDK;
+  #client: HiddenLayer;
   protected options: FinalRequestOptions;
 
   protected response: Response;
   protected body: unknown;
 
-  constructor(client: HiddenlayerSDK, response: Response, body: unknown, options: FinalRequestOptions) {
+  constructor(client: HiddenLayer, response: Response, body: unknown, options: FinalRequestOptions) {
     this.#client = client;
     this.options = options;
     this.response = response;
@@ -37,7 +37,7 @@ export abstract class AbstractPage<Item> implements AsyncIterable<Item> {
   async getNextPage(): Promise<this> {
     const nextOptions = this.nextPageRequestOptions();
     if (!nextOptions) {
-      throw new HiddenlayerSDKError(
+      throw new HiddenLayerError(
         'No next page expected; please check `.hasNextPage()` before calling `.getNextPage()`.',
       );
     }
@@ -80,7 +80,7 @@ export class PagePromise<
   implements AsyncIterable<Item>
 {
   constructor(
-    client: HiddenlayerSDK,
+    client: HiddenLayer,
     request: Promise<APIResponseProps>,
     Page: new (...args: ConstructorParameters<typeof AbstractPage>) => PageClass,
   ) {
@@ -133,7 +133,7 @@ export class CursorPagination<Item> extends AbstractPage<Item> implements Cursor
   page: CursorPaginationResponse.Page;
 
   constructor(
-    client: HiddenlayerSDK,
+    client: HiddenLayer,
     response: Response,
     body: CursorPaginationResponse<Item>,
     options: FinalRequestOptions,

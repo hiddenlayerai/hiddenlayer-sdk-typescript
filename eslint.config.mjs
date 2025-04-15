@@ -25,7 +25,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^hiddenlayer-sdk(/.*)?',
+              regex: '^hiddenlayer(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],

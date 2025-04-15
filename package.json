@@ -1,8 +1,8 @@
 {
-  "name": "hiddenlayer-sdk",
+  "name": "hiddenlayer",
   "version": "0.0.1-alpha.0",
-  "description": "The official TypeScript library for the Hiddenlayer SDK API",
-  "author": "Hiddenlayer SDK <dev-feedback@hiddenlayer-sdk.com>",
+  "description": "The official TypeScript library for the Hidden Layer API",
+  "author": "Hidden Layer <dev-feedback@hiddenlayer-sdk.com>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
@@ -54,8 +54,8 @@
     "./internal/shims/getBuiltinModule.js": "./internal/shims/nullGetBuiltinModule.js"
   },
   "imports": {
-    "hiddenlayer-sdk": ".",
-    "hiddenlayer-sdk/*": "./src/*"
+    "hiddenlayer": ".",
+    "hiddenlayer/*": "./src/*"
   },
   "exports": {
     ".": {

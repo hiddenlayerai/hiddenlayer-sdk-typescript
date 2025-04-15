@@ -1,6 +1,6 @@
 import fs from 'fs';
-import type { ResponseLike } from 'hiddenlayer-sdk/internal/to-file';
-import { toFile } from 'hiddenlayer-sdk/core/uploads';
+import type { ResponseLike } from 'hiddenlayer/internal/to-file';
+import { toFile } from 'hiddenlayer/core/uploads';
 import { File } from 'node:buffer';
 
 class MyClass {
@@ -97,7 +97,7 @@ describe('missing File error message', () => {
   });
 
   test('is thrown', async () => {
-    const uploads = await import('hiddenlayer-sdk/core/uploads');
+    const uploads = await import('hiddenlayer/core/uploads');
     await expect(
       uploads.toFile(mockResponse({ url: 'https://example.com/my/audio.mp3' })),
     ).rejects.toMatchInlineSnapshot(

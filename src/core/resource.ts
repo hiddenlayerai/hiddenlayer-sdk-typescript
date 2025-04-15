@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import type { HiddenlayerSDK } from '../client';
+import type { HiddenLayer } from '../client';
 
 export class APIResource {
-  protected _client: HiddenlayerSDK;
+  protected _client: HiddenLayer;
 
-  constructor(client: HiddenlayerSDK) {
+  constructor(client: HiddenLayer) {
     this._client = client;
   }
 }

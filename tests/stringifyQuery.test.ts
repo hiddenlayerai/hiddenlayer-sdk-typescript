@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { HiddenlayerSDK } from 'hiddenlayer-sdk';
+import { HiddenLayer } from 'hiddenlayer';
 
-const { stringifyQuery } = HiddenlayerSDK.prototype as any;
+const { stringifyQuery } = HiddenLayer.prototype as any;
 
 describe(stringifyQuery, () => {
   for (const [input, expected] of [

@@ -44,14 +44,14 @@ import {
 
 export interface ClientOptions {
   /**
-   * Defaults to process.env['HIDDENLAYER_SDK_BEARER_TOKEN'].
+   * Defaults to process.env['HIDDENLAYER_TOKEN'].
    */
   bearerToken?: string | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['HIDDENLAYER_SDK_BASE_URL'].
+   * Defaults to process.env['HIDDEN_LAYER_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -103,7 +103,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['HIDDENLAYER_SDK_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['HIDDEN_LAYER_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -116,9 +116,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Hiddenlayer SDK API.
+ * API Client for interfacing with the Hidden Layer API.
  */
-export class HiddenlayerSDK {
+export class HiddenLayer {
   bearerToken: string;
 
   baseURL: string;
@@ -134,10 +134,10 @@ export class HiddenlayerSDK {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Hiddenlayer SDK API.
+   * API Client for interfacing with the Hidden Layer API.
    *
-   * @param {string | undefined} [opts.bearerToken=process.env['HIDDENLAYER_SDK_BEARER_TOKEN'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['HIDDENLAYER_SDK_BASE_URL'] ?? https://api.hiddenlayer.ai] - Override the default base URL for the API.
+   * @param {string | undefined} [opts.bearerToken=process.env['HIDDENLAYER_TOKEN'] ?? undefined]
+   * @param {string} [opts.baseURL=process.env['HIDDEN_LAYER_BASE_URL'] ?? https://api.hiddenlayer.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -146,13 +146,13 @@ export class HiddenlayerSDK {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('HIDDENLAYER_SDK_BASE_URL'),
-    bearerToken = readEnv('HIDDENLAYER_SDK_BEARER_TOKEN'),
+    baseURL = readEnv('HIDDEN_LAYER_BASE_URL'),
+    bearerToken = readEnv('HIDDENLAYER_TOKEN'),
     ...opts
   }: ClientOptions = {}) {
     if (bearerToken === undefined) {
-      throw new Errors.HiddenlayerSDKError(
-        "The HIDDENLAYER_SDK_BEARER_TOKEN environment variable is missing or empty; either provide it, or instantiate the HiddenlayerSDK client with an bearerToken option, like new HiddenlayerSDK({ bearerToken: 'My Bearer Token' }).",
+      throw new Errors.HiddenLayerError(
+        "The HIDDENLAYER_TOKEN environment variable is missing or empty; either provide it, or instantiate the HiddenLayer client with an bearerToken option, like new HiddenLayer({ bearerToken: 'My Bearer Token' }).",
       );
     }
 
@@ -163,14 +163,14 @@ export class HiddenlayerSDK {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? HiddenlayerSDK.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? HiddenLayer.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('HIDDENLAYER_SDK_LOG'), "process.env['HIDDENLAYER_SDK_LOG']", this) ??
+      parseLogLevel(readEnv('HIDDEN_LAYER_LOG'), "process.env['HIDDEN_LAYER_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -459,7 +459,7 @@ export class HiddenlayerSDK {
     options: FinalRequestOptions,
   ): Pagination.PagePromise<PageClass, Item> {
     const request = this.makeRequest(options, null, undefined);
-    return new Pagination.PagePromise<PageClass, Item>(this as any as HiddenlayerSDK, request, Page);
+    return new Pagination.PagePromise<PageClass, Item>(this as any as HiddenLayer, request, Page);
   }
 
   async fetchWithTimeout(
@@ -675,10 +675,10 @@ export class HiddenlayerSDK {
     }
   }
 
-  static HiddenlayerSDK = this;
+  static HiddenLayer = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static HiddenlayerSDKError = Errors.HiddenlayerSDKError;
+  static HiddenLayerError = Errors.HiddenLayerError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -699,11 +699,11 @@ export class HiddenlayerSDK {
   vectors: API.Vectors = new API.Vectors(this);
   scans: API.Scans = new API.Scans(this);
 }
-HiddenlayerSDK.Models = Models;
-HiddenlayerSDK.Sensors = Sensors;
-HiddenlayerSDK.Vectors = Vectors;
-HiddenlayerSDK.Scans = Scans;
-export declare namespace HiddenlayerSDK {
+HiddenLayer.Models = Models;
+HiddenLayer.Sensors = Sensors;
+HiddenLayer.Vectors = Vectors;
+HiddenLayer.Scans = Scans;
+export declare namespace HiddenLayer {
   export type RequestOptions = Opts.RequestOptions;
 
   export import CursorPagination = Pagination.CursorPagination;
