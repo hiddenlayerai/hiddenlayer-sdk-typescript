@@ -10,7 +10,7 @@ const client = new HiddenlayerSDK({
 describe('resource results', () => {
   // skipped: tests are disabled for the time being
   test.skip('retrieve', async () => {
-    const responsePromise = client.scan.v3.results.retrieve('00000000-0000-0000-0000-000000000000');
+    const responsePromise = client.scans.results.retrieve('00000000-0000-0000-0000-000000000000');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -24,7 +24,7 @@ describe('resource results', () => {
   test.skip('retrieve: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.scan.v3.results.retrieve(
+      client.scans.results.retrieve(
         '00000000-0000-0000-0000-000000000000',
         { has_detections: true },
         { path: '/_stainless_unknown_path' },
@@ -34,7 +34,7 @@ describe('resource results', () => {
 
   // skipped: tests are disabled for the time being
   test.skip('list', async () => {
-    const responsePromise = client.scan.v3.results.list();
+    const responsePromise = client.scans.results.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -48,7 +48,7 @@ describe('resource results', () => {
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.scan.v3.results.list(
+      client.scans.results.list(
         {
           end_time: '2019-12-27T18:11:19.117Z',
           latest_per_model_version_only: true,
@@ -67,8 +67,8 @@ describe('resource results', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('completePart: only required params', async () => {
-    const responsePromise = client.scan.v3.results.completePart('00000000-0000-0000-0000-000000000000', {
+  test.skip('patch: only required params', async () => {
+    const responsePromise = client.scans.results.patch('00000000-0000-0000-0000-000000000000', {
       detection_count: 0,
       file_count: 0,
       files_with_detections_count: 0,
@@ -94,8 +94,8 @@ describe('resource results', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('completePart: required and optional params', async () => {
-    const response = await client.scan.v3.results.completePart('00000000-0000-0000-0000-000000000000', {
+  test.skip('patch: required and optional params', async () => {
+    const response = await client.scans.results.patch('00000000-0000-0000-0000-000000000000', {
       detection_count: 0,
       file_count: 0,
       files_with_detections_count: 0,
@@ -164,7 +164,7 @@ describe('resource results', () => {
 
   // skipped: tests are disabled for the time being
   test.skip('start: only required params', async () => {
-    const responsePromise = client.scan.v3.results.start('00000000-0000-0000-0000-000000000000', {
+    const responsePromise = client.scans.results.start('00000000-0000-0000-0000-000000000000', {
       detection_count: 0,
       file_count: 0,
       files_with_detections_count: 0,
@@ -191,7 +191,7 @@ describe('resource results', () => {
 
   // skipped: tests are disabled for the time being
   test.skip('start: required and optional params', async () => {
-    const response = await client.scan.v3.results.start('00000000-0000-0000-0000-000000000000', {
+    const response = await client.scans.results.start('00000000-0000-0000-0000-000000000000', {
       detection_count: 0,
       file_count: 0,
       files_with_detections_count: 0,

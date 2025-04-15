@@ -6,21 +6,21 @@ export {
   type FileScanReport,
   type ScanReport,
   type ResultListResponse,
-  type ResultCompletePartResponse,
+  type ResultPatchResponse,
   type ResultRetrieveParams,
   type ResultListParams,
-  type ResultCompletePartParams,
+  type ResultPatchParams,
   type ResultStartParams,
 } from './results';
+export {
+  Scans,
+  type ScanRetrieveResultsResponse,
+  type ScanCreateReportParams,
+  type ScanRetrieveResultsParams,
+} from './scans';
 export {
   Upload,
   type UploadCompleteAllResponse,
   type UploadStartResponse,
   type UploadStartParams,
 } from './upload/index';
-export {
-  V3,
-  type V3RetrieveResultsResponse,
-  type V3CreateReportParams,
-  type V3RetrieveResultsParams,
-} from './v3';

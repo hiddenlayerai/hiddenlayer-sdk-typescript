@@ -30,7 +30,7 @@ const client = new HiddenlayerSDK({
 });
 
 async function main() {
-  const sensor = await client.api.v2.sensors.create({ plaintext_name: 'REPLACE_ME' });
+  const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' });
 }
 
 main();
@@ -49,8 +49,8 @@ const client = new HiddenlayerSDK({
 });
 
 async function main() {
-  const params: HiddenlayerSDK.API.V2.SensorCreateParams = { plaintext_name: 'REPLACE_ME' };
-  const sensor: HiddenlayerSDK.API.V2.Sensor = await client.api.v2.sensors.create(params);
+  const params: HiddenlayerSDK.SensorCreateParams = { plaintext_name: 'REPLACE_ME' };
+  const sensor: HiddenlayerSDK.Sensor = await client.sensors.create(params);
 }
 
 main();
@@ -67,7 +67,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const sensor = await client.api.v2.sensors.create({ plaintext_name: 'REPLACE_ME' }).catch(async (err) => {
+  const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' }).catch(async (err) => {
     if (err instanceof HiddenlayerSDK.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -110,7 +110,7 @@ const client = new HiddenlayerSDK({
 });
 
 // Or, configure per-request:
-await client.api.v2.sensors.create({ plaintext_name: 'REPLACE_ME' }, {
+await client.sensors.create({ plaintext_name: 'REPLACE_ME' }, {
   maxRetries: 5,
 });
 ```
@@ -127,7 +127,7 @@ const client = new HiddenlayerSDK({
 });
 
 // Override per-request:
-await client.api.v2.sensors.create({ plaintext_name: 'REPLACE_ME' }, {
+await client.sensors.create({ plaintext_name: 'REPLACE_ME' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -150,11 +150,11 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new HiddenlayerSDK();
 
-const response = await client.api.v2.sensors.create({ plaintext_name: 'REPLACE_ME' }).asResponse();
+const response = await client.sensors.create({ plaintext_name: 'REPLACE_ME' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: sensor, response: raw } = await client.api.v2.sensors
+const { data: sensor, response: raw } = await client.sensors
   .create({ plaintext_name: 'REPLACE_ME' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));

@@ -1,15 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../core/resource';
+import { APIResource } from '../../core/resource';
 import * as JobsAPI from './jobs';
 import { JobRequestParams, Jobs, ScanJob } from './jobs';
 import * as ResultsAPI from './results';
 import {
   FileScanReport,
-  ResultCompletePartParams,
-  ResultCompletePartResponse,
   ResultListParams,
   ResultListResponse,
+  ResultPatchParams,
+  ResultPatchResponse,
   ResultRetrieveParams,
   ResultStartParams,
   Results,
@@ -17,12 +17,12 @@ import {
 } from './results';
 import * as UploadAPI from './upload/upload';
 import { Upload, UploadCompleteAllResponse, UploadStartParams, UploadStartResponse } from './upload/upload';
-import { APIPromise } from '../../../core/api-promise';
-import { buildHeaders } from '../../../internal/headers';
-import { RequestOptions } from '../../../internal/request-options';
-import { path } from '../../../internal/utils/path';
+import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
-export class V3 extends APIResource {
+export class Scans extends APIResource {
   results: ResultsAPI.Results = new ResultsAPI.Results(this._client);
   jobs: JobsAPI.Jobs = new JobsAPI.Jobs(this._client);
   upload: UploadAPI.Upload = new UploadAPI.Upload(this._client);
@@ -50,7 +50,7 @@ export class V3 extends APIResource {
   /**
    * Engine Report Endpoint of Model Scan Results
    */
-  createReport(scanID: string, body: V3CreateReportParams, options?: RequestOptions): APIPromise<void> {
+  createReport(scanID: string, body: ScanCreateReportParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/scans/v3/reports/${scanID}`, {
       body,
       ...options,
@@ -63,7 +63,7 @@ export class V3 extends APIResource {
    */
   retrieveResults(
     scanID: string,
-    query: V3RetrieveResultsParams | null | undefined = {},
+    query: ScanRetrieveResultsParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<unknown> {
     return this._client.get(path`/scans/v3/results/${scanID}`, {
@@ -74,13 +74,13 @@ export class V3 extends APIResource {
   }
 }
 
-export type V3RetrieveResultsResponse = unknown;
+export type ScanRetrieveResultsResponse = unknown;
 
-export interface V3CreateReportParams {
+export interface ScanCreateReportParams {
   location: string;
 }
 
-export interface V3RetrieveResultsParams {
+export interface ScanRetrieveResultsParams {
   /**
    * Cursor value returned from a previous request. Used to fetch the next page of
    * results.
@@ -90,15 +90,15 @@ export interface V3RetrieveResultsParams {
   page_size?: number;
 }
 
-V3.Results = Results;
-V3.Jobs = Jobs;
-V3.Upload = Upload;
+Scans.Results = Results;
+Scans.Jobs = Jobs;
+Scans.Upload = Upload;
 
-export declare namespace V3 {
+export declare namespace Scans {
   export {
-    type V3RetrieveResultsResponse as V3RetrieveResultsResponse,
-    type V3CreateReportParams as V3CreateReportParams,
-    type V3RetrieveResultsParams as V3RetrieveResultsParams,
+    type ScanRetrieveResultsResponse as ScanRetrieveResultsResponse,
+    type ScanCreateReportParams as ScanCreateReportParams,
+    type ScanRetrieveResultsParams as ScanRetrieveResultsParams,
   };
 
   export {
@@ -106,10 +106,10 @@ export declare namespace V3 {
     type FileScanReport as FileScanReport,
     type ScanReport as ScanReport,
     type ResultListResponse as ResultListResponse,
-    type ResultCompletePartResponse as ResultCompletePartResponse,
+    type ResultPatchResponse as ResultPatchResponse,
     type ResultRetrieveParams as ResultRetrieveParams,
     type ResultListParams as ResultListParams,
-    type ResultCompletePartParams as ResultCompletePartParams,
+    type ResultPatchParams as ResultPatchParams,
     type ResultStartParams as ResultStartParams,
   };
 

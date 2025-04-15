@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../core/resource';
-import { APIPromise } from '../../../core/api-promise';
-import { buildHeaders } from '../../../internal/headers';
-import { RequestOptions } from '../../../internal/request-options';
-import { path } from '../../../internal/utils/path';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Results extends APIResource {
   /**
@@ -39,11 +39,11 @@ export class Results extends APIResource {
   /**
    * Indicate part (file or files) of a model scan has completed
    */
-  completePart(
+  patch(
     scanID: string,
-    params: ResultCompletePartParams,
+    params: ResultPatchParams,
     options?: RequestOptions,
-  ): APIPromise<ResultCompletePartResponse> {
+  ): APIPromise<ResultPatchResponse> {
     const { has_detections, ...body } = params;
     return this._client.patch(path`/scan/v3/results/${scanID}`, {
       query: { has_detections },
@@ -361,7 +361,7 @@ export interface ResultListResponse {
   items?: Array<ScanReport>;
 }
 
-export interface ResultCompletePartResponse {
+export interface ResultPatchResponse {
   /**
    * Request to resource is successful
    */
@@ -422,7 +422,7 @@ export interface ResultListParams {
   status?: Array<string>;
 }
 
-export interface ResultCompletePartParams {
+export interface ResultPatchParams {
   /**
    * Body param: number of detections found
    */
@@ -441,7 +441,7 @@ export interface ResultCompletePartParams {
   /**
    * Body param: information about model and version that this scan relates to
    */
-  inventory: ResultCompletePartParams.Inventory;
+  inventory: ResultPatchParams.Inventory;
 
   /**
    * Body param: unique identifier for the scan
@@ -490,7 +490,7 @@ export interface ResultCompletePartParams {
   severity?: 'low' | 'medium' | 'high' | 'critical' | 'safe' | 'unknown';
 }
 
-export namespace ResultCompletePartParams {
+export namespace ResultPatchParams {
   /**
    * information about model and version that this scan relates to
    */
@@ -647,10 +647,10 @@ export declare namespace Results {
     type FileScanReport as FileScanReport,
     type ScanReport as ScanReport,
     type ResultListResponse as ResultListResponse,
-    type ResultCompletePartResponse as ResultCompletePartResponse,
+    type ResultPatchResponse as ResultPatchResponse,
     type ResultRetrieveParams as ResultRetrieveParams,
     type ResultListParams as ResultListParams,
-    type ResultCompletePartParams as ResultCompletePartParams,
+    type ResultPatchParams as ResultPatchParams,
     type ResultStartParams as ResultStartParams,
   };
 }

@@ -4,33 +4,33 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class V3 extends APIResource {
+export class Cards extends APIResource {
   /**
    * List Model Cards
    */
-  listCards(
-    query: V3ListCardsParams | null | undefined = {},
+  list(
+    query: CardListParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<V3ListCardsResponse> {
+  ): APIPromise<CardListResponse> {
     return this._client.get('/models/v3/cards', { query, ...options });
   }
 }
 
-export interface V3ListCardsResponse {
+export interface CardListResponse {
   page_number: number;
 
   page_size: number;
 
-  results: Array<V3ListCardsResponse.Result>;
+  results: Array<CardListResponse.Result>;
 
   total_count: number;
 }
 
-export namespace V3ListCardsResponse {
+export namespace CardListResponse {
   export interface Result {}
 }
 
-export interface V3ListCardsParams {
+export interface CardListParams {
   limit?: number;
 
   /**
@@ -52,6 +52,6 @@ export interface V3ListCardsParams {
   sort?: string;
 }
 
-export declare namespace V3 {
-  export { type V3ListCardsResponse as V3ListCardsResponse, type V3ListCardsParams as V3ListCardsParams };
+export declare namespace Cards {
+  export { type CardListResponse as CardListResponse, type CardListParams as CardListParams };
 }

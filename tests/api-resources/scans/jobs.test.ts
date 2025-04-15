@@ -7,10 +7,10 @@ const client = new HiddenlayerSDK({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource v3', () => {
+describe('resource jobs', () => {
   // skipped: tests are disabled for the time being
-  test.skip('listCards', async () => {
-    const responsePromise = client.models.v3.listCards();
+  test.skip('list', async () => {
+    const responsePromise = client.scans.jobs.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,19 +21,14 @@ describe('resource v3', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('listCards: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.models.v3.listCards(
-        {
-          limit: 1,
-          'model_name[contains]': 'model_name[contains]',
-          'model_name[eq]': 'model_name[eq]',
-          offset: 0,
-          sort: 'sort',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(HiddenlayerSDK.NotFoundError);
+  test.skip('request', async () => {
+    const responsePromise = client.scans.jobs.request({});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 });

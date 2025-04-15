@@ -21,13 +21,24 @@ import { APIPromise } from './core/api-promise';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
-import { Scans } from './resources/scans';
+import {
+  Sensor,
+  SensorCreateParams,
+  SensorQueryParams,
+  SensorQueryResponse,
+  Sensors,
+} from './resources/sensors';
+import { VectorSubmitVectorsParams, VectorSubmitVectorsResponse, Vectors } from './resources/vectors';
 import { readEnv } from './internal/utils/env';
 import { formatRequestDetails, loggerFor } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
-import { API as ApiapiAPI } from './resources/api/api';
-import { Models } from './resources/models/models';
-import { Scan } from './resources/scan/scan';
+import { ModelRetrieveResponse, Models } from './resources/models/models';
+import {
+  ScanCreateReportParams,
+  ScanRetrieveResultsParams,
+  ScanRetrieveResultsResponse,
+  Scans,
+} from './resources/scans/scans';
 
 export interface ClientOptions {
   /**
@@ -662,25 +673,40 @@ export class HiddenlayerSDK {
 
   static toFile = Uploads.toFile;
 
-  api: API.API = new API.API(this);
   models: API.Models = new API.Models(this);
-  scan: API.Scan = new API.Scan(this);
+  sensors: API.Sensors = new API.Sensors(this);
+  vectors: API.Vectors = new API.Vectors(this);
   scans: API.Scans = new API.Scans(this);
 }
-HiddenlayerSDK.API = ApiapiAPI;
 HiddenlayerSDK.Models = Models;
-HiddenlayerSDK.Scan = Scan;
+HiddenlayerSDK.Sensors = Sensors;
+HiddenlayerSDK.Vectors = Vectors;
 HiddenlayerSDK.Scans = Scans;
 export declare namespace HiddenlayerSDK {
   export type RequestOptions = Opts.RequestOptions;
 
-  export { ApiapiAPI as API };
+  export { Models as Models, type ModelRetrieveResponse as ModelRetrieveResponse };
 
-  export { Models as Models };
+  export {
+    Sensors as Sensors,
+    type Sensor as Sensor,
+    type SensorQueryResponse as SensorQueryResponse,
+    type SensorCreateParams as SensorCreateParams,
+    type SensorQueryParams as SensorQueryParams,
+  };
 
-  export { Scan as Scan };
+  export {
+    Vectors as Vectors,
+    type VectorSubmitVectorsResponse as VectorSubmitVectorsResponse,
+    type VectorSubmitVectorsParams as VectorSubmitVectorsParams,
+  };
 
-  export { Scans as Scans };
+  export {
+    Scans as Scans,
+    type ScanRetrieveResultsResponse as ScanRetrieveResultsResponse,
+    type ScanCreateReportParams as ScanCreateReportParams,
+    type ScanRetrieveResultsParams as ScanRetrieveResultsParams,
+  };
 
   export type Exception = API.Exception;
   export type Node = API.Node;

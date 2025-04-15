@@ -10,7 +10,7 @@ const client = new HiddenlayerSDK({
 describe('resource upload', () => {
   // skipped: tests are disabled for the time being
   test.skip('completeAll', async () => {
-    const responsePromise = client.scan.v3.upload.completeAll('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+    const responsePromise = client.scans.upload.completeAll('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,7 +22,7 @@ describe('resource upload', () => {
 
   // skipped: tests are disabled for the time being
   test.skip('start: only required params', async () => {
-    const responsePromise = client.scan.v3.upload.start({
+    const responsePromise = client.scans.upload.start({
       model_name: 'model_name',
       model_version: 'model_version',
       requesting_entity: 'requesting_entity',
@@ -38,7 +38,7 @@ describe('resource upload', () => {
 
   // skipped: tests are disabled for the time being
   test.skip('start: required and optional params', async () => {
-    const response = await client.scan.v3.upload.start({
+    const response = await client.scans.upload.start({
       model_name: 'model_name',
       model_version: 'model_version',
       requesting_entity: 'requesting_entity',

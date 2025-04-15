@@ -7,10 +7,10 @@ const client = new HiddenlayerSDK({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource v2', () => {
+describe('resource vectors', () => {
   // skipped: tests are disabled for the time being
   test.skip('submitVectors: only required params', async () => {
-    const responsePromise = client.api.v2.submitVectors({
+    const responsePromise = client.vectors.submitVectors({
       input_layer: 'input_layer',
       input_layer_dtype: 'input_layer_dtype',
       input_layer_shape: [0],
@@ -30,7 +30,7 @@ describe('resource v2', () => {
 
   // skipped: tests are disabled for the time being
   test.skip('submitVectors: required and optional params', async () => {
-    const response = await client.api.v2.submitVectors({
+    const response = await client.vectors.submitVectors({
       input_layer: 'input_layer',
       input_layer_dtype: 'input_layer_dtype',
       input_layer_shape: [0],

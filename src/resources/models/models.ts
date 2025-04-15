@@ -1,19 +1,66 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as V3API from './v3';
-import { V3, V3ListCardsParams, V3ListCardsResponse } from './v3';
+import * as CardsAPI from './cards';
+import { CardListParams, CardListResponse, Cards } from './cards';
+import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Models extends APIResource {
-  v3: V3API.V3 = new V3API.V3(this._client);
+  cards: CardsAPI.Cards = new CardsAPI.Cards(this._client);
+
+  /**
+   * Get Model
+   */
+  retrieve(modelID: string, options?: RequestOptions): APIPromise<ModelRetrieveResponse> {
+    return this._client.get(path`/api/v2/models/${modelID}`, options);
+  }
+
+  /**
+   * Delete Adhoc Model
+   */
+  delete(modelID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/api/v2/models/${modelID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
 }
 
-Models.V3 = V3;
+export interface ModelRetrieveResponse {
+  name: string;
+
+  source: string;
+
+  model_id?: string;
+
+  tenant_id?: string;
+
+  versions?: Array<ModelRetrieveResponse.Version>;
+}
+
+export namespace ModelRetrieveResponse {
+  export interface Version {
+    version: string;
+
+    locations?: Record<string, unknown>;
+
+    model_version_id?: string;
+
+    multi_file?: boolean;
+
+    retrievable?: boolean;
+
+    tags?: Record<string, unknown>;
+  }
+}
+
+Models.Cards = Cards;
 
 export declare namespace Models {
-  export {
-    V3 as V3,
-    type V3ListCardsResponse as V3ListCardsResponse,
-    type V3ListCardsParams as V3ListCardsParams,
-  };
+  export { type ModelRetrieveResponse as ModelRetrieveResponse };
+
+  export { Cards as Cards, type CardListResponse as CardListResponse, type CardListParams as CardListParams };
 }
