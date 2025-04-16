@@ -1,0 +1,38 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import type { Metadata } from '../../../';
+import HiddenLayer from 'hiddenlayer';
+
+export const metadata: Metadata = {
+  resource: 'scans.upload.file',
+  operation: 'write',
+  tags: [],
+};
+
+export const tool: Tool = {
+  name: 'add_upload_scans_file',
+  description: 'Add file to V3 Upload',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      scan_id: {
+        type: 'string',
+        title: 'Scan Id to which the file belongs',
+      },
+      'file-content-length': {
+        type: 'integer',
+      },
+      'file-name': {
+        type: 'string',
+      },
+    },
+  },
+};
+
+export const handler = (client: HiddenLayer, args: any) => {
+  const { scan_id, ...body } = args;
+  return client.scans.upload.file.add(scan_id, body);
+};
+
+export default { metadata, tool, handler };

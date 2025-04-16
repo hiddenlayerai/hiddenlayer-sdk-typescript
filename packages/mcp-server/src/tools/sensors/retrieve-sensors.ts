@@ -1,0 +1,32 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import type { Metadata } from '../';
+import HiddenLayer from 'hiddenlayer';
+
+export const metadata: Metadata = {
+  resource: 'sensors',
+  operation: 'read',
+  tags: [],
+};
+
+export const tool: Tool = {
+  name: 'retrieve_sensors',
+  description: 'Get Sensor',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      sensor_id: {
+        type: 'string',
+        title: 'Sensor ID',
+      },
+    },
+  },
+};
+
+export const handler = (client: HiddenLayer, args: any) => {
+  const { sensor_id } = args;
+  return client.sensors.retrieve(sensor_id);
+};
+
+export default { metadata, tool, handler };
