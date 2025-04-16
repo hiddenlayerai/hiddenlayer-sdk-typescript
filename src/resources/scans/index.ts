@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export { Jobs, type ScanJob, type JobRequestParams } from './jobs';
-export { Reports, type ReportCreateParams } from './reports';
 export {
   Results,
   type FileScanReport,

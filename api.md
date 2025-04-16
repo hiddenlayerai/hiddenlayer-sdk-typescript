@@ -62,12 +62,6 @@ Methods:
 - <code title="get /scans/v3/readiness">client.scans.<a href="./src/resources/scans/scans.ts">checkReadiness</a>() -> void</code>
 - <code title="get /scans/v3/results/{scan_id}">client.scans.<a href="./src/resources/scans/scans.ts">retrieveResults</a>(scanID, { ...params }) -> unknown</code>
 
-## Reports
-
-Methods:
-
-- <code title="post /scans/v3/reports/{scan_id}">client.scans.reports.<a href="./src/resources/scans/reports.ts">create</a>(scanID, { ...params }) -> void</code>
-
 ## Results
 
 Types:

@@ -3,8 +3,6 @@
 import { APIResource } from '../../core/resource';
 import * as JobsAPI from './jobs';
 import { JobRequestParams, Jobs, ScanJob } from './jobs';
-import * as ReportsAPI from './reports';
-import { ReportCreateParams, Reports } from './reports';
 import * as ResultsAPI from './results';
 import {
   FileScanReport,
@@ -25,7 +23,6 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Scans extends APIResource {
-  reports: ReportsAPI.Reports = new ReportsAPI.Reports(this._client);
   results: ResultsAPI.Results = new ResultsAPI.Results(this._client);
   jobs: JobsAPI.Jobs = new JobsAPI.Jobs(this._client);
   upload: UploadAPI.Upload = new UploadAPI.Upload(this._client);
@@ -78,7 +75,6 @@ export interface ScanRetrieveResultsParams {
   page_size?: number;
 }
 
-Scans.Reports = Reports;
 Scans.Results = Results;
 Scans.Jobs = Jobs;
 Scans.Upload = Upload;
@@ -88,8 +84,6 @@ export declare namespace Scans {
     type ScanRetrieveResultsResponse as ScanRetrieveResultsResponse,
     type ScanRetrieveResultsParams as ScanRetrieveResultsParams,
   };
-
-  export { Reports as Reports, type ReportCreateParams as ReportCreateParams };
 
   export {
     Results as Results,
