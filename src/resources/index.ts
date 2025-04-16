@@ -2,12 +2,7 @@
 
 export * from './shared';
 export { Models, type ModelRetrieveResponse } from './models/models';
-export {
-  Scans,
-  type ScanRetrieveResultsResponse,
-  type ScanCreateReportParams,
-  type ScanRetrieveResultsParams,
-} from './scans/scans';
+export { Scans, type ScanRetrieveResultsResponse, type ScanRetrieveResultsParams } from './scans/scans';
 export {
   Sensors,
   type Sensor,

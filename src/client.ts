@@ -35,12 +35,7 @@ import { readEnv } from './internal/utils/env';
 import { formatRequestDetails, loggerFor } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
 import { ModelRetrieveResponse, Models } from './resources/models/models';
-import {
-  ScanCreateReportParams,
-  ScanRetrieveResultsParams,
-  ScanRetrieveResultsResponse,
-  Scans,
-} from './resources/scans/scans';
+import { ScanRetrieveResultsParams, ScanRetrieveResultsResponse, Scans } from './resources/scans/scans';
 
 export interface ClientOptions {
   /**
@@ -731,7 +726,6 @@ export declare namespace HiddenLayer {
   export {
     Scans as Scans,
     type ScanRetrieveResultsResponse as ScanRetrieveResultsResponse,
-    type ScanCreateReportParams as ScanCreateReportParams,
     type ScanRetrieveResultsParams as ScanRetrieveResultsParams,
   };
 

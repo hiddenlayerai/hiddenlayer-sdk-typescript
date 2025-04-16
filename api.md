@@ -60,8 +60,13 @@ Methods:
 
 - <code title="get /scans/v3/health">client.scans.<a href="./src/resources/scans/scans.ts">checkHealth</a>() -> void</code>
 - <code title="get /scans/v3/readiness">client.scans.<a href="./src/resources/scans/scans.ts">checkReadiness</a>() -> void</code>
-- <code title="post /scans/v3/reports/{scan_id}">client.scans.<a href="./src/resources/scans/scans.ts">createReport</a>(scanID, { ...params }) -> void</code>
 - <code title="get /scans/v3/results/{scan_id}">client.scans.<a href="./src/resources/scans/scans.ts">retrieveResults</a>(scanID, { ...params }) -> unknown</code>
+
+## Reports
+
+Methods:
+
+- <code title="post /scans/v3/reports/{scan_id}">client.scans.reports.<a href="./src/resources/scans/reports.ts">create</a>(scanID, { ...params }) -> void</code>
 
 ## Results
 

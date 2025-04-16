@@ -33,27 +33,6 @@ describe('resource scans', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('createReport: only required params', async () => {
-    const responsePromise = client.scans.createReport('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
-      location: 'location',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // skipped: tests are disabled for the time being
-  test.skip('createReport: required and optional params', async () => {
-    const response = await client.scans.createReport('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
-      location: 'location',
-    });
-  });
-
-  // skipped: tests are disabled for the time being
   test.skip('retrieveResults', async () => {
     const responsePromise = client.scans.retrieveResults('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
     const rawResponse = await responsePromise.asResponse();

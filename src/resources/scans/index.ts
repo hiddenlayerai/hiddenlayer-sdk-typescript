@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export { Jobs, type ScanJob, type JobRequestParams } from './jobs';
+export { Reports, type ReportCreateParams } from './reports';
 export {
   Results,
   type FileScanReport,
@@ -12,12 +13,7 @@ export {
   type ResultPatchParams,
   type ResultStartParams,
 } from './results';
-export {
-  Scans,
-  type ScanRetrieveResultsResponse,
-  type ScanCreateReportParams,
-  type ScanRetrieveResultsParams,
-} from './scans';
+export { Scans, type ScanRetrieveResultsResponse, type ScanRetrieveResultsParams } from './scans';
 export {
   Upload,
   type UploadCompleteAllResponse,
