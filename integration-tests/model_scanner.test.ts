@@ -72,7 +72,7 @@ async function performModelScanTest(client: HiddenLayerServiceClient, modelVersi
         assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.exec"));
 
         assert(detections != null);
-        assert(detections[0].severity === ScanDetectionV3SeverityEnum.High);
+        assert(detections[0].severity === ScanDetectionV3SeverityEnum.Critical);
         assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
 
         if (client.isSaaS) {
@@ -120,7 +120,7 @@ async function performScanFolderTest(client: HiddenLayerServiceClient, modelVers
                 assert(fileResults.details.fileTypeDetails["pickle_modules"].length > 0);
                 assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.exec"));
 
-                assert (detections[0].severity === ScanDetectionV3SeverityEnum.High);
+                assert (detections[0].severity === ScanDetectionV3SeverityEnum.Critical);
                 assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
                 maliciousModelFound = true;
             }
@@ -160,7 +160,7 @@ async function performRescanTest(client: HiddenLayerServiceClient): Promise<void
         assert(fileResults.details.fileTypeDetails["pickle_modules"].includes("callable: builtins.exec"));
 
         assert(detections != null);
-        assert(detections[0].severity === ScanDetectionV3SeverityEnum.High);
+        assert(detections[0].severity === ScanDetectionV3SeverityEnum.Critical);
         assert(detections[0].description.includes('This detection rule was triggered by the presence of a function or library that can be used to execute code'));
 
         if (client.isSaaS) {
