@@ -67,8 +67,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: HiddenLayer, args: any) => {
-  const { ...body } = args;
+export const handler = (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
+  const body = args as any;
   return client.scans.jobs.request(body);
 };
 

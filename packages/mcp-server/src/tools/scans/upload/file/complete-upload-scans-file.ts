@@ -28,8 +28,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: HiddenLayer, args: any) => {
-  const { file_id, ...body } = args;
+export const handler = (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
+  const { file_id, ...body } = args as any;
   return client.scans.upload.file.complete(file_id, body);
 };
 

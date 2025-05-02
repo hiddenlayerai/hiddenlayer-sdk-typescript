@@ -30,8 +30,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: HiddenLayer, args: any) => {
-  const { scan_id, ...body } = args;
+export const handler = (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
+  const { scan_id, ...body } = args as any;
   return client.scans.upload.file.add(scan_id, body);
 };
 

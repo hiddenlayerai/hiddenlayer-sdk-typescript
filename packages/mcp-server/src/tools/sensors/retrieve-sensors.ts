@@ -24,8 +24,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: HiddenLayer, args: any) => {
-  const { sensor_id } = args;
+export const handler = (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
+  const { sensor_id, ...body } = args as any;
   return client.sensors.retrieve(sensor_id);
 };
 

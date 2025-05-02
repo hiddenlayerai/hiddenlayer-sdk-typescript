@@ -24,8 +24,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: HiddenLayer, args: any) => {
-  const { model_id } = args;
+export const handler = (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
+  const { model_id, ...body } = args as any;
   return client.models.retrieve(model_id);
 };
 
