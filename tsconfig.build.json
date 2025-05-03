@@ -6,7 +6,7 @@
     "rootDir": "./dist/src",
     "paths": {
       "hiddenlayer/*": ["dist/src/*"],
-      "hiddenlayer": ["dist/src/index.ts"],
+      "hiddenlayer": ["dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,
