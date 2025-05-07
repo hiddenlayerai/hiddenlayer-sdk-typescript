@@ -9,6 +9,13 @@ import { path } from '../../internal/utils/path';
 export class Results extends APIResource {
   /**
    * Get Result of a Model Scan
+   *
+   * @example
+   * ```ts
+   * const scanReport = await client.scans.results.retrieve(
+   *   '00000000-0000-0000-0000-000000000000',
+   * );
+   * ```
    */
   retrieve(
     scanID: string,
@@ -24,6 +31,11 @@ export class Results extends APIResource {
 
   /**
    * Get condensed reports for a Model Scan
+   *
+   * @example
+   * ```ts
+   * const results = await client.scans.results.list();
+   * ```
    */
   list(
     query: ResultListParams | null | undefined = {},
@@ -38,6 +50,30 @@ export class Results extends APIResource {
 
   /**
    * Indicate part (file or files) of a model scan has completed
+   *
+   * @example
+   * ```ts
+   * const response = await client.scans.results.patch(
+   *   '00000000-0000-0000-0000-000000000000',
+   *   {
+   *     detection_count: 0,
+   *     file_count: 0,
+   *     files_with_detections_count: 0,
+   *     inventory: {
+   *       model_id: '00000000-0000-0000-0000-000000000000',
+   *       model_name: 'keras-tf-2025-05-27',
+   *       model_version: '1.0.0',
+   *       model_version_id:
+   *         '00000000-0000-0000-0000-000000000000',
+   *       requested_scan_location: '/files-to-scan',
+   *     },
+   *     body_scan_id: 'scan_id',
+   *     start_time: '2019-12-27T18:11:19.117Z',
+   *     status: 'pending',
+   *     version: 'version',
+   *   },
+   * );
+   * ```
    */
   patch(
     scanID: string,
@@ -54,6 +90,30 @@ export class Results extends APIResource {
 
   /**
    * Indicate model scan has started
+   *
+   * @example
+   * ```ts
+   * await client.scans.results.start(
+   *   '00000000-0000-0000-0000-000000000000',
+   *   {
+   *     detection_count: 0,
+   *     file_count: 0,
+   *     files_with_detections_count: 0,
+   *     inventory: {
+   *       model_id: '00000000-0000-0000-0000-000000000000',
+   *       model_name: 'keras-tf-2025-05-27',
+   *       model_version: '1.0.0',
+   *       model_version_id:
+   *         '00000000-0000-0000-0000-000000000000',
+   *       requested_scan_location: '/files-to-scan',
+   *     },
+   *     body_scan_id: 'scan_id',
+   *     start_time: '2019-12-27T18:11:19.117Z',
+   *     status: 'pending',
+   *     version: 'version',
+   *   },
+   * );
+   * ```
    */
   start(scanID: string, params: ResultStartParams, options?: RequestOptions): APIPromise<void> {
     const { has_detections, ...body } = params;

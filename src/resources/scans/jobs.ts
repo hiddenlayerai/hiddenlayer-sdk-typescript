@@ -9,6 +9,11 @@ import { RequestOptions } from '../../internal/request-options';
 export class Jobs extends APIResource {
   /**
    * List all Model Scan Jobs
+   *
+   * @example
+   * ```ts
+   * const scanJob = await client.scans.jobs.list();
+   * ```
    */
   list(options?: RequestOptions): APIPromise<ScanJob> {
     return this._client.get('/scan/v3/jobs', {
@@ -19,6 +24,19 @@ export class Jobs extends APIResource {
 
   /**
    * Request a Model Scan Job
+   *
+   * @example
+   * ```ts
+   * const scanReport = await client.scans.jobs.request({
+   *   access: { source: 'HUGGING_FACE' },
+   *   inventory: {
+   *     model_name: 'some-model',
+   *     model_version: 'main',
+   *     requested_scan_location: 'owner/repo',
+   *     requesting_entity: 'some-user@example.com',
+   *   },
+   * });
+   * ```
    */
   request(body: JobRequestParams, options?: RequestOptions): APIPromise<ResultsAPI.ScanReport> {
     return this._client.post('/scan/v3/jobs', {

@@ -29,6 +29,11 @@ export class Scans extends APIResource {
 
   /**
    * Health check endpoint for Model Supply Chain Services
+   *
+   * @example
+   * ```ts
+   * await client.scans.checkHealth();
+   * ```
    */
   checkHealth(options?: RequestOptions): APIPromise<void> {
     return this._client.get('/scans/v3/health', {
@@ -39,6 +44,11 @@ export class Scans extends APIResource {
 
   /**
    * Readiness check endpoint for Model Supply Chain Services
+   *
+   * @example
+   * ```ts
+   * await client.scans.checkReadiness();
+   * ```
    */
   checkReadiness(options?: RequestOptions): APIPromise<void> {
     return this._client.get('/scans/v3/readiness', {
@@ -49,6 +59,13 @@ export class Scans extends APIResource {
 
   /**
    * Retrieve Model Scan Results
+   *
+   * @example
+   * ```ts
+   * const response = await client.scans.retrieveResults(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   * );
+   * ```
    */
   retrieveResults(
     scanID: string,

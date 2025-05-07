@@ -9,6 +9,13 @@ import { path } from '../internal/utils/path';
 export class Sensors extends APIResource {
   /**
    * Create a Sensor
+   *
+   * @example
+   * ```ts
+   * const sensor = await client.sensors.create({
+   *   plaintext_name: 'example_model',
+   * });
+   * ```
    */
   create(body: SensorCreateParams, options?: RequestOptions): APIPromise<Sensor> {
     return this._client.post('/api/v2/sensors/create', { body, ...options });
@@ -16,6 +23,13 @@ export class Sensors extends APIResource {
 
   /**
    * Get Sensor
+   *
+   * @example
+   * ```ts
+   * const sensor = await client.sensors.retrieve(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   * );
+   * ```
    */
   retrieve(sensorID: string, options?: RequestOptions): APIPromise<Sensor> {
     return this._client.get(path`/api/v2/sensors/${sensorID}`, options);
@@ -23,6 +37,13 @@ export class Sensors extends APIResource {
 
   /**
    * Delete Sensor
+   *
+   * @example
+   * ```ts
+   * await client.sensors.delete(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   * );
+   * ```
    */
   delete(sensorID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/api/v2/sensors/${sensorID}`, {
@@ -33,6 +54,11 @@ export class Sensors extends APIResource {
 
   /**
    * Query a Sensor
+   *
+   * @example
+   * ```ts
+   * const response = await client.sensors.query();
+   * ```
    */
   query(
     body: SensorQueryParams | null | undefined = {},

@@ -12,6 +12,13 @@ export class Upload extends APIResource {
 
   /**
    * Indicate All files are uploaded and start the scan
+   *
+   * @example
+   * ```ts
+   * const response = await client.scans.upload.completeAll(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   * );
+   * ```
    */
   completeAll(scanID: string, options?: RequestOptions): APIPromise<UploadCompleteAllResponse> {
     return this._client.patch(path`/scan/v3/upload/${scanID}`, options);
@@ -19,6 +26,15 @@ export class Upload extends APIResource {
 
   /**
    * Start V3 Upload
+   *
+   * @example
+   * ```ts
+   * const response = await client.scans.upload.start({
+   *   model_name: 'model_name',
+   *   model_version: 'model_version',
+   *   requesting_entity: 'requesting_entity',
+   * });
+   * ```
    */
   start(body: UploadStartParams, options?: RequestOptions): APIPromise<UploadStartResponse> {
     return this._client.post('/scan/v3/upload', { body, ...options });

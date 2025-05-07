@@ -9,6 +9,17 @@ import { path } from '../../../internal/utils/path';
 export class File extends APIResource {
   /**
    * Add file to V3 Upload
+   *
+   * @example
+   * ```ts
+   * const response = await client.scans.upload.file.add(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *   {
+   *     'file-content-length': 12345,
+   *     'file-name': 'exampleFile.txt',
+   *   },
+   * );
+   * ```
    */
   add(scanID: string, params: FileAddParams, options?: RequestOptions): APIPromise<FileAddResponse> {
     const { 'file-content-length': fileContentLength, 'file-name': fileName } = params;
@@ -23,6 +34,14 @@ export class File extends APIResource {
 
   /**
    * Indicate that upload is completed for {file_id}
+   *
+   * @example
+   * ```ts
+   * const response = await client.scans.upload.file.complete(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *   { scan_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
+   * );
+   * ```
    */
   complete(
     fileID: string,
