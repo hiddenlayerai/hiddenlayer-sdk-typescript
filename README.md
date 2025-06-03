@@ -38,7 +38,7 @@ const modelPath = 'path/to/model/file.pkl';
 const results = await client.modelScanner.scanFile(modelName, modelPath);
 ```
 
-### Scanning Foalders
+### Scanning Folders
 ```typescript
 const modelName = 'YOUR_MODEL';
 const modelPath = 'path/to/model/';

@@ -42,9 +42,7 @@ export class ModelScanService {
         const scanId = await this.startMultiFileUpload(modelName, modelVersion);
         await this.submitFileToModelScanner(modelPath, scanId);
         await this.completeMultiFileUpload(scanId);
-        
         return await this.getScanResults(scanId, waitForResults);
-        
     }
 
     async scanS3Model(modelName: string,
