@@ -12,6 +12,8 @@
  * Do not edit the class manually.
  */
 
+import { sleep } from "../hiddenlayer/services/utils";
+
 
 export const BASE_PATH = "https://api.hiddenlayer.ai".replace(/\/+$/, "");
 
@@ -137,6 +139,7 @@ export class BaseAPI {
         if (response && (response.status >= 200 && response.status < 300)) {
             return response;
         }
+        sleep(1000); // wait for 1s before retrying
         if (response && response.status === 404) {
             //try again
             response = await this.fetchApi(url, init);
