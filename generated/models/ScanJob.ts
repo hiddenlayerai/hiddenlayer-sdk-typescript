@@ -13,12 +13,18 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ScanJobInventory } from './ScanJobInventory';
+import type { ScanModelDetailsV31 } from './ScanModelDetailsV31';
 import {
-    ScanJobInventoryFromJSON,
-    ScanJobInventoryFromJSONTyped,
-    ScanJobInventoryToJSON,
-} from './ScanJobInventory';
+    ScanModelDetailsV31FromJSON,
+    ScanModelDetailsV31FromJSONTyped,
+    ScanModelDetailsV31ToJSON,
+} from './ScanModelDetailsV31';
+import type { ScanJobAccess } from './ScanJobAccess';
+import {
+    ScanJobAccessFromJSON,
+    ScanJobAccessFromJSONTyped,
+    ScanJobAccessToJSON,
+} from './ScanJobAccess';
 
 /**
  * 
@@ -26,6 +32,18 @@ import {
  * @interface ScanJob
  */
 export interface ScanJob {
+    /**
+     * 
+     * @type {ScanJobAccess}
+     * @memberof ScanJob
+     */
+    access?: ScanJobAccess;
+    /**
+     * 
+     * @type {ScanModelDetailsV31}
+     * @memberof ScanJob
+     */
+    inventory?: ScanModelDetailsV31;
     /**
      * unique identifier for the scan
      * @type {string}
@@ -38,12 +56,6 @@ export interface ScanJob {
      * @memberof ScanJob
      */
     readonly status?: ScanJobStatusEnum;
-    /**
-     * 
-     * @type {ScanJobInventory}
-     * @memberof ScanJob
-     */
-    inventory?: ScanJobInventory;
 }
 
 
@@ -78,9 +90,10 @@ export function ScanJobFromJSONTyped(json: any, ignoreDiscriminator: boolean): S
     }
     return {
         
+        'access': json['access'] == null ? undefined : ScanJobAccessFromJSON(json['access']),
+        'inventory': json['inventory'] == null ? undefined : ScanModelDetailsV31FromJSON(json['inventory']),
         'scanId': json['scan_id'] == null ? undefined : json['scan_id'],
         'status': json['status'] == null ? undefined : json['status'],
-        'inventory': json['inventory'] == null ? undefined : ScanJobInventoryFromJSON(json['inventory']),
     };
 }
 
@@ -90,7 +103,8 @@ export function ScanJobToJSON(value?: Omit<ScanJob, 'scan_id'|'status'> | null):
     }
     return {
         
-        'inventory': ScanJobInventoryToJSON(value['inventory']),
+        'access': ScanJobAccessToJSON(value['access']),
+        'inventory': ScanModelDetailsV31ToJSON(value['inventory']),
     };
 }
 

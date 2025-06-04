@@ -97,7 +97,7 @@ export interface GetScanResultsRequest {
 }
 
 export interface GetScanResults1Request {
-    scanId?: string;
+    scanId: string;
     cursor?: string;
     pageSize?: number;
 }
@@ -323,7 +323,7 @@ export class ModelSupplyChainApi extends runtime.BaseAPI {
     /**
      * Request a Model Scan Job
      */
-    async createScanJobRaw(requestParameters: CreateScanJobRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async createScanJobRaw(requestParameters: CreateScanJobRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScanReportV3>> {
         if (requestParameters['scanJob'] == null) {
             throw new runtime.RequiredError(
                 'scanJob',
@@ -346,21 +346,22 @@ export class ModelSupplyChainApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/scans/v3/jobs`,
+            path: `/scan/v3/jobs`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ScanJobToJSON(requestParameters['scanJob']),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ScanReportV3FromJSON(jsonValue));
     }
 
     /**
      * Request a Model Scan Job
      */
-    async createScanJob(requestParameters: CreateScanJobRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createScanJobRaw(requestParameters, initOverrides);
+    async createScanJob(requestParameters: CreateScanJobRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ScanReportV3> {
+        const response = await this.createScanJobRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
@@ -440,7 +441,7 @@ export class ModelSupplyChainApi extends runtime.BaseAPI {
     /**
      * List all Model Scan Jobs
      */
-    async getScanJobsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ScanJob>>> {
+    async getScanJobsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScanJob>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -454,19 +455,19 @@ export class ModelSupplyChainApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/scans/v3/jobs`,
+            path: `/scan/v3/jobs`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ScanJobFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ScanJobFromJSON(jsonValue));
     }
 
     /**
      * List all Model Scan Jobs
      */
-    async getScanJobs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ScanJob>> {
+    async getScanJobs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ScanJob> {
         const response = await this.getScanJobsRaw(initOverrides);
         return await response.value();
     }
@@ -520,6 +521,13 @@ export class ModelSupplyChainApi extends runtime.BaseAPI {
      * Retrieve Model Scan Results
      */
     async getScanResults1Raw(requestParameters: GetScanResults1Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ScanResultsMapV3>>> {
+        if (requestParameters['scanId'] == null) {
+            throw new runtime.RequiredError(
+                'scanId',
+                'Required parameter "scanId" was null or undefined when calling getScanResults1().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['cursor'] != null) {
@@ -553,7 +561,7 @@ export class ModelSupplyChainApi extends runtime.BaseAPI {
     /**
      * Retrieve Model Scan Results
      */
-    async getScanResults1(requestParameters: GetScanResults1Request = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ScanResultsMapV3>> {
+    async getScanResults1(requestParameters: GetScanResults1Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ScanResultsMapV3>> {
         const response = await this.getScanResults1Raw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -12,6 +12,8 @@
  * Do not edit the class manually.
  */
 
+import { sleep } from "../hiddenlayer/services/utils";
+
 
 export const BASE_PATH = "https://api.hiddenlayer.ai".replace(/\/+$/, "");
 
@@ -133,9 +135,17 @@ export class BaseAPI {
 
     protected async request(context: RequestOpts, initOverrides?: RequestInit | InitOverrideFunction): Promise<Response> {
         const { url, init } = await this.createFetchParams(context, initOverrides);
-        const response = await this.fetchApi(url, init);
+        let response = await this.fetchApi(url, init);
         if (response && (response.status >= 200 && response.status < 300)) {
             return response;
+        }
+        sleep(1000); // wait for 1s before retrying
+        if (response && response.status === 404) {
+            //try again
+            response = await this.fetchApi(url, init);
+            if (response && (response.status >= 200 && response.status < 300)) {
+                return response;
+            }
         }
         throw new ResponseError(response, 'Response returned an error code');
     }

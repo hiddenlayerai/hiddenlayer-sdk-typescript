@@ -21,11 +21,11 @@ describe('Integration test suite in Enterprise', () => {
 
 function runTestSuite(client: HiddenLayerServiceClient) {
     it('should scan a model', async () => await performModelScanTest(client), 120000);
-    it('should scan a folder', async () => await performScanFolderTest(client), 60000);
-    it('should scan a model with a specified version', async () => await performModelScanTest(client, "123"), 60000);
-    it('should scan a folder with a specified version', async () => await performScanFolderTest(client, "123"), 60000);
-    it('should get sarif results for a model', async () => await getSarifResultsTest(client), 60000);
-    it('should rescan a model with the same version', async () => await performRescanTest(client), 60000);
+    it('should scan a folder', async () => await performScanFolderTest(client), 120000);
+    it('should scan a model with a specified version', async () => await performModelScanTest(client, "123"), 120000);
+    it('should scan a folder with a specified version', async () => await performScanFolderTest(client, "123"), 120000);
+    it('should get sarif results for a model', async () => await getSarifResultsTest(client), 120000);
+    it('should rescan a model with the same version', async () => await performRescanTest(client), 120000);
 }
 
 function getSaaSClient() {

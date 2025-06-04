@@ -55,6 +55,18 @@ export interface InventoryV3 {
      * @memberof InventoryV3
      */
     requestingEntity?: string;
+    /**
+     * Identifies the system that requested the scan
+     * @type {string}
+     * @memberof InventoryV3
+     */
+    requestSource?: string;
+    /**
+     * Specifies the platform or service where the model originated before being scanned
+     * @type {string}
+     * @memberof InventoryV3
+     */
+    origin?: string;
 }
 
 /**
@@ -80,6 +92,8 @@ export function InventoryV3FromJSONTyped(json: any, ignoreDiscriminator: boolean
         'modelVersion': json['model_version'] == null ? undefined : json['model_version'],
         'modelVersionId': json['model_version_id'] == null ? undefined : json['model_version_id'],
         'requestingEntity': json['requesting_entity'] == null ? undefined : json['requesting_entity'],
+        'requestSource': json['request_source'] == null ? undefined : json['request_source'],
+        'origin': json['origin'] == null ? undefined : json['origin'],
     };
 }
 
@@ -95,6 +109,8 @@ export function InventoryV3ToJSON(value?: InventoryV3 | null): any {
         'model_version': value['modelVersion'],
         'model_version_id': value['modelVersionId'],
         'requesting_entity': value['requestingEntity'],
+        'request_source': value['requestSource'],
+        'origin': value['origin'],
     };
 }
 
