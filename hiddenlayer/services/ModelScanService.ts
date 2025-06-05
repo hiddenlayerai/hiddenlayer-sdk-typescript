@@ -122,9 +122,22 @@ export class ModelScanService {
     }
 
     async getScanResults(scanId: string, waitForResults: boolean): Promise<ScanReportV3> {
-        let scanReport = await this.modelSupplyChainApi.getScanResults({
-            scanId: scanId
-        })
+        let scanReport;
+        for (let i = 0; i < 2; i++) {
+            try{
+                scanReport = await this.modelSupplyChainApi.getScanResults({
+                    scanId: scanId
+                })
+                break;
+            } catch (error) {
+                // 404 means the scan is not found, give it a second to be created and try again
+                if (i < 1 && error.response.status === 404) {
+                    await sleep(1000);
+                    continue;
+                }
+                throw error;
+            }
+        }
 
         const baseDelay = 0.1; // seconds
         let retries = 0;
