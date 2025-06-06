@@ -17,12 +17,14 @@ export class ModelScanService {
     readonly modelSupplyChainApi: ModelSupplyChainApi;
     readonly modelService: ModelService;
     readonly isSaaS: boolean;
+    readonly maxWaitForScanCreationRetries: number;
 
-    constructor(isSaaS: boolean, config: Configuration) {
+    constructor(isSaaS: boolean, config: Configuration, maxWaitForScanCreationRetries: number = 2) {
         this.isSaaS = isSaaS;
         this.sensorApi = new SensorApi(config);
         this.modelService = new ModelService(config);
         this.modelSupplyChainApi = new ModelSupplyChainApi(config);
+        this.maxWaitForScanCreationRetries = maxWaitForScanCreationRetries;
     }
 
     /**
@@ -123,7 +125,7 @@ export class ModelScanService {
 
     async getScanResults(scanId: string, waitForResults: boolean): Promise<ScanReportV3> {
         let scanReport;
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < this.maxWaitForScanCreationRetries; i++) {
             try{
                 scanReport = await this.modelSupplyChainApi.getScanResults({
                     scanId: scanId
