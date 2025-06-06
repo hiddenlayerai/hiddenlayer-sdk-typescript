@@ -19,7 +19,7 @@ export class ModelScanService {
     readonly isSaaS: boolean;
     readonly maxWaitForScanCreationRetries: number;
 
-    constructor(isSaaS: boolean, config: Configuration, maxWaitForScanCreationRetries: number = 2) {
+    constructor(isSaaS: boolean, config: Configuration, maxWaitForScanCreationRetries: number = 5) {
         this.isSaaS = isSaaS;
         this.sensorApi = new SensorApi(config);
         this.modelService = new ModelService(config);
@@ -132,12 +132,13 @@ export class ModelScanService {
                 })
                 break;
             } catch (error) {
-                // 404 means the scan is not found, give it a second to be created and try again
-                if (i < 1 && error.response.status === 404) {
+                // 404 means the scan is not found, give it another try unless this was the last try
+                if (i < this.maxWaitForScanCreationRetries - 1 && error.response.status === 404) {
                     await sleep(1000);
                     continue;
+                } else {
+                    throw error;
                 }
-                throw error;
             }
         }
 
