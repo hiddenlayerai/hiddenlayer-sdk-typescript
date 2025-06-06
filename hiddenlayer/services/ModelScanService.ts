@@ -17,12 +17,14 @@ export class ModelScanService {
     readonly modelSupplyChainApi: ModelSupplyChainApi;
     readonly modelService: ModelService;
     readonly isSaaS: boolean;
+    readonly maxWaitForScanCreationRetries: number;
 
-    constructor(isSaaS: boolean, config: Configuration) {
+    constructor(isSaaS: boolean, config: Configuration, maxWaitForScanCreationRetries: number = 5) {
         this.isSaaS = isSaaS;
         this.sensorApi = new SensorApi(config);
         this.modelService = new ModelService(config);
         this.modelSupplyChainApi = new ModelSupplyChainApi(config);
+        this.maxWaitForScanCreationRetries = maxWaitForScanCreationRetries;
     }
 
     /**
@@ -123,19 +125,20 @@ export class ModelScanService {
 
     async getScanResults(scanId: string, waitForResults: boolean): Promise<ScanReportV3> {
         let scanReport;
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < this.maxWaitForScanCreationRetries; i++) {
             try{
                 scanReport = await this.modelSupplyChainApi.getScanResults({
                     scanId: scanId
                 })
                 break;
             } catch (error) {
-                // 404 means the scan is not found, give it a second to be created and try again
-                if (i < 1 && error.response.status === 404) {
+                // 404 means the scan is not found, give it another try unless this was the last try
+                if (i < this.maxWaitForScanCreationRetries - 1 && error.response.status === 404) {
                     await sleep(1000);
                     continue;
+                } else {
+                    throw error;
                 }
-                throw error;
             }
         }
 
