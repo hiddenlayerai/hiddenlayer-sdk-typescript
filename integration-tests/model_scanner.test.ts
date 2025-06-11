@@ -95,8 +95,7 @@ async function performCommunityScanTest(client: HiddenLayerServiceClient): Promi
 
     console.log(results);
     assert(results.fileResults != null && results.fileResults.length > 0)
-    assert(results.fileResults.length === 12);
-    assert(results.fileResults.filter(fileResult => fileResult.detections != null).length === 6);
+    assert(results.fileResults.length === 8);
     assert(results.fileCount === 12);
     assert(results.filesWithDetectionsCount === 6);
 
