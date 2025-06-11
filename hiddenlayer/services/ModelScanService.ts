@@ -7,7 +7,7 @@ import { NodeJsClient } from '@smithy/types';
 
 import { BlobServiceClient } from '@azure/storage-blob';
 
-import { SensorApi, Configuration, ModelSupplyChainApi, ScanReportV3, ScanReportV3StatusEnum, Sarif210, ScanJob, ScanModelDetailsV31, ScanJobAccessSourceEnum } from "../../generated";
+import { SensorApi, Configuration, ModelSupplyChainApi, ScanReportV3, ScanReportV3StatusEnum, Sarif210, ScanJob, ScanJobAccessSourceEnum } from "../../generated";
 import { sleep } from './utils';
 import { ModelService } from './ModelService';
 import "../extensions/ModelSupplyChainApiExtensions";
@@ -58,7 +58,7 @@ export class ModelScanService {
     async communityScan(modelName: string,
         modelPath: string,
         scanType: ScanJobAccessSourceEnum,
-        modelVersion?: string,
+        modelVersion: string = "main",
         waitForResults: boolean = true) : Promise<ScanReportV3> {
         const scanJob: Omit<ScanJob, 'scanId'|'status'> = {
             inventory: {

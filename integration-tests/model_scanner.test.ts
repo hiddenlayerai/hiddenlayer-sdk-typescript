@@ -88,10 +88,10 @@ async function performModelScanTest(client: HiddenLayerServiceClient, modelVersi
     }
 }
 
-async function performCommunityScanTest(client: HiddenLayerServiceClient, modelVersion?: string): Promise<void> {
+async function performCommunityScanTest(client: HiddenLayerServiceClient): Promise<void> {
     const modelName = `typescript-sdk-integration-community-scan-model-${uuidv4()}`;
     const communityModel = "https://huggingface.co/ScanMe/Models"
-    const results = await client.modelScanner.communityScan(modelName, communityModel, ScanJobAccessSourceEnum.HuggingFace, modelVersion="main");
+    const results = await client.modelScanner.communityScan(modelName, communityModel, ScanJobAccessSourceEnum.HuggingFace, "main");
 
     console.log(results);
     assert(results.fileResults != null && results.fileResults.length > 0)
