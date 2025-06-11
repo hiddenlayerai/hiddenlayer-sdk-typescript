@@ -73,7 +73,7 @@ export class ModelScanService {
                 source: scanType
             }
         }
-        let report = await this.modelSupplyChainApi.createScanJob({scanJob: scanJob});
+        const report = await this.modelSupplyChainApi.createScanJob({scanJob: scanJob});
         return await this.getScanResults(report.scanId, waitForResults);
     }
 
