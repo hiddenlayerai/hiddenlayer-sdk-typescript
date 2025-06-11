@@ -6,11 +6,13 @@ export class HiddenLayerServiceClient {
     private clientId: string;
     private clientSecret: string;
     private host: string;
+    private authUrl: string;
 
-    private constructor(host?: string, clientId?: string, clientSecret?: string) {
+    private constructor(host?: string, clientId?: string, clientSecret?: string, authUrl?: string) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.host = host ?? "https://api.us.hiddenlayer.ai";
+        this.authUrl = authUrl ?? "https://auth.hiddenlayer.ai";
         this.isSaaS = this.isHostSaaS(this.host);
 
         let config: Configuration = null;
@@ -64,7 +66,7 @@ export class HiddenLayerServiceClient {
      * Get the JWT token to auth to the HiddenLayer API.
      */
     private async getJwt(): Promise<string> {
-        const tokenUrl = "https://auth.hiddenlayer.ai/oauth2/token?grant_type=client_credentials";
+        const tokenUrl = this.authUrl + "/oauth2/token?grant_type=client_credentials";
         const response = await fetch(tokenUrl, {
             method: "POST",
             headers: {

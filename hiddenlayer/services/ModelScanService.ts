@@ -7,7 +7,7 @@ import { NodeJsClient } from '@smithy/types';
 
 import { BlobServiceClient } from '@azure/storage-blob';
 
-import { SensorApi, Configuration, ModelSupplyChainApi, ScanReportV3, ScanReportV3StatusEnum, Sarif210 } from "../../generated";
+import { SensorApi, Configuration, ModelSupplyChainApi, ScanReportV3, ScanReportV3StatusEnum, Sarif210, ScanJob, ScanModelDetailsV31, ScanJobAccessSourceEnum } from "../../generated";
 import { sleep } from './utils';
 import { ModelService } from './ModelService';
 import "../extensions/ModelSupplyChainApiExtensions";
@@ -18,13 +18,21 @@ export class ModelScanService {
     readonly modelService: ModelService;
     readonly isSaaS: boolean;
     readonly maxWaitForScanCreationRetries: number;
+    readonly origin: string;
+    readonly requestSource: string;
 
-    constructor(isSaaS: boolean, config: Configuration, maxWaitForScanCreationRetries: number = 5) {
+    constructor(isSaaS: boolean, 
+        config: Configuration, 
+        origin: string = null,
+        requestSource: string = null,
+        maxWaitForScanCreationRetries: number = 5) {
         this.isSaaS = isSaaS;
         this.sensorApi = new SensorApi(config);
         this.modelService = new ModelService(config);
         this.modelSupplyChainApi = new ModelSupplyChainApi(config);
         this.maxWaitForScanCreationRetries = maxWaitForScanCreationRetries;
+        this.origin = origin;
+        this.requestSource = requestSource;
     }
 
     /**
@@ -45,6 +53,28 @@ export class ModelScanService {
         await this.submitFileToModelScanner(modelPath, scanId);
         await this.completeMultiFileUpload(scanId);
         return await this.getScanResults(scanId, waitForResults);
+    }
+
+    async communityScan(modelName: string,
+        modelPath: string,
+        scanType: ScanJobAccessSourceEnum,
+        modelVersion?: string,
+        waitForResults: boolean = true) : Promise<ScanReportV3> {
+        const scanJob: Omit<ScanJob, 'scanId'|'status'> = {
+            inventory: {
+                modelName: modelName,
+                modelVersion: modelVersion,
+                requestedScanLocation: modelPath,
+                requestingEntity: 'hiddenlayer-typescript-sdk',
+                origin: this.origin,
+                requestSource: this.requestSource
+            },
+            access: {
+                source: scanType
+            }
+        }
+        let report = await this.modelSupplyChainApi.createScanJob({scanJob: scanJob});
+        return await this.getScanResults(report.scanId, waitForResults);
     }
 
     async scanS3Model(modelName: string,

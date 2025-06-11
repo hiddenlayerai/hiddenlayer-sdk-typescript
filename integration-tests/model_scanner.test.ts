@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import { HiddenLayerServiceClient } from '../hiddenlayer/HiddenLayerServiceClient';
 import assert from 'assert';
-import { ScanDetectionV3SeverityEnum } from '../generated';
+import { ScanDetectionV3SeverityEnum, ScanJobAccessSourceEnum } from '../generated';
 
 describe('Integration test suite in SaaS', () => {
     const client = getSaaSClient();
@@ -26,6 +26,7 @@ function runTestSuite(client: HiddenLayerServiceClient) {
     it('should scan a folder with a specified version', async () => await performScanFolderTest(client, "123"), 120000);
     it('should get sarif results for a model', async () => await getSarifResultsTest(client), 120000);
     it('should rescan a model with the same version', async () => await performRescanTest(client), 120000);
+    it('should scan a community model', async () => await performCommunityScanTest(client), 120000);
 }
 
 function getSaaSClient() {
@@ -85,6 +86,20 @@ async function performModelScanTest(client: HiddenLayerServiceClient, modelVersi
             throw error;
         }
     }
+}
+
+async function performCommunityScanTest(client: HiddenLayerServiceClient, modelVersion?: string): Promise<void> {
+    const modelName = `typescript-sdk-integration-community-scan-model-${uuidv4()}`;
+    const communityModel = "https://huggingface.co/ScanMe/Models"
+    const results = await client.modelScanner.communityScan(modelName, communityModel, ScanJobAccessSourceEnum.HuggingFace, modelVersion="main");
+
+    console.log(results);
+    assert(results.fileResults != null && results.fileResults.length > 0)
+    assert(results.fileResults.length === 12);
+    assert(results.fileResults.filter(fileResult => fileResult.detections != null).length === 6);
+    assert(results.fileCount === 12);
+    assert(results.filesWithDetectionsCount === 6);
+
 }
 
 async function performScanFolderTest(client: HiddenLayerServiceClient, modelVersion?: string): Promise<void> {
