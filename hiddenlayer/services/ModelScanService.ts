@@ -88,8 +88,8 @@ export class ModelScanService {
             Key: key
         }));
         const tmpFile = `/tmp/${uuidv4()}`;
-        const bodyString = await body.Body.transformToString();
-        await fs.promises.writeFile(tmpFile, bodyString);
+        const bodyString = await body.Body.transformToByteArray();
+        await fs.promises.writeFile(tmpFile, Buffer.from(bodyString));
 
         return await this.scanFile(modelName, tmpFile, modelVersion, waitForResults);
     }
