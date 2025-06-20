@@ -43,6 +43,18 @@ export interface MultiFileUploadRequestV3 {
      * @memberof MultiFileUploadRequestV3
      */
     locationAlias?: string;
+    /**
+     * Identifies the system that requested the scan
+     * @type {string}
+     * @memberof MultiFileUploadRequestV3
+     */
+    requestSource?: string;
+    /**
+     * Specifies the platform or service where the model originated before being scanned
+     * @type {string}
+     * @memberof MultiFileUploadRequestV3
+     */
+    origin?: string;
 }
 
 /**
@@ -69,6 +81,8 @@ export function MultiFileUploadRequestV3FromJSONTyped(json: any, ignoreDiscrimin
         'modelName': json['model_name'],
         'requestingEntity': json['requesting_entity'],
         'locationAlias': json['location_alias'] == null ? undefined : json['location_alias'],
+        'requestSource': json['request_source'] == null ? undefined : json['request_source'],
+        'origin': json['origin'] == null ? undefined : json['origin'],
     };
 }
 
@@ -82,6 +96,8 @@ export function MultiFileUploadRequestV3ToJSON(value?: MultiFileUploadRequestV3 
         'model_name': value['modelName'],
         'requesting_entity': value['requestingEntity'],
         'location_alias': value['locationAlias'],
+        'request_source': value['requestSource'],
+        'origin': value['origin'],
     };
 }
 
