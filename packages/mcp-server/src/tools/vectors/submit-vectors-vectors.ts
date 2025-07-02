@@ -1,5 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { asTextContentResult } from 'hiddenlayer-mcp/tools/types';
+
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import type { Metadata } from '../';
 import HiddenLayer from 'hiddenlayer';
@@ -8,6 +10,9 @@ export const metadata: Metadata = {
   resource: 'vectors',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/api/v2/submit',
+  operationId: 'submit_vectors',
 };
 
 export const tool: Tool = {
@@ -80,9 +85,9 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
+export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.vectors.submitVectors(body);
+  return asTextContentResult(await client.vectors.submitVectors(body));
 };
 
 export default { metadata, tool, handler };

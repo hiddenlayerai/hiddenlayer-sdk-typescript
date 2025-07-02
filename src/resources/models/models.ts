@@ -45,7 +45,7 @@ export namespace ModelRetrieveResponse {
   export interface Version {
     version: string;
 
-    locations?: Record<string, unknown>;
+    locations?: { [key: string]: unknown };
 
     model_version_id?: string;
 
@@ -53,7 +53,7 @@ export namespace ModelRetrieveResponse {
 
     retrievable?: boolean;
 
-    tags?: Record<string, unknown>;
+    tags?: { [key: string]: unknown };
   }
 }
 

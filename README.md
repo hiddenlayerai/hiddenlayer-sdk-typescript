@@ -1,6 +1,6 @@
 # Hidden Layer TypeScript API Library
 
-[![NPM version](https://img.shields.io/npm/v/hiddenlayer.svg)](https://npmjs.org/package/hiddenlayer) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/hiddenlayer)
+[![NPM version](<https://img.shields.io/npm/v/hiddenlayer.svg?label=npm%20(stable)>)](https://npmjs.org/package/hiddenlayer) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/hiddenlayer)
 
 This library provides convenient access to the Hidden Layer REST API from server-side TypeScript or JavaScript.
 
@@ -15,7 +15,7 @@ npm install git+ssh://git@github.com:stainless-sdks/hiddenlayer-sdk-typescript.g
 ```
 
 > [!NOTE]
-> Once this package is [published to npm](https://app.stainless.com/docs/guides/publish), this will become: `npm install hiddenlayer`
+> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install hiddenlayer`
 
 ## Usage
 
@@ -29,11 +29,9 @@ const client = new HiddenLayer({
   bearerToken: process.env['HIDDENLAYER_TOKEN'], // This is the default and can be omitted
 });
 
-async function main() {
-  const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' });
-}
+const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' });
 
-main();
+console.log(sensor.sensor_id);
 ```
 
 ### Request & Response types
@@ -48,12 +46,8 @@ const client = new HiddenLayer({
   bearerToken: process.env['HIDDENLAYER_TOKEN'], // This is the default and can be omitted
 });
 
-async function main() {
-  const params: HiddenLayer.SensorCreateParams = { plaintext_name: 'REPLACE_ME' };
-  const sensor: HiddenLayer.Sensor = await client.sensors.create(params);
-}
-
-main();
+const params: HiddenLayer.SensorCreateParams = { plaintext_name: 'REPLACE_ME' };
+const sensor: HiddenLayer.Sensor = await client.sensors.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -66,19 +60,15 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' }).catch(async (err) => {
-    if (err instanceof HiddenLayer.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
-}
-
-main();
+const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' }).catch(async (err) => {
+  if (err instanceof HiddenLayer.APIError) {
+    console.log(err.status); // 400
+    console.log(err.name); // BadRequestError
+    console.log(err.headers); // {server: 'nginx', ...}
+  } else {
+    throw err;
+  }
+});
 ```
 
 Error codes are as follows:
@@ -158,7 +148,7 @@ const { data: sensor, response: raw } = await client.sensors
   .create({ plaintext_name: 'REPLACE_ME' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(sensor);
+console.log(sensor.sensor_id);
 ```
 
 ### Logging
@@ -238,9 +228,8 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.foo.create({
-  foo: 'my_param',
-  bar: 12,
+client.sensors.create({
+  // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
 });

@@ -191,7 +191,7 @@ export namespace FileScanReport {
      */
     file_size_bytes?: number;
 
-    file_type_details?: Record<string, unknown>;
+    file_type_details?: { [key: string]: unknown };
 
     /**
      * hexadecimal md5 hash of file

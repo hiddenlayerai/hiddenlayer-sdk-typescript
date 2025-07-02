@@ -68,7 +68,21 @@ export class Sensors extends APIResource {
   }
 }
 
-export interface Sensor {}
+export interface Sensor {
+  active: boolean;
+
+  created_at: string;
+
+  plaintext_name: string;
+
+  sensor_id: string;
+
+  tenant_id: string;
+
+  version: number;
+
+  tags?: { [key: string]: unknown };
+}
 
 export interface SensorQueryResponse {
   page_number: number;
@@ -87,7 +101,7 @@ export interface SensorCreateParams {
 
   adhoc?: boolean;
 
-  tags?: Record<string, unknown>;
+  tags?: { [key: string]: unknown };
 
   version?: number;
 }

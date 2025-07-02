@@ -27,7 +27,36 @@ export interface CardListResponse {
 }
 
 export namespace CardListResponse {
-  export interface Result {}
+  export interface Result {
+    active_versions: Array<number>;
+
+    /**
+     * Unix Nano Epoch
+     */
+    created_at: number;
+
+    model_id: string;
+
+    plaintext_name: string;
+
+    source: string;
+
+    attack_monitoring_threat_level?: 'safe' | 'unsafe' | 'suspicious' | 'not available';
+
+    model_scan_threat_level?: 'safe' | 'unsafe' | 'suspicious' | 'not available';
+
+    security_posture?: Result.SecurityPosture;
+
+    tags?: { [key: string]: unknown };
+  }
+
+  export namespace Result {
+    export interface SecurityPosture {
+      attack_monitoring?: boolean;
+
+      model_scan?: boolean;
+    }
+  }
 }
 
 export interface CardListParams {

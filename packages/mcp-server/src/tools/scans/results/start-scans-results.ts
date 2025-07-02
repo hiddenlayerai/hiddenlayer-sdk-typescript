@@ -1,5 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { asTextContentResult } from 'hiddenlayer-mcp/tools/types';
+
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import type { Metadata } from '../../';
 import HiddenLayer from 'hiddenlayer';
@@ -8,6 +10,9 @@ export const metadata: Metadata = {
   resource: 'scans.results',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/scan/v3/results/{scan_id}',
+  operationId: 'notify_model_scan_started',
 };
 
 export const tool: Tool = {
@@ -371,9 +376,10 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
+export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
   const { scan_id, ...body } = args as any;
-  return client.scans.results.start(scan_id, body);
+  const response = await client.scans.results.start(scan_id, body).asResponse();
+  return asTextContentResult(await response.text());
 };
 
 export default { metadata, tool, handler };
