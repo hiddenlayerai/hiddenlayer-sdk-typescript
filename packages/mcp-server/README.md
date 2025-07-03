@@ -200,11 +200,6 @@ The following tools are available in this MCP server.
 - `delete_sensors` (`write`): Remove an Adhoc Sensor
 - `query_sensors` (`write`): Query Sensors
 
-### Resource `scans.results`:
-
-- `retrieve_scans_results` (`read`): Get scan results (SARIF / V3)
-- `list_scans_results` (`read`): Get scan results (Summaries)
-
 ### Resource `scans.jobs`:
 
 - `list_scans_jobs` (`read`): List model scan jobs

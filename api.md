@@ -2,8 +2,13 @@
 
 Types:
 
+- <code><a href="./src/resources/shared.ts">ArtifactContent</a></code>
 - <code><a href="./src/resources/shared.ts">Exception</a></code>
+- <code><a href="./src/resources/shared.ts">Message</a></code>
+- <code><a href="./src/resources/shared.ts">MultiformatMessageString</a></code>
 - <code><a href="./src/resources/shared.ts">Node</a></code>
+- <code><a href="./src/resources/shared.ts">PropertyBag</a></code>
+- <code><a href="./src/resources/shared.ts">Region</a></code>
 
 # Models
 
@@ -41,8 +46,6 @@ Methods:
 - <code title="delete /api/v2/sensors/{sensor_id}">client.sensors.<a href="./src/resources/sensors.ts">delete</a>(sensorID, { ...params }) -> void</code>
 - <code title="post /api/v2/sensors/query">client.sensors.<a href="./src/resources/sensors.ts">query</a>({ ...params }) -> SensorQueryResponse</code>
 
-# Vectors
-
 # Scans
 
 ## Results
@@ -51,12 +54,6 @@ Types:
 
 - <code><a href="./src/resources/scans/results.ts">FileScanReport</a></code>
 - <code><a href="./src/resources/scans/results.ts">ScanReport</a></code>
-- <code><a href="./src/resources/scans/results.ts">ResultListResponse</a></code>
-
-Methods:
-
-- <code title="get /scan/v3/results/{scan_id}">client.scans.results.<a href="./src/resources/scans/results.ts">retrieve</a>(scanID, { ...params }) -> ScanReport</code>
-- <code title="get /scan/v3/results">client.scans.results.<a href="./src/resources/scans/results.ts">list</a>({ ...params }) -> ResultListResponse</code>
 
 ## Jobs
 

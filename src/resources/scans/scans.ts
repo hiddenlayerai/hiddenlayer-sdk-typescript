@@ -4,14 +4,7 @@ import { APIResource } from '../../core/resource';
 import * as JobsAPI from './jobs';
 import { JobListResponse, JobRequestParams, Jobs, ScanJob } from './jobs';
 import * as ResultsAPI from './results';
-import {
-  FileScanReport,
-  ResultListParams,
-  ResultListResponse,
-  ResultRetrieveParams,
-  Results,
-  ScanReport,
-} from './results';
+import { FileScanReport, Results, ScanReport } from './results';
 import * as UploadAPI from './upload/upload';
 import {
   Upload,
@@ -32,14 +25,7 @@ Scans.Jobs = Jobs;
 Scans.Upload = Upload;
 
 export declare namespace Scans {
-  export {
-    Results as Results,
-    type FileScanReport as FileScanReport,
-    type ScanReport as ScanReport,
-    type ResultListResponse as ResultListResponse,
-    type ResultRetrieveParams as ResultRetrieveParams,
-    type ResultListParams as ResultListParams,
-  };
+  export { Results as Results, type FileScanReport as FileScanReport, type ScanReport as ScanReport };
 
   export {
     Jobs as Jobs,

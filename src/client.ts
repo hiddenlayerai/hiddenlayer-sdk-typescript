@@ -29,7 +29,6 @@ import {
   SensorRetrieveResponse,
   Sensors,
 } from './resources/sensors';
-import { Vectors } from './resources/vectors';
 import {
   ModelDeleteParams,
   ModelRetrieveParams,
@@ -736,12 +735,10 @@ export class HiddenLayer {
 
   models: API.Models = new API.Models(this);
   sensors: API.Sensors = new API.Sensors(this);
-  vectors: API.Vectors = new API.Vectors(this);
   scans: API.Scans = new API.Scans(this);
 }
 HiddenLayer.Models = Models;
 HiddenLayer.Sensors = Sensors;
-HiddenLayer.Vectors = Vectors;
 HiddenLayer.Scans = Scans;
 export declare namespace HiddenLayer {
   export type RequestOptions = Opts.RequestOptions;
@@ -770,10 +767,13 @@ export declare namespace HiddenLayer {
     type SensorQueryParams as SensorQueryParams,
   };
 
-  export { Vectors as Vectors };
-
   export { Scans as Scans };
 
+  export type ArtifactContent = API.ArtifactContent;
   export type Exception = API.Exception;
+  export type Message = API.Message;
+  export type MultiformatMessageString = API.MultiformatMessageString;
   export type Node = API.Node;
+  export type PropertyBag = API.PropertyBag;
+  export type Region = API.Region;
 }

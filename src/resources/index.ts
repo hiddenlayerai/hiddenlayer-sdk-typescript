@@ -18,4 +18,3 @@ export {
   type SensorDeleteParams,
   type SensorQueryParams,
 } from './sensors';
-export { Vectors } from './vectors';

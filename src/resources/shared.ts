@@ -1,5 +1,34 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import * as Shared from './shared';
+
+/**
+ * Represents the contents of an artifact.
+ */
+export interface ArtifactContent {
+  /**
+   * MIME Base64-encoded content from a binary artifact, or from a text artifact in
+   * its original encoding.
+   */
+  binary?: string;
+
+  /**
+   * Key/value pairs that provide additional information about the artifact content.
+   */
+  properties?: PropertyBag;
+
+  /**
+   * An alternate rendered representation of the artifact (e.g., a decompiled
+   * representation of a binary region).
+   */
+  rendered?: MultiformatMessageString;
+
+  /**
+   * UTF-8-encoded content from a text artifact.
+   */
+  text?: string;
+}
+
 /**
  * Describes a runtime exception encountered during the execution of an analysis
  * tool.
@@ -25,7 +54,7 @@ export interface Exception {
   /**
    * Key/value pairs that provide additional information about the exception.
    */
-  properties?: Exception.Properties;
+  properties?: PropertyBag;
 
   /**
    * The sequence of function calls leading to the exception.
@@ -34,18 +63,6 @@ export interface Exception {
 }
 
 export namespace Exception {
-  /**
-   * Key/value pairs that provide additional information about the exception.
-   */
-  export interface Properties {
-    /**
-     * A set of distinct strings that provide additional information.
-     */
-    tags?: Array<string>;
-
-    [k: string]: unknown;
-  }
-
   /**
    * The sequence of function calls leading to the exception.
    */
@@ -59,12 +76,12 @@ export namespace Exception {
     /**
      * A message relevant to this call stack.
      */
-    message?: Stack.Message;
+    message?: Shared.Message;
 
     /**
      * Key/value pairs that provide additional information about the stack.
      */
-    properties?: Stack.Properties;
+    properties?: Shared.PropertyBag;
   }
 
   export namespace Stack {
@@ -90,7 +107,7 @@ export namespace Exception {
       /**
        * Key/value pairs that provide additional information about the stack frame.
        */
-      properties?: Frame.Properties;
+      properties?: Shared.PropertyBag;
 
       /**
        * The thread identifier of the stack frame.
@@ -112,7 +129,7 @@ export namespace Exception {
         /**
          * A set of regions relevant to the location.
          */
-        annotations?: Array<Location.Annotation>;
+        annotations?: Array<Shared.Region>;
 
         /**
          * The logical locations associated with the result.
@@ -122,7 +139,7 @@ export namespace Exception {
         /**
          * A message relevant to the location.
          */
-        message?: Location.Message;
+        message?: Shared.Message;
 
         /**
          * Identifies the artifact and region.
@@ -132,7 +149,7 @@ export namespace Exception {
         /**
          * Key/value pairs that provide additional information about the location.
          */
-        properties?: Location.Properties;
+        properties?: Shared.PropertyBag;
 
         /**
          * An array of objects that describe relationships between this location and
@@ -142,208 +159,6 @@ export namespace Exception {
       }
 
       export namespace Location {
-        /**
-         * A region within an artifact where a result was detected.
-         */
-        export interface Annotation {
-          /**
-           * The length of the region in bytes.
-           */
-          byteLength?: number;
-
-          /**
-           * The zero-based offset from the beginning of the artifact of the first byte in
-           * the region.
-           */
-          byteOffset?: number;
-
-          /**
-           * The length of the region in characters.
-           */
-          charLength?: number;
-
-          /**
-           * The zero-based offset from the beginning of the artifact of the first character
-           * in the region.
-           */
-          charOffset?: number;
-
-          /**
-           * The column number of the character following the end of the region.
-           */
-          endColumn?: number;
-
-          /**
-           * The line number of the last character in the region.
-           */
-          endLine?: number;
-
-          /**
-           * A message relevant to the region.
-           */
-          message?: Annotation.Message;
-
-          /**
-           * Key/value pairs that provide additional information about the region.
-           */
-          properties?: Annotation.Properties;
-
-          /**
-           * The portion of the artifact contents within the specified region.
-           */
-          snippet?: Annotation.Snippet;
-
-          /**
-           * Specifies the source language, if any, of the portion of the artifact specified
-           * by the region object.
-           */
-          sourceLanguage?: string;
-
-          /**
-           * The column number of the first character in the region.
-           */
-          startColumn?: number;
-
-          /**
-           * The line number of the first character in the region.
-           */
-          startLine?: number;
-        }
-
-        export namespace Annotation {
-          /**
-           * A message relevant to the region.
-           */
-          export interface Message {
-            /**
-             * The identifier for this message.
-             */
-            id?: string;
-
-            /**
-             * An array of strings to substitute into the message string.
-             */
-            arguments?: Array<string>;
-
-            /**
-             * A Markdown message string.
-             */
-            markdown?: string;
-
-            /**
-             * Key/value pairs that provide additional information about the message.
-             */
-            properties?: Message.Properties;
-
-            /**
-             * A plain text message string.
-             */
-            text?: string;
-          }
-
-          export namespace Message {
-            /**
-             * Key/value pairs that provide additional information about the message.
-             */
-            export interface Properties {
-              /**
-               * A set of distinct strings that provide additional information.
-               */
-              tags?: Array<string>;
-
-              [k: string]: unknown;
-            }
-          }
-
-          /**
-           * Key/value pairs that provide additional information about the region.
-           */
-          export interface Properties {
-            /**
-             * A set of distinct strings that provide additional information.
-             */
-            tags?: Array<string>;
-
-            [k: string]: unknown;
-          }
-
-          /**
-           * The portion of the artifact contents within the specified region.
-           */
-          export interface Snippet {
-            /**
-             * MIME Base64-encoded content from a binary artifact, or from a text artifact in
-             * its original encoding.
-             */
-            binary?: string;
-
-            /**
-             * Key/value pairs that provide additional information about the artifact content.
-             */
-            properties?: Snippet.Properties;
-
-            /**
-             * An alternate rendered representation of the artifact (e.g., a decompiled
-             * representation of a binary region).
-             */
-            rendered?: Snippet.Rendered;
-
-            /**
-             * UTF-8-encoded content from a text artifact.
-             */
-            text?: string;
-          }
-
-          export namespace Snippet {
-            /**
-             * Key/value pairs that provide additional information about the artifact content.
-             */
-            export interface Properties {
-              /**
-               * A set of distinct strings that provide additional information.
-               */
-              tags?: Array<string>;
-
-              [k: string]: unknown;
-            }
-
-            /**
-             * An alternate rendered representation of the artifact (e.g., a decompiled
-             * representation of a binary region).
-             */
-            export interface Rendered {
-              /**
-               * A plain text message string or format string.
-               */
-              text: string;
-
-              /**
-               * A Markdown message string or format string.
-               */
-              markdown?: string;
-
-              /**
-               * Key/value pairs that provide additional information about the message.
-               */
-              properties?: Rendered.Properties;
-            }
-
-            export namespace Rendered {
-              /**
-               * Key/value pairs that provide additional information about the message.
-               */
-              export interface Properties {
-                /**
-                 * A set of distinct strings that provide additional information.
-                 */
-                tags?: Array<string>;
-
-                [k: string]: unknown;
-              }
-            }
-          }
-        }
-
         /**
          * A logical location of a construct that produced a result.
          */
@@ -390,65 +205,7 @@ export namespace Exception {
           /**
            * Key/value pairs that provide additional information about the logical location.
            */
-          properties?: LogicalLocation.Properties;
-        }
-
-        export namespace LogicalLocation {
-          /**
-           * Key/value pairs that provide additional information about the logical location.
-           */
-          export interface Properties {
-            /**
-             * A set of distinct strings that provide additional information.
-             */
-            tags?: Array<string>;
-
-            [k: string]: unknown;
-          }
-        }
-
-        /**
-         * A message relevant to the location.
-         */
-        export interface Message {
-          /**
-           * The identifier for this message.
-           */
-          id?: string;
-
-          /**
-           * An array of strings to substitute into the message string.
-           */
-          arguments?: Array<string>;
-
-          /**
-           * A Markdown message string.
-           */
-          markdown?: string;
-
-          /**
-           * Key/value pairs that provide additional information about the message.
-           */
-          properties?: Message.Properties;
-
-          /**
-           * A plain text message string.
-           */
-          text?: string;
-        }
-
-        export namespace Message {
-          /**
-           * Key/value pairs that provide additional information about the message.
-           */
-          export interface Properties {
-            /**
-             * A set of distinct strings that provide additional information.
-             */
-            tags?: Array<string>;
-
-            [k: string]: unknown;
-          }
+          properties?: Shared.PropertyBag;
         }
 
         /**
@@ -469,17 +226,17 @@ export namespace Exception {
            * Specifies a portion of the artifact that encloses the region. Allows a viewer to
            * display additional context around the region.
            */
-          contextRegion?: PhysicalLocation.ContextRegion;
+          contextRegion?: Shared.Region;
 
           /**
            * Key/value pairs that provide additional information about the physical location.
            */
-          properties?: PhysicalLocation.Properties;
+          properties?: Shared.PropertyBag;
 
           /**
            * Specifies a portion of the artifact.
            */
-          region?: PhysicalLocation.Region;
+          region?: Shared.Region;
         }
 
         export namespace PhysicalLocation {
@@ -533,27 +290,13 @@ export namespace Exception {
             /**
              * Key/value pairs that provide additional information about the address.
              */
-            properties?: Address.Properties;
+            properties?: Shared.PropertyBag;
 
             /**
              * The address expressed as a byte offset from the absolute address of the top-most
              * parent object.
              */
             relativeAddress?: number;
-          }
-
-          export namespace Address {
-            /**
-             * Key/value pairs that provide additional information about the address.
-             */
-            export interface Properties {
-              /**
-               * A set of distinct strings that provide additional information.
-               */
-              tags?: Array<string>;
-
-              [k: string]: unknown;
-            }
           }
 
           /**
@@ -563,7 +306,7 @@ export namespace Exception {
             /**
              * A short description of the artifact location.
              */
-            description?: ArtifactLocation.Description;
+            description?: Shared.Message;
 
             /**
              * The index within the run artifacts array of the artifact object associated with
@@ -574,7 +317,7 @@ export namespace Exception {
             /**
              * Key/value pairs that provide additional information about the artifact location.
              */
-            properties?: ArtifactLocation.Properties;
+            properties?: Shared.PropertyBag;
 
             /**
              * A string containing a valid relative or absolute URI.
@@ -587,493 +330,6 @@ export namespace Exception {
              */
             uriBaseId?: string;
           }
-
-          export namespace ArtifactLocation {
-            /**
-             * A short description of the artifact location.
-             */
-            export interface Description {
-              /**
-               * The identifier for this message.
-               */
-              id?: string;
-
-              /**
-               * An array of strings to substitute into the message string.
-               */
-              arguments?: Array<string>;
-
-              /**
-               * A Markdown message string.
-               */
-              markdown?: string;
-
-              /**
-               * Key/value pairs that provide additional information about the message.
-               */
-              properties?: Description.Properties;
-
-              /**
-               * A plain text message string.
-               */
-              text?: string;
-            }
-
-            export namespace Description {
-              /**
-               * Key/value pairs that provide additional information about the message.
-               */
-              export interface Properties {
-                /**
-                 * A set of distinct strings that provide additional information.
-                 */
-                tags?: Array<string>;
-
-                [k: string]: unknown;
-              }
-            }
-
-            /**
-             * Key/value pairs that provide additional information about the artifact location.
-             */
-            export interface Properties {
-              /**
-               * A set of distinct strings that provide additional information.
-               */
-              tags?: Array<string>;
-
-              [k: string]: unknown;
-            }
-          }
-
-          /**
-           * Specifies a portion of the artifact that encloses the region. Allows a viewer to
-           * display additional context around the region.
-           */
-          export interface ContextRegion {
-            /**
-             * The length of the region in bytes.
-             */
-            byteLength?: number;
-
-            /**
-             * The zero-based offset from the beginning of the artifact of the first byte in
-             * the region.
-             */
-            byteOffset?: number;
-
-            /**
-             * The length of the region in characters.
-             */
-            charLength?: number;
-
-            /**
-             * The zero-based offset from the beginning of the artifact of the first character
-             * in the region.
-             */
-            charOffset?: number;
-
-            /**
-             * The column number of the character following the end of the region.
-             */
-            endColumn?: number;
-
-            /**
-             * The line number of the last character in the region.
-             */
-            endLine?: number;
-
-            /**
-             * A message relevant to the region.
-             */
-            message?: ContextRegion.Message;
-
-            /**
-             * Key/value pairs that provide additional information about the region.
-             */
-            properties?: ContextRegion.Properties;
-
-            /**
-             * The portion of the artifact contents within the specified region.
-             */
-            snippet?: ContextRegion.Snippet;
-
-            /**
-             * Specifies the source language, if any, of the portion of the artifact specified
-             * by the region object.
-             */
-            sourceLanguage?: string;
-
-            /**
-             * The column number of the first character in the region.
-             */
-            startColumn?: number;
-
-            /**
-             * The line number of the first character in the region.
-             */
-            startLine?: number;
-          }
-
-          export namespace ContextRegion {
-            /**
-             * A message relevant to the region.
-             */
-            export interface Message {
-              /**
-               * The identifier for this message.
-               */
-              id?: string;
-
-              /**
-               * An array of strings to substitute into the message string.
-               */
-              arguments?: Array<string>;
-
-              /**
-               * A Markdown message string.
-               */
-              markdown?: string;
-
-              /**
-               * Key/value pairs that provide additional information about the message.
-               */
-              properties?: Message.Properties;
-
-              /**
-               * A plain text message string.
-               */
-              text?: string;
-            }
-
-            export namespace Message {
-              /**
-               * Key/value pairs that provide additional information about the message.
-               */
-              export interface Properties {
-                /**
-                 * A set of distinct strings that provide additional information.
-                 */
-                tags?: Array<string>;
-
-                [k: string]: unknown;
-              }
-            }
-
-            /**
-             * Key/value pairs that provide additional information about the region.
-             */
-            export interface Properties {
-              /**
-               * A set of distinct strings that provide additional information.
-               */
-              tags?: Array<string>;
-
-              [k: string]: unknown;
-            }
-
-            /**
-             * The portion of the artifact contents within the specified region.
-             */
-            export interface Snippet {
-              /**
-               * MIME Base64-encoded content from a binary artifact, or from a text artifact in
-               * its original encoding.
-               */
-              binary?: string;
-
-              /**
-               * Key/value pairs that provide additional information about the artifact content.
-               */
-              properties?: Snippet.Properties;
-
-              /**
-               * An alternate rendered representation of the artifact (e.g., a decompiled
-               * representation of a binary region).
-               */
-              rendered?: Snippet.Rendered;
-
-              /**
-               * UTF-8-encoded content from a text artifact.
-               */
-              text?: string;
-            }
-
-            export namespace Snippet {
-              /**
-               * Key/value pairs that provide additional information about the artifact content.
-               */
-              export interface Properties {
-                /**
-                 * A set of distinct strings that provide additional information.
-                 */
-                tags?: Array<string>;
-
-                [k: string]: unknown;
-              }
-
-              /**
-               * An alternate rendered representation of the artifact (e.g., a decompiled
-               * representation of a binary region).
-               */
-              export interface Rendered {
-                /**
-                 * A plain text message string or format string.
-                 */
-                text: string;
-
-                /**
-                 * A Markdown message string or format string.
-                 */
-                markdown?: string;
-
-                /**
-                 * Key/value pairs that provide additional information about the message.
-                 */
-                properties?: Rendered.Properties;
-              }
-
-              export namespace Rendered {
-                /**
-                 * Key/value pairs that provide additional information about the message.
-                 */
-                export interface Properties {
-                  /**
-                   * A set of distinct strings that provide additional information.
-                   */
-                  tags?: Array<string>;
-
-                  [k: string]: unknown;
-                }
-              }
-            }
-          }
-
-          /**
-           * Key/value pairs that provide additional information about the physical location.
-           */
-          export interface Properties {
-            /**
-             * A set of distinct strings that provide additional information.
-             */
-            tags?: Array<string>;
-
-            [k: string]: unknown;
-          }
-
-          /**
-           * Specifies a portion of the artifact.
-           */
-          export interface Region {
-            /**
-             * The length of the region in bytes.
-             */
-            byteLength?: number;
-
-            /**
-             * The zero-based offset from the beginning of the artifact of the first byte in
-             * the region.
-             */
-            byteOffset?: number;
-
-            /**
-             * The length of the region in characters.
-             */
-            charLength?: number;
-
-            /**
-             * The zero-based offset from the beginning of the artifact of the first character
-             * in the region.
-             */
-            charOffset?: number;
-
-            /**
-             * The column number of the character following the end of the region.
-             */
-            endColumn?: number;
-
-            /**
-             * The line number of the last character in the region.
-             */
-            endLine?: number;
-
-            /**
-             * A message relevant to the region.
-             */
-            message?: Region.Message;
-
-            /**
-             * Key/value pairs that provide additional information about the region.
-             */
-            properties?: Region.Properties;
-
-            /**
-             * The portion of the artifact contents within the specified region.
-             */
-            snippet?: Region.Snippet;
-
-            /**
-             * Specifies the source language, if any, of the portion of the artifact specified
-             * by the region object.
-             */
-            sourceLanguage?: string;
-
-            /**
-             * The column number of the first character in the region.
-             */
-            startColumn?: number;
-
-            /**
-             * The line number of the first character in the region.
-             */
-            startLine?: number;
-          }
-
-          export namespace Region {
-            /**
-             * A message relevant to the region.
-             */
-            export interface Message {
-              /**
-               * The identifier for this message.
-               */
-              id?: string;
-
-              /**
-               * An array of strings to substitute into the message string.
-               */
-              arguments?: Array<string>;
-
-              /**
-               * A Markdown message string.
-               */
-              markdown?: string;
-
-              /**
-               * Key/value pairs that provide additional information about the message.
-               */
-              properties?: Message.Properties;
-
-              /**
-               * A plain text message string.
-               */
-              text?: string;
-            }
-
-            export namespace Message {
-              /**
-               * Key/value pairs that provide additional information about the message.
-               */
-              export interface Properties {
-                /**
-                 * A set of distinct strings that provide additional information.
-                 */
-                tags?: Array<string>;
-
-                [k: string]: unknown;
-              }
-            }
-
-            /**
-             * Key/value pairs that provide additional information about the region.
-             */
-            export interface Properties {
-              /**
-               * A set of distinct strings that provide additional information.
-               */
-              tags?: Array<string>;
-
-              [k: string]: unknown;
-            }
-
-            /**
-             * The portion of the artifact contents within the specified region.
-             */
-            export interface Snippet {
-              /**
-               * MIME Base64-encoded content from a binary artifact, or from a text artifact in
-               * its original encoding.
-               */
-              binary?: string;
-
-              /**
-               * Key/value pairs that provide additional information about the artifact content.
-               */
-              properties?: Snippet.Properties;
-
-              /**
-               * An alternate rendered representation of the artifact (e.g., a decompiled
-               * representation of a binary region).
-               */
-              rendered?: Snippet.Rendered;
-
-              /**
-               * UTF-8-encoded content from a text artifact.
-               */
-              text?: string;
-            }
-
-            export namespace Snippet {
-              /**
-               * Key/value pairs that provide additional information about the artifact content.
-               */
-              export interface Properties {
-                /**
-                 * A set of distinct strings that provide additional information.
-                 */
-                tags?: Array<string>;
-
-                [k: string]: unknown;
-              }
-
-              /**
-               * An alternate rendered representation of the artifact (e.g., a decompiled
-               * representation of a binary region).
-               */
-              export interface Rendered {
-                /**
-                 * A plain text message string or format string.
-                 */
-                text: string;
-
-                /**
-                 * A Markdown message string or format string.
-                 */
-                markdown?: string;
-
-                /**
-                 * Key/value pairs that provide additional information about the message.
-                 */
-                properties?: Rendered.Properties;
-              }
-
-              export namespace Rendered {
-                /**
-                 * Key/value pairs that provide additional information about the message.
-                 */
-                export interface Properties {
-                  /**
-                   * A set of distinct strings that provide additional information.
-                   */
-                  tags?: Array<string>;
-
-                  [k: string]: unknown;
-                }
-              }
-            }
-          }
-        }
-
-        /**
-         * Key/value pairs that provide additional information about the location.
-         */
-        export interface Properties {
-          /**
-           * A set of distinct strings that provide additional information.
-           */
-          tags?: Array<string>;
-
-          [k: string]: unknown;
         }
 
         /**
@@ -1088,7 +344,7 @@ export namespace Exception {
           /**
            * A description of the location relationship.
            */
-          description?: Relationship.Description;
+          description?: Shared.Message;
 
           /**
            * A set of distinct strings that categorize the relationship. Well-known kinds
@@ -1100,138 +356,61 @@ export namespace Exception {
            * Key/value pairs that provide additional information about the location
            * relationship.
            */
-          properties?: Relationship.Properties;
-        }
-
-        export namespace Relationship {
-          /**
-           * A description of the location relationship.
-           */
-          export interface Description {
-            /**
-             * The identifier for this message.
-             */
-            id?: string;
-
-            /**
-             * An array of strings to substitute into the message string.
-             */
-            arguments?: Array<string>;
-
-            /**
-             * A Markdown message string.
-             */
-            markdown?: string;
-
-            /**
-             * Key/value pairs that provide additional information about the message.
-             */
-            properties?: Description.Properties;
-
-            /**
-             * A plain text message string.
-             */
-            text?: string;
-          }
-
-          export namespace Description {
-            /**
-             * Key/value pairs that provide additional information about the message.
-             */
-            export interface Properties {
-              /**
-               * A set of distinct strings that provide additional information.
-               */
-              tags?: Array<string>;
-
-              [k: string]: unknown;
-            }
-          }
-
-          /**
-           * Key/value pairs that provide additional information about the location
-           * relationship.
-           */
-          export interface Properties {
-            /**
-             * A set of distinct strings that provide additional information.
-             */
-            tags?: Array<string>;
-
-            [k: string]: unknown;
-          }
+          properties?: Shared.PropertyBag;
         }
       }
-
-      /**
-       * Key/value pairs that provide additional information about the stack frame.
-       */
-      export interface Properties {
-        /**
-         * A set of distinct strings that provide additional information.
-         */
-        tags?: Array<string>;
-
-        [k: string]: unknown;
-      }
-    }
-
-    /**
-     * A message relevant to this call stack.
-     */
-    export interface Message {
-      /**
-       * The identifier for this message.
-       */
-      id?: string;
-
-      /**
-       * An array of strings to substitute into the message string.
-       */
-      arguments?: Array<string>;
-
-      /**
-       * A Markdown message string.
-       */
-      markdown?: string;
-
-      /**
-       * Key/value pairs that provide additional information about the message.
-       */
-      properties?: Message.Properties;
-
-      /**
-       * A plain text message string.
-       */
-      text?: string;
-    }
-
-    export namespace Message {
-      /**
-       * Key/value pairs that provide additional information about the message.
-       */
-      export interface Properties {
-        /**
-         * A set of distinct strings that provide additional information.
-         */
-        tags?: Array<string>;
-
-        [k: string]: unknown;
-      }
-    }
-
-    /**
-     * Key/value pairs that provide additional information about the stack.
-     */
-    export interface Properties {
-      /**
-       * A set of distinct strings that provide additional information.
-       */
-      tags?: Array<string>;
-
-      [k: string]: unknown;
     }
   }
+}
+
+/**
+ * Encapsulates a message intended to be read by the end user.
+ */
+export interface Message {
+  /**
+   * The identifier for this message.
+   */
+  id?: string;
+
+  /**
+   * An array of strings to substitute into the message string.
+   */
+  arguments?: Array<string>;
+
+  /**
+   * A Markdown message string.
+   */
+  markdown?: string;
+
+  /**
+   * Key/value pairs that provide additional information about the message.
+   */
+  properties?: PropertyBag;
+
+  /**
+   * A plain text message string.
+   */
+  text?: string;
+}
+
+/**
+ * A message string or message format string rendered in multiple formats.
+ */
+export interface MultiformatMessageString {
+  /**
+   * A plain text message string or format string.
+   */
+  text: string;
+
+  /**
+   * A Markdown message string or format string.
+   */
+  markdown?: string;
+
+  /**
+   * Key/value pairs that provide additional information about the message.
+   */
+  properties?: PropertyBag;
 }
 
 /**
@@ -1251,7 +430,7 @@ export interface Node {
   /**
    * A short description of the node.
    */
-  label?: Node.Label;
+  label?: Message;
 
   /**
    * A code location associated with the node.
@@ -1261,54 +440,10 @@ export interface Node {
   /**
    * Key/value pairs that provide additional information about the node.
    */
-  properties?: Node.Properties;
+  properties?: PropertyBag;
 }
 
 export namespace Node {
-  /**
-   * A short description of the node.
-   */
-  export interface Label {
-    /**
-     * The identifier for this message.
-     */
-    id?: string;
-
-    /**
-     * An array of strings to substitute into the message string.
-     */
-    arguments?: Array<string>;
-
-    /**
-     * A Markdown message string.
-     */
-    markdown?: string;
-
-    /**
-     * Key/value pairs that provide additional information about the message.
-     */
-    properties?: Label.Properties;
-
-    /**
-     * A plain text message string.
-     */
-    text?: string;
-  }
-
-  export namespace Label {
-    /**
-     * Key/value pairs that provide additional information about the message.
-     */
-    export interface Properties {
-      /**
-       * A set of distinct strings that provide additional information.
-       */
-      tags?: Array<string>;
-
-      [k: string]: unknown;
-    }
-  }
-
   /**
    * A code location associated with the node.
    */
@@ -1322,7 +457,7 @@ export namespace Node {
     /**
      * A set of regions relevant to the location.
      */
-    annotations?: Array<Location.Annotation>;
+    annotations?: Array<Shared.Region>;
 
     /**
      * The logical locations associated with the result.
@@ -1332,7 +467,7 @@ export namespace Node {
     /**
      * A message relevant to the location.
      */
-    message?: Location.Message;
+    message?: Shared.Message;
 
     /**
      * Identifies the artifact and region.
@@ -1342,7 +477,7 @@ export namespace Node {
     /**
      * Key/value pairs that provide additional information about the location.
      */
-    properties?: Location.Properties;
+    properties?: Shared.PropertyBag;
 
     /**
      * An array of objects that describe relationships between this location and
@@ -1352,208 +487,6 @@ export namespace Node {
   }
 
   export namespace Location {
-    /**
-     * A region within an artifact where a result was detected.
-     */
-    export interface Annotation {
-      /**
-       * The length of the region in bytes.
-       */
-      byteLength?: number;
-
-      /**
-       * The zero-based offset from the beginning of the artifact of the first byte in
-       * the region.
-       */
-      byteOffset?: number;
-
-      /**
-       * The length of the region in characters.
-       */
-      charLength?: number;
-
-      /**
-       * The zero-based offset from the beginning of the artifact of the first character
-       * in the region.
-       */
-      charOffset?: number;
-
-      /**
-       * The column number of the character following the end of the region.
-       */
-      endColumn?: number;
-
-      /**
-       * The line number of the last character in the region.
-       */
-      endLine?: number;
-
-      /**
-       * A message relevant to the region.
-       */
-      message?: Annotation.Message;
-
-      /**
-       * Key/value pairs that provide additional information about the region.
-       */
-      properties?: Annotation.Properties;
-
-      /**
-       * The portion of the artifact contents within the specified region.
-       */
-      snippet?: Annotation.Snippet;
-
-      /**
-       * Specifies the source language, if any, of the portion of the artifact specified
-       * by the region object.
-       */
-      sourceLanguage?: string;
-
-      /**
-       * The column number of the first character in the region.
-       */
-      startColumn?: number;
-
-      /**
-       * The line number of the first character in the region.
-       */
-      startLine?: number;
-    }
-
-    export namespace Annotation {
-      /**
-       * A message relevant to the region.
-       */
-      export interface Message {
-        /**
-         * The identifier for this message.
-         */
-        id?: string;
-
-        /**
-         * An array of strings to substitute into the message string.
-         */
-        arguments?: Array<string>;
-
-        /**
-         * A Markdown message string.
-         */
-        markdown?: string;
-
-        /**
-         * Key/value pairs that provide additional information about the message.
-         */
-        properties?: Message.Properties;
-
-        /**
-         * A plain text message string.
-         */
-        text?: string;
-      }
-
-      export namespace Message {
-        /**
-         * Key/value pairs that provide additional information about the message.
-         */
-        export interface Properties {
-          /**
-           * A set of distinct strings that provide additional information.
-           */
-          tags?: Array<string>;
-
-          [k: string]: unknown;
-        }
-      }
-
-      /**
-       * Key/value pairs that provide additional information about the region.
-       */
-      export interface Properties {
-        /**
-         * A set of distinct strings that provide additional information.
-         */
-        tags?: Array<string>;
-
-        [k: string]: unknown;
-      }
-
-      /**
-       * The portion of the artifact contents within the specified region.
-       */
-      export interface Snippet {
-        /**
-         * MIME Base64-encoded content from a binary artifact, or from a text artifact in
-         * its original encoding.
-         */
-        binary?: string;
-
-        /**
-         * Key/value pairs that provide additional information about the artifact content.
-         */
-        properties?: Snippet.Properties;
-
-        /**
-         * An alternate rendered representation of the artifact (e.g., a decompiled
-         * representation of a binary region).
-         */
-        rendered?: Snippet.Rendered;
-
-        /**
-         * UTF-8-encoded content from a text artifact.
-         */
-        text?: string;
-      }
-
-      export namespace Snippet {
-        /**
-         * Key/value pairs that provide additional information about the artifact content.
-         */
-        export interface Properties {
-          /**
-           * A set of distinct strings that provide additional information.
-           */
-          tags?: Array<string>;
-
-          [k: string]: unknown;
-        }
-
-        /**
-         * An alternate rendered representation of the artifact (e.g., a decompiled
-         * representation of a binary region).
-         */
-        export interface Rendered {
-          /**
-           * A plain text message string or format string.
-           */
-          text: string;
-
-          /**
-           * A Markdown message string or format string.
-           */
-          markdown?: string;
-
-          /**
-           * Key/value pairs that provide additional information about the message.
-           */
-          properties?: Rendered.Properties;
-        }
-
-        export namespace Rendered {
-          /**
-           * Key/value pairs that provide additional information about the message.
-           */
-          export interface Properties {
-            /**
-             * A set of distinct strings that provide additional information.
-             */
-            tags?: Array<string>;
-
-            [k: string]: unknown;
-          }
-        }
-      }
-    }
-
     /**
      * A logical location of a construct that produced a result.
      */
@@ -1600,65 +533,7 @@ export namespace Node {
       /**
        * Key/value pairs that provide additional information about the logical location.
        */
-      properties?: LogicalLocation.Properties;
-    }
-
-    export namespace LogicalLocation {
-      /**
-       * Key/value pairs that provide additional information about the logical location.
-       */
-      export interface Properties {
-        /**
-         * A set of distinct strings that provide additional information.
-         */
-        tags?: Array<string>;
-
-        [k: string]: unknown;
-      }
-    }
-
-    /**
-     * A message relevant to the location.
-     */
-    export interface Message {
-      /**
-       * The identifier for this message.
-       */
-      id?: string;
-
-      /**
-       * An array of strings to substitute into the message string.
-       */
-      arguments?: Array<string>;
-
-      /**
-       * A Markdown message string.
-       */
-      markdown?: string;
-
-      /**
-       * Key/value pairs that provide additional information about the message.
-       */
-      properties?: Message.Properties;
-
-      /**
-       * A plain text message string.
-       */
-      text?: string;
-    }
-
-    export namespace Message {
-      /**
-       * Key/value pairs that provide additional information about the message.
-       */
-      export interface Properties {
-        /**
-         * A set of distinct strings that provide additional information.
-         */
-        tags?: Array<string>;
-
-        [k: string]: unknown;
-      }
+      properties?: Shared.PropertyBag;
     }
 
     /**
@@ -1679,17 +554,17 @@ export namespace Node {
        * Specifies a portion of the artifact that encloses the region. Allows a viewer to
        * display additional context around the region.
        */
-      contextRegion?: PhysicalLocation.ContextRegion;
+      contextRegion?: Shared.Region;
 
       /**
        * Key/value pairs that provide additional information about the physical location.
        */
-      properties?: PhysicalLocation.Properties;
+      properties?: Shared.PropertyBag;
 
       /**
        * Specifies a portion of the artifact.
        */
-      region?: PhysicalLocation.Region;
+      region?: Shared.Region;
     }
 
     export namespace PhysicalLocation {
@@ -1743,27 +618,13 @@ export namespace Node {
         /**
          * Key/value pairs that provide additional information about the address.
          */
-        properties?: Address.Properties;
+        properties?: Shared.PropertyBag;
 
         /**
          * The address expressed as a byte offset from the absolute address of the top-most
          * parent object.
          */
         relativeAddress?: number;
-      }
-
-      export namespace Address {
-        /**
-         * Key/value pairs that provide additional information about the address.
-         */
-        export interface Properties {
-          /**
-           * A set of distinct strings that provide additional information.
-           */
-          tags?: Array<string>;
-
-          [k: string]: unknown;
-        }
       }
 
       /**
@@ -1773,7 +634,7 @@ export namespace Node {
         /**
          * A short description of the artifact location.
          */
-        description?: ArtifactLocation.Description;
+        description?: Shared.Message;
 
         /**
          * The index within the run artifacts array of the artifact object associated with
@@ -1784,7 +645,7 @@ export namespace Node {
         /**
          * Key/value pairs that provide additional information about the artifact location.
          */
-        properties?: ArtifactLocation.Properties;
+        properties?: Shared.PropertyBag;
 
         /**
          * A string containing a valid relative or absolute URI.
@@ -1797,493 +658,6 @@ export namespace Node {
          */
         uriBaseId?: string;
       }
-
-      export namespace ArtifactLocation {
-        /**
-         * A short description of the artifact location.
-         */
-        export interface Description {
-          /**
-           * The identifier for this message.
-           */
-          id?: string;
-
-          /**
-           * An array of strings to substitute into the message string.
-           */
-          arguments?: Array<string>;
-
-          /**
-           * A Markdown message string.
-           */
-          markdown?: string;
-
-          /**
-           * Key/value pairs that provide additional information about the message.
-           */
-          properties?: Description.Properties;
-
-          /**
-           * A plain text message string.
-           */
-          text?: string;
-        }
-
-        export namespace Description {
-          /**
-           * Key/value pairs that provide additional information about the message.
-           */
-          export interface Properties {
-            /**
-             * A set of distinct strings that provide additional information.
-             */
-            tags?: Array<string>;
-
-            [k: string]: unknown;
-          }
-        }
-
-        /**
-         * Key/value pairs that provide additional information about the artifact location.
-         */
-        export interface Properties {
-          /**
-           * A set of distinct strings that provide additional information.
-           */
-          tags?: Array<string>;
-
-          [k: string]: unknown;
-        }
-      }
-
-      /**
-       * Specifies a portion of the artifact that encloses the region. Allows a viewer to
-       * display additional context around the region.
-       */
-      export interface ContextRegion {
-        /**
-         * The length of the region in bytes.
-         */
-        byteLength?: number;
-
-        /**
-         * The zero-based offset from the beginning of the artifact of the first byte in
-         * the region.
-         */
-        byteOffset?: number;
-
-        /**
-         * The length of the region in characters.
-         */
-        charLength?: number;
-
-        /**
-         * The zero-based offset from the beginning of the artifact of the first character
-         * in the region.
-         */
-        charOffset?: number;
-
-        /**
-         * The column number of the character following the end of the region.
-         */
-        endColumn?: number;
-
-        /**
-         * The line number of the last character in the region.
-         */
-        endLine?: number;
-
-        /**
-         * A message relevant to the region.
-         */
-        message?: ContextRegion.Message;
-
-        /**
-         * Key/value pairs that provide additional information about the region.
-         */
-        properties?: ContextRegion.Properties;
-
-        /**
-         * The portion of the artifact contents within the specified region.
-         */
-        snippet?: ContextRegion.Snippet;
-
-        /**
-         * Specifies the source language, if any, of the portion of the artifact specified
-         * by the region object.
-         */
-        sourceLanguage?: string;
-
-        /**
-         * The column number of the first character in the region.
-         */
-        startColumn?: number;
-
-        /**
-         * The line number of the first character in the region.
-         */
-        startLine?: number;
-      }
-
-      export namespace ContextRegion {
-        /**
-         * A message relevant to the region.
-         */
-        export interface Message {
-          /**
-           * The identifier for this message.
-           */
-          id?: string;
-
-          /**
-           * An array of strings to substitute into the message string.
-           */
-          arguments?: Array<string>;
-
-          /**
-           * A Markdown message string.
-           */
-          markdown?: string;
-
-          /**
-           * Key/value pairs that provide additional information about the message.
-           */
-          properties?: Message.Properties;
-
-          /**
-           * A plain text message string.
-           */
-          text?: string;
-        }
-
-        export namespace Message {
-          /**
-           * Key/value pairs that provide additional information about the message.
-           */
-          export interface Properties {
-            /**
-             * A set of distinct strings that provide additional information.
-             */
-            tags?: Array<string>;
-
-            [k: string]: unknown;
-          }
-        }
-
-        /**
-         * Key/value pairs that provide additional information about the region.
-         */
-        export interface Properties {
-          /**
-           * A set of distinct strings that provide additional information.
-           */
-          tags?: Array<string>;
-
-          [k: string]: unknown;
-        }
-
-        /**
-         * The portion of the artifact contents within the specified region.
-         */
-        export interface Snippet {
-          /**
-           * MIME Base64-encoded content from a binary artifact, or from a text artifact in
-           * its original encoding.
-           */
-          binary?: string;
-
-          /**
-           * Key/value pairs that provide additional information about the artifact content.
-           */
-          properties?: Snippet.Properties;
-
-          /**
-           * An alternate rendered representation of the artifact (e.g., a decompiled
-           * representation of a binary region).
-           */
-          rendered?: Snippet.Rendered;
-
-          /**
-           * UTF-8-encoded content from a text artifact.
-           */
-          text?: string;
-        }
-
-        export namespace Snippet {
-          /**
-           * Key/value pairs that provide additional information about the artifact content.
-           */
-          export interface Properties {
-            /**
-             * A set of distinct strings that provide additional information.
-             */
-            tags?: Array<string>;
-
-            [k: string]: unknown;
-          }
-
-          /**
-           * An alternate rendered representation of the artifact (e.g., a decompiled
-           * representation of a binary region).
-           */
-          export interface Rendered {
-            /**
-             * A plain text message string or format string.
-             */
-            text: string;
-
-            /**
-             * A Markdown message string or format string.
-             */
-            markdown?: string;
-
-            /**
-             * Key/value pairs that provide additional information about the message.
-             */
-            properties?: Rendered.Properties;
-          }
-
-          export namespace Rendered {
-            /**
-             * Key/value pairs that provide additional information about the message.
-             */
-            export interface Properties {
-              /**
-               * A set of distinct strings that provide additional information.
-               */
-              tags?: Array<string>;
-
-              [k: string]: unknown;
-            }
-          }
-        }
-      }
-
-      /**
-       * Key/value pairs that provide additional information about the physical location.
-       */
-      export interface Properties {
-        /**
-         * A set of distinct strings that provide additional information.
-         */
-        tags?: Array<string>;
-
-        [k: string]: unknown;
-      }
-
-      /**
-       * Specifies a portion of the artifact.
-       */
-      export interface Region {
-        /**
-         * The length of the region in bytes.
-         */
-        byteLength?: number;
-
-        /**
-         * The zero-based offset from the beginning of the artifact of the first byte in
-         * the region.
-         */
-        byteOffset?: number;
-
-        /**
-         * The length of the region in characters.
-         */
-        charLength?: number;
-
-        /**
-         * The zero-based offset from the beginning of the artifact of the first character
-         * in the region.
-         */
-        charOffset?: number;
-
-        /**
-         * The column number of the character following the end of the region.
-         */
-        endColumn?: number;
-
-        /**
-         * The line number of the last character in the region.
-         */
-        endLine?: number;
-
-        /**
-         * A message relevant to the region.
-         */
-        message?: Region.Message;
-
-        /**
-         * Key/value pairs that provide additional information about the region.
-         */
-        properties?: Region.Properties;
-
-        /**
-         * The portion of the artifact contents within the specified region.
-         */
-        snippet?: Region.Snippet;
-
-        /**
-         * Specifies the source language, if any, of the portion of the artifact specified
-         * by the region object.
-         */
-        sourceLanguage?: string;
-
-        /**
-         * The column number of the first character in the region.
-         */
-        startColumn?: number;
-
-        /**
-         * The line number of the first character in the region.
-         */
-        startLine?: number;
-      }
-
-      export namespace Region {
-        /**
-         * A message relevant to the region.
-         */
-        export interface Message {
-          /**
-           * The identifier for this message.
-           */
-          id?: string;
-
-          /**
-           * An array of strings to substitute into the message string.
-           */
-          arguments?: Array<string>;
-
-          /**
-           * A Markdown message string.
-           */
-          markdown?: string;
-
-          /**
-           * Key/value pairs that provide additional information about the message.
-           */
-          properties?: Message.Properties;
-
-          /**
-           * A plain text message string.
-           */
-          text?: string;
-        }
-
-        export namespace Message {
-          /**
-           * Key/value pairs that provide additional information about the message.
-           */
-          export interface Properties {
-            /**
-             * A set of distinct strings that provide additional information.
-             */
-            tags?: Array<string>;
-
-            [k: string]: unknown;
-          }
-        }
-
-        /**
-         * Key/value pairs that provide additional information about the region.
-         */
-        export interface Properties {
-          /**
-           * A set of distinct strings that provide additional information.
-           */
-          tags?: Array<string>;
-
-          [k: string]: unknown;
-        }
-
-        /**
-         * The portion of the artifact contents within the specified region.
-         */
-        export interface Snippet {
-          /**
-           * MIME Base64-encoded content from a binary artifact, or from a text artifact in
-           * its original encoding.
-           */
-          binary?: string;
-
-          /**
-           * Key/value pairs that provide additional information about the artifact content.
-           */
-          properties?: Snippet.Properties;
-
-          /**
-           * An alternate rendered representation of the artifact (e.g., a decompiled
-           * representation of a binary region).
-           */
-          rendered?: Snippet.Rendered;
-
-          /**
-           * UTF-8-encoded content from a text artifact.
-           */
-          text?: string;
-        }
-
-        export namespace Snippet {
-          /**
-           * Key/value pairs that provide additional information about the artifact content.
-           */
-          export interface Properties {
-            /**
-             * A set of distinct strings that provide additional information.
-             */
-            tags?: Array<string>;
-
-            [k: string]: unknown;
-          }
-
-          /**
-           * An alternate rendered representation of the artifact (e.g., a decompiled
-           * representation of a binary region).
-           */
-          export interface Rendered {
-            /**
-             * A plain text message string or format string.
-             */
-            text: string;
-
-            /**
-             * A Markdown message string or format string.
-             */
-            markdown?: string;
-
-            /**
-             * Key/value pairs that provide additional information about the message.
-             */
-            properties?: Rendered.Properties;
-          }
-
-          export namespace Rendered {
-            /**
-             * Key/value pairs that provide additional information about the message.
-             */
-            export interface Properties {
-              /**
-               * A set of distinct strings that provide additional information.
-               */
-              tags?: Array<string>;
-
-              [k: string]: unknown;
-            }
-          }
-        }
-      }
-    }
-
-    /**
-     * Key/value pairs that provide additional information about the location.
-     */
-    export interface Properties {
-      /**
-       * A set of distinct strings that provide additional information.
-       */
-      tags?: Array<string>;
-
-      [k: string]: unknown;
     }
 
     /**
@@ -2298,7 +672,7 @@ export namespace Node {
       /**
        * A description of the location relationship.
        */
-      description?: Relationship.Description;
+      description?: Shared.Message;
 
       /**
        * A set of distinct strings that categorize the relationship. Well-known kinds
@@ -2310,78 +684,87 @@ export namespace Node {
        * Key/value pairs that provide additional information about the location
        * relationship.
        */
-      properties?: Relationship.Properties;
-    }
-
-    export namespace Relationship {
-      /**
-       * A description of the location relationship.
-       */
-      export interface Description {
-        /**
-         * The identifier for this message.
-         */
-        id?: string;
-
-        /**
-         * An array of strings to substitute into the message string.
-         */
-        arguments?: Array<string>;
-
-        /**
-         * A Markdown message string.
-         */
-        markdown?: string;
-
-        /**
-         * Key/value pairs that provide additional information about the message.
-         */
-        properties?: Description.Properties;
-
-        /**
-         * A plain text message string.
-         */
-        text?: string;
-      }
-
-      export namespace Description {
-        /**
-         * Key/value pairs that provide additional information about the message.
-         */
-        export interface Properties {
-          /**
-           * A set of distinct strings that provide additional information.
-           */
-          tags?: Array<string>;
-
-          [k: string]: unknown;
-        }
-      }
-
-      /**
-       * Key/value pairs that provide additional information about the location
-       * relationship.
-       */
-      export interface Properties {
-        /**
-         * A set of distinct strings that provide additional information.
-         */
-        tags?: Array<string>;
-
-        [k: string]: unknown;
-      }
+      properties?: Shared.PropertyBag;
     }
   }
+}
+
+/**
+ * Key/value pairs that provide additional information about the object.
+ */
+export interface PropertyBag {
+  /**
+   * A set of distinct strings that provide additional information.
+   */
+  tags?: Array<string>;
+
+  [k: string]: unknown;
+}
+
+/**
+ * A region within an artifact where a result was detected.
+ */
+export interface Region {
+  /**
+   * The length of the region in bytes.
+   */
+  byteLength?: number;
 
   /**
-   * Key/value pairs that provide additional information about the node.
+   * The zero-based offset from the beginning of the artifact of the first byte in
+   * the region.
    */
-  export interface Properties {
-    /**
-     * A set of distinct strings that provide additional information.
-     */
-    tags?: Array<string>;
+  byteOffset?: number;
 
-    [k: string]: unknown;
-  }
+  /**
+   * The length of the region in characters.
+   */
+  charLength?: number;
+
+  /**
+   * The zero-based offset from the beginning of the artifact of the first character
+   * in the region.
+   */
+  charOffset?: number;
+
+  /**
+   * The column number of the character following the end of the region.
+   */
+  endColumn?: number;
+
+  /**
+   * The line number of the last character in the region.
+   */
+  endLine?: number;
+
+  /**
+   * A message relevant to the region.
+   */
+  message?: Message;
+
+  /**
+   * Key/value pairs that provide additional information about the region.
+   */
+  properties?: PropertyBag;
+
+  /**
+   * The portion of the artifact contents within the specified region.
+   */
+  snippet?: ArtifactContent;
+
+  /**
+   * Specifies the source language, if any, of the portion of the artifact specified
+   * by the region object.
+   */
+  sourceLanguage?: string;
+
+  /**
+   * The column number of the first character in the region.
+   */
+  startColumn?: number;
+
+  /**
+   * The line number of the first character in the region.
+   */
+  startLine?: number;
 }
