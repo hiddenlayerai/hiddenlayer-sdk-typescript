@@ -43,7 +43,7 @@ For clients with a configuration JSON, it might look something like this:
       "args": [
         "/path/to/local/hiddenlayer-sdk-typescript/packages/mcp-server",
         "--client=claude",
-        "--tools=dynamic"
+        "--tools=all"
       ],
       "env": {
         "HIDDENLAYER_TOKEN": "My Bearer Token"
@@ -195,39 +195,27 @@ The following tools are available in this MCP server.
 
 ### Resource `sensors`:
 
-- `create_sensors` (`write`): Create a Sensor
+- `create_sensors` (`write`): Create Sensor Record
 - `retrieve_sensors` (`read`): Get Sensor
-- `delete_sensors` (`write`): Delete Sensor
-- `query_sensors` (`write`): Query a Sensor
-
-### Resource `vectors`:
-
-- `submit_vectors_vectors` (`write`): Submit vectors
-
-### Resource `scans`:
-
-- `check_health_scans` (`read`): Health check endpoint for Model Supply Chain Services
-- `check_readiness_scans` (`read`): Readiness check endpoint for Model Supply Chain Services
-- `retrieve_results_scans` (`read`): Retrieve Model Scan Results
+- `delete_sensors` (`write`): Remove an Adhoc Sensor
+- `query_sensors` (`write`): Query Sensors
 
 ### Resource `scans.results`:
 
-- `retrieve_scans_results` (`read`): Get Result of a Model Scan
-- `list_scans_results` (`read`): Get condensed reports for a Model Scan
-- `patch_scans_results` (`write`): Indicate part (file or files) of a model scan has completed
-- `start_scans_results` (`write`): Indicate model scan has started
+- `retrieve_scans_results` (`read`): Get scan results (SARIF / V3)
+- `list_scans_results` (`read`): Get scan results (Summaries)
 
 ### Resource `scans.jobs`:
 
-- `list_scans_jobs` (`read`): List all Model Scan Jobs
-- `request_scans_jobs` (`write`): Request a Model Scan Job
+- `list_scans_jobs` (`read`): List model scan jobs
+- `request_scans_jobs` (`write`): Scan a remote model
 
 ### Resource `scans.upload`:
 
-- `complete_all_scans_upload` (`write`): Indicate All files are uploaded and start the scan
-- `start_scans_upload` (`write`): Start V3 Upload
+- `complete_all_scans_upload` (`write`): Scan uploaded files
+- `start_scans_upload` (`write`): Start a model upload
 
 ### Resource `scans.upload.file`:
 
-- `add_upload_scans_file` (`write`): Add file to V3 Upload
-- `complete_upload_scans_file` (`write`): Indicate that upload is completed for {file_id}
+- `add_upload_scans_file` (`write`): Upload a model file
+- `complete_upload_scans_file` (`write`): Complete a file upload

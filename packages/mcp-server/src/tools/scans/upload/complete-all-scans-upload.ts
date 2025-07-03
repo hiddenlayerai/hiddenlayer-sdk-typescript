@@ -17,13 +17,16 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'complete_all_scans_upload',
-  description: 'Indicate All files are uploaded and start the scan',
+  description: 'Scan uploaded files',
   inputSchema: {
     type: 'object',
     properties: {
       scan_id: {
         type: 'string',
-        title: 'Scan Id to which the call belongs',
+        title: 'Scan ID',
+      },
+      'X-Correlation-Id': {
+        type: 'string',
       },
     },
   },
@@ -31,7 +34,7 @@ export const tool: Tool = {
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
   const { scan_id, ...body } = args as any;
-  return asTextContentResult(await client.scans.upload.completeAll(scan_id));
+  return asTextContentResult(await client.scans.upload.completeAll(scan_id, body));
 };
 
 export default { metadata, tool, handler };

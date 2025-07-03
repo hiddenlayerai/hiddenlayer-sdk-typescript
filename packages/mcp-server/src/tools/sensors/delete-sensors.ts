@@ -12,12 +12,12 @@ export const metadata: Metadata = {
   tags: [],
   httpMethod: 'delete',
   httpPath: '/api/v2/sensors/{sensor_id}',
-  operationId: 'delete_sensor',
+  operationId: 'sensor_sor_api_v1_sensors__sensor_id__delete',
 };
 
 export const tool: Tool = {
   name: 'delete_sensors',
-  description: 'Delete Sensor',
+  description: 'Remove an Adhoc Sensor',
   inputSchema: {
     type: 'object',
     properties: {
@@ -25,13 +25,16 @@ export const tool: Tool = {
         type: 'string',
         title: 'Sensor ID',
       },
+      'X-Correlation-Id': {
+        type: 'string',
+      },
     },
   },
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
   const { sensor_id, ...body } = args as any;
-  const response = await client.sensors.delete(sensor_id).asResponse();
+  const response = await client.sensors.delete(sensor_id, body).asResponse();
   return asTextContentResult(await response.text());
 };
 

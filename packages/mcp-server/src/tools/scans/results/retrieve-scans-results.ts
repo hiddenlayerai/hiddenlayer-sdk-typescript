@@ -17,13 +17,16 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'retrieve_scans_results',
-  description: 'Get Result of a Model Scan',
+  description: 'Get scan results (SARIF / V3)',
   inputSchema: {
     type: 'object',
     properties: {
       scan_id: {
         type: 'string',
         title: 'Scan ID',
+      },
+      'X-Correlation-Id': {
+        type: 'string',
       },
       has_detections: {
         type: 'boolean',

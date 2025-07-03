@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'start_scans_upload',
-  description: 'Start V3 Upload',
+  description: 'Start a model upload',
   inputSchema: {
     type: 'object',
     properties: {
@@ -36,10 +36,24 @@ export const tool: Tool = {
         title: 'Requesting Entity',
         description: 'Requesting entity',
       },
+      'X-Correlation-Id': {
+        type: 'string',
+      },
       location_alias: {
         type: 'string',
         title: 'Requested Location Alias',
         description: 'Requested location alias',
+      },
+      origin: {
+        type: 'string',
+        title: 'Origin',
+        description: 'Specifies the platform or service where the model originated before being scanned',
+      },
+      request_source: {
+        type: 'string',
+        title: 'Request Source',
+        description: 'Identifies the system that requested the scan',
+        enum: ['Hybrid Upload', 'API Upload', 'Integration', 'UI Upload'],
       },
     },
   },

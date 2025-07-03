@@ -25,11 +25,12 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import HiddenLayer from 'hiddenlayer';
 
-const client = new HiddenLayer({
-  bearerToken: process.env['HIDDENLAYER_TOKEN'], // This is the default and can be omitted
-});
+const client = new HiddenLayer();
 
-const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' });
+const sensor = await client.sensors.create({
+  plaintext_name: 'REPLACE_ME',
+  'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
+});
 
 console.log(sensor.sensor_id);
 ```
@@ -42,12 +43,13 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import HiddenLayer from 'hiddenlayer';
 
-const client = new HiddenLayer({
-  bearerToken: process.env['HIDDENLAYER_TOKEN'], // This is the default and can be omitted
-});
+const client = new HiddenLayer();
 
-const params: HiddenLayer.SensorCreateParams = { plaintext_name: 'REPLACE_ME' };
-const sensor: HiddenLayer.Sensor = await client.sensors.create(params);
+const params: HiddenLayer.SensorCreateParams = {
+  plaintext_name: 'REPLACE_ME',
+  'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
+};
+const sensor: HiddenLayer.SensorCreateResponse = await client.sensors.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -60,15 +62,17 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' }).catch(async (err) => {
-  if (err instanceof HiddenLayer.APIError) {
-    console.log(err.status); // 400
-    console.log(err.name); // BadRequestError
-    console.log(err.headers); // {server: 'nginx', ...}
-  } else {
-    throw err;
-  }
-});
+const sensor = await client.sensors
+  .create({ plaintext_name: 'REPLACE_ME', 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' })
+  .catch(async (err) => {
+    if (err instanceof HiddenLayer.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
@@ -96,11 +100,12 @@ You can use the `maxRetries` option to configure or disable this:
 ```js
 // Configure the default for all requests:
 const client = new HiddenLayer({
+  bearerToken: 'My Bearer Token',
   maxRetries: 0, // default is 2
 });
 
 // Or, configure per-request:
-await client.sensors.create({ plaintext_name: 'REPLACE_ME' }, {
+await client.sensors.create({ plaintext_name: 'REPLACE_ME', 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' }, {
   maxRetries: 5,
 });
 ```
@@ -113,11 +118,12 @@ Requests time out after 1 minute by default. You can configure this with a `time
 ```ts
 // Configure the default for all requests:
 const client = new HiddenLayer({
+  bearerToken: 'My Bearer Token',
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
 // Override per-request:
-await client.sensors.create({ plaintext_name: 'REPLACE_ME' }, {
+await client.sensors.create({ plaintext_name: 'REPLACE_ME', 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -140,12 +146,14 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new HiddenLayer();
 
-const response = await client.sensors.create({ plaintext_name: 'REPLACE_ME' }).asResponse();
+const response = await client.sensors
+  .create({ plaintext_name: 'REPLACE_ME', 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: sensor, response: raw } = await client.sensors
-  .create({ plaintext_name: 'REPLACE_ME' })
+  .create({ plaintext_name: 'REPLACE_ME', 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(sensor.sensor_id);

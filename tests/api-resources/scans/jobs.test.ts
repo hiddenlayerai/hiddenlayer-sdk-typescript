@@ -21,8 +21,16 @@ describe('resource jobs', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('request', async () => {
-    const responsePromise = client.scans.jobs.request({});
+  test.skip('request: only required params', async () => {
+    const responsePromise = client.scans.jobs.request({
+      access: {},
+      inventory: {
+        model_name: 'some-model',
+        model_version: '',
+        requested_scan_location: 'owner/repo',
+        requesting_entity: 'some-user@example.com',
+      },
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -30,5 +38,20 @@ describe('resource jobs', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('request: required and optional params', async () => {
+    const response = await client.scans.jobs.request({
+      access: { source: 'HUGGING_FACE' },
+      inventory: {
+        model_name: 'some-model',
+        model_version: '',
+        requested_scan_location: 'owner/repo',
+        requesting_entity: 'some-user@example.com',
+        origin: 'Hugging Face',
+        request_source: 'API Upload',
+      },
+    });
   });
 });

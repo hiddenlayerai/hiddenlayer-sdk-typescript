@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   tags: [],
   httpMethod: 'delete',
   httpPath: '/api/v2/models/{model_id}',
-  operationId: 'delete_model',
+  operationId: 'sensor_sor_api_v2_models__model_id__delete',
 };
 
 export const tool: Tool = {
@@ -25,13 +25,16 @@ export const tool: Tool = {
         type: 'string',
         title: 'Model ID',
       },
+      'X-Correlation-Id': {
+        type: 'string',
+      },
     },
   },
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
   const { model_id, ...body } = args as any;
-  const response = await client.models.delete(model_id).asResponse();
+  const response = await client.models.delete(model_id, body).asResponse();
   return asTextContentResult(await response.text());
 };
 

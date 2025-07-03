@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'request_scans_jobs',
-  description: 'Request a Model Scan Job',
+  description: 'Scan a remote model',
   inputSchema: {
     type: 'object',
     properties: {
@@ -43,7 +43,7 @@ export const tool: Tool = {
       },
       inventory: {
         type: 'object',
-        title: 'ScanModelDetails',
+        title: 'ScanJobInventory',
         properties: {
           model_name: {
             type: 'string',
@@ -64,6 +64,17 @@ export const tool: Tool = {
             type: 'string',
             title: 'Requesting Entity',
             description: 'Entity that requested the scan',
+          },
+          origin: {
+            type: 'string',
+            title: 'Origin',
+            description: 'Specifies the platform or service where the model originated before being scanned',
+          },
+          request_source: {
+            type: 'string',
+            title: 'Request Source',
+            description: 'Identifies the system that requested the scan',
+            enum: ['Hybrid Upload', 'API Upload', 'Integration', 'UI Upload'],
           },
         },
         required: ['model_name', 'model_version', 'requested_scan_location', 'requesting_entity'],

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'list_scans_jobs',
-  description: 'List all Model Scan Jobs',
+  description: 'List model scan jobs',
   inputSchema: {
     type: 'object',
     properties: {},

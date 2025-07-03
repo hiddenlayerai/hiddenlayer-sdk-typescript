@@ -17,18 +17,21 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'add_upload_scans_file',
-  description: 'Add file to V3 Upload',
+  description: 'Upload a model file',
   inputSchema: {
     type: 'object',
     properties: {
       scan_id: {
         type: 'string',
-        title: 'Scan Id to which the file belongs',
+        title: 'Scan ID',
       },
       'file-content-length': {
         type: 'integer',
       },
       'file-name': {
+        type: 'string',
+      },
+      'X-Correlation-Id': {
         type: 'string',
       },
     },

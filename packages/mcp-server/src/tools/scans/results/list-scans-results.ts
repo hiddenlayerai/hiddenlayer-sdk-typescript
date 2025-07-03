@@ -17,10 +17,17 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'list_scans_results',
-  description: 'Get condensed reports for a Model Scan',
+  description: 'Get scan results (Summaries)',
   inputSchema: {
     type: 'object',
     properties: {
+      'X-Correlation-Id': {
+        type: 'string',
+      },
+      detection_category: {
+        type: 'string',
+        description: 'filter by a single detection category',
+      },
       end_time: {
         type: 'string',
         description: 'End Time',
@@ -40,6 +47,19 @@ export const tool: Tool = {
           type: 'string',
         },
       },
+      model_name: {
+        type: 'object',
+        description: 'filter by the model name',
+        properties: {
+          contains: {
+            type: 'string',
+          },
+          eq: {
+            type: 'string',
+          },
+        },
+        required: [],
+      },
       model_version_ids: {
         type: 'array',
         description: 'Model Version ID',
@@ -49,6 +69,10 @@ export const tool: Tool = {
       },
       offset: {
         type: 'integer',
+      },
+      scanner_version: {
+        type: 'string',
+        description: 'filter by version of the scanner',
       },
       severity: {
         type: 'array',
@@ -60,7 +84,18 @@ export const tool: Tool = {
       sort: {
         type: 'string',
         description:
-          'allow sorting by status, severity or created at, ascending (+) or the default descending (-)',
+          'allow sorting by model name, status, severity or created at, ascending (+) or the default descending (-)',
+      },
+      source: {
+        type: 'object',
+        description: 'source of model related to scans',
+        properties: {
+          eq: {
+            type: 'string',
+            enum: ['adhoc'],
+          },
+        },
+        required: [],
       },
       start_time: {
         type: 'string',

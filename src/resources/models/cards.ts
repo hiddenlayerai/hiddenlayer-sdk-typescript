@@ -2,17 +2,28 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class Cards extends APIResource {
   /**
    * List Model Cards
+   *
+   * @example
+   * ```ts
+   * const cards = await client.models.cards.list({
+   *   'X-Correlation-Id':
+   *     '00000000-0000-0000-0000-000000000000',
+   * });
+   * ```
    */
-  list(
-    query: CardListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<CardListResponse> {
-    return this._client.get('/models/v3/cards', { query, ...options });
+  list(params: CardListParams, options?: RequestOptions): APIPromise<CardListResponse> {
+    const { 'X-Correlation-Id': xCorrelationID, ...query } = params;
+    return this._client.get('/models/v3/cards', {
+      query,
+      ...options,
+      headers: buildHeaders([{ 'X-Correlation-Id': xCorrelationID }, options?.headers]),
+    });
   }
 }
 
@@ -28,10 +39,8 @@ export interface CardListResponse {
 
 export namespace CardListResponse {
   export interface Result {
-    active_versions: Array<number>;
-
     /**
-     * Unix Nano Epoch
+     * Unix Nano Epoch Timestamp
      */
     created_at: number;
 
@@ -40,6 +49,8 @@ export namespace CardListResponse {
     plaintext_name: string;
 
     source: string;
+
+    active_versions?: Array<number>;
 
     attack_monitoring_threat_level?: 'safe' | 'unsafe' | 'suspicious' | 'not available';
 
@@ -60,25 +71,95 @@ export namespace CardListResponse {
 }
 
 export interface CardListParams {
+  /**
+   * Header param: The unique identifier for the request.
+   */
+  'X-Correlation-Id': string;
+
+  /**
+   * Query param:
+   */
+  aidr_severity?: Array<'SAFE' | 'UNSAFE' | 'SUSPICIOUS'>;
+
+  /**
+   * Query param: filter by aidr enabled
+   */
+  aidr_status?: 'ENABLED' | 'DISABLED' | 'ANY';
+
+  /**
+   * Query param:
+   */
   limit?: number;
 
   /**
-   * substring match on model name
+   * Query param: match on models created between dates
    */
-  'model_name[contains]'?: string;
+  model_created?: CardListParams.ModelCreated;
 
   /**
-   * substring match on model name
+   * Query param: substring match on model name
    */
-  'model_name[eq]'?: string;
+  model_name?: CardListParams.ModelName;
 
+  /**
+   * Query param:
+   */
+  modscan_severity?: Array<'SAFE' | 'UNSAFE' | 'SUSPICIOUS' | 'UNKNOWN' | 'ERROR'>;
+
+  /**
+   * Query param:
+   */
+  modscan_status?: 'ENABLED' | 'DISABLED' | 'ANY';
+
+  /**
+   * Query param:
+   */
   offset?: number;
 
   /**
-   * allow sorting by model name or created at timestamp, ascending (+) or the
-   * default descending (-)
+   * Query param:
+   */
+  provider?: Array<'AZURE' | 'ADHOC'>;
+
+  /**
+   * Query param: allow sorting by model name or created at timestamp, ascending (+)
+   * or the default descending (-)
    */
   sort?: string;
+
+  /**
+   * Query param: substring and full match on model source
+   */
+  source?: CardListParams.Source;
+}
+
+export namespace CardListParams {
+  /**
+   * match on models created between dates
+   */
+  export interface ModelCreated {
+    gte?: string;
+
+    lte?: string;
+  }
+
+  /**
+   * substring match on model name
+   */
+  export interface ModelName {
+    contains?: string;
+
+    eq?: string;
+  }
+
+  /**
+   * substring and full match on model source
+   */
+  export interface Source {
+    contains?: string;
+
+    eq?: string;
+  }
 }
 
 export declare namespace Cards {

@@ -20,15 +20,23 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  Sensor,
   SensorCreateParams,
+  SensorCreateResponse,
+  SensorDeleteParams,
   SensorQueryParams,
   SensorQueryResponse,
+  SensorRetrieveParams,
+  SensorRetrieveResponse,
   Sensors,
 } from './resources/sensors';
-import { VectorSubmitVectorsParams, VectorSubmitVectorsResponse, Vectors } from './resources/vectors';
-import { ModelRetrieveResponse, Models } from './resources/models/models';
-import { ScanRetrieveResultsParams, ScanRetrieveResultsResponse, Scans } from './resources/scans/scans';
+import { Vectors } from './resources/vectors';
+import {
+  ModelDeleteParams,
+  ModelRetrieveParams,
+  ModelRetrieveResponse,
+  Models,
+} from './resources/models/models';
+import { Scans } from './resources/scans/scans';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -215,10 +223,6 @@ export class HiddenLayer {
 
   protected validateHeaders({ values, nulls }: NullableHeaders) {
     return;
-  }
-
-  protected authHeaders(opts: FinalRequestOptions): NullableHeaders | undefined {
-    return buildHeaders([{ Authorization: `Bearer ${this.bearerToken}` }]);
   }
 
   protected stringifyQuery(query: Record<string, unknown>): string {
@@ -659,7 +663,6 @@ export class HiddenLayer {
         ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
         ...getPlatformHeaders(),
       },
-      this.authHeaders(options),
       this._options.defaultHeaders,
       bodyHeaders,
       options.headers,
@@ -744,27 +747,27 @@ export declare namespace HiddenLayer {
     type CursorPaginationResponse as CursorPaginationResponse,
   };
 
-  export { Models as Models, type ModelRetrieveResponse as ModelRetrieveResponse };
+  export {
+    Models as Models,
+    type ModelRetrieveResponse as ModelRetrieveResponse,
+    type ModelRetrieveParams as ModelRetrieveParams,
+    type ModelDeleteParams as ModelDeleteParams,
+  };
 
   export {
     Sensors as Sensors,
-    type Sensor as Sensor,
+    type SensorCreateResponse as SensorCreateResponse,
+    type SensorRetrieveResponse as SensorRetrieveResponse,
     type SensorQueryResponse as SensorQueryResponse,
     type SensorCreateParams as SensorCreateParams,
+    type SensorRetrieveParams as SensorRetrieveParams,
+    type SensorDeleteParams as SensorDeleteParams,
     type SensorQueryParams as SensorQueryParams,
   };
 
-  export {
-    Vectors as Vectors,
-    type VectorSubmitVectorsResponse as VectorSubmitVectorsResponse,
-    type VectorSubmitVectorsParams as VectorSubmitVectorsParams,
-  };
+  export { Vectors as Vectors };
 
-  export {
-    Scans as Scans,
-    type ScanRetrieveResultsResponse as ScanRetrieveResultsResponse,
-    type ScanRetrieveResultsParams as ScanRetrieveResultsParams,
-  };
+  export { Scans as Scans };
 
   export type Exception = API.Exception;
   export type Node = API.Node;

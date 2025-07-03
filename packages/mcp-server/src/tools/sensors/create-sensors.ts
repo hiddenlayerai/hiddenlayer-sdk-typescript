@@ -12,22 +12,25 @@ export const metadata: Metadata = {
   tags: [],
   httpMethod: 'post',
   httpPath: '/api/v2/sensors/create',
-  operationId: 'create_sensor',
+  operationId: 'sensor_sor_api_v1_sensor_create_post',
 };
 
 export const tool: Tool = {
   name: 'create_sensors',
-  description: 'Create a Sensor',
+  description: 'Create Sensor Record',
   inputSchema: {
     type: 'object',
     properties: {
       plaintext_name: {
         type: 'string',
-        title: 'Sensor Name',
+        title: 'Plaintext Name',
+      },
+      'X-Correlation-Id': {
+        type: 'string',
       },
       active: {
         type: 'boolean',
-        title: 'Sensor Active',
+        title: 'Active',
       },
       adhoc: {
         type: 'boolean',
@@ -35,11 +38,11 @@ export const tool: Tool = {
       },
       tags: {
         type: 'object',
-        title: 'Sensor Tags',
+        title: 'Tags',
       },
       version: {
         type: 'integer',
-        title: 'Sensor Version',
+        title: 'Version',
       },
     },
   },

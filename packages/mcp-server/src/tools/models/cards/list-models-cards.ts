@@ -21,24 +21,90 @@ export const tool: Tool = {
   inputSchema: {
     type: 'object',
     properties: {
+      'X-Correlation-Id': {
+        type: 'string',
+      },
+      aidr_severity: {
+        type: 'array',
+        items: {
+          type: 'string',
+          enum: ['SAFE', 'UNSAFE', 'SUSPICIOUS'],
+        },
+      },
+      aidr_status: {
+        type: 'string',
+        description: 'filter by aidr enabled',
+        enum: ['ENABLED', 'DISABLED', 'ANY'],
+      },
       limit: {
         type: 'integer',
       },
-      'model_name[contains]': {
-        type: 'string',
-        description: 'substring match on model name',
+      model_created: {
+        type: 'object',
+        description: 'match on models created between dates',
+        properties: {
+          gte: {
+            type: 'string',
+            format: 'date-time',
+          },
+          lte: {
+            type: 'string',
+            format: 'date-time',
+          },
+        },
+        required: [],
       },
-      'model_name[eq]': {
-        type: 'string',
+      model_name: {
+        type: 'object',
         description: 'substring match on model name',
+        properties: {
+          contains: {
+            type: 'string',
+          },
+          eq: {
+            type: 'string',
+          },
+        },
+        required: [],
+      },
+      modscan_severity: {
+        type: 'array',
+        items: {
+          type: 'string',
+          enum: ['SAFE', 'UNSAFE', 'SUSPICIOUS', 'UNKNOWN', 'ERROR'],
+        },
+      },
+      modscan_status: {
+        type: 'string',
+        enum: ['ENABLED', 'DISABLED', 'ANY'],
       },
       offset: {
         type: 'integer',
+      },
+      provider: {
+        type: 'array',
+        items: {
+          type: 'string',
+          enum: ['AZURE', 'ADHOC'],
+        },
       },
       sort: {
         type: 'string',
         description:
           'allow sorting by model name or created at timestamp, ascending (+) or the default descending (-)',
+      },
+      source: {
+        type: 'object',
+        description: 'substring and full match on model source',
+        properties: {
+          contains: {
+            type: 'string',
+          },
+          eq: {
+            type: 'string',
+          },
+        },
+        required: [],
       },
     },
   },

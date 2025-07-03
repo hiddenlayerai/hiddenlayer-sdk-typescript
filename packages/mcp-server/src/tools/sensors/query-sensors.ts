@@ -12,15 +12,18 @@ export const metadata: Metadata = {
   tags: [],
   httpMethod: 'post',
   httpPath: '/api/v2/sensors/query',
-  operationId: 'query_sensor',
+  operationId: 'sensor_sor_api_v1_sensors_query_post',
 };
 
 export const tool: Tool = {
   name: 'query_sensors',
-  description: 'Query a Sensor',
+  description: 'Query Sensors',
   inputSchema: {
     type: 'object',
     properties: {
+      'X-Correlation-Id': {
+        type: 'string',
+      },
       filter: {
         type: 'object',
         title: 'SensorSORQueryFilter',

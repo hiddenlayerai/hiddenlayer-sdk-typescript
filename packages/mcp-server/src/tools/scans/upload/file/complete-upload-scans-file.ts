@@ -17,17 +17,20 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'complete_upload_scans_file',
-  description: 'Indicate that upload is completed for {file_id}',
+  description: 'Complete a file upload',
   inputSchema: {
     type: 'object',
     properties: {
       scan_id: {
         type: 'string',
-        title: 'Scan Id to which the file belongs',
+        title: 'Scan ID',
       },
       file_id: {
         type: 'string',
         title: 'file_id to which the file belongs',
+      },
+      'X-Correlation-Id': {
+        type: 'string',
       },
     },
   },

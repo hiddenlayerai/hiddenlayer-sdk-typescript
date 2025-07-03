@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   tags: [],
   httpMethod: 'get',
   httpPath: '/api/v2/models/{model_id}',
-  operationId: 'get_model',
+  operationId: 'sensor_sor_api_v1_models__model_id__get',
 };
 
 export const tool: Tool = {
@@ -25,13 +25,16 @@ export const tool: Tool = {
         type: 'string',
         title: 'Model ID',
       },
+      'X-Correlation-Id': {
+        type: 'string',
+      },
     },
   },
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
   const { model_id, ...body } = args as any;
-  return asTextContentResult(await client.models.retrieve(model_id));
+  return asTextContentResult(await client.models.retrieve(model_id, body));
 };
 
 export default { metadata, tool, handler };
