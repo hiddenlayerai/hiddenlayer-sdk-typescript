@@ -39,6 +39,7 @@ import { Scans } from './resources/scans/scans';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
+import { toBase64 } from './internal/utils/base64';
 import { readEnv } from './internal/utils/env';
 import {
   type LogLevel,
@@ -53,7 +54,17 @@ export interface ClientOptions {
   /**
    * Defaults to process.env['HIDDENLAYER_TOKEN'].
    */
-  bearerToken?: string | undefined;
+  bearerToken?: string | null | undefined;
+
+  /**
+   * Defaults to process.env['HIDDENLAYER_CLIENT_ID'].
+   */
+  clientID?: string | null | undefined;
+
+  /**
+   * Defaults to process.env['HIDDENLAYER_CLIENT_SECRET'].
+   */
+  clientSecret?: string | null | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -128,7 +139,9 @@ export interface ClientOptions {
  * API Client for interfacing with the Hidden Layer API.
  */
 export class HiddenLayer {
-  bearerToken: string;
+  bearerToken: string | null;
+  clientID: string | null;
+  clientSecret: string | null;
 
   baseURL: string;
   maxRetries: number;
@@ -145,7 +158,9 @@ export class HiddenLayer {
   /**
    * API Client for interfacing with the Hidden Layer API.
    *
-   * @param {string | undefined} [opts.bearerToken=process.env['HIDDENLAYER_TOKEN'] ?? undefined]
+   * @param {string | null | undefined} [opts.bearerToken=process.env['HIDDENLAYER_TOKEN'] ?? null]
+   * @param {string | null | undefined} [opts.clientID=process.env['HIDDENLAYER_CLIENT_ID'] ?? null]
+   * @param {string | null | undefined} [opts.clientSecret=process.env['HIDDENLAYER_CLIENT_SECRET'] ?? null]
    * @param {string} [opts.baseURL=process.env['HIDDEN_LAYER_BASE_URL'] ?? https://api.hiddenlayer.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
@@ -156,17 +171,15 @@ export class HiddenLayer {
    */
   constructor({
     baseURL = readEnv('HIDDEN_LAYER_BASE_URL'),
-    bearerToken = readEnv('HIDDENLAYER_TOKEN'),
+    bearerToken = readEnv('HIDDENLAYER_TOKEN') ?? null,
+    clientID = readEnv('HIDDENLAYER_CLIENT_ID') ?? null,
+    clientSecret = readEnv('HIDDENLAYER_CLIENT_SECRET') ?? null,
     ...opts
   }: ClientOptions = {}) {
-    if (bearerToken === undefined) {
-      throw new Errors.HiddenLayerError(
-        "The HIDDENLAYER_TOKEN environment variable is missing or empty; either provide it, or instantiate the HiddenLayer client with an bearerToken option, like new HiddenLayer({ bearerToken: 'My Bearer Token' }).",
-      );
-    }
-
     const options: ClientOptions = {
       bearerToken,
+      clientID,
+      clientSecret,
       ...opts,
       baseURL: baseURL || `https://api.hiddenlayer.ai`,
     };
@@ -189,6 +202,8 @@ export class HiddenLayer {
     this._options = options;
 
     this.bearerToken = bearerToken;
+    this.clientID = clientID;
+    this.clientSecret = clientSecret;
   }
 
   /**
@@ -205,8 +220,11 @@ export class HiddenLayer {
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
       bearerToken: this.bearerToken,
+      clientID: this.clientID,
+      clientSecret: this.clientSecret,
       ...options,
     });
+    client.hiddenLayerUserAuthState = this.hiddenLayerUserAuthState;
     return client;
   }
 
@@ -226,7 +244,88 @@ export class HiddenLayer {
   }
 
   protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
+    return buildHeaders([await this.bearerAuth(opts), await this.hiddenLayerUserAuth(opts)]);
+  }
+
+  protected async bearerAuth(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
+    if (this.bearerToken == null) {
+      return undefined;
+    }
     return buildHeaders([{ Authorization: `Bearer ${this.bearerToken}` }]);
+  }
+
+  private hiddenLayerUserAuthState:
+    | {
+        promise: Promise<{
+          access_token: string;
+          token_type: string;
+          expires_in: number;
+          expires_at: Date;
+          refresh_token?: string;
+        }>;
+        clientID: string;
+        clientSecret: string;
+      }
+    | undefined;
+  protected async hiddenLayerUserAuth(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
+    if (!this.clientID || !this.clientSecret) {
+      return undefined;
+    }
+
+    // Invalidate the cache if the token is expired
+    if (
+      this.hiddenLayerUserAuthState &&
+      +(await this.hiddenLayerUserAuthState.promise).expires_at < Date.now()
+    ) {
+      this.hiddenLayerUserAuthState = undefined;
+    }
+
+    // Invalidate the cache if the relevant state has been changed
+    if (
+      this.hiddenLayerUserAuthState &&
+      this.hiddenLayerUserAuthState.clientID !== this.clientID &&
+      this.hiddenLayerUserAuthState.clientSecret !== this.clientSecret
+    ) {
+      this.hiddenLayerUserAuthState = undefined;
+    }
+
+    if (!this.hiddenLayerUserAuthState) {
+      this.hiddenLayerUserAuthState = {
+        promise: this.fetch(
+          this.buildURL('https://auth.hiddenlayer.ai/oauth2/token?grant_type=client_credentials', {
+            grant_type: 'client_credentials',
+          }),
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `Basic ${toBase64(`${this.clientID}:${this.clientSecret}`)}`,
+            },
+          },
+        ).then(async (res) => {
+          if (!res.ok) {
+            const errText = await res.text().catch(() => '');
+            const errJSON = errText ? safeJSON(errText) : undefined;
+            const errMessage = errJSON ? undefined : errText;
+            throw this.makeStatusError(res.status, errJSON, errMessage, res.headers);
+          }
+          const json = (await res.json()) as {
+            access_token: string;
+            token_type: string;
+            expires_in: number;
+            refresh_token?: string;
+          };
+          const now = new Date();
+          now.setSeconds(now.getSeconds() + json.expires_in);
+          return { ...json, expires_at: now };
+        }),
+        clientID: this.clientID,
+        clientSecret: this.clientSecret,
+      };
+    }
+
+    const token = await this.hiddenLayerUserAuthState.promise;
+
+    return buildHeaders([{ Authorization: `Bearer ${token.access_token}` }]);
   }
 
   protected stringifyQuery(query: Record<string, unknown>): string {
@@ -546,6 +645,17 @@ export class HiddenLayer {
     // If the server explicitly says whether or not to retry, obey.
     if (shouldRetryHeader === 'true') return true;
     if (shouldRetryHeader === 'false') return false;
+
+    // Retry if the token has expired
+    const hiddenLayerUserAuth = await this.hiddenLayerUserAuthState?.promise;
+    if (
+      response.status === 401 &&
+      hiddenLayerUserAuth &&
+      +hiddenLayerUserAuth.expires_at - Date.now() < 10 * 1000
+    ) {
+      this.hiddenLayerUserAuthState = undefined;
+      return true;
+    }
 
     // Retry on request timeouts.
     if (response.status === 408) return true;
