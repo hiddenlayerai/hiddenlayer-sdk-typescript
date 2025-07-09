@@ -5,8 +5,39 @@ import * as ResultsAPI from './results';
 import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Jobs extends APIResource {
+  /**
+   * Get scan results (SARIF / V3)
+   *
+   * @example
+   * ```ts
+   * const scanReport = await client.scans.jobs.retrieve(
+   *   '00000000-0000-0000-0000-000000000000',
+   *   {
+   *     'X-Correlation-Id':
+   *       '00000000-0000-0000-0000-000000000000',
+   *   },
+   * );
+   * ```
+   */
+  retrieve(
+    scanID: string,
+    params: JobRetrieveParams,
+    options?: RequestOptions,
+  ): APIPromise<ResultsAPI.ScanReport> {
+    const { 'X-Correlation-Id': xCorrelationID, ...query } = params;
+    return this._client.get(path`/scan/v3/results/${scanID}`, {
+      query,
+      ...options,
+      headers: buildHeaders([
+        { Accept: 'application/json; charset=utf-8', 'X-Correlation-Id': xCorrelationID },
+        options?.headers,
+      ]),
+    });
+  }
+
   /**
    * Get scan results (Summaries)
    *
@@ -124,6 +155,19 @@ export interface JobListResponse {
    * Total number of items available based on the query criteria.
    */
   total: number;
+}
+
+export interface JobRetrieveParams {
+  /**
+   * Header param: The unique identifier for the request.
+   */
+  'X-Correlation-Id': string;
+
+  /**
+   * Query param: Filter file_results to only those that have detections (and
+   * parents)
+   */
+  has_detections?: boolean;
 }
 
 export interface JobListParams {
@@ -279,6 +323,7 @@ export declare namespace Jobs {
   export {
     type ScanJob as ScanJob,
     type JobListResponse as JobListResponse,
+    type JobRetrieveParams as JobRetrieveParams,
     type JobListParams as JobListParams,
     type JobRequestParams as JobRequestParams,
   };

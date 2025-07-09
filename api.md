@@ -64,6 +64,7 @@ Types:
 
 Methods:
 
+- <code title="get /scan/v3/results/{scan_id}">client.scans.jobs.<a href="./src/resources/scans/jobs.ts">retrieve</a>(scanID, { ...params }) -> ScanReport</code>
 - <code title="get /scan/v3/results">client.scans.jobs.<a href="./src/resources/scans/jobs.ts">list</a>({ ...params }) -> JobListResponse</code>
 - <code title="post /scan/v3/jobs">client.scans.jobs.<a href="./src/resources/scans/jobs.ts">request</a>({ ...params }) -> ScanJob</code>
 
