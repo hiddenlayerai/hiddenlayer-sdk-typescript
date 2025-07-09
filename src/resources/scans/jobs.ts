@@ -7,21 +7,6 @@ import { RequestOptions } from '../../internal/request-options';
 
 export class Jobs extends APIResource {
   /**
-   * List model scan jobs
-   *
-   * @example
-   * ```ts
-   * const scanJobs = await client.scans.jobs.list();
-   * ```
-   */
-  list(options?: RequestOptions): APIPromise<JobListResponse> {
-    return this._client.get('/scan/v3/jobs', {
-      ...options,
-      headers: buildHeaders([{ Accept: 'application/json; charset=utf-8' }, options?.headers]),
-    });
-  }
-
-  /**
    * Scan a remote model
    *
    * @example
@@ -95,8 +80,6 @@ export namespace ScanJob {
   }
 }
 
-export type JobListResponse = Array<ScanJob>;
-
 export interface JobRequestParams {
   access: JobRequestParams.Access;
 
@@ -151,9 +134,5 @@ export namespace JobRequestParams {
 }
 
 export declare namespace Jobs {
-  export {
-    type ScanJob as ScanJob,
-    type JobListResponse as JobListResponse,
-    type JobRequestParams as JobRequestParams,
-  };
+  export { type ScanJob as ScanJob, type JobRequestParams as JobRequestParams };
 }

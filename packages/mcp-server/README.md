@@ -202,7 +202,6 @@ The following tools are available in this MCP server.
 
 ### Resource `scans.jobs`:
 
-- `list_scans_jobs` (`read`): List model scan jobs
 - `request_scans_jobs` (`write`): Scan a remote model
 
 ### Resource `scans.upload`:
