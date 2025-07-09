@@ -60,9 +60,11 @@ Types:
 Types:
 
 - <code><a href="./src/resources/scans/jobs.ts">ScanJob</a></code>
+- <code><a href="./src/resources/scans/jobs.ts">JobListResponse</a></code>
 
 Methods:
 
+- <code title="get /scan/v3/results">client.scans.jobs.<a href="./src/resources/scans/jobs.ts">list</a>({ ...params }) -> JobListResponse</code>
 - <code title="post /scan/v3/jobs">client.scans.jobs.<a href="./src/resources/scans/jobs.ts">request</a>({ ...params }) -> ScanJob</code>
 
 ## Upload

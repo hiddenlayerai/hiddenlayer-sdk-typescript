@@ -9,6 +9,41 @@ const client = new HiddenLayer({
 
 describe('resource jobs', () => {
   // skipped: tests are disabled for the time being
+  test.skip('list: only required params', async () => {
+    const responsePromise = client.scans.jobs.list({
+      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('list: required and optional params', async () => {
+    const response = await client.scans.jobs.list({
+      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
+      detection_category: 'detection_category',
+      end_time: '2019-12-27T18:11:19.117Z',
+      latest_per_model_version_only: true,
+      limit: 1,
+      model_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+      model_name: { contains: 'contains', eq: 'eq' },
+      model_version_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+      offset: 0,
+      scanner_version: 'scanner_version',
+      severity: ['string'],
+      sort: 'sort',
+      source: { eq: 'adhoc' },
+      start_time: '2019-12-27T18:11:19.117Z',
+      status: ['string'],
+    });
+  });
+
+  // skipped: tests are disabled for the time being
   test.skip('request: only required params', async () => {
     const responsePromise = client.scans.jobs.request({
       access: {},
