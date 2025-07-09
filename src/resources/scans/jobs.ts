@@ -207,7 +207,7 @@ export interface JobListParams {
   model_name?: JobListParams.ModelName;
 
   /**
-   * Query param: Model Version IDs
+   * Query param: Model Version ID
    */
   model_version_ids?: Array<string>;
 

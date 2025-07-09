@@ -62,7 +62,7 @@ export const tool: Tool = {
       },
       model_version_ids: {
         type: 'array',
-        description: 'Model Version IDs',
+        description: 'Model Version ID',
         items: {
           type: 'string',
         },

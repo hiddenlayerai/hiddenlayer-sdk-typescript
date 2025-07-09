@@ -35,7 +35,7 @@ describe('resource cards', () => {
       modscan_status: 'ENABLED',
       offset: 0,
       provider: ['AZURE'],
-      sort: '-model_name',
+      sort: 'sort',
       source: { contains: 'contains', eq: 'eq' },
     });
   });
