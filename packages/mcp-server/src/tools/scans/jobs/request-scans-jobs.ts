@@ -1,5 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { maybeFilter } from 'hiddenlayer-mcp/filtering';
 import { asTextContentResult } from 'hiddenlayer-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
@@ -17,7 +18,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'request_scans_jobs',
-  description: 'Scan a remote model',
+  description:
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nScan a remote model\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/scan_job',\n  $defs: {\n    scan_job: {\n      type: 'object',\n      title: 'ScanJob',\n      properties: {\n        inventory: {\n          type: 'object',\n          title: 'ScanJobInventory',\n          properties: {\n            model_name: {\n              type: 'string',\n              title: 'Model Name',\n              description: 'Name of the model'\n            },\n            model_version: {\n              type: 'string',\n              title: 'Model Version',\n              description: 'If you do not provide a version, one will be generated for you.'\n            },\n            requested_scan_location: {\n              type: 'string',\n              title: 'Requested Scan Location',\n              description: 'Location to be scanned'\n            },\n            requesting_entity: {\n              type: 'string',\n              title: 'Requesting Entity',\n              description: 'Entity that requested the scan'\n            },\n            origin: {\n              type: 'string',\n              title: 'Origin',\n              description: 'Specifies the platform or service where the model originated before being scanned'\n            },\n            request_source: {\n              type: 'string',\n              title: 'Request Source',\n              description: 'Identifies the system that requested the scan',\n              enum: [                'Hybrid Upload',\n                'API Upload',\n                'Integration',\n                'UI Upload'\n              ]\n            }\n          },\n          required: [            'model_name',\n            'model_version',\n            'requested_scan_location',\n            'requesting_entity'\n          ]\n        },\n        scan_id: {\n          type: 'string',\n          title: 'Scan ID',\n          description: 'unique identifier for the scan'\n        },\n        status: {\n          type: 'string',\n          title: 'Status',\n          description: 'Status of the scan',\n          enum: [            'pending',\n            'running',\n            'done',\n            'failed',\n            'canceled'\n          ]\n        }\n      },\n      required: [        'inventory'\n      ]\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -79,13 +81,19 @@ export const tool: Tool = {
         },
         required: ['model_name', 'model_version', 'requested_scan_location', 'requesting_entity'],
       },
+      jq_filter: {
+        type: 'string',
+        title: 'jq Filter',
+        description:
+          'A jq filter to apply to the response to include certain fields. Consult the output schema in the tool description to see the fields that are available.\n\nFor example: to include only the `name` field in every object of a results array, you can provide ".results[].name".\n\nFor more information, see the [jq documentation](https://jqlang.org/manual/).',
+      },
     },
   },
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return asTextContentResult(await client.scans.jobs.request(body));
+  return asTextContentResult(await maybeFilter(args, await client.scans.jobs.request(body)));
 };
 
 export default { metadata, tool, handler };
