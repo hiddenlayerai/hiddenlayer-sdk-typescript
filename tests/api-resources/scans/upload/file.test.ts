@@ -13,7 +13,6 @@ describe('resource file', () => {
     const responsePromise = client.scans.upload.file.add('00000000-0000-0000-0000-000000000000', {
       'file-content-length': 12345,
       'file-name': 'exampleFile.txt',
-      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -29,7 +28,6 @@ describe('resource file', () => {
     const response = await client.scans.upload.file.add('00000000-0000-0000-0000-000000000000', {
       'file-content-length': 12345,
       'file-name': 'exampleFile.txt',
-      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
     });
   });
 
@@ -37,7 +35,6 @@ describe('resource file', () => {
   test.skip('complete: only required params', async () => {
     const responsePromise = client.scans.upload.file.complete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       scan_id: '00000000-0000-0000-0000-000000000000',
-      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -52,7 +49,6 @@ describe('resource file', () => {
   test.skip('complete: required and optional params', async () => {
     const response = await client.scans.upload.file.complete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       scan_id: '00000000-0000-0000-0000-000000000000',
-      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
     });
   });
 });

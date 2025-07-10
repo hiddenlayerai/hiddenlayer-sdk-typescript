@@ -6,13 +6,7 @@ import { JobListParams, JobListResponse, JobRequestParams, JobRetrieveParams, Jo
 import * as ResultsAPI from './results';
 import { FileScanReport, Results, ScanReport } from './results';
 import * as UploadAPI from './upload/upload';
-import {
-  Upload,
-  UploadCompleteAllParams,
-  UploadCompleteAllResponse,
-  UploadStartParams,
-  UploadStartResponse,
-} from './upload/upload';
+import { Upload, UploadCompleteAllResponse, UploadStartParams, UploadStartResponse } from './upload/upload';
 
 export class Scans extends APIResource {
   results: ResultsAPI.Results = new ResultsAPI.Results(this._client);
@@ -40,7 +34,6 @@ export declare namespace Scans {
     Upload as Upload,
     type UploadCompleteAllResponse as UploadCompleteAllResponse,
     type UploadStartResponse as UploadStartResponse,
-    type UploadCompleteAllParams as UploadCompleteAllParams,
     type UploadStartParams as UploadStartParams,
   };
 }

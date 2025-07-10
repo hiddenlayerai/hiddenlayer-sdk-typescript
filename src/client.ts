@@ -22,19 +22,12 @@ import { APIPromise } from './core/api-promise';
 import {
   SensorCreateParams,
   SensorCreateResponse,
-  SensorDeleteParams,
   SensorQueryParams,
   SensorQueryResponse,
-  SensorRetrieveParams,
   SensorRetrieveResponse,
   Sensors,
 } from './resources/sensors';
-import {
-  ModelDeleteParams,
-  ModelRetrieveParams,
-  ModelRetrieveResponse,
-  Models,
-} from './resources/models/models';
+import { ModelRetrieveResponse, Models } from './resources/models/models';
 import { Scans } from './resources/scans/scans';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -862,12 +855,7 @@ export declare namespace HiddenLayer {
     type CursorPaginationResponse as CursorPaginationResponse,
   };
 
-  export {
-    Models as Models,
-    type ModelRetrieveResponse as ModelRetrieveResponse,
-    type ModelRetrieveParams as ModelRetrieveParams,
-    type ModelDeleteParams as ModelDeleteParams,
-  };
+  export { Models as Models, type ModelRetrieveResponse as ModelRetrieveResponse };
 
   export {
     Sensors as Sensors,
@@ -875,8 +863,6 @@ export declare namespace HiddenLayer {
     type SensorRetrieveResponse as SensorRetrieveResponse,
     type SensorQueryResponse as SensorQueryResponse,
     type SensorCreateParams as SensorCreateParams,
-    type SensorRetrieveParams as SensorRetrieveParams,
-    type SensorDeleteParams as SensorDeleteParams,
     type SensorQueryParams as SensorQueryParams,
   };
 

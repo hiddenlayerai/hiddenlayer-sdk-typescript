@@ -11,6 +11,5 @@ export {
   Upload,
   type UploadCompleteAllResponse,
   type UploadStartResponse,
-  type UploadCompleteAllParams,
   type UploadStartParams,
 } from './upload';

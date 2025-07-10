@@ -23,9 +23,6 @@ export const tool: Tool = {
   inputSchema: {
     type: 'object',
     properties: {
-      'X-Correlation-Id': {
-        type: 'string',
-      },
       filter: {
         type: 'object',
         title: 'SensorSORQueryFilter',

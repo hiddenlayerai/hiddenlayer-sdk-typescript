@@ -31,9 +31,6 @@ export const tool: Tool = {
         type: 'string',
         title: 'file_id to which the file belongs',
       },
-      'X-Correlation-Id': {
-        type: 'string',
-      },
       jq_filter: {
         type: 'string',
         title: 'jq Filter',

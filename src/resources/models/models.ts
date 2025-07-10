@@ -13,49 +13,18 @@ export class Models extends APIResource {
 
   /**
    * Get Model
-   *
-   * @example
-   * ```ts
-   * const model = await client.models.retrieve(
-   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-   *   {
-   *     'X-Correlation-Id':
-   *       '00000000-0000-0000-0000-000000000000',
-   *   },
-   * );
-   * ```
    */
-  retrieve(
-    modelID: string,
-    params: ModelRetrieveParams,
-    options?: RequestOptions,
-  ): APIPromise<ModelRetrieveResponse> {
-    const { 'X-Correlation-Id': xCorrelationID } = params;
-    return this._client.get(path`/api/v2/models/${modelID}`, {
-      ...options,
-      headers: buildHeaders([{ 'X-Correlation-Id': xCorrelationID }, options?.headers]),
-    });
+  retrieve(modelID: string, options?: RequestOptions): APIPromise<ModelRetrieveResponse> {
+    return this._client.get(path`/api/v2/models/${modelID}`, options);
   }
 
   /**
    * Delete Adhoc Model
-   *
-   * @example
-   * ```ts
-   * await client.models.delete(
-   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-   *   {
-   *     'X-Correlation-Id':
-   *       '00000000-0000-0000-0000-000000000000',
-   *   },
-   * );
-   * ```
    */
-  delete(modelID: string, params: ModelDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { 'X-Correlation-Id': xCorrelationID } = params;
+  delete(modelID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/api/v2/models/${modelID}`, {
       ...options,
-      headers: buildHeaders([{ Accept: '*/*', 'X-Correlation-Id': xCorrelationID }, options?.headers]),
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }
@@ -98,28 +67,10 @@ export namespace ModelRetrieveResponse {
   }
 }
 
-export interface ModelRetrieveParams {
-  /**
-   * The unique identifier for the request.
-   */
-  'X-Correlation-Id': string;
-}
-
-export interface ModelDeleteParams {
-  /**
-   * The unique identifier for the request.
-   */
-  'X-Correlation-Id': string;
-}
-
 Models.Cards = Cards;
 
 export declare namespace Models {
-  export {
-    type ModelRetrieveResponse as ModelRetrieveResponse,
-    type ModelRetrieveParams as ModelRetrieveParams,
-    type ModelDeleteParams as ModelDeleteParams,
-  };
+  export { type ModelRetrieveResponse as ModelRetrieveResponse };
 
   export { Cards as Cards, type CardListResponse as CardListResponse, type CardListParams as CardListParams };
 }

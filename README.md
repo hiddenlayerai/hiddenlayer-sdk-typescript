@@ -29,10 +29,7 @@ const client = new HiddenLayer({
   bearerToken: process.env['HIDDENLAYER_TOKEN'], // This is the default and can be omitted
 });
 
-const sensor = await client.sensors.create({
-  plaintext_name: 'REPLACE_ME',
-  'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
-});
+const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' });
 
 console.log(sensor.sensor_id);
 ```
@@ -49,10 +46,7 @@ const client = new HiddenLayer({
   bearerToken: process.env['HIDDENLAYER_TOKEN'], // This is the default and can be omitted
 });
 
-const params: HiddenLayer.SensorCreateParams = {
-  plaintext_name: 'REPLACE_ME',
-  'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
-};
+const params: HiddenLayer.SensorCreateParams = { plaintext_name: 'REPLACE_ME' };
 const sensor: HiddenLayer.SensorCreateResponse = await client.sensors.create(params);
 ```
 
@@ -66,17 +60,15 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const sensor = await client.sensors
-  .create({ plaintext_name: 'REPLACE_ME', 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' })
-  .catch(async (err) => {
-    if (err instanceof HiddenLayer.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
+const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' }).catch(async (err) => {
+  if (err instanceof HiddenLayer.APIError) {
+    console.log(err.status); // 400
+    console.log(err.name); // BadRequestError
+    console.log(err.headers); // {server: 'nginx', ...}
+  } else {
+    throw err;
+  }
+});
 ```
 
 Error codes are as follows:
@@ -108,7 +100,7 @@ const client = new HiddenLayer({
 });
 
 // Or, configure per-request:
-await client.sensors.create({ plaintext_name: 'REPLACE_ME', 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' }, {
+await client.sensors.create({ plaintext_name: 'REPLACE_ME' }, {
   maxRetries: 5,
 });
 ```
@@ -125,7 +117,7 @@ const client = new HiddenLayer({
 });
 
 // Override per-request:
-await client.sensors.create({ plaintext_name: 'REPLACE_ME', 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' }, {
+await client.sensors.create({ plaintext_name: 'REPLACE_ME' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -148,14 +140,12 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new HiddenLayer();
 
-const response = await client.sensors
-  .create({ plaintext_name: 'REPLACE_ME', 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' })
-  .asResponse();
+const response = await client.sensors.create({ plaintext_name: 'REPLACE_ME' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: sensor, response: raw } = await client.sensors
-  .create({ plaintext_name: 'REPLACE_ME', 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' })
+  .create({ plaintext_name: 'REPLACE_ME' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(sensor.sensor_id);

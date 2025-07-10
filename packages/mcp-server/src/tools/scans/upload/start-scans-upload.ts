@@ -38,9 +38,6 @@ export const tool: Tool = {
         title: 'Requesting Entity',
         description: 'Requesting entity',
       },
-      'X-Correlation-Id': {
-        type: 'string',
-      },
       location_alias: {
         type: 'string',
         title: 'Requested Location Alias',

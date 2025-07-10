@@ -22,9 +22,6 @@ export const tool: Tool = {
   inputSchema: {
     type: 'object',
     properties: {
-      'X-Correlation-Id': {
-        type: 'string',
-      },
       detection_category: {
         type: 'string',
         description: 'filter by a single detection category',

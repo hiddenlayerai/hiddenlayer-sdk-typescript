@@ -9,10 +9,8 @@ const client = new HiddenLayer({
 
 describe('resource upload', () => {
   // skipped: tests are disabled for the time being
-  test.skip('completeAll: only required params', async () => {
-    const responsePromise = client.scans.upload.completeAll('00000000-0000-0000-0000-000000000000', {
-      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
-    });
+  test.skip('completeAll', async () => {
+    const responsePromise = client.scans.upload.completeAll('00000000-0000-0000-0000-000000000000');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,19 +21,11 @@ describe('resource upload', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('completeAll: required and optional params', async () => {
-    const response = await client.scans.upload.completeAll('00000000-0000-0000-0000-000000000000', {
-      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
-    });
-  });
-
-  // skipped: tests are disabled for the time being
   test.skip('start: only required params', async () => {
     const responsePromise = client.scans.upload.start({
       model_name: 'model_name',
       model_version: 'model_version',
       requesting_entity: 'requesting_entity',
-      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -52,7 +42,6 @@ describe('resource upload', () => {
       model_name: 'model_name',
       model_version: 'model_version',
       requesting_entity: 'requesting_entity',
-      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
       location_alias: 'location_alias',
       origin: 'Hugging Face',
       request_source: 'API Upload',

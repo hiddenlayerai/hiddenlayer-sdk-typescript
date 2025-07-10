@@ -15,26 +15,18 @@ export class Jobs extends APIResource {
    * ```ts
    * const scanReport = await client.scans.jobs.retrieve(
    *   '00000000-0000-0000-0000-000000000000',
-   *   {
-   *     'X-Correlation-Id':
-   *       '00000000-0000-0000-0000-000000000000',
-   *   },
    * );
    * ```
    */
   retrieve(
     scanID: string,
-    params: JobRetrieveParams,
+    query: JobRetrieveParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<ResultsAPI.ScanReport> {
-    const { 'X-Correlation-Id': xCorrelationID, ...query } = params;
     return this._client.get(path`/scan/v3/results/${scanID}`, {
       query,
       ...options,
-      headers: buildHeaders([
-        { Accept: 'application/json; charset=utf-8', 'X-Correlation-Id': xCorrelationID },
-        options?.headers,
-      ]),
+      headers: buildHeaders([{ Accept: 'application/json; charset=utf-8' }, options?.headers]),
     });
   }
 
@@ -43,21 +35,14 @@ export class Jobs extends APIResource {
    *
    * @example
    * ```ts
-   * const jobs = await client.scans.jobs.list({
-   *   'X-Correlation-Id':
-   *     '00000000-0000-0000-0000-000000000000',
-   * });
+   * const jobs = await client.scans.jobs.list();
    * ```
    */
-  list(params: JobListParams, options?: RequestOptions): APIPromise<JobListResponse> {
-    const { 'X-Correlation-Id': xCorrelationID, ...query } = params;
+  list(query: JobListParams | null | undefined = {}, options?: RequestOptions): APIPromise<JobListResponse> {
     return this._client.get('/scan/v3/results', {
       query,
       ...options,
-      headers: buildHeaders([
-        { Accept: 'application/json; charset=utf-8', 'X-Correlation-Id': xCorrelationID },
-        options?.headers,
-      ]),
+      headers: buildHeaders([{ Accept: 'application/json; charset=utf-8' }, options?.headers]),
     });
   }
 
@@ -159,91 +144,74 @@ export interface JobListResponse {
 
 export interface JobRetrieveParams {
   /**
-   * Header param: The unique identifier for the request.
-   */
-  'X-Correlation-Id': string;
-
-  /**
-   * Query param: Filter file_results to only those that have detections (and
-   * parents)
+   * Filter file_results to only those that have detections (and parents)
    */
   has_detections?: boolean;
 }
 
 export interface JobListParams {
   /**
-   * Header param: The unique identifier for the request.
-   */
-  'X-Correlation-Id': string;
-
-  /**
-   * Query param: filter by a single detection category
+   * filter by a single detection category
    */
   detection_category?: string;
 
   /**
-   * Query param: End Time
+   * End Time
    */
   end_time?: string;
 
   /**
-   * Query param: only return latest result per model version
+   * only return latest result per model version
    */
   latest_per_model_version_only?: boolean;
 
-  /**
-   * Query param:
-   */
   limit?: number;
 
   /**
-   * Query param: Model ID
+   * Model ID
    */
   model_ids?: Array<string>;
 
   /**
-   * Query param: filter by the model name
+   * filter by the model name
    */
   model_name?: JobListParams.ModelName;
 
   /**
-   * Query param: Model Version IDs
+   * Model Version IDs
    */
   model_version_ids?: Array<string>;
 
-  /**
-   * Query param:
-   */
   offset?: number;
 
   /**
-   * Query param: filter by version of the scanner
+   * filter by version of the scanner
    */
   scanner_version?: string;
 
   /**
-   * Query param: Severities
+   * Severities
    */
   severity?: Array<string>;
 
   /**
-   * Query param: allow sorting by model name, status, severity or created at,
-   * ascending (+) or the default descending (-)
+   * allow sorting by model name, status, severity or created at, ascending (+) or
+   * the default descending (-)
    */
   sort?: string;
 
   /**
-   * Query param: source of model related to scans
+   * source of model related to scans
    */
   source?: JobListParams.Source;
 
   /**
-   * Query param: Start Time
+   * Start Time
    */
   start_time?: string;
 
   /**
-   * Query param: Statuses
+   * Statuses
    */
   status?: Array<string>;
 }

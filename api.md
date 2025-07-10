@@ -18,8 +18,8 @@ Types:
 
 Methods:
 
-- <code title="get /api/v2/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">retrieve</a>(modelID, { ...params }) -> ModelRetrieveResponse</code>
-- <code title="delete /api/v2/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">delete</a>(modelID, { ...params }) -> void</code>
+- <code title="get /api/v2/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">retrieve</a>(modelID) -> ModelRetrieveResponse</code>
+- <code title="delete /api/v2/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">delete</a>(modelID) -> void</code>
 
 ## Cards
 
@@ -42,8 +42,8 @@ Types:
 Methods:
 
 - <code title="post /api/v2/sensors/create">client.sensors.<a href="./src/resources/sensors.ts">create</a>({ ...params }) -> SensorCreateResponse</code>
-- <code title="get /api/v2/sensors/{sensor_id}">client.sensors.<a href="./src/resources/sensors.ts">retrieve</a>(sensorID, { ...params }) -> SensorRetrieveResponse</code>
-- <code title="delete /api/v2/sensors/{sensor_id}">client.sensors.<a href="./src/resources/sensors.ts">delete</a>(sensorID, { ...params }) -> void</code>
+- <code title="get /api/v2/sensors/{sensor_id}">client.sensors.<a href="./src/resources/sensors.ts">retrieve</a>(sensorID) -> SensorRetrieveResponse</code>
+- <code title="delete /api/v2/sensors/{sensor_id}">client.sensors.<a href="./src/resources/sensors.ts">delete</a>(sensorID) -> void</code>
 - <code title="post /api/v2/sensors/query">client.sensors.<a href="./src/resources/sensors.ts">query</a>({ ...params }) -> SensorQueryResponse</code>
 
 # Scans
@@ -77,7 +77,7 @@ Types:
 
 Methods:
 
-- <code title="patch /scan/v3/upload/{scan_id}">client.scans.upload.<a href="./src/resources/scans/upload/upload.ts">completeAll</a>(scanID, { ...params }) -> UploadCompleteAllResponse</code>
+- <code title="patch /scan/v3/upload/{scan_id}">client.scans.upload.<a href="./src/resources/scans/upload/upload.ts">completeAll</a>(scanID) -> UploadCompleteAllResponse</code>
 - <code title="post /scan/v3/upload">client.scans.upload.<a href="./src/resources/scans/upload/upload.ts">start</a>({ ...params }) -> UploadStartResponse</code>
 
 ### File

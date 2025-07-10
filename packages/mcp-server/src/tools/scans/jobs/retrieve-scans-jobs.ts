@@ -26,9 +26,6 @@ export const tool: Tool = {
         type: 'string',
         title: 'Scan ID',
       },
-      'X-Correlation-Id': {
-        type: 'string',
-      },
       has_detections: {
         type: 'boolean',
         description: 'Filter file_results to only those that have detections (and parents)',

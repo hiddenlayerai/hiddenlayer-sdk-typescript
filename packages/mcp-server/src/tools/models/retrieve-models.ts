@@ -27,9 +27,6 @@ export const tool: Tool = {
         type: 'string',
         title: 'Model ID',
       },
-      'X-Correlation-Id': {
-        type: 'string',
-      },
       jq_filter: {
         type: 'string',
         title: 'jq Filter',
@@ -42,7 +39,7 @@ export const tool: Tool = {
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
   const { model_id, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(args, await client.models.retrieve(model_id, body)));
+  return asTextContentResult(await maybeFilter(args, await client.models.retrieve(model_id)));
 };
 
 export default { metadata, tool, handler };

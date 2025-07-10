@@ -27,9 +27,6 @@ export const tool: Tool = {
         type: 'string',
         title: 'Plaintext Name',
       },
-      'X-Correlation-Id': {
-        type: 'string',
-      },
       active: {
         type: 'boolean',
         title: 'Active',

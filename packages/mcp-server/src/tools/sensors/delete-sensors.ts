@@ -26,9 +26,6 @@ export const tool: Tool = {
         type: 'string',
         title: 'Sensor ID',
       },
-      'X-Correlation-Id': {
-        type: 'string',
-      },
       jq_filter: {
         type: 'string',
         title: 'jq Filter',
@@ -41,7 +38,7 @@ export const tool: Tool = {
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
   const { sensor_id, ...body } = args as any;
-  const response = await client.sensors.delete(sensor_id, body).asResponse();
+  const response = await client.sensors.delete(sensor_id).asResponse();
   return asTextContentResult(await response.text());
 };
 
