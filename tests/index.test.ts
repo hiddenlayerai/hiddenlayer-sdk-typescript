@@ -321,6 +321,23 @@ describe('instantiate client', () => {
       expect(client.baseURL).toEqual('https://api.hiddenlayer.ai');
     });
 
+    test('env variable with environment', () => {
+      process.env['HIDDEN_LAYER_BASE_URL'] = 'https://example.com/from_env';
+
+      expect(
+        () => new HiddenLayer({ bearerToken: 'My Bearer Token', environment: 'prod-us' }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"Ambiguous URL; The \`baseURL\` option (or HIDDEN_LAYER_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
+      );
+
+      const client = new HiddenLayer({
+        bearerToken: 'My Bearer Token',
+        baseURL: null,
+        environment: 'prod-us',
+      });
+      expect(client.baseURL).toEqual('https://api.hiddenlayer.ai');
+    });
+
     test('in request options', () => {
       const client = new HiddenLayer({ bearerToken: 'My Bearer Token' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(

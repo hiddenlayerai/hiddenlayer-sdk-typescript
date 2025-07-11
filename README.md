@@ -27,6 +27,7 @@ import HiddenLayer from 'hiddenlayer';
 
 const client = new HiddenLayer({
   bearerToken: process.env['HIDDENLAYER_TOKEN'], // This is the default and can be omitted
+  environment: 'prod-eu', // defaults to 'prod-us'
 });
 
 const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' });
@@ -44,6 +45,7 @@ import HiddenLayer from 'hiddenlayer';
 
 const client = new HiddenLayer({
   bearerToken: process.env['HIDDENLAYER_TOKEN'], // This is the default and can be omitted
+  environment: 'prod-eu', // defaults to 'prod-us'
 });
 
 const params: HiddenLayer.SensorCreateParams = { plaintext_name: 'REPLACE_ME' };

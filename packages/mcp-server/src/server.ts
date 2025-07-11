@@ -65,7 +65,12 @@ export function init(params: {
 
   const endpointMap = Object.fromEntries(providedEndpoints.map((endpoint) => [endpoint.tool.name, endpoint]));
 
-  const client = params.client || new HiddenLayer({ defaultHeaders: { 'X-Stainless-MCP': 'true' } });
+  const client =
+    params.client ||
+    new HiddenLayer({
+      environment: (readEnv('HIDDEN_LAYER_ENVIRONMENT') || undefined) as any,
+      defaultHeaders: { 'X-Stainless-MCP': 'true' },
+    });
 
   server.setRequestHandler(ListToolsRequestSchema, async () => {
     return {

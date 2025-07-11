@@ -43,6 +43,12 @@ import {
 } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
 
+const environments = {
+  'prod-us': 'https://api.hiddenlayer.ai',
+  'prod-eu': 'https://api.eu.hiddenlayer.ai',
+};
+type Environment = keyof typeof environments;
+
 export interface ClientOptions {
   /**
    * Defaults to process.env['HIDDENLAYER_TOKEN'].
@@ -58,6 +64,15 @@ export interface ClientOptions {
    * Defaults to process.env['HIDDENLAYER_CLIENT_SECRET'].
    */
   clientSecret?: string | null | undefined;
+
+  /**
+   * Specifies the environment to use for the API.
+   *
+   * Each environment maps to a different base URL:
+   * - `prod-us` corresponds to `https://api.hiddenlayer.ai`
+   * - `prod-eu` corresponds to `https://api.eu.hiddenlayer.ai`
+   */
+  environment?: Environment | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -154,6 +169,7 @@ export class HiddenLayer {
    * @param {string | null | undefined} [opts.bearerToken=process.env['HIDDENLAYER_TOKEN'] ?? null]
    * @param {string | null | undefined} [opts.clientID=process.env['HIDDENLAYER_CLIENT_ID'] ?? null]
    * @param {string | null | undefined} [opts.clientSecret=process.env['HIDDENLAYER_CLIENT_SECRET'] ?? null]
+   * @param {Environment} [opts.environment=prod-us] - Specifies the environment URL to use for the API.
    * @param {string} [opts.baseURL=process.env['HIDDEN_LAYER_BASE_URL'] ?? https://api.hiddenlayer.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
@@ -174,10 +190,17 @@ export class HiddenLayer {
       clientID,
       clientSecret,
       ...opts,
-      baseURL: baseURL || `https://api.hiddenlayer.ai`,
+      baseURL,
+      environment: opts.environment ?? 'prod-us',
     };
 
-    this.baseURL = options.baseURL!;
+    if (baseURL && opts.environment) {
+      throw new Errors.HiddenLayerError(
+        'Ambiguous URL; The `baseURL` option (or HIDDEN_LAYER_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
+      );
+    }
+
+    this.baseURL = options.baseURL || environments[options.environment || 'prod-us'];
     this.timeout = options.timeout ?? HiddenLayer.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
@@ -205,7 +228,8 @@ export class HiddenLayer {
   withOptions(options: Partial<ClientOptions>): this {
     const client = new (this.constructor as any as new (props: ClientOptions) => typeof this)({
       ...this._options,
-      baseURL: this.baseURL,
+      environment: options.environment ? options.environment : undefined,
+      baseURL: options.environment ? undefined : this.baseURL,
       maxRetries: this.maxRetries,
       timeout: this.timeout,
       logger: this.logger,
@@ -225,7 +249,7 @@ export class HiddenLayer {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== 'https://api.hiddenlayer.ai';
+    return this.baseURL !== environments[this._options.environment || 'prod-us'];
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {

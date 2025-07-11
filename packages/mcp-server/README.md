@@ -22,6 +22,7 @@ cd hiddenlayer-sdk-typescript
 export HIDDENLAYER_TOKEN="My Bearer Token"
 export HIDDENLAYER_CLIENT_ID="My Client ID"
 export HIDDENLAYER_CLIENT_SECRET="My Client Secret"
+export HIDDEN_LAYER_ENVIRONMENT="prod-us"
 node ./packages/mcp-server/dist/index.js
 ```
 
@@ -50,7 +51,8 @@ For clients with a configuration JSON, it might look something like this:
       "env": {
         "HIDDENLAYER_TOKEN": "My Bearer Token",
         "HIDDENLAYER_CLIENT_ID": "My Client ID",
-        "HIDDENLAYER_CLIENT_SECRET": "My Client Secret"
+        "HIDDENLAYER_CLIENT_SECRET": "My Client Secret",
+        "HIDDEN_LAYER_ENVIRONMENT": "prod-us"
       }
     }
   }
