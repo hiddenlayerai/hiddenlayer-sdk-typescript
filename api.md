@@ -29,7 +29,7 @@ Types:
 
 Methods:
 
-- <code title="get /models/v3/cards">client.models.cards.<a href="./src/resources/models/cards.ts">list</a>({ ...params }) -> CardListResponse</code>
+- <code title="get /models/v4/cards">client.models.cards.<a href="./src/resources/models/cards.ts">list</a>({ ...params }) -> CardListResponsesOffsetPage</code>
 
 # Sensors
 

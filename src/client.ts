@@ -15,7 +15,13 @@ import * as qs from './internal/qs';
 import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Pagination from './core/pagination';
-import { AbstractPage, type CursorPaginationParams, CursorPaginationResponse } from './core/pagination';
+import {
+  AbstractPage,
+  type CursorPaginationParams,
+  CursorPaginationResponse,
+  type OffsetPageParams,
+  OffsetPageResponse,
+} from './core/pagination';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
@@ -878,6 +884,9 @@ export declare namespace HiddenLayer {
     type CursorPaginationParams as CursorPaginationParams,
     type CursorPaginationResponse as CursorPaginationResponse,
   };
+
+  export import OffsetPage = Pagination.OffsetPage;
+  export { type OffsetPageParams as OffsetPageParams, type OffsetPageResponse as OffsetPageResponse };
 
   export { Models as Models, type ModelRetrieveResponse as ModelRetrieveResponse };
 

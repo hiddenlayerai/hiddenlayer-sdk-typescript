@@ -2,7 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import * as CardsAPI from './cards';
-import { CardListParams, CardListResponse, Cards } from './cards';
+import { CardListParams, CardListResponse, CardListResponsesOffsetPage, Cards } from './cards';
 import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
@@ -72,5 +72,10 @@ Models.Cards = Cards;
 export declare namespace Models {
   export { type ModelRetrieveResponse as ModelRetrieveResponse };
 
-  export { Cards as Cards, type CardListResponse as CardListResponse, type CardListParams as CardListParams };
+  export {
+    Cards as Cards,
+    type CardListResponse as CardListResponse,
+    type CardListResponsesOffsetPage as CardListResponsesOffsetPage,
+    type CardListParams as CardListParams,
+  };
 }

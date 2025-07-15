@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import { APIPromise } from '../../core/api-promise';
+import { OffsetPage, type OffsetPageParams, PagePromise } from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
 
 export class Cards extends APIResource {
@@ -11,63 +11,57 @@ export class Cards extends APIResource {
   list(
     query: CardListParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<CardListResponse> {
-    return this._client.get('/models/v3/cards', { query, ...options });
+  ): PagePromise<CardListResponsesOffsetPage, CardListResponse> {
+    return this._client.getAPIList('/models/v4/cards', OffsetPage<CardListResponse>, { query, ...options });
   }
 }
 
+export type CardListResponsesOffsetPage = OffsetPage<CardListResponse>;
+
 export interface CardListResponse {
-  page_number: number;
+  /**
+   * Unix Nano Epoch Timestamp
+   */
+  created_at: number;
 
-  page_size: number;
+  model_id: string;
 
-  results: Array<CardListResponse.Result>;
+  plaintext_name: string;
 
-  total_count: number;
+  source: string;
+
+  active_version_count?: number;
+
+  attack_monitoring_threat_level?: 'safe' | 'unsafe' | 'suspicious' | 'not available';
+
+  /**
+   * A value of `true` indicates that one or more versions of this model have
+   * associated model genealogy information.
+   */
+  has_genealogy?: boolean;
+
+  model_scan_threat_level?: 'safe' | 'unsafe' | 'suspicious' | 'not available';
+
+  security_posture?: CardListResponse.SecurityPosture;
+
+  tags?: { [key: string]: unknown };
 }
 
 export namespace CardListResponse {
-  export interface Result {
-    /**
-     * Unix Nano Epoch Timestamp
-     */
-    created_at: number;
+  export interface SecurityPosture {
+    attack_monitoring?: boolean;
 
-    model_id: string;
-
-    plaintext_name: string;
-
-    source: string;
-
-    active_versions?: Array<number>;
-
-    attack_monitoring_threat_level?: 'safe' | 'unsafe' | 'suspicious' | 'not available';
-
-    model_scan_threat_level?: 'safe' | 'unsafe' | 'suspicious' | 'not available';
-
-    security_posture?: Result.SecurityPosture;
-
-    tags?: { [key: string]: unknown };
-  }
-
-  export namespace Result {
-    export interface SecurityPosture {
-      attack_monitoring?: boolean;
-
-      model_scan?: boolean;
-    }
+    model_scan?: boolean;
   }
 }
 
-export interface CardListParams {
+export interface CardListParams extends OffsetPageParams {
   aidr_severity?: Array<'SAFE' | 'UNSAFE' | 'SUSPICIOUS'>;
 
   /**
    * filter by aidr enabled
    */
   aidr_status?: 'ENABLED' | 'DISABLED' | 'ANY';
-
-  limit?: number;
 
   /**
    * match on models created between dates
@@ -82,8 +76,6 @@ export interface CardListParams {
   modscan_severity?: Array<'SAFE' | 'UNSAFE' | 'SUSPICIOUS' | 'UNKNOWN' | 'ERROR'>;
 
   modscan_status?: 'ENABLED' | 'DISABLED' | 'ANY';
-
-  offset?: number;
 
   provider?: Array<'AZURE' | 'ADHOC'>;
 
@@ -129,5 +121,9 @@ export namespace CardListParams {
 }
 
 export declare namespace Cards {
-  export { type CardListResponse as CardListResponse, type CardListParams as CardListParams };
+  export {
+    type CardListResponse as CardListResponse,
+    type CardListResponsesOffsetPage as CardListResponsesOffsetPage,
+    type CardListParams as CardListParams,
+  };
 }

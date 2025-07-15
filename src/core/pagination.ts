@@ -163,3 +163,80 @@ export class CursorPagination<Item> extends AbstractPage<Item> implements Cursor
     };
   }
 }
+
+export interface OffsetPageResponse<Item> {
+  results: Array<Item>;
+
+  total_count: number;
+
+  page_size: number;
+
+  page_number: number;
+}
+
+export interface OffsetPageParams {
+  /**
+   * The number of elements to skip.
+   */
+  offset?: number;
+
+  /**
+   * The maximum number of elements to fetch.
+   */
+  limit?: number;
+}
+
+export class OffsetPage<Item> extends AbstractPage<Item> implements OffsetPageResponse<Item> {
+  results: Array<Item>;
+
+  total_count: number;
+
+  page_size: number;
+
+  page_number: number;
+
+  constructor(
+    client: HiddenLayer,
+    response: Response,
+    body: OffsetPageResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
+    super(client, response, body, options);
+
+    this.results = body.results || [];
+    this.total_count = body.total_count || 0;
+    this.page_size = body.page_size || 0;
+    this.page_number = body.page_number || 0;
+  }
+
+  getPaginatedItems(): Item[] {
+    return this.results ?? [];
+  }
+
+  nextPageRequestOptions(): PageRequestOptions | null {
+    const offset = (this.options.query as OffsetPageParams).offset ?? 0;
+    if (!offset) {
+      return null;
+    }
+
+    const length = this.getPaginatedItems().length;
+    const currentCount = offset + length;
+
+    const totalCount = this.total_count;
+    if (!totalCount) {
+      return null;
+    }
+
+    if (currentCount < totalCount) {
+      return {
+        ...this.options,
+        query: {
+          ...maybeObj(this.options.query),
+          offset: currentCount,
+        },
+      };
+    }
+
+    return null;
+  }
+}
