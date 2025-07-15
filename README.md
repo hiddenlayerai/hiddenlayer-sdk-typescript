@@ -26,7 +26,6 @@ The full API of this library can be found in [api.md](api.md).
 import HiddenLayer from 'hiddenlayer';
 
 const client = new HiddenLayer({
-  bearerToken: process.env['HIDDENLAYER_TOKEN'], // This is the default and can be omitted
   environment: 'prod-eu', // defaults to 'prod-us'
 });
 
@@ -44,7 +43,6 @@ This library includes TypeScript definitions for all request params and response
 import HiddenLayer from 'hiddenlayer';
 
 const client = new HiddenLayer({
-  bearerToken: process.env['HIDDENLAYER_TOKEN'], // This is the default and can be omitted
   environment: 'prod-eu', // defaults to 'prod-us'
 });
 
