@@ -1,10 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { maybeFilter } from 'hiddenlayer-mcp/filtering';
-import { asTextContentResult } from 'hiddenlayer-mcp/tools/types';
+import { Metadata, asTextContentResult } from 'hiddenlayer-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../../../';
 import HiddenLayer from 'hiddenlayer';
 
 export const metadata: Metadata = {
