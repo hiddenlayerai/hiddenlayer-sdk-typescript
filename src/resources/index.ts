@@ -7,7 +7,9 @@ export {
   Sensors,
   type SensorCreateResponse,
   type SensorRetrieveResponse,
+  type SensorUpdateResponse,
   type SensorQueryResponse,
   type SensorCreateParams,
+  type SensorUpdateParams,
   type SensorQueryParams,
 } from './sensors';

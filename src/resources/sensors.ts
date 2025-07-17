@@ -22,6 +22,17 @@ export class Sensors extends APIResource {
   }
 
   /**
+   * Update Sensor
+   */
+  update(
+    sensorID: string,
+    body: SensorUpdateParams,
+    options?: RequestOptions,
+  ): APIPromise<SensorUpdateResponse> {
+    return this._client.put(path`/api/v2/sensors/${sensorID}`, { body, ...options });
+  }
+
+  /**
    * Remove an Adhoc Sensor
    */
   delete(sensorID: string, options?: RequestOptions): APIPromise<void> {
@@ -78,6 +89,10 @@ export interface SensorRetrieveResponse {
   tags?: { [key: string]: unknown };
 }
 
+export interface SensorUpdateResponse {
+  detail: string;
+}
+
 export interface SensorQueryResponse {
   page_number: number;
 
@@ -120,6 +135,14 @@ export interface SensorCreateParams {
   version?: number;
 }
 
+export interface SensorUpdateParams {
+  active?: boolean;
+
+  plaintext_name?: string;
+
+  tags?: { [key: string]: unknown };
+}
+
 export interface SensorQueryParams {
   filter?: SensorQueryParams.Filter;
 
@@ -152,8 +175,10 @@ export declare namespace Sensors {
   export {
     type SensorCreateResponse as SensorCreateResponse,
     type SensorRetrieveResponse as SensorRetrieveResponse,
+    type SensorUpdateResponse as SensorUpdateResponse,
     type SensorQueryResponse as SensorQueryResponse,
     type SensorCreateParams as SensorCreateParams,
+    type SensorUpdateParams as SensorUpdateParams,
     type SensorQueryParams as SensorQueryParams,
   };
 }

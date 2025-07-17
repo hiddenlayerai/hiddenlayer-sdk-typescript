@@ -37,12 +37,14 @@ Types:
 
 - <code><a href="./src/resources/sensors.ts">SensorCreateResponse</a></code>
 - <code><a href="./src/resources/sensors.ts">SensorRetrieveResponse</a></code>
+- <code><a href="./src/resources/sensors.ts">SensorUpdateResponse</a></code>
 - <code><a href="./src/resources/sensors.ts">SensorQueryResponse</a></code>
 
 Methods:
 
 - <code title="post /api/v2/sensors/create">client.sensors.<a href="./src/resources/sensors.ts">create</a>({ ...params }) -> SensorCreateResponse</code>
 - <code title="get /api/v2/sensors/{sensor_id}">client.sensors.<a href="./src/resources/sensors.ts">retrieve</a>(sensorID) -> SensorRetrieveResponse</code>
+- <code title="put /api/v2/sensors/{sensor_id}">client.sensors.<a href="./src/resources/sensors.ts">update</a>(sensorID, { ...params }) -> SensorUpdateResponse</code>
 - <code title="delete /api/v2/sensors/{sensor_id}">client.sensors.<a href="./src/resources/sensors.ts">delete</a>(sensorID) -> void</code>
 - <code title="post /api/v2/sensors/query">client.sensors.<a href="./src/resources/sensors.ts">query</a>({ ...params }) -> SensorQueryResponse</code>
 

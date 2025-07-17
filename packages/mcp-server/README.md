@@ -203,6 +203,7 @@ The following tools are available in this MCP server.
 
 - `create_sensors` (`write`): Create Sensor Record
 - `retrieve_sensors` (`read`): Get Sensor
+- `update_sensors` (`write`): Update Sensor
 - `delete_sensors` (`write`): Remove an Adhoc Sensor
 - `query_sensors` (`write`): Query Sensors
 

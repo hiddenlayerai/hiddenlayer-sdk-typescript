@@ -31,6 +31,8 @@ import {
   SensorQueryParams,
   SensorQueryResponse,
   SensorRetrieveResponse,
+  SensorUpdateParams,
+  SensorUpdateResponse,
   Sensors,
 } from './resources/sensors';
 import { ModelRetrieveResponse, Models } from './resources/models/models';
@@ -894,8 +896,10 @@ export declare namespace HiddenLayer {
     Sensors as Sensors,
     type SensorCreateResponse as SensorCreateResponse,
     type SensorRetrieveResponse as SensorRetrieveResponse,
+    type SensorUpdateResponse as SensorUpdateResponse,
     type SensorQueryResponse as SensorQueryResponse,
     type SensorCreateParams as SensorCreateParams,
+    type SensorUpdateParams as SensorUpdateParams,
     type SensorQueryParams as SensorQueryParams,
   };
 
