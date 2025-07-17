@@ -58,17 +58,19 @@ export interface SensorCreateResponse {
 
   created_at: string;
 
+  model_id: string;
+
   plaintext_name: string;
 
   sensor_id: string;
 
-  tenant_id: string;
+  tags: { [key: string]: unknown };
 
-  version: number;
+  tenant_id: string;
 
   adhoc?: boolean;
 
-  tags?: { [key: string]: unknown };
+  version?: number;
 }
 
 export interface SensorRetrieveResponse {
@@ -76,17 +78,19 @@ export interface SensorRetrieveResponse {
 
   created_at: string;
 
+  model_id: string;
+
   plaintext_name: string;
 
   sensor_id: string;
 
-  tenant_id: string;
+  tags: { [key: string]: unknown };
 
-  version: number;
+  tenant_id: string;
 
   adhoc?: boolean;
 
-  tags?: { [key: string]: unknown };
+  version?: number;
 }
 
 export interface SensorUpdateResponse {
@@ -109,17 +113,19 @@ export namespace SensorQueryResponse {
 
     created_at: string;
 
+    model_id: string;
+
     plaintext_name: string;
 
     sensor_id: string;
 
-    tenant_id: string;
+    tags: { [key: string]: unknown };
 
-    version: number;
+    tenant_id: string;
 
     adhoc?: boolean;
 
-    tags?: { [key: string]: unknown };
+    version?: number;
   }
 }
 

@@ -31,7 +31,7 @@ const client = new HiddenLayer({
 
 const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' });
 
-console.log(sensor.sensor_id);
+console.log(sensor.model_id);
 ```
 
 ### Request & Response types
@@ -148,7 +148,7 @@ const { data: sensor, response: raw } = await client.sensors
   .create({ plaintext_name: 'REPLACE_ME' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(sensor.sensor_id);
+console.log(sensor.model_id);
 ```
 
 ### Logging
