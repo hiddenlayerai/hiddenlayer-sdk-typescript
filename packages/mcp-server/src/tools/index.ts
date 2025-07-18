@@ -4,6 +4,7 @@ import { Metadata, Endpoint, HandlerFunction } from './types';
 
 export { Metadata, Endpoint, HandlerFunction };
 
+import create_models from './models/create-models';
 import retrieve_models from './models/retrieve-models';
 import delete_models from './models/delete-models';
 import list_models_cards from './models/cards/list-models-cards';
@@ -26,6 +27,7 @@ function addEndpoint(endpoint: Endpoint) {
   endpoints.push(endpoint);
 }
 
+addEndpoint(create_models);
 addEndpoint(retrieve_models);
 addEndpoint(delete_models);
 addEndpoint(list_models_cards);
