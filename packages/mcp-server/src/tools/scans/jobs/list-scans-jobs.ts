@@ -55,7 +55,6 @@ export const tool: Tool = {
             type: 'string',
           },
         },
-        required: [],
       },
       model_version_ids: {
         type: 'array',
@@ -92,7 +91,6 @@ export const tool: Tool = {
             enum: ['adhoc'],
           },
         },
-        required: [],
       },
       start_time: {
         type: 'string',
@@ -107,6 +105,7 @@ export const tool: Tool = {
         },
       },
     },
+    required: [],
   },
 };
 

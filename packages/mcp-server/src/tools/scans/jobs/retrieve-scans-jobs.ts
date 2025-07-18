@@ -30,6 +30,7 @@ export const tool: Tool = {
         description: 'Filter file_results to only those that have detections (and parents)',
       },
     },
+    required: ['scan_id'],
   },
 };
 
