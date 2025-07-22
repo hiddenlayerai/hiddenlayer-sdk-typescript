@@ -663,7 +663,7 @@ export namespace ScanReport {
     /**
      * list of unique detection categories found
      */
-    categories?: Array<string>;
+    detection_categories?: Array<string>;
 
     /**
      * total number of detections found
