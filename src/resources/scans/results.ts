@@ -291,6 +291,11 @@ export interface ScanReport {
   version: string;
 
   /**
+   * version of the scan report schema format
+   */
+  $schema_version?: string;
+
+  /**
    * list of detection categories found
    */
   detection_categories?: Array<string>;
