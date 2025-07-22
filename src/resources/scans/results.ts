@@ -311,6 +311,11 @@ export interface ScanReport {
    * detection severity
    */
   severity?: 'low' | 'medium' | 'high' | 'critical' | 'safe' | 'unknown';
+
+  /**
+   * aggregated summary statistics for the scan
+   */
+  summary?: ScanReport.Summary;
 }
 
 export namespace ScanReport {
@@ -649,6 +654,46 @@ export namespace ScanReport {
         status_at?: string;
       }
     }
+  }
+
+  /**
+   * aggregated summary statistics for the scan
+   */
+  export interface Summary {
+    /**
+     * list of unique detection categories found
+     */
+    categories?: Array<string>;
+
+    /**
+     * total number of detections found
+     */
+    detection_count?: number;
+
+    /**
+     * total number of files scanned
+     */
+    file_count?: number;
+
+    /**
+     * number of files that failed during scanning
+     */
+    files_failed_to_scan?: number;
+
+    /**
+     * number of files that contain detections
+     */
+    files_with_detections_count?: number;
+
+    /**
+     * highest severity level found across all detections
+     */
+    severity?: 'low' | 'medium' | 'high' | 'critical' | 'safe' | 'unknown';
+
+    /**
+     * number of files with unknown file type
+     */
+    unknown_files?: number;
   }
 }
 
