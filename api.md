@@ -33,6 +33,16 @@ Methods:
 
 - <code title="get /models/v4/cards">client.models.cards.<a href="./src/resources/models/cards.ts">list</a>({ ...params }) -> CardListResponsesOffsetPage</code>
 
+# PromptAnalyzer
+
+Types:
+
+- <code><a href="./src/resources/prompt-analyzer.ts">PromptAnalyzerCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /api/v1/submit/prompt-analyzer">client.promptAnalyzer.<a href="./src/resources/prompt-analyzer.ts">create</a>({ ...params }) -> PromptAnalyzerCreateResponse</code>
+
 # Sensors
 
 Types:

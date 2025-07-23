@@ -7,6 +7,11 @@ export {
   type ModelRetrieveResponse,
   type ModelCreateParams,
 } from './models/models';
+export {
+  PromptAnalyzer,
+  type PromptAnalyzerCreateResponse,
+  type PromptAnalyzerCreateParams,
+} from './prompt-analyzer';
 export { Scans } from './scans/scans';
 export {
   Sensors,

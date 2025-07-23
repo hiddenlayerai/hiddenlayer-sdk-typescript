@@ -200,6 +200,10 @@ The following tools are available in this MCP server.
 
 - `list_models_cards` (`read`): List Model Cards
 
+### Resource `prompt-analyzer`:
+
+- `create_prompt_analyzer` (`write`): Analyze LLM Prompt and Response
+
 ### Resource `sensors`:
 
 - `create_sensors` (`write`): Create Sensor Record

@@ -26,6 +26,11 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
+  PromptAnalyzer,
+  PromptAnalyzerCreateParams,
+  PromptAnalyzerCreateResponse,
+} from './resources/prompt-analyzer';
+import {
   SensorCreateParams,
   SensorCreateResponse,
   SensorQueryParams,
@@ -877,10 +882,12 @@ export class HiddenLayer {
   static toFile = Uploads.toFile;
 
   models: API.Models = new API.Models(this);
+  promptAnalyzer: API.PromptAnalyzer = new API.PromptAnalyzer(this);
   sensors: API.Sensors = new API.Sensors(this);
   scans: API.Scans = new API.Scans(this);
 }
 HiddenLayer.Models = Models;
+HiddenLayer.PromptAnalyzer = PromptAnalyzer;
 HiddenLayer.Sensors = Sensors;
 HiddenLayer.Scans = Scans;
 export declare namespace HiddenLayer {
@@ -900,6 +907,12 @@ export declare namespace HiddenLayer {
     type ModelCreateResponse as ModelCreateResponse,
     type ModelRetrieveResponse as ModelRetrieveResponse,
     type ModelCreateParams as ModelCreateParams,
+  };
+
+  export {
+    PromptAnalyzer as PromptAnalyzer,
+    type PromptAnalyzerCreateResponse as PromptAnalyzerCreateResponse,
+    type PromptAnalyzerCreateParams as PromptAnalyzerCreateParams,
   };
 
   export {
