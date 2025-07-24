@@ -62,6 +62,7 @@ export const tool: Tool = {
     },
     required: ['model_name', 'model_version', 'requesting_entity'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {

@@ -117,6 +117,7 @@ export const tool: Tool = {
     },
     required: ['prompt'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {

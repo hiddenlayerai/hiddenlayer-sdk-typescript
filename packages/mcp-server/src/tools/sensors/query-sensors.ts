@@ -81,6 +81,7 @@ export const tool: Tool = {
     },
     required: [],
   },
+  annotations: {},
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {

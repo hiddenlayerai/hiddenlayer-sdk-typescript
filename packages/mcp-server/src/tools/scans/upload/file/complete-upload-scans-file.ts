@@ -39,6 +39,7 @@ export const tool: Tool = {
     },
     required: ['scan_id', 'file_id'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {

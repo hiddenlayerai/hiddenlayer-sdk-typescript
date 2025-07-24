@@ -109,6 +109,9 @@ export const tool: Tool = {
     },
     required: ['body'],
   },
+  annotations: {
+    idempotentHint: true,
+  },
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {

@@ -32,6 +32,9 @@ export const tool: Tool = {
     },
     required: ['scan_id'],
   },
+  annotations: {
+    readOnlyHint: true,
+  },
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {

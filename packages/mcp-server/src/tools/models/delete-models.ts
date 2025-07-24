@@ -34,6 +34,9 @@ export const tool: Tool = {
     },
     required: ['model_id'],
   },
+  annotations: {
+    idempotentHint: true,
+  },
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
