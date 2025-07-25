@@ -204,6 +204,11 @@ The following tools are available in this MCP server.
 
 - `create_prompt_analyzer` (`write`): Analyze LLM Prompt and Response
 
+### Resource `model-intel.files`:
+
+- `retrieve_model_intel_files` (`read`): Retrieve detailed file information including all associated instances, repositories, and metadata
+- `get_metadata_model_intel_files` (`read`): Retrieve file information such as filetype, file size in bytes, and MIME type
+
 ### Resource `sensors`:
 
 - `create_sensors` (`write`): Create Sensor Record

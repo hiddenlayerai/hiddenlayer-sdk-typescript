@@ -43,6 +43,20 @@ Methods:
 
 - <code title="post /api/v1/submit/prompt-analyzer">client.promptAnalyzer.<a href="./src/resources/prompt-analyzer.ts">create</a>({ ...params }) -> PromptAnalyzerCreateResponse</code>
 
+# ModelIntel
+
+## Files
+
+Types:
+
+- <code><a href="./src/resources/model-intel/files.ts">FileRetrieveResponse</a></code>
+- <code><a href="./src/resources/model-intel/files.ts">FileGetMetadataResponse</a></code>
+
+Methods:
+
+- <code title="get /model-intel/v1/file/{sha256}">client.modelIntel.files.<a href="./src/resources/model-intel/files.ts">retrieve</a>(sha256, { ...params }) -> FileRetrieveResponse</code>
+- <code title="get /model-intel/v1/file/{sha256}/metadata">client.modelIntel.files.<a href="./src/resources/model-intel/files.ts">getMetadata</a>(sha256) -> FileGetMetadataResponse</code>
+
 # Sensors
 
 Types:
