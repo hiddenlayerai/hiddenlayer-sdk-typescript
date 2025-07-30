@@ -9,7 +9,7 @@ import { path } from '../../internal/utils/path';
 
 export class Jobs extends APIResource {
   /**
-   * Get scan results (SARIF / V3)
+   * Get scan results
    *
    * @example
    * ```ts
