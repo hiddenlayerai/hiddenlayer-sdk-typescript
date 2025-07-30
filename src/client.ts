@@ -40,7 +40,6 @@ import {
   SensorUpdateResponse,
   Sensors,
 } from './resources/sensors';
-import { ModelIntel } from './resources/model-intel/model-intel';
 import {
   ModelCreateParams,
   ModelCreateResponse,
@@ -884,13 +883,11 @@ export class HiddenLayer {
 
   models: API.Models = new API.Models(this);
   promptAnalyzer: API.PromptAnalyzer = new API.PromptAnalyzer(this);
-  modelIntel: API.ModelIntel = new API.ModelIntel(this);
   sensors: API.Sensors = new API.Sensors(this);
   scans: API.Scans = new API.Scans(this);
 }
 HiddenLayer.Models = Models;
 HiddenLayer.PromptAnalyzer = PromptAnalyzer;
-HiddenLayer.ModelIntel = ModelIntel;
 HiddenLayer.Sensors = Sensors;
 HiddenLayer.Scans = Scans;
 export declare namespace HiddenLayer {
@@ -917,8 +914,6 @@ export declare namespace HiddenLayer {
     type PromptAnalyzerCreateResponse as PromptAnalyzerCreateResponse,
     type PromptAnalyzerCreateParams as PromptAnalyzerCreateParams,
   };
-
-  export { ModelIntel as ModelIntel };
 
   export {
     Sensors as Sensors,
