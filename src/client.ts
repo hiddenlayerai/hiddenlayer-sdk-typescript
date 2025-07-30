@@ -932,12 +932,4 @@ export declare namespace HiddenLayer {
   };
 
   export { Scans as Scans };
-
-  export type ArtifactContent = API.ArtifactContent;
-  export type Exception = API.Exception;
-  export type Message = API.Message;
-  export type MultiformatMessageString = API.MultiformatMessageString;
-  export type Node = API.Node;
-  export type PropertyBag = API.PropertyBag;
-  export type Region = API.Region;
 }

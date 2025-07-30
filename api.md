@@ -1,15 +1,3 @@
-# Shared
-
-Types:
-
-- <code><a href="./src/resources/shared.ts">ArtifactContent</a></code>
-- <code><a href="./src/resources/shared.ts">Exception</a></code>
-- <code><a href="./src/resources/shared.ts">Message</a></code>
-- <code><a href="./src/resources/shared.ts">MultiformatMessageString</a></code>
-- <code><a href="./src/resources/shared.ts">Node</a></code>
-- <code><a href="./src/resources/shared.ts">PropertyBag</a></code>
-- <code><a href="./src/resources/shared.ts">Region</a></code>
-
 # Models
 
 Types:
