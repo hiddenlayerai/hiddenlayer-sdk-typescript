@@ -16,8 +16,7 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'create_prompt_analyzer',
-  description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nAnalyze LLM Prompt and Response",
+  description: 'Analyze LLM Prompt and Response',
   inputSchema: {
     type: 'object',
     properties: {
