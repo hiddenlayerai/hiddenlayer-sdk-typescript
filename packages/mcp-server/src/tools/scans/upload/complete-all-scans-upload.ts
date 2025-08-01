@@ -39,8 +39,8 @@ export const tool: Tool = {
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
-  const { scan_id, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(args, await client.scans.upload.completeAll(scan_id)));
+  const { scan_id, jq_filter, ...body } = args as any;
+  return asTextContentResult(await maybeFilter(jq_filter, await client.scans.upload.completeAll(scan_id)));
 };
 
 export default { metadata, tool, handler };

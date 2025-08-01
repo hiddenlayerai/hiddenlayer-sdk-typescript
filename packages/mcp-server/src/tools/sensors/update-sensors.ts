@@ -53,8 +53,8 @@ export const tool: Tool = {
 };
 
 export const handler = async (client: HiddenLayer, args: Record<string, unknown> | undefined) => {
-  const { sensor_id, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(args, await client.sensors.update(sensor_id, body)));
+  const { sensor_id, jq_filter, ...body } = args as any;
+  return asTextContentResult(await maybeFilter(jq_filter, await client.sensors.update(sensor_id, body)));
 };
 
 export default { metadata, tool, handler };
