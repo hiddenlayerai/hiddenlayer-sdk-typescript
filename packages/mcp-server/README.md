@@ -158,7 +158,7 @@ over time, you can manually enable or disable certain capabilities:
 import { server, endpoints, init } from "hiddenlayer-mcp/server";
 
 // import a specific tool
-import createModels from "hiddenlayer-mcp/tools/models/create-models";
+import retrieveModels from "hiddenlayer-mcp/tools/models/retrieve-models";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -183,7 +183,7 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [createModels, myCustomEndpoint] });
+init({ server: myServer, endpoints: [retrieveModels, myCustomEndpoint] });
 ```
 
 ## Available Tools
@@ -192,7 +192,6 @@ The following tools are available in this MCP server.
 
 ### Resource `models`:
 
-- `create_models` (`write`): Upsert Models
 - `retrieve_models` (`read`): Get Model
 - `delete_models` (`write`): Delete Adhoc Model
 

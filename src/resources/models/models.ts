@@ -12,14 +12,6 @@ export class Models extends APIResource {
   cards: CardsAPI.Cards = new CardsAPI.Cards(this._client);
 
   /**
-   * Upsert Models
-   */
-  create(params: ModelCreateParams, options?: RequestOptions): APIPromise<ModelCreateResponse> {
-    const { body } = params;
-    return this._client.put('/api/v2/models', { body: body, ...options });
-  }
-
-  /**
    * Get Model
    */
   retrieve(modelID: string, options?: RequestOptions): APIPromise<ModelRetrieveResponse> {
@@ -35,10 +27,6 @@ export class Models extends APIResource {
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
-}
-
-export interface ModelCreateResponse {
-  details?: string;
 }
 
 export interface ModelRetrieveResponse {
@@ -79,58 +67,10 @@ export namespace ModelRetrieveResponse {
   }
 }
 
-export interface ModelCreateParams {
-  body: Array<ModelCreateParams.Body>;
-}
-
-export namespace ModelCreateParams {
-  export interface Body {
-    name: string;
-
-    source: string;
-
-    model_id?: string;
-
-    tenant_id?: string;
-
-    versions?: Array<Body.Version>;
-  }
-
-  export namespace Body {
-    export interface Version {
-      version: string;
-
-      deployments?: Array<Version.Deployment>;
-
-      locations?: { [key: string]: unknown };
-
-      model_version_id?: string;
-
-      multi_file?: boolean;
-
-      retrievable?: boolean;
-
-      tags?: { [key: string]: unknown };
-    }
-
-    export namespace Version {
-      export interface Deployment {
-        active?: boolean;
-
-        path?: string;
-      }
-    }
-  }
-}
-
 Models.Cards = Cards;
 
 export declare namespace Models {
-  export {
-    type ModelCreateResponse as ModelCreateResponse,
-    type ModelRetrieveResponse as ModelRetrieveResponse,
-    type ModelCreateParams as ModelCreateParams,
-  };
+  export { type ModelRetrieveResponse as ModelRetrieveResponse };
 
   export {
     Cards as Cards,

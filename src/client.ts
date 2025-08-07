@@ -40,12 +40,7 @@ import {
   SensorUpdateResponse,
   Sensors,
 } from './resources/sensors';
-import {
-  ModelCreateParams,
-  ModelCreateResponse,
-  ModelRetrieveResponse,
-  Models,
-} from './resources/models/models';
+import { ModelRetrieveResponse, Models } from './resources/models/models';
 import { Scans } from './resources/scans/scans';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -902,12 +897,7 @@ export declare namespace HiddenLayer {
   export import OffsetPage = Pagination.OffsetPage;
   export { type OffsetPageParams as OffsetPageParams, type OffsetPageResponse as OffsetPageResponse };
 
-  export {
-    Models as Models,
-    type ModelCreateResponse as ModelCreateResponse,
-    type ModelRetrieveResponse as ModelRetrieveResponse,
-    type ModelCreateParams as ModelCreateParams,
-  };
+  export { Models as Models, type ModelRetrieveResponse as ModelRetrieveResponse };
 
   export {
     PromptAnalyzer as PromptAnalyzer,

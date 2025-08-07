@@ -2,12 +2,10 @@
 
 Types:
 
-- <code><a href="./src/resources/models/models.ts">ModelCreateResponse</a></code>
 - <code><a href="./src/resources/models/models.ts">ModelRetrieveResponse</a></code>
 
 Methods:
 
-- <code title="put /api/v2/models">client.models.<a href="./src/resources/models/models.ts">create</a>([ ...body ]) -> ModelCreateResponse</code>
 - <code title="get /api/v2/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">retrieve</a>(modelID) -> ModelRetrieveResponse</code>
 - <code title="delete /api/v2/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">delete</a>(modelID) -> void</code>
 
