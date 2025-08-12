@@ -8,7 +8,7 @@ const client = new HiddenLayer({
 });
 
 describe('resource file', () => {
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('add: only required params', async () => {
     const responsePromise = client.scans.upload.file.add('00000000-0000-0000-0000-000000000000', {
       'file-content-length': 12345,
@@ -23,7 +23,7 @@ describe('resource file', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('add: required and optional params', async () => {
     const response = await client.scans.upload.file.add('00000000-0000-0000-0000-000000000000', {
       'file-content-length': 12345,
@@ -31,7 +31,7 @@ describe('resource file', () => {
     });
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('complete: only required params', async () => {
     const responsePromise = client.scans.upload.file.complete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       scan_id: '00000000-0000-0000-0000-000000000000',
@@ -45,7 +45,7 @@ describe('resource file', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('complete: required and optional params', async () => {
     const response = await client.scans.upload.file.complete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       scan_id: '00000000-0000-0000-0000-000000000000',

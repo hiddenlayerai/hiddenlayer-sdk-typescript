@@ -8,7 +8,7 @@ const client = new HiddenLayer({
 });
 
 describe('resource upload', () => {
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('completeAll', async () => {
     const responsePromise = client.scans.upload.completeAll('00000000-0000-0000-0000-000000000000');
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource upload', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('start: only required params', async () => {
     const responsePromise = client.scans.upload.start({
       model_name: 'model_name',
@@ -36,7 +36,7 @@ describe('resource upload', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('start: required and optional params', async () => {
     const response = await client.scans.upload.start({
       model_name: 'model_name',
