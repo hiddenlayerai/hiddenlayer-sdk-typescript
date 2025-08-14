@@ -9,7 +9,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 Because it's not published yet, clone the repo and build it:
 
 ```sh
-git clone git@github.com:stainless-sdks/hiddenlayer-sdk-typescript.git
+git clone git@github.com:hiddenlayer-engineering/hiddenlayer-sdk-typescript.git
 cd hiddenlayer-sdk-typescript
 ./scripts/bootstrap
 ./scripts/build

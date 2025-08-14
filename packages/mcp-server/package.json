@@ -8,10 +8,10 @@
   "type": "commonjs",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stainless-sdks/hiddenlayer-sdk-typescript.git",
+    "url": "git+https://github.com/hiddenlayer-engineering/hiddenlayer-sdk-typescript.git",
     "directory": "packages/mcp-server"
   },
-  "homepage": "https://github.com/stainless-sdks/hiddenlayer-sdk-typescript/tree/main/packages/mcp-server#readme",
+  "homepage": "https://github.com/hiddenlayer-engineering/hiddenlayer-sdk-typescript/tree/main/packages/mcp-server#readme",
   "license": "Apache-2.0",
   "packageManager": "yarn@1.22.22",
   "private": false,
