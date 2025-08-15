@@ -37,6 +37,7 @@ export const tool: Tool = {
       tags: {
         type: 'object',
         title: 'Tags',
+        additionalProperties: true,
       },
       jq_filter: {
         type: 'string',
