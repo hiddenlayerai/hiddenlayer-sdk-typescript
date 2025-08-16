@@ -881,10 +881,12 @@ export class HiddenLayer {
   sensors: API.Sensors = new API.Sensors(this);
   scans: API.Scans = new API.Scans(this);
 }
+
 HiddenLayer.Models = Models;
 HiddenLayer.PromptAnalyzer = PromptAnalyzer;
 HiddenLayer.Sensors = Sensors;
 HiddenLayer.Scans = Scans;
+
 export declare namespace HiddenLayer {
   export type RequestOptions = Opts.RequestOptions;
 
