@@ -17,7 +17,7 @@ export const parseAuthHeaders = (req: IncomingMessage): Partial<ClientOptions> =
   }
 
   const bearerToken =
-    req.headers['x-hiddenlayer-token'] instanceof Array ?
+    Array.isArray(req.headers['x-hiddenlayer-token']) ?
       req.headers['x-hiddenlayer-token'][0]
     : req.headers['x-hiddenlayer-token'];
   return { bearerToken };
