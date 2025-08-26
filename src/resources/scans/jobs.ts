@@ -151,6 +151,11 @@ export interface JobRetrieveParams {
 
 export interface JobListParams {
   /**
+   * A comma separated list of rule set evaluation statuses to include
+   */
+  compliance_status?: Array<'COMPLIANT' | 'NONCOMPLIANT'>;
+
+  /**
    * filter by a single detection category
    */
   detection_category?: string;

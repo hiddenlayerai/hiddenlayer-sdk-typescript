@@ -295,6 +295,8 @@ export interface ScanReport {
    */
   $schema_version?: string;
 
+  compliance?: ScanReport.Compliance;
+
   /**
    * list of detection categories found
    */
@@ -420,6 +422,20 @@ export namespace ScanReport {
      * Entity that requested the scan
      */
     requesting_entity?: string;
+  }
+
+  export interface Compliance {
+    /**
+     * The datetime when the rule set was evaluated against the scan result
+     */
+    evaluated_at?: string;
+
+    /**
+     * A list of non-default rule sets that were used when evaluating the scan result
+     */
+    rule_set_ids?: Array<string>;
+
+    status?: 'COMPLIANT' | 'NONCOMPLIANT';
   }
 
   export interface FileResult {

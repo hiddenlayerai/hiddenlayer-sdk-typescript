@@ -50,6 +50,7 @@ describe('resource jobs', () => {
     await expect(
       client.scans.jobs.list(
         {
+          compliance_status: ['COMPLIANT'],
           detection_category: 'detection_category',
           end_time: '2019-12-27T18:11:19.117Z',
           latest_per_model_version_only: true,
