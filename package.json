@@ -1,6 +1,6 @@
 {
   "name": "hiddenlayer",
-  "version": "0.1.0-alpha.10",
+  "version": "0.1.0-alpha.11",
   "description": "The official TypeScript library for the Hidden Layer API",
   "author": "Hidden Layer <dev-feedback@hiddenlayer-sdk.com>",
   "types": "dist/index.d.ts",
