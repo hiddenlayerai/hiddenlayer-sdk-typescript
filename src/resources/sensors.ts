@@ -154,7 +154,7 @@ export interface SensorQueryParams {
 
   order_by?: string;
 
-  order_dir?: 'asc' | 'desc' | 'ASC' | 'DESC';
+  order_dir?: 'asc' | 'desc';
 
   page_number?: number;
 
