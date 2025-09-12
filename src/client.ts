@@ -322,9 +322,7 @@ export class HiddenLayer {
     if (!this.hiddenLayerUserAuthState) {
       this.hiddenLayerUserAuthState = {
         promise: this.fetch(
-          this.buildURL('https://auth.hiddenlayer.ai/oauth2/token?grant_type=client_credentials', {
-            grant_type: 'client_credentials',
-          }),
+          this.buildURL('/oauth2/token?grant_type=client_credentials', { grant_type: 'client_credentials' }),
           {
             method: 'POST',
             headers: {
