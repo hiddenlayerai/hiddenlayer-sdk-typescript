@@ -1,8 +1,29 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
-export class Results extends APIResource {}
+export class Results extends APIResource {
+  /**
+   * Get scan results in SARIF format
+   *
+   * @example
+   * ```ts
+   * const response = await client.scans.results.sarif(
+   *   '00000000-0000-0000-0000-000000000000',
+   * );
+   * ```
+   */
+  sarif(scanID: string, options?: RequestOptions): APIPromise<string> {
+    return this._client.get(path`/scan/v3/results/${scanID}/sarif`, {
+      ...options,
+      headers: buildHeaders([{ Accept: 'application/sarif+json' }, options?.headers]),
+    });
+  }
+}
 
 export interface FileScanReport {
   file_results?: Array<FileScanReport.FileResult>;
@@ -718,6 +739,12 @@ export namespace ScanReport {
   }
 }
 
+export type ResultSarifResponse = string;
+
 export declare namespace Results {
-  export { type FileScanReport as FileScanReport, type ScanReport as ScanReport };
+  export {
+    type FileScanReport as FileScanReport,
+    type ScanReport as ScanReport,
+    type ResultSarifResponse as ResultSarifResponse,
+  };
 }

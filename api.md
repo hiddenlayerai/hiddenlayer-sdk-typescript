@@ -54,6 +54,11 @@ Types:
 
 - <code><a href="./src/resources/scans/results.ts">FileScanReport</a></code>
 - <code><a href="./src/resources/scans/results.ts">ScanReport</a></code>
+- <code><a href="./src/resources/scans/results.ts">ResultSarifResponse</a></code>
+
+Methods:
+
+- <code title="get /scan/v3/results/{scan_id}/sarif">client.scans.results.<a href="./src/resources/scans/results.ts">sarif</a>(scanID) -> string</code>
 
 ## Jobs
 

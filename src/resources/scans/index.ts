@@ -8,7 +8,7 @@ export {
   type JobListParams,
   type JobRequestParams,
 } from './jobs';
-export { Results, type FileScanReport, type ScanReport } from './results';
+export { Results, type FileScanReport, type ScanReport, type ResultSarifResponse } from './results';
 export { Scans } from './scans';
 export {
   Upload,
