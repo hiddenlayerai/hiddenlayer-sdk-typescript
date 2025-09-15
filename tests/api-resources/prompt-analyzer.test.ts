@@ -26,6 +26,7 @@ describe('resource promptAnalyzer', () => {
       prompt: 'Hello World',
       model: 'mistral-tiny',
       output: 'Hello, how can I help you today?',
+      'HL-Project-Id': 'internal-search-chatbot',
       'X-LLM-Block-Guardrail-Detection': true,
       'X-LLM-Block-Input-Code-Detection': true,
       'X-LLM-Block-Input-DOS-Detection': true,

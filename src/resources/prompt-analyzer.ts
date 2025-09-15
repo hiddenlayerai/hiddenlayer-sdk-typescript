@@ -21,6 +21,7 @@ export class PromptAnalyzer extends APIResource {
     options?: RequestOptions,
   ): APIPromise<PromptAnalyzerCreateResponse> {
     const {
+      'HL-Project-Id': hlProjectID,
       'X-LLM-Block-Guardrail-Detection': xLlmBlockGuardrailDetection,
       'X-LLM-Block-Input-Code-Detection': xLlmBlockInputCodeDetection,
       'X-LLM-Block-Input-DOS-Detection': xLlmBlockInputDosDetection,
@@ -54,6 +55,7 @@ export class PromptAnalyzer extends APIResource {
       ...options,
       headers: buildHeaders([
         {
+          ...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined),
           ...(xLlmBlockGuardrailDetection?.toString() != null ?
             { 'X-LLM-Block-Guardrail-Detection': xLlmBlockGuardrailDetection?.toString() }
           : undefined),
@@ -628,6 +630,11 @@ export interface PromptAnalyzerCreateParams {
    * Body param:
    */
   output?: string;
+
+  /**
+   * Header param: The ID or alias for the Project to govern the request processing.
+   */
+  'HL-Project-Id'?: string;
 
   /**
    * Header param: Whether to block guardrail detection
