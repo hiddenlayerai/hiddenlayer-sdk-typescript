@@ -26,12 +26,14 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
+  Input,
   InteractionAnalyzeParams,
   InteractionAnalyzeResponse,
   Interactions,
-  InteractionsInput,
-  InteractionsOutput,
-  InteractionsTextContent,
+  Metadata,
+  MetadataProject,
+  Output,
+  TextContent,
 } from './resources/interactions';
 import {
   PromptAnalyzer,
@@ -917,9 +919,11 @@ export declare namespace HiddenLayer {
 
   export {
     Interactions as Interactions,
-    type InteractionsInput as InteractionsInput,
-    type InteractionsOutput as InteractionsOutput,
-    type InteractionsTextContent as InteractionsTextContent,
+    type Input as Input,
+    type Metadata as Metadata,
+    type MetadataProject as MetadataProject,
+    type Output as Output,
+    type TextContent as TextContent,
     type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
     type InteractionAnalyzeParams as InteractionAnalyzeParams,
   };

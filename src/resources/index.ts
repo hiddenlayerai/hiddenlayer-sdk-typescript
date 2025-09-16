@@ -2,9 +2,11 @@
 
 export {
   Interactions,
-  type InteractionsInput,
-  type InteractionsOutput,
-  type InteractionsTextContent,
+  type Input,
+  type Metadata,
+  type MetadataProject,
+  type Output,
+  type TextContent,
   type InteractionAnalyzeResponse,
   type InteractionAnalyzeParams,
 } from './interactions';
