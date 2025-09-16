@@ -53,18 +53,18 @@ export interface InteractionsMetadata {
   [k: string]: unknown;
 }
 
-export interface InteractionsMetadataProject {
+export interface InteractionsOutput {
+  messages?: Array<InteractionsTextContent>;
+
+  [k: string]: unknown;
+}
+
+export interface InteractionsProject {
   project_alias?: string;
 
   project_id?: string;
 
   ruleset_id?: string;
-}
-
-export interface InteractionsOutput {
-  messages?: Array<InteractionsTextContent>;
-
-  [k: string]: unknown;
 }
 
 export interface InteractionsTextContent {
@@ -131,7 +131,7 @@ export namespace InteractionAnalyzeResponse {
 
     processing_time_ms: number;
 
-    project: InteractionsAPI.InteractionsMetadataProject;
+    project: InteractionsAPI.InteractionsProject;
 
     provider: string;
 
@@ -177,8 +177,8 @@ export declare namespace Interactions {
   export {
     type InteractionsInput as InteractionsInput,
     type InteractionsMetadata as InteractionsMetadata,
-    type InteractionsMetadataProject as InteractionsMetadataProject,
     type InteractionsOutput as InteractionsOutput,
+    type InteractionsProject as InteractionsProject,
     type InteractionsTextContent as InteractionsTextContent,
     type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
     type InteractionAnalyzeParams as InteractionAnalyzeParams,
