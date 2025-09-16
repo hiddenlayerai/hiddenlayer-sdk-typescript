@@ -100,7 +100,7 @@ export interface ClientOptions {
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['HIDDEN_LAYER_BASE_URL'].
+   * Defaults to process.env['HIDDENLAYER_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -154,7 +154,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['HIDDEN_LAYER_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['HIDDENLAYER_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -193,7 +193,7 @@ export class HiddenLayer {
    * @param {string | null | undefined} [opts.clientID=process.env['HIDDENLAYER_CLIENT_ID'] ?? null]
    * @param {string | null | undefined} [opts.clientSecret=process.env['HIDDENLAYER_CLIENT_SECRET'] ?? null]
    * @param {Environment} [opts.environment=prod-us] - Specifies the environment URL to use for the API.
-   * @param {string} [opts.baseURL=process.env['HIDDEN_LAYER_BASE_URL'] ?? https://api.hiddenlayer.ai] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['HIDDENLAYER_BASE_URL'] ?? https://api.hiddenlayer.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -202,7 +202,7 @@ export class HiddenLayer {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('HIDDEN_LAYER_BASE_URL'),
+    baseURL = readEnv('HIDDENLAYER_BASE_URL'),
     bearerToken = readEnv('HIDDENLAYER_TOKEN') ?? null,
     clientID = readEnv('HIDDENLAYER_CLIENT_ID') ?? null,
     clientSecret = readEnv('HIDDENLAYER_CLIENT_SECRET') ?? null,
@@ -219,7 +219,7 @@ export class HiddenLayer {
 
     if (baseURL && opts.environment) {
       throw new Errors.HiddenLayerError(
-        'Ambiguous URL; The `baseURL` option (or HIDDEN_LAYER_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
+        'Ambiguous URL; The `baseURL` option (or HIDDENLAYER_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
       );
     }
 
@@ -231,7 +231,7 @@ export class HiddenLayer {
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('HIDDEN_LAYER_LOG'), "process.env['HIDDEN_LAYER_LOG']", this) ??
+      parseLogLevel(readEnv('HIDDENLAYER_LOG'), "process.env['HIDDENLAYER_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;

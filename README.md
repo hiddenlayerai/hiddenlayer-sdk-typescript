@@ -161,7 +161,7 @@ console.log(sensor.model_id);
 
 The log level can be configured in two ways:
 
-1. Via the `HIDDEN_LAYER_LOG` environment variable
+1. Via the `HIDDENLAYER_LOG` environment variable
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts

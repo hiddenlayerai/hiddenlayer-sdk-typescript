@@ -54,7 +54,7 @@ describe('instantiate client', () => {
 
     beforeEach(() => {
       process.env = { ...env };
-      process.env['HIDDEN_LAYER_LOG'] = undefined;
+      process.env['HIDDENLAYER_LOG'] = undefined;
     });
 
     afterEach(() => {
@@ -122,7 +122,7 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['HIDDEN_LAYER_LOG'] = 'debug';
+      process.env['HIDDENLAYER_LOG'] = 'debug';
       const client = new HiddenLayer({ logger: logger, bearerToken: 'My Bearer Token' });
       expect(client.logLevel).toBe('debug');
 
@@ -139,11 +139,11 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['HIDDEN_LAYER_LOG'] = 'not a log level';
+      process.env['HIDDENLAYER_LOG'] = 'not a log level';
       const client = new HiddenLayer({ logger: logger, bearerToken: 'My Bearer Token' });
       expect(client.logLevel).toBe('warn');
       expect(warnMock).toHaveBeenCalledWith(
-        'process.env[\'HIDDEN_LAYER_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
+        'process.env[\'HIDDENLAYER_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
       );
     });
 
@@ -156,7 +156,7 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['HIDDEN_LAYER_LOG'] = 'debug';
+      process.env['HIDDENLAYER_LOG'] = 'debug';
       const client = new HiddenLayer({ logger: logger, logLevel: 'off', bearerToken: 'My Bearer Token' });
 
       await forceAPIResponseForClient(client);
@@ -172,7 +172,7 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['HIDDEN_LAYER_LOG'] = 'not a log level';
+      process.env['HIDDENLAYER_LOG'] = 'not a log level';
       const client = new HiddenLayer({ logger: logger, logLevel: 'debug', bearerToken: 'My Bearer Token' });
       expect(client.logLevel).toBe('debug');
       expect(warnMock).not.toHaveBeenCalled();
@@ -295,7 +295,7 @@ describe('instantiate client', () => {
     });
 
     afterEach(() => {
-      process.env['HIDDEN_LAYER_BASE_URL'] = undefined;
+      process.env['HIDDENLAYER_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
@@ -304,30 +304,30 @@ describe('instantiate client', () => {
     });
 
     test('env variable', () => {
-      process.env['HIDDEN_LAYER_BASE_URL'] = 'https://example.com/from_env';
+      process.env['HIDDENLAYER_BASE_URL'] = 'https://example.com/from_env';
       const client = new HiddenLayer({ bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
-      process.env['HIDDEN_LAYER_BASE_URL'] = ''; // empty
+      process.env['HIDDENLAYER_BASE_URL'] = ''; // empty
       const client = new HiddenLayer({ bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://api.hiddenlayer.ai');
     });
 
     test('blank env variable', () => {
-      process.env['HIDDEN_LAYER_BASE_URL'] = '  '; // blank
+      process.env['HIDDENLAYER_BASE_URL'] = '  '; // blank
       const client = new HiddenLayer({ bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://api.hiddenlayer.ai');
     });
 
     test('env variable with environment', () => {
-      process.env['HIDDEN_LAYER_BASE_URL'] = 'https://example.com/from_env';
+      process.env['HIDDENLAYER_BASE_URL'] = 'https://example.com/from_env';
 
       expect(
         () => new HiddenLayer({ bearerToken: 'My Bearer Token', environment: 'prod-us' }),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"Ambiguous URL; The \`baseURL\` option (or HIDDEN_LAYER_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
+        `"Ambiguous URL; The \`baseURL\` option (or HIDDENLAYER_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
       );
 
       const client = new HiddenLayer({
@@ -356,7 +356,7 @@ describe('instantiate client', () => {
     });
 
     test('in request options overridden by env variable', () => {
-      process.env['HIDDEN_LAYER_BASE_URL'] = 'http://localhost:5000/env';
+      process.env['HIDDENLAYER_BASE_URL'] = 'http://localhost:5000/env';
       const client = new HiddenLayer({ bearerToken: 'My Bearer Token' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/env/foo',
