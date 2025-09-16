@@ -167,7 +167,7 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Hidden Layer API.
+ * API Client for interfacing with the HiddenLayer API.
  */
 export class HiddenLayer {
   bearerToken: string | null;
@@ -187,7 +187,7 @@ export class HiddenLayer {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Hidden Layer API.
+   * API Client for interfacing with the HiddenLayer API.
    *
    * @param {string | null | undefined} [opts.bearerToken=process.env['HIDDENLAYER_TOKEN'] ?? null]
    * @param {string | null | undefined} [opts.clientID=process.env['HIDDENLAYER_CLIENT_ID'] ?? null]

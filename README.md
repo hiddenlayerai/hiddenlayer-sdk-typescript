@@ -1,8 +1,8 @@
-# Hidden Layer TypeScript API Library
+# HiddenLayer TypeScript API Library
 
 [![NPM version](<https://img.shields.io/npm/v/hiddenlayer.svg?label=npm%20(stable)>)](https://npmjs.org/package/hiddenlayer) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/hiddenlayer)
 
-This library provides convenient access to the Hidden Layer REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the HiddenLayer REST API from server-side TypeScript or JavaScript.
 
 The REST API documentation can be found on [dev.hiddenlayer.ai](https://dev.hiddenlayer.ai). The full API of this library can be found in [api.md](api.md).
 
