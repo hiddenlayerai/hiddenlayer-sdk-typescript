@@ -29,6 +29,16 @@ Methods:
 
 - <code title="post /api/v1/submit/prompt-analyzer">client.promptAnalyzer.<a href="./src/resources/prompt-analyzer.ts">create</a>({ ...params }) -> PromptAnalyzerCreateResponse</code>
 
+# Interactions
+
+Types:
+
+- <code><a href="./src/resources/interactions.ts">InteractionAnalyzeResponse</a></code>
+
+Methods:
+
+- <code title="post /detection/v1/interactions">client.interactions.<a href="./src/resources/interactions.ts">analyze</a>({ ...params }) -> InteractionAnalyzeResponse</code>
+
 # Sensors
 
 Types:

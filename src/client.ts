@@ -25,6 +25,7 @@ import {
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
+import { InteractionAnalyzeParams, InteractionAnalyzeResponse, Interactions } from './resources/interactions';
 import {
   PromptAnalyzer,
   PromptAnalyzerCreateParams,
@@ -876,12 +877,14 @@ export class HiddenLayer {
 
   models: API.Models = new API.Models(this);
   promptAnalyzer: API.PromptAnalyzer = new API.PromptAnalyzer(this);
+  interactions: API.Interactions = new API.Interactions(this);
   sensors: API.Sensors = new API.Sensors(this);
   scans: API.Scans = new API.Scans(this);
 }
 
 HiddenLayer.Models = Models;
 HiddenLayer.PromptAnalyzer = PromptAnalyzer;
+HiddenLayer.Interactions = Interactions;
 HiddenLayer.Sensors = Sensors;
 HiddenLayer.Scans = Scans;
 
@@ -903,6 +906,12 @@ export declare namespace HiddenLayer {
     PromptAnalyzer as PromptAnalyzer,
     type PromptAnalyzerCreateResponse as PromptAnalyzerCreateResponse,
     type PromptAnalyzerCreateParams as PromptAnalyzerCreateParams,
+  };
+
+  export {
+    Interactions as Interactions,
+    type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
+    type InteractionAnalyzeParams as InteractionAnalyzeParams,
   };
 
   export {
