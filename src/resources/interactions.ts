@@ -37,13 +37,13 @@ export class Interactions extends APIResource {
   }
 }
 
-export interface Input {
-  messages?: Array<TextContent>;
+export interface InteractionsInput {
+  messages?: Array<InteractionsTextContent>;
 
   [k: string]: unknown;
 }
 
-export interface Metadata {
+export interface InteractionsMetadata {
   model: string;
 
   requester_id: string;
@@ -53,7 +53,7 @@ export interface Metadata {
   [k: string]: unknown;
 }
 
-export interface MetadataProject {
+export interface InteractionsMetadataProject {
   project_alias?: string;
 
   project_id?: string;
@@ -61,13 +61,13 @@ export interface MetadataProject {
   ruleset_id?: string;
 }
 
-export interface Output {
-  messages?: Array<TextContent>;
+export interface InteractionsOutput {
+  messages?: Array<InteractionsTextContent>;
 
   [k: string]: unknown;
 }
 
-export interface TextContent {
+export interface InteractionsTextContent {
   content: string;
 
   role?: string;
@@ -121,9 +121,9 @@ export namespace InteractionAnalyzeResponse {
   }
 
   export interface AnalyzedData {
-    input: InteractionsAPI.Input;
+    input: InteractionsAPI.InteractionsInput;
 
-    output?: InteractionsAPI.Output;
+    output?: InteractionsAPI.InteractionsOutput;
   }
 
   export interface Metadata {
@@ -131,7 +131,7 @@ export namespace InteractionAnalyzeResponse {
 
     processing_time_ms: number;
 
-    project: InteractionsAPI.MetadataProject;
+    project: InteractionsAPI.InteractionsMetadataProject;
 
     provider: string;
 
@@ -143,9 +143,9 @@ export namespace InteractionAnalyzeResponse {
   }
 
   export interface ModifiedData {
-    input: InteractionsAPI.Input;
+    input: InteractionsAPI.InteractionsInput;
 
-    output: InteractionsAPI.Output;
+    output: InteractionsAPI.InteractionsOutput;
   }
 }
 
@@ -153,17 +153,17 @@ export interface InteractionAnalyzeParams {
   /**
    * Body param:
    */
-  metadata: Metadata;
+  metadata: InteractionsMetadata;
 
   /**
    * Body param:
    */
-  input?: Input;
+  input?: InteractionsInput;
 
   /**
    * Body param:
    */
-  output?: Output;
+  output?: InteractionsOutput;
 
   /**
    * Header param: The ID or alias for the Project to govern the request processing.
@@ -175,11 +175,11 @@ export interface InteractionAnalyzeParams {
 
 export declare namespace Interactions {
   export {
-    type Input as Input,
-    type Metadata as Metadata,
-    type MetadataProject as MetadataProject,
-    type Output as Output,
-    type TextContent as TextContent,
+    type InteractionsInput as InteractionsInput,
+    type InteractionsMetadata as InteractionsMetadata,
+    type InteractionsMetadataProject as InteractionsMetadataProject,
+    type InteractionsOutput as InteractionsOutput,
+    type InteractionsTextContent as InteractionsTextContent,
     type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
     type InteractionAnalyzeParams as InteractionAnalyzeParams,
   };

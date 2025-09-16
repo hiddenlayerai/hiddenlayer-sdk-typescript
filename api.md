@@ -33,11 +33,11 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/interactions.ts">Input</a></code>
-- <code><a href="./src/resources/interactions.ts">Metadata</a></code>
-- <code><a href="./src/resources/interactions.ts">MetadataProject</a></code>
-- <code><a href="./src/resources/interactions.ts">Output</a></code>
-- <code><a href="./src/resources/interactions.ts">TextContent</a></code>
+- <code><a href="./src/resources/interactions.ts">InteractionsInput</a></code>
+- <code><a href="./src/resources/interactions.ts">InteractionsMetadata</a></code>
+- <code><a href="./src/resources/interactions.ts">InteractionsMetadataProject</a></code>
+- <code><a href="./src/resources/interactions.ts">InteractionsOutput</a></code>
+- <code><a href="./src/resources/interactions.ts">InteractionsTextContent</a></code>
 - <code><a href="./src/resources/interactions.ts">InteractionAnalyzeResponse</a></code>
 
 Methods:
