@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as InteractionsAPI from './interactions';
 import { APIPromise } from '../core/api-promise';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
@@ -34,6 +35,26 @@ export class Interactions extends APIResource {
       ]),
     });
   }
+}
+
+export interface InteractionsInput {
+  messages?: Array<InteractionsTextContent>;
+
+  [k: string]: unknown;
+}
+
+export interface InteractionsOutput {
+  messages?: Array<InteractionsTextContent>;
+
+  [k: string]: unknown;
+}
+
+export interface InteractionsTextContent {
+  content: string;
+
+  role?: string;
+
+  [k: string]: unknown;
 }
 
 export interface InteractionAnalyzeResponse {
@@ -82,43 +103,9 @@ export namespace InteractionAnalyzeResponse {
   }
 
   export interface AnalyzedData {
-    input: AnalyzedData.Input;
+    input: InteractionsAPI.InteractionsInput;
 
-    output?: AnalyzedData.Output;
-  }
-
-  export namespace AnalyzedData {
-    export interface Input {
-      messages?: Array<Input.Message>;
-
-      [k: string]: unknown;
-    }
-
-    export namespace Input {
-      export interface Message {
-        content: string;
-
-        role?: string;
-
-        [k: string]: unknown;
-      }
-    }
-
-    export interface Output {
-      messages?: Array<Output.Message>;
-
-      [k: string]: unknown;
-    }
-
-    export namespace Output {
-      export interface Message {
-        content: string;
-
-        role?: string;
-
-        [k: string]: unknown;
-      }
-    }
+    output?: InteractionsAPI.InteractionsOutput;
   }
 
   export interface Metadata {
@@ -148,43 +135,9 @@ export namespace InteractionAnalyzeResponse {
   }
 
   export interface ModifiedData {
-    input: ModifiedData.Input;
+    input: InteractionsAPI.InteractionsInput;
 
-    output: ModifiedData.Output;
-  }
-
-  export namespace ModifiedData {
-    export interface Input {
-      messages?: Array<Input.Message>;
-
-      [k: string]: unknown;
-    }
-
-    export namespace Input {
-      export interface Message {
-        content: string;
-
-        role?: string;
-
-        [k: string]: unknown;
-      }
-    }
-
-    export interface Output {
-      messages?: Array<Output.Message>;
-
-      [k: string]: unknown;
-    }
-
-    export namespace Output {
-      export interface Message {
-        content: string;
-
-        role?: string;
-
-        [k: string]: unknown;
-      }
-    }
+    output: InteractionsAPI.InteractionsOutput;
   }
 }
 
@@ -197,12 +150,12 @@ export interface InteractionAnalyzeParams {
   /**
    * Body param:
    */
-  input?: InteractionAnalyzeParams.Input;
+  input?: InteractionsInput;
 
   /**
    * Body param:
    */
-  output?: InteractionAnalyzeParams.Output;
+  output?: InteractionsOutput;
 
   /**
    * Header param: The ID or alias for the Project to govern the request processing.
@@ -222,42 +175,13 @@ export namespace InteractionAnalyzeParams {
 
     [k: string]: unknown;
   }
-
-  export interface Input {
-    messages?: Array<Input.Message>;
-
-    [k: string]: unknown;
-  }
-
-  export namespace Input {
-    export interface Message {
-      content: string;
-
-      role?: string;
-
-      [k: string]: unknown;
-    }
-  }
-
-  export interface Output {
-    messages?: Array<Output.Message>;
-
-    [k: string]: unknown;
-  }
-
-  export namespace Output {
-    export interface Message {
-      content: string;
-
-      role?: string;
-
-      [k: string]: unknown;
-    }
-  }
 }
 
 export declare namespace Interactions {
   export {
+    type InteractionsInput as InteractionsInput,
+    type InteractionsOutput as InteractionsOutput,
+    type InteractionsTextContent as InteractionsTextContent,
     type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
     type InteractionAnalyzeParams as InteractionAnalyzeParams,
   };
