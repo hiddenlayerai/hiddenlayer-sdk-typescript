@@ -32,7 +32,6 @@ import {
   InteractionsInput,
   InteractionsMetadata,
   InteractionsOutput,
-  InteractionsProject,
   InteractionsTextContent,
 } from './resources/interactions';
 import {
@@ -922,7 +921,6 @@ export declare namespace HiddenLayer {
     type InteractionsInput as InteractionsInput,
     type InteractionsMetadata as InteractionsMetadata,
     type InteractionsOutput as InteractionsOutput,
-    type InteractionsProject as InteractionsProject,
     type InteractionsTextContent as InteractionsTextContent,
     type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
     type InteractionAnalyzeParams as InteractionAnalyzeParams,

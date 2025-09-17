@@ -5,7 +5,6 @@ export {
   type InteractionsInput,
   type InteractionsMetadata,
   type InteractionsOutput,
-  type InteractionsProject,
   type InteractionsTextContent,
   type InteractionAnalyzeResponse,
   type InteractionAnalyzeParams,

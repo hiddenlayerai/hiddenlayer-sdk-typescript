@@ -59,14 +59,6 @@ export interface InteractionsOutput {
   [k: string]: unknown;
 }
 
-export interface InteractionsProject {
-  project_alias?: string;
-
-  project_id?: string;
-
-  ruleset_id?: string;
-}
-
 export interface InteractionsTextContent {
   content: string;
 
@@ -131,7 +123,7 @@ export namespace InteractionAnalyzeResponse {
 
     processing_time_ms: number;
 
-    project: InteractionsAPI.InteractionsProject;
+    project: Metadata.Project;
 
     provider: string;
 
@@ -140,6 +132,16 @@ export namespace InteractionAnalyzeResponse {
     analyzed_at?: string;
 
     event_id?: string;
+  }
+
+  export namespace Metadata {
+    export interface Project {
+      project_alias?: string;
+
+      project_id?: string;
+
+      ruleset_id?: string;
+    }
   }
 
   export interface ModifiedData {
@@ -178,7 +180,6 @@ export declare namespace Interactions {
     type InteractionsInput as InteractionsInput,
     type InteractionsMetadata as InteractionsMetadata,
     type InteractionsOutput as InteractionsOutput,
-    type InteractionsProject as InteractionsProject,
     type InteractionsTextContent as InteractionsTextContent,
     type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
     type InteractionAnalyzeParams as InteractionAnalyzeParams,
