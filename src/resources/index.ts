@@ -1,14 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export {
-  Interactions,
-  type InteractionsInput,
-  type InteractionsMetadata,
-  type InteractionsOutput,
-  type InteractionsTextContent,
-  type InteractionAnalyzeResponse,
-  type InteractionAnalyzeParams,
-} from './interactions';
+export { Interactions, type InteractionAnalyzeResponse, type InteractionAnalyzeParams } from './interactions';
 export { Models, type ModelRetrieveResponse } from './models/models';
 export {
   PromptAnalyzer,

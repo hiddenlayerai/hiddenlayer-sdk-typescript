@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
-import * as InteractionsAPI from './interactions';
 import { APIPromise } from '../core/api-promise';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
@@ -35,36 +34,6 @@ export class Interactions extends APIResource {
       ]),
     });
   }
-}
-
-export interface InteractionsInput {
-  messages?: Array<InteractionsTextContent>;
-
-  [k: string]: unknown;
-}
-
-export interface InteractionsMetadata {
-  model: string;
-
-  requester_id: string;
-
-  provider?: string;
-
-  [k: string]: unknown;
-}
-
-export interface InteractionsOutput {
-  messages?: Array<InteractionsTextContent>;
-
-  [k: string]: unknown;
-}
-
-export interface InteractionsTextContent {
-  content: string;
-
-  role?: string;
-
-  [k: string]: unknown;
 }
 
 export interface InteractionAnalyzeResponse {
@@ -113,9 +82,43 @@ export namespace InteractionAnalyzeResponse {
   }
 
   export interface AnalyzedData {
-    input: InteractionsAPI.InteractionsInput;
+    input: AnalyzedData.Input;
 
-    output?: InteractionsAPI.InteractionsOutput;
+    output?: AnalyzedData.Output;
+  }
+
+  export namespace AnalyzedData {
+    export interface Input {
+      messages?: Array<Input.Message>;
+
+      [k: string]: unknown;
+    }
+
+    export namespace Input {
+      export interface Message {
+        content: string;
+
+        role?: string;
+
+        [k: string]: unknown;
+      }
+    }
+
+    export interface Output {
+      messages?: Array<Output.Message>;
+
+      [k: string]: unknown;
+    }
+
+    export namespace Output {
+      export interface Message {
+        content: string;
+
+        role?: string;
+
+        [k: string]: unknown;
+      }
+    }
   }
 
   export interface Metadata {
@@ -145,9 +148,43 @@ export namespace InteractionAnalyzeResponse {
   }
 
   export interface ModifiedData {
-    input: InteractionsAPI.InteractionsInput;
+    input: ModifiedData.Input;
 
-    output: InteractionsAPI.InteractionsOutput;
+    output: ModifiedData.Output;
+  }
+
+  export namespace ModifiedData {
+    export interface Input {
+      messages?: Array<Input.Message>;
+
+      [k: string]: unknown;
+    }
+
+    export namespace Input {
+      export interface Message {
+        content: string;
+
+        role?: string;
+
+        [k: string]: unknown;
+      }
+    }
+
+    export interface Output {
+      messages?: Array<Output.Message>;
+
+      [k: string]: unknown;
+    }
+
+    export namespace Output {
+      export interface Message {
+        content: string;
+
+        role?: string;
+
+        [k: string]: unknown;
+      }
+    }
   }
 }
 
@@ -155,17 +192,17 @@ export interface InteractionAnalyzeParams {
   /**
    * Body param:
    */
-  metadata: InteractionsMetadata;
+  metadata: InteractionAnalyzeParams.Metadata;
 
   /**
    * Body param:
    */
-  input?: InteractionsInput;
+  input?: InteractionAnalyzeParams.Input;
 
   /**
    * Body param:
    */
-  output?: InteractionsOutput;
+  output?: InteractionAnalyzeParams.Output;
 
   /**
    * Header param: The ID or alias for the Project to govern the request processing.
@@ -175,12 +212,52 @@ export interface InteractionAnalyzeParams {
   [k: string]: unknown;
 }
 
+export namespace InteractionAnalyzeParams {
+  export interface Metadata {
+    model: string;
+
+    requester_id: string;
+
+    provider?: string;
+
+    [k: string]: unknown;
+  }
+
+  export interface Input {
+    messages?: Array<Input.Message>;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Input {
+    export interface Message {
+      content: string;
+
+      role?: string;
+
+      [k: string]: unknown;
+    }
+  }
+
+  export interface Output {
+    messages?: Array<Output.Message>;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Output {
+    export interface Message {
+      content: string;
+
+      role?: string;
+
+      [k: string]: unknown;
+    }
+  }
+}
+
 export declare namespace Interactions {
   export {
-    type InteractionsInput as InteractionsInput,
-    type InteractionsMetadata as InteractionsMetadata,
-    type InteractionsOutput as InteractionsOutput,
-    type InteractionsTextContent as InteractionsTextContent,
     type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
     type InteractionAnalyzeParams as InteractionAnalyzeParams,
   };

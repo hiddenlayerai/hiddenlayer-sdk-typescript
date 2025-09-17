@@ -33,10 +33,6 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/interactions.ts">InteractionsInput</a></code>
-- <code><a href="./src/resources/interactions.ts">InteractionsMetadata</a></code>
-- <code><a href="./src/resources/interactions.ts">InteractionsOutput</a></code>
-- <code><a href="./src/resources/interactions.ts">InteractionsTextContent</a></code>
 - <code><a href="./src/resources/interactions.ts">InteractionAnalyzeResponse</a></code>
 
 Methods:
