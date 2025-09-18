@@ -17,10 +17,21 @@ export class Results extends APIResource {
    * );
    * ```
    */
-  sarif(scanID: string, options?: RequestOptions): APIPromise<string> {
+  sarif(
+    scanID: string,
+    params: ResultSarifParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<string> {
+    const { 'X-Correlation-Id': xCorrelationID } = params ?? {};
     return this._client.get(path`/scan/v3/results/${scanID}/sarif`, {
       ...options,
-      headers: buildHeaders([{ Accept: 'application/sarif+json' }, options?.headers]),
+      headers: buildHeaders([
+        {
+          Accept: 'application/sarif+json',
+          ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 }
@@ -741,10 +752,18 @@ export namespace ScanReport {
 
 export type ResultSarifResponse = string;
 
+export interface ResultSarifParams {
+  /**
+   * An ID that will be included with associated logs and downstream HTTP requests.
+   */
+  'X-Correlation-Id'?: string;
+}
+
 export declare namespace Results {
   export {
     type FileScanReport as FileScanReport,
     type ScanReport as ScanReport,
     type ResultSarifResponse as ResultSarifResponse,
+    type ResultSarifParams as ResultSarifParams,
   };
 }

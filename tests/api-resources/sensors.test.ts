@@ -28,6 +28,7 @@ describe('resource sensors', () => {
       adhoc: true,
       tags: { foo: 'bar' },
       version: 0,
+      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
     });
   });
 
@@ -41,6 +42,18 @@ describe('resource sensors', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.sensors.retrieve(
+        '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        { 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(HiddenLayer.NotFoundError);
   });
 
   // Prism tests are disabled
@@ -65,6 +78,18 @@ describe('resource sensors', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('delete: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.sensors.delete(
+        '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        { 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(HiddenLayer.NotFoundError);
   });
 
   // Prism tests are disabled
@@ -97,6 +122,7 @@ describe('resource sensors', () => {
           order_dir: 'asc',
           page_number: 0,
           page_size: 0,
+          'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
         },
         { path: '/_stainless_unknown_path' },
       ),

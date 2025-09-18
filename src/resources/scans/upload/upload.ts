@@ -4,6 +4,7 @@ import { APIResource } from '../../../core/resource';
 import * as FileAPI from './file';
 import { File, FileAddParams, FileAddResponse, FileCompleteParams, FileCompleteResponse } from './file';
 import { APIPromise } from '../../../core/api-promise';
+import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
@@ -20,8 +21,19 @@ export class Upload extends APIResource {
    * );
    * ```
    */
-  completeAll(scanID: string, options?: RequestOptions): APIPromise<UploadCompleteAllResponse> {
-    return this._client.patch(path`/scan/v3/upload/${scanID}`, options);
+  completeAll(
+    scanID: string,
+    params: UploadCompleteAllParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<UploadCompleteAllResponse> {
+    const { 'X-Correlation-Id': xCorrelationID } = params ?? {};
+    return this._client.patch(path`/scan/v3/upload/${scanID}`, {
+      ...options,
+      headers: buildHeaders([
+        { ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 
   /**
@@ -36,8 +48,16 @@ export class Upload extends APIResource {
    * });
    * ```
    */
-  start(body: UploadStartParams, options?: RequestOptions): APIPromise<UploadStartResponse> {
-    return this._client.post('/scan/v3/upload', { body, ...options });
+  start(params: UploadStartParams, options?: RequestOptions): APIPromise<UploadStartResponse> {
+    const { 'X-Correlation-Id': xCorrelationID, ...body } = params;
+    return this._client.post('/scan/v3/upload', {
+      body,
+      ...options,
+      headers: buildHeaders([
+        { ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 }
 
@@ -55,37 +75,50 @@ export interface UploadStartResponse {
   scan_id?: string;
 }
 
+export interface UploadCompleteAllParams {
+  /**
+   * An ID that will be included with associated logs and downstream HTTP requests.
+   */
+  'X-Correlation-Id'?: string;
+}
+
 export interface UploadStartParams {
   /**
-   * Model name
+   * Body param: Model name
    */
   model_name: string;
 
   /**
-   * Model version
+   * Body param: Model version
    */
   model_version: string;
 
   /**
-   * Requesting entity
+   * Body param: Requesting entity
    */
   requesting_entity: string;
 
   /**
-   * Requested location alias
+   * Body param: Requested location alias
    */
   location_alias?: string;
 
   /**
-   * Specifies the platform or service where the model originated before being
-   * scanned
+   * Body param: Specifies the platform or service where the model originated before
+   * being scanned
    */
   origin?: string;
 
   /**
-   * Identifies the system that requested the scan
+   * Body param: Identifies the system that requested the scan
    */
   request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
+
+  /**
+   * Header param: An ID that will be included with associated logs and downstream
+   * HTTP requests.
+   */
+  'X-Correlation-Id'?: string;
 }
 
 Upload.File = File;
@@ -94,6 +127,7 @@ export declare namespace Upload {
   export {
     type UploadCompleteAllResponse as UploadCompleteAllResponse,
     type UploadStartResponse as UploadStartResponse,
+    type UploadCompleteAllParams as UploadCompleteAllParams,
     type UploadStartParams as UploadStartParams,
   };
 

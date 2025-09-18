@@ -20,13 +20,20 @@ export class Jobs extends APIResource {
    */
   retrieve(
     scanID: string,
-    query: JobRetrieveParams | null | undefined = {},
+    params: JobRetrieveParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<ResultsAPI.ScanReport> {
+    const { 'X-Correlation-Id': xCorrelationID, ...query } = params ?? {};
     return this._client.get(path`/scan/v3/results/${scanID}`, {
       query,
       ...options,
-      headers: buildHeaders([{ Accept: 'application/json; charset=utf-8' }, options?.headers]),
+      headers: buildHeaders([
+        {
+          Accept: 'application/json; charset=utf-8',
+          ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -38,11 +45,18 @@ export class Jobs extends APIResource {
    * const jobs = await client.scans.jobs.list();
    * ```
    */
-  list(query: JobListParams | null | undefined = {}, options?: RequestOptions): APIPromise<JobListResponse> {
+  list(params: JobListParams | null | undefined = {}, options?: RequestOptions): APIPromise<JobListResponse> {
+    const { 'X-Correlation-Id': xCorrelationID, ...query } = params ?? {};
     return this._client.get('/scan/v3/results', {
       query,
       ...options,
-      headers: buildHeaders([{ Accept: 'application/json; charset=utf-8' }, options?.headers]),
+      headers: buildHeaders([
+        {
+          Accept: 'application/json; charset=utf-8',
+          ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -144,81 +158,100 @@ export interface JobListResponse {
 
 export interface JobRetrieveParams {
   /**
-   * Filter file_results to only those that have detections (and parents)
+   * Query param: Filter file_results to only those that have detections (and
+   * parents)
    */
   has_detections?: boolean;
+
+  /**
+   * Header param: An ID that will be included with associated logs and downstream
+   * HTTP requests.
+   */
+  'X-Correlation-Id'?: string;
 }
 
 export interface JobListParams {
   /**
-   * A comma separated list of rule set evaluation statuses to include
+   * Query param: A comma separated list of rule set evaluation statuses to include
    */
   compliance_status?: Array<'COMPLIANT' | 'NONCOMPLIANT'>;
 
   /**
-   * filter by a single detection category
+   * Query param: filter by a single detection category
    */
   detection_category?: string;
 
   /**
-   * End Time
+   * Query param: End Time
    */
   end_time?: string;
 
   /**
-   * only return latest result per model version
+   * Query param: only return latest result per model version
    */
   latest_per_model_version_only?: boolean;
 
+  /**
+   * Query param:
+   */
   limit?: number;
 
   /**
-   * Model ID
+   * Query param: Model ID
    */
   model_ids?: Array<string>;
 
   /**
-   * filter by the model name
+   * Query param: filter by the model name
    */
   model_name?: JobListParams.ModelName;
 
   /**
-   * Model Version IDs
+   * Query param: Model Version IDs
    */
   model_version_ids?: Array<string>;
 
+  /**
+   * Query param:
+   */
   offset?: number;
 
   /**
-   * filter by version of the scanner
+   * Query param: filter by version of the scanner
    */
   scanner_version?: string;
 
   /**
-   * Severities
+   * Query param: Severities
    */
   severity?: Array<string>;
 
   /**
-   * allow sorting by model name, status, severity or created at, ascending (+) or
-   * the default descending (-)
+   * Query param: allow sorting by model name, status, severity or created at,
+   * ascending (+) or the default descending (-)
    */
   sort?: string;
 
   /**
-   * source of model related to scans
+   * Query param: source of model related to scans
    */
   source?: JobListParams.Source;
 
   /**
-   * Start Time
+   * Query param: Start Time
    */
   start_time?: string;
 
   /**
-   * Statuses
+   * Query param: Statuses
    */
   status?: Array<string>;
+
+  /**
+   * Header param: An ID that will be included with associated logs and downstream
+   * HTTP requests.
+   */
+  'X-Correlation-Id'?: string;
 }
 
 export namespace JobListParams {

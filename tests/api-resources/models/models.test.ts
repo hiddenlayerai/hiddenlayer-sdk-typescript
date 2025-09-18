@@ -21,6 +21,18 @@ describe('resource models', () => {
   });
 
   // Prism tests are disabled
+  test.skip('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.models.retrieve(
+        '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        { 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(HiddenLayer.NotFoundError);
+  });
+
+  // Prism tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.models.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
     const rawResponse = await responsePromise.asResponse();
@@ -30,5 +42,17 @@ describe('resource models', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('delete: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.models.delete(
+        '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        { 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(HiddenLayer.NotFoundError);
   });
 });

@@ -4,9 +4,15 @@ import { APIResource } from '../../core/resource';
 import * as JobsAPI from './jobs';
 import { JobListParams, JobListResponse, JobRequestParams, JobRetrieveParams, Jobs, ScanJob } from './jobs';
 import * as ResultsAPI from './results';
-import { FileScanReport, ResultSarifResponse, Results, ScanReport } from './results';
+import { FileScanReport, ResultSarifParams, ResultSarifResponse, Results, ScanReport } from './results';
 import * as UploadAPI from './upload/upload';
-import { Upload, UploadCompleteAllResponse, UploadStartParams, UploadStartResponse } from './upload/upload';
+import {
+  Upload,
+  UploadCompleteAllParams,
+  UploadCompleteAllResponse,
+  UploadStartParams,
+  UploadStartResponse,
+} from './upload/upload';
 
 export class Scans extends APIResource {
   results: ResultsAPI.Results = new ResultsAPI.Results(this._client);
@@ -24,6 +30,7 @@ export declare namespace Scans {
     type FileScanReport as FileScanReport,
     type ScanReport as ScanReport,
     type ResultSarifResponse as ResultSarifResponse,
+    type ResultSarifParams as ResultSarifParams,
   };
 
   export {
@@ -39,6 +46,7 @@ export declare namespace Scans {
     Upload as Upload,
     type UploadCompleteAllResponse as UploadCompleteAllResponse,
     type UploadStartResponse as UploadStartResponse,
+    type UploadCompleteAllParams as UploadCompleteAllParams,
     type UploadStartParams as UploadStartParams,
   };
 }

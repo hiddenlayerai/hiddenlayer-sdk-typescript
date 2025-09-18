@@ -8,11 +8,18 @@ export {
   type JobListParams,
   type JobRequestParams,
 } from './jobs';
-export { Results, type FileScanReport, type ScanReport, type ResultSarifResponse } from './results';
+export {
+  Results,
+  type FileScanReport,
+  type ScanReport,
+  type ResultSarifResponse,
+  type ResultSarifParams,
+} from './results';
 export { Scans } from './scans';
 export {
   Upload,
   type UploadCompleteAllResponse,
   type UploadStartResponse,
+  type UploadCompleteAllParams,
   type UploadStartParams,
 } from './upload/index';

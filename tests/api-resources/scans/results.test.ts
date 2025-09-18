@@ -19,4 +19,16 @@ describe('resource results', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
+
+  // Prism tests are disabled
+  test.skip('sarif: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.scans.results.sarif(
+        '00000000-0000-0000-0000-000000000000',
+        { 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(HiddenLayer.NotFoundError);
+  });
 });
