@@ -59,6 +59,7 @@ describe('resource jobs', () => {
           model_name: { contains: 'contains', eq: 'eq' },
           model_version_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           offset: 0,
+          request_source: ['Hybrid Upload'],
           scanner_version: '891.0.97194',
           severity: ['string'],
           sort: '-start_time',

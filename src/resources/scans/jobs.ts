@@ -217,6 +217,11 @@ export interface JobListParams {
   offset?: number;
 
   /**
+   * Query param: Filter by request source using a comma-separated list
+   */
+  request_source?: Array<'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload'>;
+
+  /**
    * Query param: filter by version of the scanner
    */
   scanner_version?: string;
