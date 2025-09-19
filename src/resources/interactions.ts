@@ -24,12 +24,15 @@ export class Interactions extends APIResource {
     params: InteractionAnalyzeParams,
     options?: RequestOptions,
   ): APIPromise<InteractionAnalyzeResponse> {
-    const { 'HL-Project-Id': hlProjectID, ...body } = params;
+    const { 'HL-Project-Id': hlProjectID, 'X-Correlation-Id': xCorrelationID, ...body } = params;
     return this._client.post('/detection/v1/interactions', {
       body,
       ...options,
       headers: buildHeaders([
-        { ...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined) },
+        {
+          ...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined),
+          ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined),
+        },
         options?.headers,
       ]),
     });
@@ -208,6 +211,12 @@ export interface InteractionAnalyzeParams {
    * Header param: The ID or alias for the Project to govern the request processing.
    */
   'HL-Project-Id'?: string;
+
+  /**
+   * Header param: An ID that will be included with associated logs and downstream
+   * HTTP requests.
+   */
+  'X-Correlation-Id'?: string;
 
   [k: string]: unknown;
 }

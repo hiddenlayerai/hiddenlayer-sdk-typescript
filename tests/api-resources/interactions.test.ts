@@ -29,6 +29,7 @@ describe('resource interactions', () => {
       input: { messages: [{ content: 'content', role: 'role' }] },
       output: { messages: [{ content: 'content', role: 'role' }] },
       'HL-Project-Id': 'internal-search-chatbot',
+      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
     });
   });
 });
