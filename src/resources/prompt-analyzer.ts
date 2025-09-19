@@ -60,7 +60,7 @@ export interface PromptAnalyzerCreateResponse {
 
   provider?: string;
 
-  response?: unknown;
+  response?: PromptAnalyzerCreateResponse.Response;
 
   /**
    * The analysis results
@@ -97,6 +97,11 @@ export namespace PromptAnalyzerCreateResponse {
      * The input contains a denial of service attack
      */
     input_dos?: boolean;
+
+    /**
+     * The input contains a disallowed language
+     */
+    input_language?: boolean;
 
     /**
      * The input contains personally identifiable information
@@ -136,6 +141,8 @@ export namespace PromptAnalyzerCreateResponse {
     mitre?: Array<Frameworks.Mitre>;
 
     owasp?: Array<Frameworks.Owasp>;
+
+    'owasp:2025'?: Array<Frameworks.Owasp2025>;
   }
 
   export namespace Frameworks {
@@ -165,6 +172,21 @@ export namespace PromptAnalyzerCreateResponse {
 
       /**
        * The name of the OWASP framework label
+       */
+      name?: string;
+    }
+
+    /**
+     * The OWASP:2025 framework labels identified during analysis
+     */
+    export interface Owasp2025 {
+      /**
+       * The label of the OWASP:2025 framework label
+       */
+      label?: string;
+
+      /**
+       * The name of the OWASP:2025 framework label
        */
       name?: string;
     }
@@ -300,6 +322,20 @@ export namespace PromptAnalyzerCreateResponse {
     skip_prompt_injection_detection?: boolean;
   }
 
+  export interface Response {
+    model?: string;
+
+    output?: string;
+
+    prompt?: string;
+
+    provider?: string;
+
+    unmodified_output?: string;
+
+    unmodified_prompt?: string;
+  }
+
   /**
    * The analysis results
    */
@@ -325,6 +361,11 @@ export namespace PromptAnalyzerCreateResponse {
     input_dos_results?: Results.InputDosResults;
 
     /**
+     * The input language results
+     */
+    input_language_results?: Results.InputLanguageResults;
+
+    /**
      * The input personally identifiable information results
      */
     input_pii_results?: Results.InputPiiResults;
@@ -332,7 +373,7 @@ export namespace PromptAnalyzerCreateResponse {
     /**
      * The input URL results
      */
-    input_urls?: Results.InputURLs;
+    input_url_results?: Results.InputURLResults;
 
     /**
      * The output code results
@@ -347,7 +388,7 @@ export namespace PromptAnalyzerCreateResponse {
     /**
      * The output URL results
      */
-    output_urls?: Results.OutputURLs;
+    output_url_results?: Results.OutputURLResults;
 
     prompt_injection_classifier_results?: Array<Results.PromptInjectionClassifierResult>;
   }
@@ -363,9 +404,38 @@ export namespace PromptAnalyzerCreateResponse {
       elapsed_ms?: number;
 
       /**
+       * The refusal classifier results
+       */
+      refusal_classifier_results?: GuardrailResults.RefusalClassifierResults;
+
+      /**
        * The verdict of the guardrail analysis
        */
       verdict?: boolean;
+    }
+
+    export namespace GuardrailResults {
+      /**
+       * The refusal classifier results
+       */
+      export interface RefusalClassifierResults {
+        /**
+         * The time in milliseconds it took to process the refusal classifier
+         */
+        elapsed_ms?: number;
+
+        probabilities?: Array<number>;
+
+        /**
+         * The verdict of the refusal classifier
+         */
+        verdict?: boolean;
+
+        /**
+         * The version of the refusal classifier
+         */
+        version?: number;
+      }
     }
 
     /**
@@ -410,7 +480,32 @@ export namespace PromptAnalyzerCreateResponse {
       elapsed_ms?: number;
 
       /**
+       * The length of the embeddings analyzed
+       */
+      embeddings_length?: number;
+
+      /**
        * The verdict of the input denial of service analysis
+       */
+      verdict?: boolean;
+    }
+
+    /**
+     * The input language results
+     */
+    export interface InputLanguageResults {
+      /**
+       * The time in milliseconds it took to process the input language detection
+       */
+      elapsed_ms?: number;
+
+      /**
+       * Language detected in the input
+       */
+      language?: string;
+
+      /**
+       * The verdict of the input language analysis
        */
       verdict?: boolean;
     }
@@ -436,7 +531,7 @@ export namespace PromptAnalyzerCreateResponse {
     /**
      * The input URL results
      */
-    export interface InputURLs {
+    export interface InputURLResults {
       /**
        * The time in milliseconds it took to process the guardrail
        */
@@ -481,7 +576,7 @@ export namespace PromptAnalyzerCreateResponse {
     /**
      * The output URL results
      */
-    export interface OutputURLs {
+    export interface OutputURLResults {
       /**
        * The time in milliseconds it took to process the guardrail
        */
@@ -491,6 +586,16 @@ export namespace PromptAnalyzerCreateResponse {
     }
 
     export interface PromptInjectionClassifierResult {
+      /**
+       * The allow override applied to the prompt
+       */
+      allow_override?: string;
+
+      /**
+       * The block override applied to the prompt
+       */
+      block_override?: string;
+
       /**
        * The time in milliseconds it took to process the prompt injection classifier
        */
