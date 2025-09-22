@@ -36,28 +36,28 @@ export class Cards extends APIResource {
 export type CardListResponsesOffsetPage = OffsetPage<CardListResponse>;
 
 export interface CardListResponse {
+  active_version_count: number;
+
+  attack_monitoring_threat_level: 'safe' | 'unsafe' | 'suspicious' | 'not available';
+
   /**
    * Unix Nano Epoch Timestamp
    */
   created_at: number;
 
-  model_id: string;
-
-  plaintext_name: string;
-
-  source: string;
-
-  active_version_count?: number;
-
-  attack_monitoring_threat_level?: 'safe' | 'unsafe' | 'suspicious' | 'not available';
-
   /**
    * A value of `true` indicates that one or more versions of this model have
    * associated model genealogy information.
    */
-  has_genealogy?: boolean;
+  has_genealogy: boolean;
 
-  model_scan_threat_level?: 'safe' | 'unsafe' | 'suspicious' | 'not available';
+  model_id: string;
+
+  model_scan_threat_level: 'safe' | 'unsafe' | 'suspicious' | 'not available';
+
+  plaintext_name: string;
+
+  source: string;
 
   security_posture?: CardListResponse.SecurityPosture;
 

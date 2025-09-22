@@ -231,9 +231,9 @@ export namespace FileScanReport {
       rule_id: string;
 
       /**
-       * detection severity
+       * The severity of the detection.
        */
-      severity: 'low' | 'medium' | 'high' | 'critical';
+      severity: 'critical' | 'high' | 'medium' | 'low';
 
       rule_details?: Array<Detection.RuleDetail>;
 
@@ -347,9 +347,10 @@ export interface ScanReport {
   has_genealogy?: boolean;
 
   /**
-   * detection severity
+   * @deprecated The severity of the detection. Use ScanDetectionSeverity (without
+   * safe) or ScanDetectionSeverityWithNone instead.
    */
-  severity?: 'low' | 'medium' | 'high' | 'critical' | 'safe' | 'unknown';
+  severity?: 'critical' | 'high' | 'medium' | 'low' | 'safe' | 'unknown';
 
   /**
    * aggregated summary statistics for the scan
@@ -660,9 +661,9 @@ export namespace ScanReport {
       rule_id: string;
 
       /**
-       * detection severity
+       * The severity of the detection.
        */
-      severity: 'low' | 'medium' | 'high' | 'critical';
+      severity: 'critical' | 'high' | 'medium' | 'low';
 
       rule_details?: Array<Detection.RuleDetail>;
 
@@ -739,9 +740,10 @@ export namespace ScanReport {
     files_with_detections_count?: number;
 
     /**
-     * highest severity level found across all detections
+     * @deprecated The severity of the detection. Use ScanDetectionSeverity (without
+     * safe) or ScanDetectionSeverityWithNone instead.
      */
-    severity?: 'low' | 'medium' | 'high' | 'critical' | 'safe' | 'unknown';
+    severity?: 'critical' | 'high' | 'medium' | 'low' | 'safe' | 'unknown';
 
     /**
      * number of files with unknown file type
