@@ -29,9 +29,12 @@ const client = new HiddenLayer({
   environment: 'prod-eu', // defaults to 'prod-us'
 });
 
-const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' });
+const response = await client.interactions.analyze({
+  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+});
 
-console.log(sensor.model_id);
+console.log(response.analysis);
 ```
 
 ### Request & Response types
@@ -46,8 +49,11 @@ const client = new HiddenLayer({
   environment: 'prod-eu', // defaults to 'prod-us'
 });
 
-const params: HiddenLayer.SensorCreateParams = { plaintext_name: 'REPLACE_ME' };
-const sensor: HiddenLayer.SensorCreateResponse = await client.sensors.create(params);
+const params: HiddenLayer.InteractionAnalyzeParams = {
+  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+};
+const response: HiddenLayer.InteractionAnalyzeResponse = await client.interactions.analyze(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -60,15 +66,20 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const sensor = await client.sensors.create({ plaintext_name: 'REPLACE_ME' }).catch(async (err) => {
-  if (err instanceof HiddenLayer.APIError) {
-    console.log(err.status); // 400
-    console.log(err.name); // BadRequestError
-    console.log(err.headers); // {server: 'nginx', ...}
-  } else {
-    throw err;
-  }
-});
+const response = await client.interactions
+  .analyze({
+    metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+    input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+  })
+  .catch(async (err) => {
+    if (err instanceof HiddenLayer.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
@@ -100,7 +111,7 @@ const client = new HiddenLayer({
 });
 
 // Or, configure per-request:
-await client.sensors.create({ plaintext_name: 'REPLACE_ME' }, {
+await client.interactions.analyze({ metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' }, input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] } }, {
   maxRetries: 5,
 });
 ```
@@ -117,7 +128,7 @@ const client = new HiddenLayer({
 });
 
 // Override per-request:
-await client.sensors.create({ plaintext_name: 'REPLACE_ME' }, {
+await client.interactions.analyze({ metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' }, input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] } }, {
   timeout: 5 * 1000,
 });
 ```
@@ -140,15 +151,23 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new HiddenLayer();
 
-const response = await client.sensors.create({ plaintext_name: 'REPLACE_ME' }).asResponse();
+const response = await client.interactions
+  .analyze({
+    metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+    input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+  })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: sensor, response: raw } = await client.sensors
-  .create({ plaintext_name: 'REPLACE_ME' })
+const { data: response, response: raw } = await client.interactions
+  .analyze({
+    metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+    input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+  })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(sensor.model_id);
+console.log(response.analysis);
 ```
 
 ### Logging
@@ -228,7 +247,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.sensors.create({
+client.interactions.analyze({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
