@@ -229,7 +229,7 @@ export interface JobListParams {
   /**
    * Query param: Severities
    */
-  severity?: Array<string>;
+  severity?: 'critical' | 'high' | 'medium' | 'low' | 'none' | 'not available' | 'safe' | 'unknown';
 
   /**
    * Query param: allow sorting by model name, status, severity or created at,
