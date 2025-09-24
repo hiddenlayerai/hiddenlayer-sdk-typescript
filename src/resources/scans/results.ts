@@ -347,8 +347,13 @@ export interface ScanReport {
   has_genealogy?: boolean;
 
   /**
-   * @deprecated The severity of the detection. Use ScanDetectionSeverity (without
-   * safe) or ScanDetectionSeverityWithNone instead.
+   * The highest severity of any detections on the scan.
+   */
+  highest_severity?: 'critical' | 'high' | 'medium' | 'low' | 'none' | 'not available';
+
+  /**
+   * @deprecated The highest severity of any detections on the scan. Use
+   * ScanHighestDetectionSeverity instead.
    */
   severity?: 'critical' | 'high' | 'medium' | 'low' | 'safe' | 'unknown';
 
@@ -740,8 +745,13 @@ export namespace ScanReport {
     files_with_detections_count?: number;
 
     /**
-     * @deprecated The severity of the detection. Use ScanDetectionSeverity (without
-     * safe) or ScanDetectionSeverityWithNone instead.
+     * The highest severity of any detections on the scan.
+     */
+    highest_severity?: 'critical' | 'high' | 'medium' | 'low' | 'none' | 'not available';
+
+    /**
+     * @deprecated The highest severity of any detections on the scan. Use
+     * ScanHighestDetectionSeverity instead.
      */
     severity?: 'critical' | 'high' | 'medium' | 'low' | 'safe' | 'unknown';
 
