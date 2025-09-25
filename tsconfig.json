@@ -7,10 +7,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": "./",
     "paths": {
-      "hiddenlayer/*": ["src/*"],
-      "hiddenlayer": ["src/index.ts"]
+      "hiddenlayer/*": ["./src/*"],
+      "hiddenlayer": ["./src/index.ts"]
     },
     "noEmit": true,
 
