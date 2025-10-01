@@ -2,7 +2,7 @@
   "name": "hiddenlayer",
   "version": "0.1.0-alpha.15",
   "description": "The official TypeScript library for the HiddenLayer API",
-  "author": "HiddenLayer <dev-feedback@hiddenlayer-sdk.com>",
+  "author": "HiddenLayer <contact@example.com>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
