@@ -112,7 +112,7 @@ export interface UploadStartParams {
   /**
    * Body param: Identifies the system that requested the scan
    */
-  request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
+  request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload' | 'AI Asset Discovery';
 
   /**
    * Header param: An ID that will be included with associated logs and downstream
