@@ -394,7 +394,7 @@ export namespace ScanReport {
     /**
      * Identifies the system that requested the scan
      */
-    request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload' | 'AI Asset Discovery';
+    request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
 
     /**
      * Entity that requested the scan
@@ -454,7 +454,7 @@ export namespace ScanReport {
     /**
      * Identifies the system that requested the scan
      */
-    request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload' | 'AI Asset Discovery';
+    request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
 
     /**
      * Entity that requested the scan
