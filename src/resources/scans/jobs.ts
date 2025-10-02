@@ -130,7 +130,7 @@ export namespace ScanJob {
     /**
      * Identifies the system that requested the scan
      */
-    request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload' | 'AI Asset Discovery';
+    request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
   }
 }
 
@@ -219,7 +219,7 @@ export interface JobListParams {
   /**
    * Query param: Filter by request source using a comma-separated list
    */
-  request_source?: Array<'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload' | 'AI Asset Discovery'>;
+  request_source?: Array<'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload'>;
 
   /**
    * Query param: filter by version of the scanner
@@ -326,7 +326,7 @@ export namespace JobRequestParams {
     /**
      * Identifies the system that requested the scan
      */
-    request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload' | 'AI Asset Discovery';
+    request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
   }
 }
 
