@@ -283,24 +283,22 @@ export namespace FileScanReport {
 
 export interface ScanReport {
   /**
-   * number of detections found
+   * @deprecated number of detections found; use `.summary.detection_count` instead
    */
   detection_count: number;
 
   /**
-   * number of files scanned
+   * @deprecated number of files scanned; use `.summary.file_count` instead
    */
   file_count: number;
 
   /**
-   * number of files with detections found
+   * @deprecated number of files with detections found; use
+   * `.summary.files_with_detections_count` instead
    */
   files_with_detections_count: number;
 
-  /**
-   * information about model and version that this scan relates to
-   */
-  inventory: ScanReport.ScanModelDetailsV3 | ScanReport.ScanModelIDsV3 | ScanReport.ScanModelComboV3;
+  inventory: ScanReport.ScanModelDetailsV3 | ScanReport.ScanModelIDsV3;
 
   /**
    * unique identifier for the scan
@@ -330,7 +328,8 @@ export interface ScanReport {
   compliance?: ScanReport.Compliance;
 
   /**
-   * list of detection categories found
+   * @deprecated list of detection categories found; use
+   * `.summary.detection_categories` instead
    */
   detection_categories?: Array<string>;
 
@@ -347,15 +346,10 @@ export interface ScanReport {
   has_genealogy?: boolean;
 
   /**
-   * The highest severity of any detections on the scan.
+   * @deprecated The highest severity of any detections on the scan, including
+   * "safe". Use `.summary.highest_severity` instead.
    */
-  highest_severity?: 'critical' | 'high' | 'medium' | 'low' | 'none' | 'not available';
-
-  /**
-   * @deprecated The highest severity of any detections on the scan. Use
-   * ScanHighestDetectionSeverity instead.
-   */
-  severity?: 'critical' | 'high' | 'medium' | 'low' | 'safe' | 'unknown';
+  severity?: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'safe';
 
   /**
    * aggregated summary statistics for the scan
@@ -394,7 +388,7 @@ export namespace ScanReport {
     /**
      * Identifies the system that requested the scan
      */
-    request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
+    request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload' | 'AI Asset Discovery';
 
     /**
      * Entity that requested the scan
@@ -412,54 +406,6 @@ export namespace ScanReport {
      * unique identifier for the model version
      */
     model_version_id: string;
-  }
-
-  export interface ScanModelComboV3 {
-    /**
-     * Unique identifier for the model
-     */
-    model_id: string;
-
-    /**
-     * name of the model
-     */
-    model_name: string;
-
-    /**
-     * unique identifier for the model version
-     */
-    model_version_id: string;
-
-    /**
-     * Location to be scanned
-     */
-    requested_scan_location: string;
-
-    /**
-     * source (provider) info
-     */
-    model_source?: string;
-
-    /**
-     * version of the model
-     */
-    model_version?: string;
-
-    /**
-     * Specifies the platform or service where the model originated before being
-     * scanned
-     */
-    origin?: string;
-
-    /**
-     * Identifies the system that requested the scan
-     */
-    request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
-
-    /**
-     * Entity that requested the scan
-     */
-    requesting_entity?: string;
   }
 
   export interface Compliance {
@@ -747,13 +693,13 @@ export namespace ScanReport {
     /**
      * The highest severity of any detections on the scan.
      */
-    highest_severity?: 'critical' | 'high' | 'medium' | 'low' | 'none' | 'not available';
+    highest_severity?: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'none';
 
     /**
-     * @deprecated The highest severity of any detections on the scan. Use
-     * ScanHighestDetectionSeverity instead.
+     * @deprecated The highest severity of any detections on the scan, including
+     * "safe". Use `.summary.highest_severity` instead.
      */
-    severity?: 'critical' | 'high' | 'medium' | 'low' | 'safe' | 'unknown';
+    severity?: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'safe';
 
     /**
      * number of files with unknown file type

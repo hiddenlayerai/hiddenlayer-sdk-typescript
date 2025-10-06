@@ -59,9 +59,9 @@ describe('resource jobs', () => {
           model_name: { contains: 'contains', eq: 'eq' },
           model_version_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
           offset: 0,
-          request_source: ['API Upload'],
+          request_source: ['Hybrid Upload'],
           scanner_version: '891.0.97194',
-          severity: 'critical',
+          severity: 'not available',
           sort: '-start_time',
           source: { eq: 'adhoc' },
           start_time: '2019-12-27T18:11:19.117Z',
@@ -103,7 +103,7 @@ describe('resource jobs', () => {
         requested_scan_location: 'owner/repo',
         requesting_entity: 'some-user@example.com',
         origin: 'Hugging Face',
-        request_source: 'API Upload',
+        request_source: 'Hybrid Upload',
       },
     });
   });

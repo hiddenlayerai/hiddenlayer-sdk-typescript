@@ -92,7 +92,7 @@ export interface FileCompleteResponse {
   /**
    * Request to resource is successful
    */
-  scan_id?: string;
+  scan_id: string;
 }
 
 export interface FileAddParams {
