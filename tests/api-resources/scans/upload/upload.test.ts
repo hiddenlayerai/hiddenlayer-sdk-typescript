@@ -56,7 +56,7 @@ describe('resource upload', () => {
       requesting_entity: 'requesting_entity',
       location_alias: 'location_alias',
       origin: 'Hugging Face',
-      request_source: 'API Upload',
+      request_source: 'Hybrid Upload',
       'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
     });
   });
