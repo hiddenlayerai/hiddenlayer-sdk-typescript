@@ -3,18 +3,13 @@
 export {
   Jobs,
   type ScanJob,
+  type JobRetrieveResponse,
   type JobListResponse,
   type JobRetrieveParams,
   type JobListParams,
   type JobRequestParams,
 } from './jobs';
-export {
-  Results,
-  type FileScanReport,
-  type ScanReport,
-  type ResultSarifResponse,
-  type ResultSarifParams,
-} from './results';
+export { Results, type FileScanReport, type ResultSarifResponse, type ResultSarifParams } from './results';
 export { Scans } from './scans';
 export {
   Upload,

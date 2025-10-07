@@ -2,9 +2,17 @@
 
 import { APIResource } from '../../core/resource';
 import * as JobsAPI from './jobs';
-import { JobListParams, JobListResponse, JobRequestParams, JobRetrieveParams, Jobs, ScanJob } from './jobs';
+import {
+  JobListParams,
+  JobListResponse,
+  JobRequestParams,
+  JobRetrieveParams,
+  JobRetrieveResponse,
+  Jobs,
+  ScanJob,
+} from './jobs';
 import * as ResultsAPI from './results';
-import { FileScanReport, ResultSarifParams, ResultSarifResponse, Results, ScanReport } from './results';
+import { FileScanReport, ResultSarifParams, ResultSarifResponse, Results } from './results';
 import * as UploadAPI from './upload/upload';
 import {
   Upload,
@@ -28,7 +36,6 @@ export declare namespace Scans {
   export {
     Results as Results,
     type FileScanReport as FileScanReport,
-    type ScanReport as ScanReport,
     type ResultSarifResponse as ResultSarifResponse,
     type ResultSarifParams as ResultSarifParams,
   };
@@ -36,6 +43,7 @@ export declare namespace Scans {
   export {
     Jobs as Jobs,
     type ScanJob as ScanJob,
+    type JobRetrieveResponse as JobRetrieveResponse,
     type JobListResponse as JobListResponse,
     type JobRetrieveParams as JobRetrieveParams,
     type JobListParams as JobListParams,

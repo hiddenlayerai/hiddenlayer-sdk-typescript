@@ -63,7 +63,6 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/scans/results.ts">FileScanReport</a></code>
-- <code><a href="./src/resources/scans/results.ts">ScanReport</a></code>
 - <code><a href="./src/resources/scans/results.ts">ResultSarifResponse</a></code>
 
 Methods:
@@ -75,11 +74,12 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/scans/jobs.ts">ScanJob</a></code>
+- <code><a href="./src/resources/scans/jobs.ts">JobRetrieveResponse</a></code>
 - <code><a href="./src/resources/scans/jobs.ts">JobListResponse</a></code>
 
 Methods:
 
-- <code title="get /scan/v3/results/{scan_id}">client.scans.jobs.<a href="./src/resources/scans/jobs.ts">retrieve</a>(scanID, { ...params }) -> ScanReport</code>
+- <code title="get /scan/v3/results/{scan_id}">client.scans.jobs.<a href="./src/resources/scans/jobs.ts">retrieve</a>(scanID, { ...params }) -> JobRetrieveResponse</code>
 - <code title="get /scan/v3/results">client.scans.jobs.<a href="./src/resources/scans/jobs.ts">list</a>({ ...params }) -> JobListResponse</code>
 - <code title="post /scan/v3/jobs">client.scans.jobs.<a href="./src/resources/scans/jobs.ts">request</a>({ ...params }) -> ScanJob</code>
 
