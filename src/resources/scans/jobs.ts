@@ -27,10 +27,7 @@ export class Jobs extends APIResource {
       query,
       ...options,
       headers: buildHeaders([
-        {
-          Accept: 'application/json; charset=utf-8',
-          ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined),
-        },
+        { ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined) },
         options?.headers,
       ]),
     });
