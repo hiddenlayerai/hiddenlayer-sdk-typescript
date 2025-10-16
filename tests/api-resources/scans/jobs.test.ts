@@ -77,12 +77,7 @@ describe('resource jobs', () => {
   test.skip('request: only required params', async () => {
     const responsePromise = client.scans.jobs.request({
       access: {},
-      inventory: {
-        model_name: 'some-model',
-        model_version: '',
-        requested_scan_location: 'owner/repo',
-        requesting_entity: 'some-user@example.com',
-      },
+      inventory: { model_name: 'some-model', model_version: '', requesting_entity: 'some-user@example.com' },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -100,10 +95,18 @@ describe('resource jobs', () => {
       inventory: {
         model_name: 'some-model',
         model_version: '',
-        requested_scan_location: 'owner/repo',
         requesting_entity: 'some-user@example.com',
         origin: 'Hugging Face',
         request_source: 'Hybrid Upload',
+        requested_scan_location: 'owner/repo',
+        scan_target: {
+          file_location: 'https://huggingface.co/meta-llama/Llama-3.1-8B',
+          provider_model: {
+            model_id: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
+            provider: 'AWS_BEDROCK',
+            model_arn: 'arn:aws:bedrock:us-east-1:123456789012:provisioned-model/my-custom-model',
+          },
+        },
       },
     });
   });
