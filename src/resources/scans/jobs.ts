@@ -247,7 +247,7 @@ export interface JobRetrieveResponse {
    * @deprecated The highest severity of any detections on the scan, including
    * "safe". Use `.summary.highest_severity` instead.
    */
-  severity?: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'safe';
+  severity?: 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'safe';
 }
 
 export namespace JobRetrieveResponse {
@@ -328,13 +328,13 @@ export namespace JobRetrieveResponse {
     /**
      * The highest severity of any detections on the scan.
      */
-    highest_severity?: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'none';
+    highest_severity?: 'critical' | 'high' | 'medium' | 'low' | 'none' | 'unknown';
 
     /**
      * @deprecated The highest severity of any detections on the scan, including
      * "safe". Use `.summary.highest_severity` instead.
      */
-    severity?: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'safe';
+    severity?: 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'safe';
 
     /**
      * number of files with unknown file type
@@ -690,7 +690,7 @@ export namespace JobListResponse {
      * @deprecated The highest severity of any detections on the scan, including
      * "safe". Use `.summary.highest_severity` instead.
      */
-    severity?: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'safe';
+    severity?: 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'safe';
   }
 
   export namespace Item {
@@ -771,13 +771,13 @@ export namespace JobListResponse {
       /**
        * The highest severity of any detections on the scan.
        */
-      highest_severity?: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'none';
+      highest_severity?: 'critical' | 'high' | 'medium' | 'low' | 'none' | 'unknown';
 
       /**
        * @deprecated The highest severity of any detections on the scan, including
        * "safe". Use `.summary.highest_severity` instead.
        */
-      severity?: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'safe';
+      severity?: 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'safe';
 
       /**
        * number of files with unknown file type
@@ -874,7 +874,7 @@ export interface JobListParams {
   /**
    * Query param: Severities
    */
-  severity?: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'none' | 'safe';
+  severity?: 'critical' | 'high' | 'medium' | 'low' | 'none' | 'unknown' | 'safe';
 
   /**
    * Query param: allow sorting by model name, status, severity or created at,
