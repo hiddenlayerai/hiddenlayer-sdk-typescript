@@ -108,11 +108,6 @@ export namespace ScanJob {
     model_version: string;
 
     /**
-     * Location to be scanned
-     */
-    requested_scan_location: string;
-
-    /**
      * Entity that requested the scan
      */
     requesting_entity: string;
@@ -127,6 +122,55 @@ export namespace ScanJob {
      * Identifies the system that requested the scan
      */
     request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload' | 'AI Asset Discovery';
+
+    /**
+     * @deprecated **DEPRECATED**: Use `scan_target` instead. Location of files to be
+     * scanned. Maintained for backwards compatibility. If both
+     * `requested_scan_location` and `scan_target` are provided, `scan_target` takes
+     * precedence.
+     */
+    requested_scan_location?: string;
+
+    /**
+     * Specifies what to scan. Must provide at least one of: file_location,
+     * provider_model, or both.
+     */
+    scan_target?: Inventory.ScanTarget;
+  }
+
+  export namespace Inventory {
+    /**
+     * Specifies what to scan. Must provide at least one of: file_location,
+     * provider_model, or both.
+     */
+    export interface ScanTarget {
+      /**
+       * URL or path to the model files
+       */
+      file_location?: string;
+
+      provider_model?: ScanTarget.ProviderModel;
+    }
+
+    export namespace ScanTarget {
+      export interface ProviderModel {
+        /**
+         * The provider's unique identifier for the model. Examples:
+         *
+         * - AWS Bedrock: "anthropic.claude-3-5-sonnet-20241022-v2:0"
+         * - Azure AI Foundry: "Claude-3-5-Sonnet"
+         */
+        model_id: string;
+
+        provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER';
+
+        /**
+         * Optional full ARN or resource identifier for the model. Used for provisioned
+         * models, custom deployments, or cross-account access.
+         */
+        model_arn?: string;
+      }
+    }
   }
 }
 
@@ -879,12 +923,18 @@ export namespace JobListParams {
 }
 
 export interface JobRequestParams {
+  /**
+   * Access method for the location of files associated with the scan
+   */
   access: JobRequestParams.Access;
 
   inventory: JobRequestParams.Inventory;
 }
 
 export namespace JobRequestParams {
+  /**
+   * Access method for the location of files associated with the scan
+   */
   export interface Access {
     source?:
       | 'LOCAL'
@@ -894,7 +944,8 @@ export namespace JobRequestParams {
       | 'AZURE_BLOB_AD'
       | 'GOOGLE_SIGNED'
       | 'GOOGLE_OAUTH'
-      | 'HUGGING_FACE';
+      | 'HUGGING_FACE'
+      | 'NONE';
   }
 
   export interface Inventory {
@@ -907,11 +958,6 @@ export namespace JobRequestParams {
      * If you do not provide a version, one will be generated for you.
      */
     model_version: string;
-
-    /**
-     * Location to be scanned
-     */
-    requested_scan_location: string;
 
     /**
      * Entity that requested the scan
@@ -928,6 +974,55 @@ export namespace JobRequestParams {
      * Identifies the system that requested the scan
      */
     request_source?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload' | 'AI Asset Discovery';
+
+    /**
+     * @deprecated **DEPRECATED**: Use `scan_target` instead. Location of files to be
+     * scanned. Maintained for backwards compatibility. If both
+     * `requested_scan_location` and `scan_target` are provided, `scan_target` takes
+     * precedence.
+     */
+    requested_scan_location?: string;
+
+    /**
+     * Specifies what to scan. Must provide at least one of: file_location,
+     * provider_model, or both.
+     */
+    scan_target?: Inventory.ScanTarget;
+  }
+
+  export namespace Inventory {
+    /**
+     * Specifies what to scan. Must provide at least one of: file_location,
+     * provider_model, or both.
+     */
+    export interface ScanTarget {
+      /**
+       * URL or path to the model files
+       */
+      file_location?: string;
+
+      provider_model?: ScanTarget.ProviderModel;
+    }
+
+    export namespace ScanTarget {
+      export interface ProviderModel {
+        /**
+         * The provider's unique identifier for the model. Examples:
+         *
+         * - AWS Bedrock: "anthropic.claude-3-5-sonnet-20241022-v2:0"
+         * - Azure AI Foundry: "Claude-3-5-Sonnet"
+         */
+        model_id: string;
+
+        provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER';
+
+        /**
+         * Optional full ARN or resource identifier for the model. Used for provisioned
+         * models, custom deployments, or cross-account access.
+         */
+        model_arn?: string;
+      }
+    }
   }
 }
 
