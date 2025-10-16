@@ -54,9 +54,9 @@ export interface CardListResponse {
   model_id: string;
 
   /**
-   * The highest severity of any detections on the scan.
+   * The severity of the model's latest scan
    */
-  model_scan_severity: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'unknown' | 'none';
+  model_scan_severity: 'not available' | 'critical' | 'high' | 'medium' | 'low' | 'none' | 'unknown';
 
   /**
    * @deprecated
@@ -66,6 +66,11 @@ export interface CardListResponse {
   plaintext_name: string;
 
   source: string;
+
+  /**
+   * True if the model's latest scan has an error
+   */
+  model_scan_has_error?: boolean;
 
   security_posture?: CardListResponse.SecurityPosture;
 
@@ -110,13 +115,12 @@ export interface CardListParams extends OffsetPageParams {
     | 'SUSPICIOUS'
     | 'UNKNOWN'
     | 'ERROR'
-    | 'not available'
     | 'critical'
     | 'high'
     | 'medium'
     | 'low'
-    | 'unknown'
     | 'none'
+    | 'unknown'
   >;
 
   /**

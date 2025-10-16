@@ -61,7 +61,7 @@ describe('resource jobs', () => {
           offset: 0,
           request_source: ['Hybrid Upload'],
           scanner_version: '891.0.97194',
-          severity: 'not available',
+          severity: 'critical',
           sort: '-start_time',
           source: { eq: 'adhoc' },
           start_time: '2019-12-27T18:11:19.117Z',
