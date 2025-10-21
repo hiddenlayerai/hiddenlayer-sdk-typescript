@@ -44,11 +44,6 @@ export interface InteractionAnalyzeResponse {
    */
   analyzed_data: InteractionAnalyzeResponse.AnalyzedData;
 
-  /**
-   * The evaluation of the analysis results.
-   */
-  evaluation: InteractionAnalyzeResponse.Evaluation;
-
   metadata: InteractionAnalyzeResponse.Metadata;
 
   /**
@@ -56,6 +51,11 @@ export interface InteractionAnalyzeResponse {
    * redactions or modifications based on the analysis.
    */
   modified_data: InteractionAnalyzeResponse.ModifiedData;
+
+  /**
+   * The evaluation of the analysis results.
+   */
+  evaluation?: InteractionAnalyzeResponse.Evaluation;
 }
 
 export namespace InteractionAnalyzeResponse {
@@ -184,27 +184,6 @@ export namespace InteractionAnalyzeResponse {
     }
   }
 
-  /**
-   * The evaluation of the analysis results.
-   */
-  export interface Evaluation {
-    /**
-     * The action based on interaction analysis and configured tenant security rules.
-     */
-    action: 'Allow' | 'Alert' | 'Redact' | 'Block';
-
-    /**
-     * Indicates if any detections were found during the analysis.
-     */
-    has_detections: boolean;
-
-    /**
-     * The threat level based on interaction analysis and configured tenant security
-     * rules.
-     */
-    threat_level: 'None' | 'Low' | 'Medium' | 'High' | 'Critical';
-  }
-
   export interface Metadata {
     /**
      * The language model from the request.
@@ -312,6 +291,27 @@ export namespace InteractionAnalyzeResponse {
         role?: string;
       }
     }
+  }
+
+  /**
+   * The evaluation of the analysis results.
+   */
+  export interface Evaluation {
+    /**
+     * The action based on interaction analysis and configured tenant security rules.
+     */
+    action: 'Allow' | 'Alert' | 'Redact' | 'Block';
+
+    /**
+     * Indicates if any detections were found during the analysis.
+     */
+    has_detections: boolean;
+
+    /**
+     * The threat level based on interaction analysis and configured tenant security
+     * rules.
+     */
+    threat_level: 'None' | 'Low' | 'Medium' | 'High' | 'Critical';
   }
 }
 
