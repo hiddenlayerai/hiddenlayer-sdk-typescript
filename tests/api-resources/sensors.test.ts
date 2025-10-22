@@ -28,7 +28,7 @@ describe('resource sensors', () => {
       adhoc: true,
       tags: { foo: 'bar' },
       version: 0,
-      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
+      'X-Correlation-Id': '6f22d397-6ca2-4359-8074-3318ab471fdf',
     });
   });
 
@@ -50,7 +50,7 @@ describe('resource sensors', () => {
     await expect(
       client.sensors.retrieve(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-        { 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' },
+        { 'X-Correlation-Id': '6f22d397-6ca2-4359-8074-3318ab471fdf' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(HiddenLayer.NotFoundError);
@@ -86,7 +86,7 @@ describe('resource sensors', () => {
     await expect(
       client.sensors.delete(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-        { 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' },
+        { 'X-Correlation-Id': '6f22d397-6ca2-4359-8074-3318ab471fdf' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(HiddenLayer.NotFoundError);
@@ -122,7 +122,7 @@ describe('resource sensors', () => {
           order_dir: 'asc',
           page_number: 0,
           page_size: 0,
-          'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
+          'X-Correlation-Id': '6f22d397-6ca2-4359-8074-3318ab471fdf',
         },
         { path: '/_stainless_unknown_path' },
       ),

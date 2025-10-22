@@ -27,7 +27,7 @@ describe('resource promptAnalyzer', () => {
       model: 'mistral-tiny',
       output: 'Hello, how can I help you today?',
       'HL-Project-Id': 'internal-search-chatbot',
-      'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
+      'X-Correlation-Id': '6f22d397-6ca2-4359-8074-3318ab471fdf',
       'X-Requester-Id': 'X-Requester-Id',
     });
   });
