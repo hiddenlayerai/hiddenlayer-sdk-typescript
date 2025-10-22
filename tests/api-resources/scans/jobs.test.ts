@@ -26,7 +26,7 @@ describe('resource jobs', () => {
     await expect(
       client.scans.jobs.retrieve(
         '00000000-0000-0000-0000-000000000000',
-        { has_detections: true, 'X-Correlation-Id': '00000000-0000-0000-0000-000000000000' },
+        { has_detections: true, 'X-Correlation-Id': '6f22d397-6ca2-4359-8074-3318ab471fdf' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(HiddenLayer.NotFoundError);
@@ -66,7 +66,7 @@ describe('resource jobs', () => {
           source: { eq: 'adhoc' },
           start_time: '2019-12-27T18:11:19.117Z',
           status: ['string'],
-          'X-Correlation-Id': '00000000-0000-0000-0000-000000000000',
+          'X-Correlation-Id': '6f22d397-6ca2-4359-8074-3318ab471fdf',
         },
         { path: '/_stainless_unknown_path' },
       ),
