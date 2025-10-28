@@ -114,7 +114,7 @@ export interface FileAddParams {
 
 export interface FileCompleteParams {
   /**
-   * Path param: A Scan ID that must be present in the request URI
+   * Path param: A Model Scan ID
    */
   scan_id: string;
 
