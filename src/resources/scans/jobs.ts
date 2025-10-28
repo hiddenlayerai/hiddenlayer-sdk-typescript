@@ -133,27 +133,50 @@ export namespace ScanJob {
     requested_scan_location?: string;
 
     /**
-     * Specifies what to scan. Must provide at least one of: file_location,
-     * provider_model, or both.
+     * Specifies what to scan. Must provide at least one of: deep_scan with file
+     * location details, provider_model, or both.
      */
     scan_target?: Inventory.ScanTarget;
   }
 
   export namespace Inventory {
     /**
-     * Specifies what to scan. Must provide at least one of: file_location,
-     * provider_model, or both.
+     * Specifies what to scan. Must provide at least one of: deep_scan with file
+     * location details, provider_model, or both.
      */
     export interface ScanTarget {
-      /**
-       * URL or path to the model files
-       */
-      file_location?: string;
+      deep_scan?: ScanTarget.DeepScan;
 
       provider_model?: ScanTarget.ProviderModel;
     }
 
     export namespace ScanTarget {
+      export interface DeepScan {
+        /**
+         * URL or path to the model files
+         */
+        file_location?: string;
+
+        /**
+         * List of specific files to scan
+         */
+        files?: Array<DeepScan.File>;
+      }
+
+      export namespace DeepScan {
+        export interface File {
+          /**
+           * URL or path to the specific file
+           */
+          file_location: string;
+
+          /**
+           * Optional alias for the file name
+           */
+          file_name_alias?: string;
+        }
+      }
+
       export interface ProviderModel {
         /**
          * The provider's unique identifier for the model. Examples:
@@ -563,27 +586,50 @@ export namespace JobRequestParams {
     requested_scan_location?: string;
 
     /**
-     * Specifies what to scan. Must provide at least one of: file_location,
-     * provider_model, or both.
+     * Specifies what to scan. Must provide at least one of: deep_scan with file
+     * location details, provider_model, or both.
      */
     scan_target?: Inventory.ScanTarget;
   }
 
   export namespace Inventory {
     /**
-     * Specifies what to scan. Must provide at least one of: file_location,
-     * provider_model, or both.
+     * Specifies what to scan. Must provide at least one of: deep_scan with file
+     * location details, provider_model, or both.
      */
     export interface ScanTarget {
-      /**
-       * URL or path to the model files
-       */
-      file_location?: string;
+      deep_scan?: ScanTarget.DeepScan;
 
       provider_model?: ScanTarget.ProviderModel;
     }
 
     export namespace ScanTarget {
+      export interface DeepScan {
+        /**
+         * URL or path to the model files
+         */
+        file_location?: string;
+
+        /**
+         * List of specific files to scan
+         */
+        files?: Array<DeepScan.File>;
+      }
+
+      export namespace DeepScan {
+        export interface File {
+          /**
+           * URL or path to the specific file
+           */
+          file_location: string;
+
+          /**
+           * Optional alias for the file name
+           */
+          file_name_alias?: string;
+        }
+      }
+
       export interface ProviderModel {
         /**
          * The provider's unique identifier for the model. Examples:
