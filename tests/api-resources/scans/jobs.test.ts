@@ -51,6 +51,7 @@ describe('resource jobs', () => {
       client.scans.jobs.list(
         {
           compliance_status: ['COMPLIANT'],
+          deep_scan: true,
           detection_category: 'detection_category',
           end_time: '2019-12-27T18:11:19.117Z',
           latest_per_model_version_only: true,
@@ -109,9 +110,9 @@ describe('resource jobs', () => {
               },
             ],
           },
-          provider_model: {
-            model_id: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
+          provider_details: {
             provider: 'AWS_BEDROCK',
+            provider_model_id: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
             model_arn: 'arn:aws:bedrock:us-east-1:123456789012:provisioned-model/my-custom-model',
           },
         },

@@ -380,6 +380,11 @@ export namespace ScanReport {
     requested_scan_location: string;
 
     /**
+     * URL or path to the model files, if available
+     */
+    file_location?: string;
+
+    /**
      * source (provider) info
      */
     model_source?: string;
@@ -395,6 +400,8 @@ export namespace ScanReport {
      */
     origin?: string;
 
+    provider_details?: Inventory.ProviderDetails;
+
     /**
      * Identifies the system that requested the scan
      */
@@ -404,6 +411,26 @@ export namespace ScanReport {
      * Entity that requested the scan
      */
     requesting_entity?: string;
+  }
+
+  export namespace Inventory {
+    export interface ProviderDetails {
+      provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER';
+
+      /**
+       * The provider's unique identifier for the model. Examples:
+       *
+       * - AWS Bedrock: "anthropic.claude-3-5-sonnet-20241022-v2:0"
+       * - Azure AI Foundry: "Claude-3-5-Sonnet"
+       */
+      provider_model_id: string;
+
+      /**
+       * Optional full ARN or resource identifier for the model. Used for provisioned
+       * models, custom deployments, or cross-account access.
+       */
+      model_arn?: string;
+    }
   }
 
   export interface Summary {

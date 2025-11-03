@@ -134,7 +134,7 @@ export namespace ScanJob {
 
     /**
      * Specifies what to scan. Must provide at least one of: deep_scan with file
-     * location details, provider_model, or both.
+     * location details, provider_details, or both.
      */
     scan_target?: Inventory.ScanTarget;
   }
@@ -142,12 +142,12 @@ export namespace ScanJob {
   export namespace Inventory {
     /**
      * Specifies what to scan. Must provide at least one of: deep_scan with file
-     * location details, provider_model, or both.
+     * location details, provider_details, or both.
      */
     export interface ScanTarget {
       deep_scan?: ScanTarget.DeepScan;
 
-      provider_model?: ScanTarget.ProviderModel;
+      provider_details?: ScanTarget.ProviderDetails;
     }
 
     export namespace ScanTarget {
@@ -177,16 +177,16 @@ export namespace ScanJob {
         }
       }
 
-      export interface ProviderModel {
+      export interface ProviderDetails {
+        provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER';
+
         /**
          * The provider's unique identifier for the model. Examples:
          *
          * - AWS Bedrock: "anthropic.claude-3-5-sonnet-20241022-v2:0"
          * - Azure AI Foundry: "Claude-3-5-Sonnet"
          */
-        model_id: string;
-
-        provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER';
+        provider_model_id: string;
 
         /**
          * Optional full ARN or resource identifier for the model. Used for provisioned
@@ -318,6 +318,11 @@ export namespace JobListResponse {
       requested_scan_location: string;
 
       /**
+       * URL or path to the model files, if available
+       */
+      file_location?: string;
+
+      /**
        * source (provider) info
        */
       model_source?: string;
@@ -333,6 +338,8 @@ export namespace JobListResponse {
        */
       origin?: string;
 
+      provider_details?: Inventory.ProviderDetails;
+
       /**
        * Identifies the system that requested the scan
        */
@@ -342,6 +349,26 @@ export namespace JobListResponse {
        * Entity that requested the scan
        */
       requesting_entity?: string;
+    }
+
+    export namespace Inventory {
+      export interface ProviderDetails {
+        provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER';
+
+        /**
+         * The provider's unique identifier for the model. Examples:
+         *
+         * - AWS Bedrock: "anthropic.claude-3-5-sonnet-20241022-v2:0"
+         * - Azure AI Foundry: "Claude-3-5-Sonnet"
+         */
+        provider_model_id: string;
+
+        /**
+         * Optional full ARN or resource identifier for the model. Used for provisioned
+         * models, custom deployments, or cross-account access.
+         */
+        model_arn?: string;
+      }
     }
 
     export interface Summary {
@@ -422,6 +449,12 @@ export interface JobListParams {
    * Query param: A comma separated list of rule set evaluation statuses to include
    */
   compliance_status?: Array<'COMPLIANT' | 'NONCOMPLIANT'>;
+
+  /**
+   * Query param: When true, returns only scans that with files. When false, returns
+   * only scans without files. When not provided, returns all scans.
+   */
+  deep_scan?: boolean;
 
   /**
    * Query param: filter by a single detection category
@@ -587,7 +620,7 @@ export namespace JobRequestParams {
 
     /**
      * Specifies what to scan. Must provide at least one of: deep_scan with file
-     * location details, provider_model, or both.
+     * location details, provider_details, or both.
      */
     scan_target?: Inventory.ScanTarget;
   }
@@ -595,12 +628,12 @@ export namespace JobRequestParams {
   export namespace Inventory {
     /**
      * Specifies what to scan. Must provide at least one of: deep_scan with file
-     * location details, provider_model, or both.
+     * location details, provider_details, or both.
      */
     export interface ScanTarget {
       deep_scan?: ScanTarget.DeepScan;
 
-      provider_model?: ScanTarget.ProviderModel;
+      provider_details?: ScanTarget.ProviderDetails;
     }
 
     export namespace ScanTarget {
@@ -630,16 +663,16 @@ export namespace JobRequestParams {
         }
       }
 
-      export interface ProviderModel {
+      export interface ProviderDetails {
+        provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER';
+
         /**
          * The provider's unique identifier for the model. Examples:
          *
          * - AWS Bedrock: "anthropic.claude-3-5-sonnet-20241022-v2:0"
          * - Azure AI Foundry: "Claude-3-5-Sonnet"
          */
-        model_id: string;
-
-        provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER';
+        provider_model_id: string;
 
         /**
          * Optional full ARN or resource identifier for the model. Used for provisioned
