@@ -37,7 +37,6 @@ describe('resource cards', () => {
           provider: ['AZURE'],
           sort: '-model_name',
           source: { contains: 'contains', eq: 'eq' },
-          'X-Correlation-Id': '6f22d397-6ca2-4359-8074-3318ab471fdf',
         },
         { path: '/_stainless_unknown_path' },
       ),

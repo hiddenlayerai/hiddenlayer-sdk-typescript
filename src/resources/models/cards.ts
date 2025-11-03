@@ -2,34 +2,17 @@
 
 import { APIResource } from '../../core/resource';
 import { OffsetPage, type OffsetPageParams, PagePromise } from '../../core/pagination';
-import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class Cards extends APIResource {
   /**
    * List Model Cards
-   *
-   * @example
-   * ```ts
-   * // Automatically fetches more pages as needed.
-   * for await (const cardListResponse of client.models.cards.list()) {
-   *   // ...
-   * }
-   * ```
    */
   list(
-    params: CardListParams | null | undefined = {},
+    query: CardListParams | null | undefined = {},
     options?: RequestOptions,
   ): PagePromise<CardListResponsesOffsetPage, CardListResponse> {
-    const { 'X-Correlation-Id': xCorrelationID, ...query } = params ?? {};
-    return this._client.getAPIList('/models/v4/cards', OffsetPage<CardListResponse>, {
-      query,
-      ...options,
-      headers: buildHeaders([
-        { ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined) },
-        options?.headers,
-      ]),
-    });
+    return this._client.getAPIList('/models/v4/cards', OffsetPage<CardListResponse>, { query, ...options });
   }
 }
 
@@ -86,29 +69,23 @@ export namespace CardListResponse {
 }
 
 export interface CardListParams extends OffsetPageParams {
-  /**
-   * Query param:
-   */
   aidr_severity?: Array<'SAFE' | 'UNSAFE' | 'SUSPICIOUS'>;
 
   /**
-   * Query param: filter by aidr enabled
+   * filter by aidr enabled
    */
   aidr_status?: 'ENABLED' | 'DISABLED' | 'ANY';
 
   /**
-   * Query param: match on models created between dates
+   * match on models created between dates
    */
   model_created?: CardListParams.ModelCreated;
 
   /**
-   * Query param: substring match on model name
+   * substring match on model name
    */
   model_name?: CardListParams.ModelName;
 
-  /**
-   * Query param:
-   */
   modscan_severity?: Array<
     | 'SAFE'
     | 'UNSAFE'
@@ -123,32 +100,20 @@ export interface CardListParams extends OffsetPageParams {
     | 'unknown'
   >;
 
-  /**
-   * Query param:
-   */
   modscan_status?: 'ENABLED' | 'DISABLED' | 'ANY';
 
-  /**
-   * Query param:
-   */
   provider?: Array<'AZURE' | 'ADHOC'>;
 
   /**
-   * Query param: allow sorting by model name or created at timestamp, ascending (+)
-   * or the default descending (-)
+   * allow sorting by model name or created at timestamp, ascending (+) or the
+   * default descending (-)
    */
   sort?: string;
 
   /**
-   * Query param: substring and full match on model source
+   * substring and full match on model source
    */
   source?: CardListParams.Source;
-
-  /**
-   * Header param: An ID that will be included with associated logs and downstream
-   * HTTP requests.
-   */
-  'X-Correlation-Id'?: string;
 }
 
 export namespace CardListParams {

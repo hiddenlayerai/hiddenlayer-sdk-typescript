@@ -20,18 +20,10 @@ export class Jobs extends APIResource {
    */
   retrieve(
     scanID: string,
-    params: JobRetrieveParams | null | undefined = {},
+    query: JobRetrieveParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<ResultsAPI.ScanReport> {
-    const { 'X-Correlation-Id': xCorrelationID, ...query } = params ?? {};
-    return this._client.get(path`/scan/v3/results/${scanID}`, {
-      query,
-      ...options,
-      headers: buildHeaders([
-        { ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined) },
-        options?.headers,
-      ]),
-    });
+    return this._client.get(path`/scan/v3/results/${scanID}`, { query, ...options });
   }
 
   /**
@@ -42,18 +34,11 @@ export class Jobs extends APIResource {
    * const jobs = await client.scans.jobs.list();
    * ```
    */
-  list(params: JobListParams | null | undefined = {}, options?: RequestOptions): APIPromise<JobListResponse> {
-    const { 'X-Correlation-Id': xCorrelationID, ...query } = params ?? {};
+  list(query: JobListParams | null | undefined = {}, options?: RequestOptions): APIPromise<JobListResponse> {
     return this._client.get('/scan/v3/results', {
       query,
       ...options,
-      headers: buildHeaders([
-        {
-          Accept: 'application/json; charset=utf-8',
-          ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined),
-        },
-        options?.headers,
-      ]),
+      headers: buildHeaders([{ Accept: 'application/json; charset=utf-8' }, options?.headers]),
     });
   }
 
@@ -432,111 +417,92 @@ export namespace JobListResponse {
 
 export interface JobRetrieveParams {
   /**
-   * Query param: Filter file_results to only those that have detections (and
-   * parents)
+   * Filter file_results to only those that have detections (and parents)
    */
   has_detections?: boolean;
-
-  /**
-   * Header param: An ID that will be included with associated logs and downstream
-   * HTTP requests.
-   */
-  'X-Correlation-Id'?: string;
 }
 
 export interface JobListParams {
   /**
-   * Query param: A comma separated list of rule set evaluation statuses to include
+   * A comma separated list of rule set evaluation statuses to include
    */
   compliance_status?: Array<'COMPLIANT' | 'NONCOMPLIANT'>;
 
   /**
-   * Query param: When true, returns only scans that with files. When false, returns
-   * only scans without files. When not provided, returns all scans.
+   * When true, returns only scans that with files. When false, returns only scans
+   * without files. When not provided, returns all scans.
    */
   deep_scan?: boolean;
 
   /**
-   * Query param: filter by a single detection category
+   * filter by a single detection category
    */
   detection_category?: string;
 
   /**
-   * Query param: End Time
+   * End Time
    */
   end_time?: string;
 
   /**
-   * Query param: only return latest result per model version
+   * only return latest result per model version
    */
   latest_per_model_version_only?: boolean;
 
-  /**
-   * Query param:
-   */
   limit?: number;
 
   /**
-   * Query param: Model ID
+   * Model ID
    */
   model_ids?: Array<string>;
 
   /**
-   * Query param: filter by the model name
+   * filter by the model name
    */
   model_name?: JobListParams.ModelName;
 
   /**
-   * Query param: Model Version IDs
+   * Model Version IDs
    */
   model_version_ids?: Array<string>;
 
-  /**
-   * Query param:
-   */
   offset?: number;
 
   /**
-   * Query param: Filter by request source using a comma-separated list
+   * Filter by request source using a comma-separated list
    */
   request_source?: Array<'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload' | 'AI Asset Discovery'>;
 
   /**
-   * Query param: filter by version of the scanner
+   * filter by version of the scanner
    */
   scanner_version?: string;
 
   /**
-   * Query param: Severities
+   * Severities
    */
   severity?: 'critical' | 'high' | 'medium' | 'low' | 'none' | 'unknown' | 'safe';
 
   /**
-   * Query param: allow sorting by model name, status, severity or created at,
-   * ascending (+) or the default descending (-)
+   * allow sorting by model name, status, severity or created at, ascending (+) or
+   * the default descending (-)
    */
   sort?: string;
 
   /**
-   * Query param: source of model related to scans
+   * source of model related to scans
    */
   source?: JobListParams.Source;
 
   /**
-   * Query param: Start Time
+   * Start Time
    */
   start_time?: string;
 
   /**
-   * Query param: Statuses
+   * Statuses
    */
   status?: Array<string>;
-
-  /**
-   * Header param: An ID that will be included with associated logs and downstream
-   * HTTP requests.
-   */
-  'X-Correlation-Id'?: string;
 }
 
 export namespace JobListParams {

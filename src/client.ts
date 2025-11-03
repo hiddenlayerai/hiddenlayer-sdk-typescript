@@ -34,21 +34,14 @@ import {
 import {
   SensorCreateParams,
   SensorCreateResponse,
-  SensorDeleteParams,
   SensorQueryParams,
   SensorQueryResponse,
-  SensorRetrieveParams,
   SensorRetrieveResponse,
   SensorUpdateParams,
   SensorUpdateResponse,
   Sensors,
 } from './resources/sensors';
-import {
-  ModelDeleteParams,
-  ModelRetrieveParams,
-  ModelRetrieveResponse,
-  Models,
-} from './resources/models/models';
+import { ModelRetrieveResponse, Models } from './resources/models/models';
 import { Scans } from './resources/scans/scans';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -907,12 +900,7 @@ export declare namespace HiddenLayer {
   export import OffsetPage = Pagination.OffsetPage;
   export { type OffsetPageParams as OffsetPageParams, type OffsetPageResponse as OffsetPageResponse };
 
-  export {
-    Models as Models,
-    type ModelRetrieveResponse as ModelRetrieveResponse,
-    type ModelRetrieveParams as ModelRetrieveParams,
-    type ModelDeleteParams as ModelDeleteParams,
-  };
+  export { Models as Models, type ModelRetrieveResponse as ModelRetrieveResponse };
 
   export {
     PromptAnalyzer as PromptAnalyzer,
@@ -933,9 +921,7 @@ export declare namespace HiddenLayer {
     type SensorUpdateResponse as SensorUpdateResponse,
     type SensorQueryResponse as SensorQueryResponse,
     type SensorCreateParams as SensorCreateParams,
-    type SensorRetrieveParams as SensorRetrieveParams,
     type SensorUpdateParams as SensorUpdateParams,
-    type SensorDeleteParams as SensorDeleteParams,
     type SensorQueryParams as SensorQueryParams,
   };
 

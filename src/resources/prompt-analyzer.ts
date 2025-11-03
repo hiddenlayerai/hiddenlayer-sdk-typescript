@@ -20,19 +20,13 @@ export class PromptAnalyzer extends APIResource {
     params: PromptAnalyzerCreateParams,
     options?: RequestOptions,
   ): APIPromise<PromptAnalyzerCreateResponse> {
-    const {
-      'HL-Project-Id': hlProjectID,
-      'X-Correlation-Id': xCorrelationID,
-      'X-Requester-Id': xRequesterID,
-      ...body
-    } = params;
+    const { 'HL-Project-Id': hlProjectID, 'X-Requester-Id': xRequesterID, ...body } = params;
     return this._client.post('/api/v1/submit/prompt-analyzer', {
       body,
       ...options,
       headers: buildHeaders([
         {
           ...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined),
-          ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined),
           ...(xRequesterID != null ? { 'X-Requester-Id': xRequesterID } : undefined),
         },
         options?.headers,
@@ -642,12 +636,6 @@ export interface PromptAnalyzerCreateParams {
    * Header param: The ID or alias for the Project to govern the request processing.
    */
   'HL-Project-Id'?: string;
-
-  /**
-   * Header param: An ID that will be included with associated logs and downstream
-   * HTTP requests.
-   */
-  'X-Correlation-Id'?: string;
 
   /**
    * Header param: The identifier for the requester to be used if MLDR is enabled

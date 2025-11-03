@@ -22,19 +22,11 @@ export class File extends APIResource {
    * ```
    */
   add(scanID: string, params: FileAddParams, options?: RequestOptions): APIPromise<FileAddResponse> {
-    const {
-      'file-content-length': fileContentLength,
-      'file-name': fileName,
-      'X-Correlation-Id': xCorrelationID,
-    } = params;
+    const { 'file-content-length': fileContentLength, 'file-name': fileName } = params;
     return this._client.post(path`/scan/v3/upload/${scanID}/file`, {
       ...options,
       headers: buildHeaders([
-        {
-          'file-content-length': fileContentLength.toString(),
-          'file-name': fileName,
-          ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined),
-        },
+        { 'file-content-length': fileContentLength.toString(), 'file-name': fileName },
         options?.headers,
       ]),
     });
@@ -56,14 +48,8 @@ export class File extends APIResource {
     params: FileCompleteParams,
     options?: RequestOptions,
   ): APIPromise<FileCompleteResponse> {
-    const { scan_id, 'X-Correlation-Id': xCorrelationID } = params;
-    return this._client.patch(path`/scan/v3/upload/${scan_id}/file/${fileID}`, {
-      ...options,
-      headers: buildHeaders([
-        { ...(xCorrelationID != null ? { 'X-Correlation-Id': xCorrelationID } : undefined) },
-        options?.headers,
-      ]),
-    });
+    const { scan_id } = params;
+    return this._client.patch(path`/scan/v3/upload/${scan_id}/file/${fileID}`, options);
   }
 }
 
@@ -105,24 +91,13 @@ export interface FileAddParams {
    * Added file name
    */
   'file-name': string;
-
-  /**
-   * An ID that will be included with associated logs and downstream HTTP requests.
-   */
-  'X-Correlation-Id'?: string;
 }
 
 export interface FileCompleteParams {
   /**
-   * Path param: A Model Scan ID
+   * A Model Scan ID
    */
   scan_id: string;
-
-  /**
-   * Header param: An ID that will be included with associated logs and downstream
-   * HTTP requests.
-   */
-  'X-Correlation-Id'?: string;
 }
 
 export declare namespace File {
