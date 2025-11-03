@@ -21,18 +21,6 @@ describe('resource upload', () => {
   });
 
   // Prism tests are disabled
-  test.skip('completeAll: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.scans.upload.completeAll(
-        '00000000-0000-0000-0000-000000000000',
-        { 'X-Correlation-Id': '6f22d397-6ca2-4359-8074-3318ab471fdf' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(HiddenLayer.NotFoundError);
-  });
-
-  // Prism tests are disabled
   test.skip('start: only required params', async () => {
     const responsePromise = client.scans.upload.start({
       model_name: 'model_name',
@@ -57,7 +45,6 @@ describe('resource upload', () => {
       location_alias: 'location_alias',
       origin: 'Hugging Face',
       request_source: 'Hybrid Upload',
-      'X-Correlation-Id': '6f22d397-6ca2-4359-8074-3318ab471fdf',
     });
   });
 });

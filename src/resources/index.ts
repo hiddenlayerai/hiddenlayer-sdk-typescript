@@ -1,12 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export { Interactions, type InteractionAnalyzeResponse, type InteractionAnalyzeParams } from './interactions';
-export {
-  Models,
-  type ModelRetrieveResponse,
-  type ModelRetrieveParams,
-  type ModelDeleteParams,
-} from './models/models';
+export { Models, type ModelRetrieveResponse } from './models/models';
 export {
   PromptAnalyzer,
   type PromptAnalyzerCreateResponse,
@@ -20,8 +15,6 @@ export {
   type SensorUpdateResponse,
   type SensorQueryResponse,
   type SensorCreateParams,
-  type SensorRetrieveParams,
   type SensorUpdateParams,
-  type SensorDeleteParams,
   type SensorQueryParams,
 } from './sensors';

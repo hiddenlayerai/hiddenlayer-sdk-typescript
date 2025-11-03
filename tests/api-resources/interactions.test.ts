@@ -29,7 +29,6 @@ describe('resource interactions', () => {
       input: { messages: [{ content: 'What the largest moon of jupiter?', role: 'user' }] },
       output: { messages: [{ content: 'The largest moon of Jupiter is Ganymede.', role: 'assistant' }] },
       'HL-Project-Id': 'internal-search-chatbot',
-      'X-Correlation-Id': '6f22d397-6ca2-4359-8074-3318ab471fdf',
     });
   });
 });
