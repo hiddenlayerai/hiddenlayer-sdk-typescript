@@ -130,6 +130,11 @@ export namespace ScanJob {
      * location details, provider_details, or both.
      */
     export interface ScanTarget {
+      /**
+       * region of the discovered asset
+       */
+      asset_region?: string;
+
       deep_scan?: ScanTarget.DeepScan;
 
       provider_details?: ScanTarget.ProviderDetails;
@@ -301,6 +306,11 @@ export namespace JobListResponse {
        * Location to be scanned
        */
       requested_scan_location: string;
+
+      /**
+       * Region of discovered asset
+       */
+      asset_region?: string;
 
       /**
        * URL or path to the model files, if available
@@ -597,6 +607,11 @@ export namespace JobRequestParams {
      * location details, provider_details, or both.
      */
     export interface ScanTarget {
+      /**
+       * region of the discovered asset
+       */
+      asset_region?: string;
+
       deep_scan?: ScanTarget.DeepScan;
 
       provider_details?: ScanTarget.ProviderDetails;

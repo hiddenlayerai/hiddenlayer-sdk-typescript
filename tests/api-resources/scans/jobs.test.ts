@@ -100,6 +100,7 @@ describe('resource jobs', () => {
         request_source: 'Hybrid Upload',
         requested_scan_location: 'owner/repo',
         scan_target: {
+          asset_region: 'us-east-1',
           deep_scan: {
             file_location: 'https://huggingface.co/meta-llama/Llama-3.1-8B',
             files: [

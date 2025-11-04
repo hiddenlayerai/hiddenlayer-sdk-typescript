@@ -369,6 +369,11 @@ export namespace ScanReport {
     requested_scan_location: string;
 
     /**
+     * Region of discovered asset
+     */
+    asset_region?: string;
+
+    /**
      * URL or path to the model files, if available
      */
     file_location?: string;
