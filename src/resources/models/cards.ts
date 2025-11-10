@@ -50,6 +50,8 @@ export interface CardListResponse {
 
   source: string;
 
+  aidr_threat_level?: 'high' | 'medium' | 'low' | 'none' | 'not available';
+
   /**
    * True if the model's latest scan has an error
    */
