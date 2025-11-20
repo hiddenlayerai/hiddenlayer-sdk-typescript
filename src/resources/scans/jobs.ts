@@ -479,6 +479,16 @@ export interface JobListParams {
   offset?: number;
 
   /**
+   * Filter by model provider name
+   */
+  provider?: Array<string>;
+
+  /**
+   * Filter by region of the discovered asset
+   */
+  region?: Array<string>;
+
+  /**
    * Filter by request source using a comma-separated list
    */
   request_source?: Array<'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload' | 'AI Asset Discovery'>;
