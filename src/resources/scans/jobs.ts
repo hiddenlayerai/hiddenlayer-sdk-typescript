@@ -504,8 +504,8 @@ export interface JobListParams {
   severity?: 'critical' | 'high' | 'medium' | 'low' | 'none' | 'unknown' | 'safe';
 
   /**
-   * allow sorting by model name, status, severity or created at, ascending (+) or
-   * the default descending (-)
+   * allow sorting by model name, status, severity, scan start time, asset region, or
+   * model provider ascending (+) or the default descending (-)
    */
   sort?: string;
 
