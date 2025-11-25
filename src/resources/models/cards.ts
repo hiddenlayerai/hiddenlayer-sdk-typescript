@@ -71,6 +71,9 @@ export namespace CardListResponse {
 }
 
 export interface CardListParams extends OffsetPageParams {
+  /**
+   * Deprecated - use ModelCardAIDRThreatLevel(aidr_threat_level) instead
+   */
   aidr_severity?: Array<'SAFE' | 'UNSAFE' | 'SUSPICIOUS'>;
 
   /**
