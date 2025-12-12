@@ -17,5 +17,6 @@ jobs:
       - name: Check release environment
         run: |
           bash ./bin/check-release-environment
-        env: BOGUS_TOKEN=bogus
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
