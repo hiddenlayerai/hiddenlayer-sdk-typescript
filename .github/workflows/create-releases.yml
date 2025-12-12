@@ -31,3 +31,4 @@ jobs:
         if: ${{ steps.release.outputs.releases_created }}
         run: |
           yarn install
+
