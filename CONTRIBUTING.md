@@ -42,14 +42,14 @@ If you’d like to use the repository from source, you can either install from g
 To install via git:
 
 ```sh
-$ npm install git+ssh://git@github.com:hiddenlayer-engineering/hiddenlayer-sdk-typescript.git
+$ npm install git+ssh://git@github.com:hiddenlayerai/hiddenlayer-sdk-typescript.git
 ```
 
 Alternatively, to link a local copy of the repo:
 
 ```sh
 # Clone
-$ git clone https://www.github.com/hiddenlayer-engineering/hiddenlayer-sdk-typescript
+$ git clone https://www.github.com/hiddenlayerai/hiddenlayer-sdk-typescript
 $ cd hiddenlayer-sdk-typescript
 
 # With yarn
