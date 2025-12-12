@@ -104,10 +104,20 @@ describe('ModelScanner', () => {
       const mockScanReport: ScanReport = {
         scan_id: 'test-scan-123',
         status: 'done',
+        summary: {
+          detection_count: 0,
+          file_count: 1,
+          files_with_detections_count: 0,
+        },
         detection_count: 0,
         file_count: 1,
         files_with_detections_count: 0,
-        inventory: { model_name: 'test-model', requested_scan_location: mockFilePath },
+        inventory: {
+          model_id: 'test-model-id',
+          model_version_id: 'test-model-version-id',
+          model_name: 'test-model',
+          requested_scan_location: mockFilePath,
+        },
         start_time: '2024-01-01T00:00:00Z',
         version: '1.0.0',
       };
