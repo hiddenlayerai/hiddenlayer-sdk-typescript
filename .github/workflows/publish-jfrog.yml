@@ -1,0 +1,166 @@
+name: "Publish hiddenlayer SDK to JFrog"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "package.json"
+      - "scripts/**"
+      - "yarn.lock"
+
+jobs:
+  publish:
+    runs-on: github-runner-scale-set-default
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Yarn (classic)
+        run: npm install -g yarn@1.22.22
+
+      - name: Configure npm to use JFrog registry
+        if: ${{ github.ref == 'refs/heads/main' }}
+        env:
+          JFROG_PASSWORD_BASE64: ${{ secrets.JFROG_PASSWORD_BASE64 }}
+          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+          JFROG_USER: ${{ secrets.JFROG_USER || vars.JFROG_USER }}
+        run: |
+          echo "Configuring npm to use JFrog registry..."
+          PASSWORD_B64="$JFROG_PASSWORD_BASE64"
+          if [ -z "$PASSWORD_B64" ] && [ -n "$JFROG_TOKEN" ]; then
+            PASSWORD_B64="$(printf "%s" "$JFROG_TOKEN" | base64)"
+          fi
+          npm config set --location=project registry https://hiddenlayer.jfrog.io/artifactory/api/npm/npm/
+          npm config set --location=project //hiddenlayer.jfrog.io/artifactory/api/npm/npm/:username "$JFROG_USER"
+          npm config set --location=project //hiddenlayer.jfrog.io/artifactory/api/npm/npm/:_password "$PASSWORD_B64"
+          npm cache clean --force
+
+      - name: Install dependencies
+        env:
+          JFROG_PASSWORD_BASE64: ${{ secrets.JFROG_PASSWORD_BASE64 }}
+          JFROG_USER: ${{ secrets.JFROG_USER || vars.JFROG_USER }}
+        run: |
+          echo Installing dependencies...
+          yarn install --frozen-lockfile
+
+      - name: Build hiddenlayer sdk
+        env:
+          JFROG_PASSWORD_BASE64: ${{ secrets.JFROG_PASSWORD_BASE64 }}
+          JFROG_USER: ${{ secrets.JFROG_USER || vars.JFROG_USER }}
+        run: |
+          echo Building package...
+          yarn build
+          # Ensure publish step and version checks use the same registry/auth
+          if [ -f .npmrc ]; then cp .npmrc dist/.npmrc; fi
+
+      - name: Determine if version is unpublished
+        id: version-check
+        if: ${{ github.ref == 'refs/heads/main' }} 
+        env:
+          JFROG_PASSWORD_BASE64: ${{ secrets.JFROG_PASSWORD_BASE64 }}
+          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+          JFROG_USER: ${{ secrets.JFROG_USER || vars.JFROG_USER }}
+        run: |
+          set -euo pipefail
+          cd dist
+          PACKAGE_NAME=$(jq -r .name package.json)
+          PACKAGE_VERSION=$(jq -r .version package.json)
+          echo "Local package: $PACKAGE_NAME@$PACKAGE_VERSION"
+          
+          # Configure npm auth for version check
+          REGISTRY_URL=https://hiddenlayer.jfrog.io/artifactory/api/npm/npm/
+          PASSWORD_B64="$JFROG_PASSWORD_BASE64"
+          if [ -z "$PASSWORD_B64" ] && [ -n "$JFROG_TOKEN" ]; then
+            PASSWORD_B64="$(printf "%s" "$JFROG_TOKEN" | base64)"
+          fi
+          HOSTPATH=${REGISTRY_URL#http://}
+          HOSTPATH=${HOSTPATH#https://}
+          case "$REGISTRY_URL" in
+            */) : ;;
+            *) REGISTRY_URL="$REGISTRY_URL/" ;;
+          esac
+          npm config set --location=project registry "$REGISTRY_URL"
+          npm config set --location=project //"$HOSTPATH":username "$JFROG_USER"
+          npm config set --location=project //"$HOSTPATH":_password "$PASSWORD_B64"
+
+          # Get published versions
+          PUBLISHED=$(npm view "$PACKAGE_NAME" versions --json --registry="$REGISTRY_URL" || echo "[]")
+
+          # Check if current version exists
+          if echo "$PUBLISHED" | jq -e ".[] | select(. == \"$PACKAGE_VERSION\")" > /dev/null; then
+            echo "Version $PACKAGE_VERSION already published."
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+          else
+            echo "Version $PACKAGE_VERSION is new."
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Publish to JFrog
+        if: steps.version-check.outputs.should_publish == 'true'
+        env:
+          JFROG_PASSWORD_BASE64: ${{ secrets.JFROG_PASSWORD_BASE64 }}
+          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+          JFROG_USER: ${{ secrets.JFROG_USER || vars.JFROG_USER }}
+        run: |
+          set -euo pipefail
+          cd dist
+          echo Preparing publish metadata...
+          PACKAGE_NAME=$(jq -r .name package.json)
+          VERSION=$(jq -r .version package.json)
+          REGISTRY_URL=https://hiddenlayer.jfrog.io/artifactory/api/npm/npm/
+
+          # Ensure npm in dist/ is configured for JFrog
+          PASSWORD_B64="$JFROG_PASSWORD_BASE64"
+          if [ -z "$PASSWORD_B64" ] && [ -n "$JFROG_TOKEN" ]; then
+            PASSWORD_B64="$(printf "%s" "$JFROG_TOKEN" | base64)"
+          fi
+          HOSTPATH=${REGISTRY_URL#http://}
+          HOSTPATH=${HOSTPATH#https://}
+          case "$REGISTRY_URL" in
+            */) : ;;
+            *) REGISTRY_URL="$REGISTRY_URL/" ;;
+          esac
+          npm config set --location=project registry "$REGISTRY_URL"
+          npm config set --location=project //"$HOSTPATH":username "$JFROG_USER"
+          npm config set --location=project //"$HOSTPATH":_password "$PASSWORD_B64"
+
+          # Determine publish tag based on prerelease/stable logic
+          NPM_INFO=$(npm view "$PACKAGE_NAME" version --json --registry="$REGISTRY_URL" 2>/dev/null || true)
+          if echo "$NPM_INFO" | jq -e '.error.code == "E404"' > /dev/null 2>&1; then
+            LAST_VERSION=""
+          elif echo "$NPM_INFO" | jq -e '.error' > /dev/null 2>&1; then
+            echo "ERROR: npm returned unexpected data:"
+            echo "$NPM_INFO"
+            exit 1
+          else
+            LAST_VERSION=$(echo "$NPM_INFO" | jq -r '.')
+          fi
+
+          CURRENT_IS_PRERELEASE=false
+          if [[ "$VERSION" =~ -([a-zA-Z]+) ]]; then
+            CURRENT_IS_PRERELEASE=true
+            CURRENT_TAG="${BASH_REMATCH[1]}"
+          fi
+
+          LAST_IS_STABLE_RELEASE=true
+          if [[ -z "$LAST_VERSION" || "$LAST_VERSION" =~ -([a-zA-Z]+) ]]; then
+            LAST_IS_STABLE_RELEASE=false
+          fi
+
+          if $CURRENT_IS_PRERELEASE && $LAST_IS_STABLE_RELEASE; then
+            TAG="$CURRENT_TAG"
+          else
+            TAG="latest"
+          fi
+
+          echo "Publishing $PACKAGE_NAME@$VERSION with tag '$TAG' to $REGISTRY_URL..."
+          npm publish --registry="$REGISTRY_URL" --tag "$TAG"
