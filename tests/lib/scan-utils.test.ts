@@ -43,10 +43,20 @@ describe('scan-utils', () => {
     const mockScanReport: ScanReport = {
       scan_id: 'test-scan-123',
       status: 'pending',
+      summary: {
+        detection_count: 0,
+        file_count: 0,
+        files_with_detections_count: 0,
+      },
       detection_count: 0,
       file_count: 0,
       files_with_detections_count: 0,
-      inventory: { model_name: 'test-model', requested_scan_location: 'test.pkl' },
+      inventory: {
+        model_id: 'test-model-id',
+        model_version_id: 'test-model-version-id',
+        model_name: 'test-model',
+        requested_scan_location: 'test.pkl',
+      },
       start_time: '2024-01-01T00:00:00Z',
       version: '1.0.0',
     };
@@ -238,10 +248,20 @@ describe('scan-utils', () => {
     return {
       scan_id: 'test-scan-123',
       status: 'pending',
+      summary: {
+        detection_count: 0,
+        file_count: 0,
+        files_with_detections_count: 0,
+      },
       detection_count: 0,
       file_count: 0,
       files_with_detections_count: 0,
-      inventory: { model_name: 'test-model', requested_scan_location: 'test.pkl' },
+      inventory: {
+        model_id: 'test-model-id',
+        model_version_id: 'test-model-version-id',
+        model_name: 'test-model',
+        requested_scan_location: 'test.pkl',
+      },
       start_time: '2024-01-01T00:00:00Z',
       version: '1.0.0',
     };

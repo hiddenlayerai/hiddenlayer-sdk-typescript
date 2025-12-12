@@ -41,10 +41,17 @@ describe('CommunityScanner', () => {
       const mockScanReport: ScanReport = {
         scan_id: 'test-scan-123',
         status: 'pending',
+        summary: {
+          detection_count: 0,
+          file_count: 0,
+          files_with_detections_count: 0,
+        },
         detection_count: 0,
         file_count: 0,
         files_with_detections_count: 0,
         inventory: {
+          model_id: 'test-model-id',
+          model_version_id: 'test-model-version-id',
           model_name: 'test-model',
           requested_scan_location: 'https://example.com/model.pkl',
         },
@@ -126,10 +133,17 @@ describe('CommunityScanner', () => {
       const doneReport: ScanReport = {
         scan_id: 'test-scan-123',
         status: 'done',
+        summary: {
+          detection_count: 2,
+          file_count: 1,
+          files_with_detections_count: 1,
+        },
         detection_count: 2,
         file_count: 1,
         files_with_detections_count: 1,
         inventory: {
+          model_id: 'test-model-id',
+          model_version_id: 'test-model-version-id',
           model_name: 'test-model',
           requested_scan_location: 'https://example.com/model.pkl',
         },
