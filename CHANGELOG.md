@@ -1,5 +1,67 @@
 # Changelog
 
+## 3.0.0 (2025-12-16)
+
+Full Changelog: [v0.1.0-alpha.15...v3.0.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v0.1.0-alpha.15...v3.0.0)
+
+### Features
+
+* **api:** api update ([6a8e2ad](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/6a8e2ad93515f0ba0fac7e5d1b33ce179f3544f3))
+* **api:** api update ([fb1ba37](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/fb1ba37c2e32b08f487e5b667f59d952316d20c4))
+* **api:** api update ([263df70](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/263df70ff6a0e6e28f647d3e13afa1ff18cb604d))
+* **api:** api update ([9858fc7](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/9858fc7a5f3f04d980ec2ae2c0ff34e7d814de2e))
+* **api:** api update ([31929f3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/31929f31eddd5316991b3a61bac33d61662732a5))
+* **api:** api update ([64b2997](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/64b2997692e2b328911077d552a578aa1dd2bece))
+* **api:** api update ([d436e80](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/d436e807344029a06174102d81d6014b6a11ee7f))
+* **api:** api update ([a959a04](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/a959a042064d40105ae1bb801017ecec3e762f27))
+* **api:** api update ([3a55764](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/3a557648323a108fb9d7a0b2ac0aae119e3b038e))
+* **api:** api update ([42b8fd8](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/42b8fd82cd0d55b82f7e169691488921e4722310))
+* **api:** api update ([6596660](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/6596660e1139aaaabe5ea7c03596469492cf6641))
+* **api:** api update ([fa6ab89](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/fa6ab898c2daeafc7d053d41805e043e51fc0d08))
+* **api:** api update ([bcb2db0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/bcb2db067e0f45ff52e6843033cc0a455f5a529b))
+* **api:** api update ([a9d8922](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/a9d89224fdfffa2aae7865a826ed439bd9d564b3))
+* **api:** api update ([214f5e1](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/214f5e18601f590e82dbc8ce13710196b92a2b55))
+* **api:** api update ([fadd9b8](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/fadd9b83d84b2504a4d9baf9ffbd327cb2ee35d3))
+* **api:** api update ([48804d7](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/48804d7b5ddbd5c7e4125e635d0210d64b226492))
+* **api:** api update ([233af90](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/233af90cf091dfe001c6565aa85e801edaea53d1))
+* **api:** api update ([551d191](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/551d191a0263fda6172181f86c718525de4392cf))
+* **api:** api update ([d06a107](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/d06a10714ebf79eef83a01f1f38c27a0c6a1c11b))
+* **api:** api update ([57c81ac](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/57c81ac6cbd3cdb1bb5140500296d2eb38d11f63))
+* **api:** api update ([1acdb4b](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/1acdb4b4369ab10f2fcef2561beebed1a56f54c3))
+* **api:** manual updates ([9a312ad](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/9a312ade184121a68a6b0713f8313cf644cd1d32))
+* **api:** manual updates ([5bc7510](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/5bc751015332471078df5237fd068564c918c09e))
+* **api:** manual updates ([c8a749b](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/c8a749bc549371b34407fdd28bf57a1858d67cad))
+* **api:** manual updates ([e30c8bc](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/e30c8bcbd25368aba6221271a575a7b977d351bc))
+* **api:** publish npm ([ded5e76](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/ded5e76113e68cd0d07a1f5307e1d2bc86e78730))
+* **api:** restore ScanReport ([64d62a4](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/64d62a46dc6825baecdbe5c5f45bfc8fad87bb9e))
+
+
+### Bug Fixes
+
+* **client:** incorrect offset pagination check ([915d1bf](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/915d1bf078af2e5591c691656c572e8a6c82cecd))
+* **mcp:** correct code tool API endpoint ([9342683](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/9342683a7327994a0172bd6f6d5c477b4d5be75a))
+* **mcp:** return correct lines on typescript errors ([9c9bebc](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/9c9bebc9a95715200efb5078f0580629b6c38163))
+
+
+### Performance Improvements
+
+* faster formatting ([1b4c915](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/1b4c9156d9f5a63ec6b2d28213ff6cd09e177543))
+
+
+### Chores
+
+* **client:** fix logger property type ([6d1658e](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/6d1658e7e03c5d6de16100662f5fc6cf5db6a2ce))
+* **internal:** codegen related update ([d536974](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/d536974409f2425eac2f5c21fd7555cb8dfaaa47))
+* **internal:** codegen related update ([fd30035](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/fd30035c69076d4c30c18a88f534ea5e03077569))
+* **internal:** codegen related update ([64d556b](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/64d556b4b062d060cb54c95e45a16e02cd666cee))
+* **internal:** fix incremental formatting in some cases ([6c0c872](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/6c0c8726eee895c1407635b19c30dd6a2d9c95ee))
+* **internal:** ignore .eslintcache ([632f8aa](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/632f8aa6814f9af1f8f275d2a7520d6e82701175))
+* **internal:** remove deprecated `compilerOptions.baseUrl` from tsconfig.json ([74984f2](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/74984f2bc8afddf723a952f2268da328d0777cf0))
+* **internal:** upgrade eslint ([ae6a544](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/ae6a544da1965025dedf85ce2df2f7a545916f7f))
+* **internal:** use npm pack for build uploads ([fb71413](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/fb714135b52cb8ab4cd6828ee9eb5517ece1684a))
+* **jsdoc:** fix [@link](https://github.com/link) annotations to refer only to parts of the package‘s public interface ([914d276](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/914d276e94cb0c3f5cbbb6214e842eddcac8b5da))
+* sync repo ([3c61fc9](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/3c61fc926dfc8e47aaaa331265cf7614b9d47e93))
+
 ## 0.1.0-alpha.15 (2025-09-17)
 
 Full Changelog: [v0.1.0-alpha.14...v0.1.0-alpha.15](https://github.com/hiddenlayer-engineering/hiddenlayer-sdk-typescript/compare/v0.1.0-alpha.14...v0.1.0-alpha.15)
