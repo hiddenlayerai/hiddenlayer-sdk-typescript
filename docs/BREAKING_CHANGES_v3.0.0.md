@@ -1,62 +1,73 @@
-# HiddenLayer SDK TypeScript Update - December 2025
+# Breaking API Changes: v2.x → v3.0.0
 
-Release notes for HiddenLayer's SDK TypeScript released in December 2025.
+This document outlines the breaking API changes between the previous SDK (v2.x) and the new SDK (v3.0.0) of the HiddenLayer TypeScript SDK.
 
-## Overview
-
-HiddenLayer is pleased to announce an upcoming update to the HiddenLayer SDK TypeScript. This SDK is being updated and renamed to the **HiddenLayer TypeScript API library**. It will also no longer be in beta and will have official support.
-
-The HiddenLayer TypeScript API library provides convenient access to the HiddenLayer REST API from any Node.js or TypeScript application. The library includes type definitions for all request params and response fields, and offers a modern resource-based API design.
-
-This document outlines the breaking API changes between the previous version (v2.x) and the new version (v0.1.x) of the HiddenLayer TypeScript SDK. The new version represents a complete rewrite of the SDK using [Stainless](https://www.stainless.com/) code generation from the OpenAPI spec, resulting in a more consistent, type-safe API.
+The new version is a complete rewrite using [Stainless](https://www.stainless.com/) code generation from the OpenAPI spec, resulting in improved type safety, better error handling, and a more consistent API design.
 
 ---
 
 ## Table of Contents
 
-1. [Client Initialization](#client-initialization)
-2. [Authentication](#authentication)
-3. [Model Scanning](#model-scanning)
-4. [Community Scanning](#community-scanning)
-5. [Sensor Management](#sensor-management)
-6. [Model Management](#model-management)
-7. [Error Handling](#error-handling)
-8. [Import Changes](#import-changes)
-9. [Removed APIs](#removed-apis)
+1. [Package Changes](#package-changes)
+2. [Client Initialization](#client-initialization)
+3. [Environment Variables](#environment-variables)
+4. [Model Scanning](#model-scanning)
+5. [Community Scanning](#community-scanning)
+6. [Sensor Management](#sensor-management)
+7. [Model Management](#model-management)
+8. [Error Handling](#error-handling)
+9. [Type Changes](#type-changes)
 10. [New APIs](#new-apis)
-11. [Action Required](#action-required)
+11. [Removed APIs](#removed-apis)
+12. [Configuration Options](#configuration-options)
+13. [Migration Checklist](#migration-checklist)
+
+---
+
+## Package Changes
+
+| Aspect | v2.x (Previous) | v3.0.0 (New) |
+|--------|---------------|--------------|
+| Package name | `@hiddenlayerai/hiddenlayer-sdk` | `hiddenlayer` |
+| Generated with | OpenAPI Generator | Stainless |
+
+### Import Changes
+
+```typescript
+// v2.x (Previous)
+import { HiddenLayerServiceClient } from '@hiddenlayerai/hiddenlayer-sdk';
+
+// v3.0.0 (New)
+import HiddenLayer from 'hiddenlayer';
+```
 
 ---
 
 ## Client Initialization
 
-### Previous Version
+### v2.x (Previous)
 
 ```typescript
-import { HiddenLayerServiceClient } from 'hiddenlayer-sdk-typescript';
+import { HiddenLayerServiceClient } from '@hiddenlayerai/hiddenlayer-sdk';
 
 // SaaS Client
 const client = HiddenLayerServiceClient.createSaaSClient(
   'your-client-id',
-  'your-client-secret',
-  'https://api.us.hiddenlayer.ai' // optional
+  'your-client-secret'
 );
 
-// Enterprise Client
+// Enterprise Client (on-premise)
 const client = HiddenLayerServiceClient.createEnterpriseClient(
   'https://your-enterprise-host.com'
 );
 ```
 
-### New Version
+### v3.0.0 (New)
 
 ```typescript
 import HiddenLayer from 'hiddenlayer';
 
-// Using environment variables (recommended)
-const client = new HiddenLayer();
-
-// Explicit configuration with client credentials (SaaS)
+// Using client credentials (SaaS)
 const client = new HiddenLayer({
   clientID: 'your-client-id',
   clientSecret: 'your-client-secret',
@@ -71,17 +82,22 @@ const client = new HiddenLayer({
 // Custom base URL (Enterprise)
 const client = new HiddenLayer({
   baseURL: 'https://your-enterprise-host.com',
+  clientID: 'your-client-id',
+  clientSecret: 'your-client-secret',
 });
 ```
 
 ### Key Changes
 
-| Aspect | Previous | New |
-|--------|----------|-----|
+| Aspect | v2.x (Previous) | v3.0.0 (New) |
+|--------|---------------|--------------|
 | Class name | `HiddenLayerServiceClient` | `HiddenLayer` |
-| Factory methods | `createSaaSClient()`, `createEnterpriseClient()` | Constructor with options |
-| Environment selection | Manual host URL | `environment: 'prod-us' \| 'prod-eu'` |
-| Auth URL | Separate `authUrl` parameter | Handled internally |
+| Creation | Factory methods | Constructor with options |
+| Default host | `https://api.us.hiddenlayer.ai` | `https://api.hiddenlayer.ai` |
+| Environment selection | Via host URL | `environment` option |
+| Bearer token auth | Not supported | Supported |
+| Timeout config | Not configurable | `timeout` option |
+| Retry config | Not built-in | `maxRetries` option |
 
 ### Environment Configuration
 
@@ -89,26 +105,17 @@ The new SDK supports environment-based configuration:
 - `prod-us` → `https://api.hiddenlayer.ai`
 - `prod-eu` → `https://api.eu.hiddenlayer.ai`
 
-Environment variables supported:
-- `HIDDENLAYER_TOKEN` - Bearer token for authentication
-- `HIDDENLAYER_CLIENT_ID` - Client ID for OAuth
-- `HIDDENLAYER_CLIENT_SECRET` - Client secret for OAuth
-- `HIDDENLAYER_BASE_URL` - Custom base URL override
-
 ---
 
-## Authentication
+## Environment Variables
 
-### Previous Version
-
-Authentication was handled internally with a separate `authUrl` parameter and manual JWT fetching.
-
-### New Version
-
-- Supports `clientID`/`clientSecret` (OAuth2 client credentials flow)
-- Supports `bearerToken` for direct token authentication
-- Automatic token refresh with caching
-- Environment variables: `HIDDENLAYER_CLIENT_ID`, `HIDDENLAYER_CLIENT_SECRET`, `HIDDENLAYER_TOKEN`
+| v2.x (Previous) | v3.0.0 (New) |
+|---------------|--------------|
+| `HL_CLIENT_ID` | `HIDDENLAYER_CLIENT_ID` |
+| `HL_CLIENT_SECRET` | `HIDDENLAYER_CLIENT_SECRET` |
+| N/A | `HIDDENLAYER_TOKEN` |
+| N/A | `HIDDENLAYER_BASE_URL` |
+| N/A | `HIDDENLAYER_LOG` |
 
 ---
 
@@ -116,142 +123,137 @@ Authentication was handled internally with a separate `authUrl` parameter and ma
 
 ### Scanning a File
 
-**Previous:**
+**v2.x (Previous):**
 ```typescript
 const result = await client.modelScanner.scanFile(
-  'model-name',      // modelName
-  '/path/to/model',  // modelPath
-  'v1.0',            // modelVersion (optional)
-  true               // waitForResults (optional, default: true)
+  'model-name',          // modelName
+  '/path/to/model.pkl',  // modelPath
+  'v1',                  // modelVersion (optional)
+  true                   // waitForResults (optional)
 );
 ```
 
-**New:**
+**v3.0.0 (New):**
 ```typescript
 const result = await client.modelScanner.scanFile({
   modelName: 'model-name',
-  modelPath: '/path/to/model',
-  modelVersion: 'v1.0',           // optional, default: '1'
-  waitForResults: true,            // optional, default: true
-  requestSource: 'API Upload',     // optional
-  origin: '',                      // optional
+  modelPath: '/path/to/model.pkl',
+  modelVersion: 'v1',
+  waitForResults: true,
+  requestSource: 'API Upload',
+  origin: '',
 });
 ```
 
 ### Scanning a Folder
 
-**Previous:**
+**v2.x (Previous):**
 ```typescript
 const result = await client.modelScanner.scanFolder(
   'model-name',
   '/path/to/folder',
-  'v1.0',                          // modelVersion
-  ['*.bin', '*.safetensors'],      // allowFilePatterns
-  ['*.txt', '*.md'],               // ignoreFilePatterns
-  true                             // waitForResults
+  'v1',
+  ['*.safetensors'],  // allowFilePatterns
+  ['*.txt'],          // ignoreFilePatterns
+  true
 );
 ```
 
-**New:**
+**v3.0.0 (New):**
 ```typescript
 const result = await client.modelScanner.scanFolder({
   modelName: 'model-name',
   path: '/path/to/folder',
-  modelVersion: 'v1.0',
-  allowFilePatterns: ['*.bin', '*.safetensors'],
-  ignoreFilePatterns: ['*.txt', '*.md'],
+  modelVersion: 'v1',
+  allowFilePatterns: ['*.safetensors'],
+  ignoreFilePatterns: ['*.txt'],
   waitForResults: true,
 });
 ```
 
 ### Scanning S3 Models
 
-**Previous:**
+**v2.x (Previous):**
 ```typescript
 const result = await client.modelScanner.scanS3Model(
   'model-name',
   'bucket-name',
-  'path/to/model.bin',
-  'v1.0',
+  'path/to/model',
+  'v1',
   true
 );
 ```
 
-**New:**
+**v3.0.0 (New):**
 ```typescript
 const result = await client.modelScanner.scanS3Model({
   modelName: 'model-name',
   bucket: 'bucket-name',
-  key: 'path/to/model.bin',
-  modelVersion: 'v1.0',
-  s3Client: myS3Client,     // optional, will create default if not provided
+  key: 'path/to/model',
+  modelVersion: 'v1',
+  s3Client: customS3Client,  // optional
   waitForResults: true,
 });
 ```
 
 ### Scanning Azure Blob Models
 
-**Previous:**
+**v2.x (Previous):**
 ```typescript
 const result = await client.modelScanner.scanAzureBlobModel(
   'model-name',
   'https://account.blob.core.windows.net',
-  'container-name',
-  'blob-name',
-  'v1.0',
+  'container',
+  'blob-path',
+  'v1',
   'sas-key',
   true
 );
 ```
 
-**New:**
+**v3.0.0 (New):**
 ```typescript
 const result = await client.modelScanner.scanAzureBlobModel({
   modelName: 'model-name',
   accountUrl: 'https://account.blob.core.windows.net',
-  container: 'container-name',
-  blob: 'blob-name',
-  modelVersion: 'v1.0',
-  credential: '?<sas_key>',           // optional
-  blobServiceClient: myBlobClient,    // optional
+  container: 'container',
+  blob: 'blob-path',
+  modelVersion: 'v1',
+  credential: '?<sas_key>',
+  blobServiceClient: customClient,  // optional
   waitForResults: true,
 });
 ```
 
-### Scanning HuggingFace Models (NEW)
+### Scanning HuggingFace Models (New in v3.0.0)
 
 ```typescript
 const result = await client.modelScanner.scanHuggingFaceModel({
-  repoId: 'owner/repo-name',
-  modelName: 'my-model',              // optional, defaults to repoId
-  revision: 'main',                   // optional
-  localDir: '/tmp/model',             // optional
+  repoId: 'owner/repo',
+  modelName: 'my-model',
+  revision: 'main',
+  localDir: '/tmp/models',
   allowFilePatterns: ['*.safetensors'],
   ignoreFilePatterns: ['*.md'],
-  hfToken: 'your-hf-token',           // optional
+  hfToken: 'hf_xxx',
   waitForResults: true,
 });
 ```
 
 ### Getting Scan Results
 
-**Previous:**
+**v2.x (Previous):**
 ```typescript
 const results = await client.modelScanner.getScanResults(scanId, true);
 const sarif = await client.modelScanner.getSarifResults(scanId);
 ```
 
-**New:**
+**v3.0.0 (New):**
 ```typescript
-import { getScanResults, waitForScanResults, ScanStatus } from 'hiddenlayer';
+import { getScanResults, waitForScanResults } from 'hiddenlayer';
 
-// Get current status (with retry for 404s)
 const results = await getScanResults(client, scanId);
-
-// Wait for completion
 const results = await waitForScanResults(client, scanId);
-
-// Get SARIF report
 const sarif = await client.scans.results.sarif(scanId);
 ```
 
@@ -259,44 +261,44 @@ const sarif = await client.scans.results.sarif(scanId);
 
 ## Community Scanning
 
-**Previous:**
+**v2.x (Previous):**
 ```typescript
-import { ScanJobAccessSourceEnum } from 'hiddenlayer';
+import { ScanJobAccessSourceEnum } from '@hiddenlayerai/hiddenlayer-sdk';
 
 const result = await client.modelScanner.communityScan(
   'model-name',
-  'https://example.com/model.bin',
+  'https://presigned-url',
   ScanJobAccessSourceEnum.AwsPresigned,
-  'v1.0',
+  'v1',
   true
 );
 ```
 
-**New:**
+**v3.0.0 (New):**
 ```typescript
 import { CommunityScanSource } from 'hiddenlayer';
 
 const result = await client.communityScanner.communityScan({
   modelName: 'model-name',
-  modelPath: 'https://example.com/model.bin',
+  modelPath: 'https://presigned-url',
   modelSource: CommunityScanSource.AWS_PRESIGNED,
-  modelVersion: 'v1.0',
+  modelVersion: 'v1',
   waitForResults: true,
 });
 ```
 
 ### Source Type Constants
 
-| Previous | New |
-|----------|-----|
-| `ScanJobAccessSourceEnum.Local` | `CommunityScanSource.LOCAL` |
-| `ScanJobAccessSourceEnum.AwsPresigned` | `CommunityScanSource.AWS_PRESIGNED` |
-| `ScanJobAccessSourceEnum.AwsIamRole` | `CommunityScanSource.AWS_IAM_ROLE` |
-| `ScanJobAccessSourceEnum.AzureBlobSas` | `CommunityScanSource.AZURE_BLOB_SAS` |
-| `ScanJobAccessSourceEnum.AzureBlobAd` | `CommunityScanSource.AZURE_BLOB_AD` |
-| `ScanJobAccessSourceEnum.GoogleSigned` | `CommunityScanSource.GOOGLE_SIGNED` |
-| `ScanJobAccessSourceEnum.GoogleOauth` | `CommunityScanSource.GOOGLE_OAUTH` |
-| `ScanJobAccessSourceEnum.HuggingFace` | `CommunityScanSource.HUGGING_FACE` |
+| v2.x (`ScanJobAccessSourceEnum`) | v3.0.0 (`CommunityScanSource`) |
+|----------------------------------|--------------------------------|
+| `AwsPresigned` | `AWS_PRESIGNED` |
+| `AwsIamRole` | `AWS_IAM_ROLE` |
+| `AzureBlobSas` | `AZURE_BLOB_SAS` |
+| `AzureBlobAd` | `AZURE_BLOB_AD` |
+| `GoogleSigned` | `GOOGLE_SIGNED` |
+| `GoogleOauth` | `GOOGLE_OAUTH` |
+| `HuggingFace` | `HUGGING_FACE` |
+| `Local` | `LOCAL` |
 
 ---
 
@@ -304,31 +306,29 @@ const result = await client.communityScanner.communityScan({
 
 ### Creating a Sensor
 
-**Previous:**
+**v2.x (Previous):**
 ```typescript
 const sensor = await client.model.createSensor('model-name', 1);
-
-// Or create/get if exists
 const sensor = await client.model.createOrGetSensor('model-name', 1);
 ```
 
-**New:**
+**v3.0.0 (New):**
 ```typescript
 const sensor = await client.sensors.create({
   plaintext_name: 'model-name',
-  adhoc: true,
   version: 1,
+  adhoc: true,
 });
 ```
 
 ### Querying Sensors
 
-**Previous:**
+**v2.x (Previous):**
 ```typescript
 const sensor = await client.model.getSensor('model-name', 1);
 ```
 
-**New:**
+**v3.0.0 (New):**
 ```typescript
 const response = await client.sensors.query({
   filter: {
@@ -336,67 +336,77 @@ const response = await client.sensors.query({
     version: 1,
   },
 });
-const sensor = response.results?.[0];
+const sensor = response.results[0];
+```
+
+### Getting a Sensor by ID
+
+**v2.x (Previous):** Not available directly
+
+**v3.0.0 (New):**
+```typescript
+const sensor = await client.sensors.retrieve('sensor-id');
+```
+
+### Updating a Sensor
+
+**v2.x (Previous):** Not available
+
+**v3.0.0 (New):**
+```typescript
+await client.sensors.update('sensor-id', {
+  plaintext_name: 'new-name',
+  active: false,
+});
 ```
 
 ### Deleting a Sensor
 
-**Previous:**
+**v2.x (Previous):**
 ```typescript
-await client.model.deleteSensor(sensorId);
+await client.model.deleteSensor('sensor-id');
 ```
 
-**New:**
+**v3.0.0 (New):**
 ```typescript
-await client.sensors.delete(sensorId);
+await client.sensors.delete('sensor-id');
 ```
-
-### Property Name Changes
-
-| Previous | New |
-|----------|-----|
-| `sensor.sensorId` | `sensor.sensor_id` |
-| `sensor.modelId` | `sensor.model_id` |
-| `sensor.plaintextName` | `sensor.plaintext_name` |
-| `sensor.tenantId` | `sensor.tenant_id` |
-| `sensor.createdAt` | `sensor.created_at` |
 
 ---
 
 ## Model Management
 
-**Previous:**
+**v2.x (Previous):**
 ```typescript
-const model = await client.model.getModel(modelId);
-await client.model.deleteModel(modelId);
+const model = await client.model.getModel('model-id');
+await client.model.deleteModel('model-id');
 ```
 
-**New:**
+**v3.0.0 (New):**
 ```typescript
-const model = await client.models.retrieve(modelId);
-await client.models.delete(modelId);
+const model = await client.models.retrieve('model-id');
+await client.models.delete('model-id');
 ```
 
 ---
 
 ## Error Handling
 
-### Previous Version
+### v2.x (Previous)
 
 ```typescript
-import { ResponseError } from 'hiddenlayer';
+import { ResponseError } from '@hiddenlayerai/hiddenlayer-sdk';
 
 try {
-  await client.model.createSensor('name');
+  await client.model.getSensor('name');
 } catch (error) {
-  if (error instanceof ResponseError) {
-    console.log(error.response.status);
-    const body = await error.response.text();
+  if (error instanceof ResponseError && error.response.status === 400) {
+    // handle error
   }
 }
 ```
 
-### New Version
+### v3.0.0 (New)
 
 ```typescript
 import HiddenLayer, {
@@ -404,148 +414,139 @@ import HiddenLayer, {
   APIError,
   BadRequestError,
   AuthenticationError,
+  PermissionDeniedError,
   NotFoundError,
+  ConflictError,
   RateLimitError,
+  InternalServerError,
+  APIConnectionError,
+  APIConnectionTimeoutError,
 } from 'hiddenlayer';
 
 try {
-  await client.sensors.create({ plaintext_name: 'name' });
+  await client.sensors.retrieve('sensor-id');
 } catch (error) {
-  if (error instanceof HiddenLayer.APIError) {
-    console.log(error.status);      // HTTP status code
-    console.log(error.message);     // Error message
-    console.log(error.headers);     // Response headers
-    console.log(error.error);       // JSON error body
+  if (error instanceof NotFoundError) {
+    console.log(error.status);  // 404
+    console.log(error.message);
+    console.log(error.headers);
+    console.log(error.error);   // JSON body
   }
-
-  // Specific error types
-  if (error instanceof HiddenLayer.BadRequestError) { /* 400 */ }
-  if (error instanceof HiddenLayer.AuthenticationError) { /* 401 */ }
-  if (error instanceof HiddenLayer.NotFoundError) { /* 404 */ }
-  if (error instanceof HiddenLayer.RateLimitError) { /* 429 */ }
 }
 ```
 
-### Error Class Mapping
+### Error Classes
 
-| Previous | New |
-|----------|-----|
-| `ResponseError` | `APIError` |
-| N/A | `BadRequestError` (400) |
-| N/A | `AuthenticationError` (401) |
-| N/A | `PermissionDeniedError` (403) |
-| N/A | `NotFoundError` (404) |
-| N/A | `ConflictError` (409) |
-| N/A | `UnprocessableEntityError` (422) |
-| N/A | `RateLimitError` (429) |
-| N/A | `InternalServerError` (>=500) |
-| N/A | `APIConnectionError` |
-| N/A | `APIConnectionTimeoutError` |
+| HTTP Status | v3.0.0 Error Class |
+|-------------|-------------------|
+| 400 | `BadRequestError` |
+| 401 | `AuthenticationError` |
+| 403 | `PermissionDeniedError` |
+| 404 | `NotFoundError` |
+| 409 | `ConflictError` |
+| 422 | `UnprocessableEntityError` |
+| 429 | `RateLimitError` |
+| 5xx | `InternalServerError` |
+| Network failure | `APIConnectionError` |
+| Timeout | `APIConnectionTimeoutError` |
 
 ---
 
-## Import Changes
+## Type Changes
 
-### Previous Version
+### Property Naming Convention
 
+Properties changed from camelCase to snake_case:
+
+| v2.x (Previous) | v3.0.0 (New) |
+|---------------|--------------|
+| `sensorId` | `sensor_id` |
+| `modelId` | `model_id` |
+| `plaintextName` | `plaintext_name` |
+| `tenantId` | `tenant_id` |
+| `createdAt` | `created_at` |
+| `scanId` | `scan_id` |
+| `detectionCount` | `detection_count` |
+| `fileCount` | `file_count` |
+
+### Scan Status
+
+| v2.x (Previous) | v3.0.0 (New) |
+|---------------|--------------|
+| `ScanReportV3StatusEnum.Done` | `'done'` or `ScanStatus.DONE` |
+| `ScanReportV3StatusEnum.Failed` | `'failed'` or `ScanStatus.FAILED` |
+| `ScanReportV3StatusEnum.Pending` | `'pending'` or `ScanStatus.PENDING` |
+| `ScanReportV3StatusEnum.Running` | `'running'` or `ScanStatus.RUNNING` |
+
+### Type Imports
+
+**v2.x (Previous):**
 ```typescript
 import {
-  HiddenLayerServiceClient,
-  Configuration,
-  SensorApi,
-  ModelApi,
-  ModelSupplyChainApi,
   ScanReportV3,
   ScanReportV3StatusEnum,
   Sarif210,
-  ScanJob,
-  ScanJobAccessSourceEnum,
   Sensor,
   Model,
-  ResponseError,
-} from 'hiddenlayer';
+} from '@hiddenlayerai/hiddenlayer-sdk';
 ```
 
-### New Version
-
+**v3.0.0 (New):**
 ```typescript
-import HiddenLayer, {
-  // Client and core
-  type ClientOptions,
-  APIPromise,
-
-  // Error types
-  HiddenLayerError,
-  APIError,
-  BadRequestError,
-  NotFoundError,
-  // ... etc
-
-  // Utilities
-  toFile,
-  type Uploadable,
-
-  // Scanning helpers
-  CommunityScanner,
-  CommunityScanSource,
-  type CommunityScanOptions,
-  ModelScanner,
-  type ScanFileOptions,
-  type ScanFolderOptions,
-  getScanResults,
-  waitForScanResults,
-  ScanStatus,
-} from 'hiddenlayer';
-
-// Response types are available as namespaced types
-type SensorResponse = HiddenLayer.SensorCreateResponse;
-type ModelResponse = HiddenLayer.ModelRetrieveResponse;
+import type { ScanReport } from 'hiddenlayer/resources/scans/results';
+import type { SensorCreateResponse } from 'hiddenlayer/resources/sensors';
+import type { ModelRetrieveResponse } from 'hiddenlayer/resources/models/models';
+import { ScanStatus, CommunityScanSource } from 'hiddenlayer';
 ```
-
----
-
-## Removed APIs
-
-The following APIs from the previous SDK have been removed or reorganized:
-
-| Previous API | Status in New Version |
-|--------------|----------------------|
-| `AidrPredictiveApi` | Replaced by `client.interactions` |
-| `HealthApi` | Removed |
-| `ReadinessApi` | Removed |
-| `ModelSupplyChainApi` | Reorganized into `client.scans.*` |
-| `client.model.createOrGetSensor()` | Removed (implement manually) |
-| `client.model.getSensorWithRetry()` | Removed (implement manually) |
-| `Configuration` class | Removed (use constructor options) |
-| `submitVectors()` | Removed |
-| All generated model classes | Replaced with TypeScript interfaces |
 
 ---
 
 ## New APIs
 
-### Interaction Analysis (LLM Security)
+### Interactions API
 
-Performs detailed security analysis of LLM inputs and outputs:
+Analyzes LLM inputs and outputs for security threats:
 
 ```typescript
-const result = await client.interactions.analyze({
-  metadata: { model: 'gpt-4', requester_id: 'user-1234' },
-  input: { messages: [{ role: 'user', content: 'Hello' }] },
+const response = await client.interactions.analyze({
+  metadata: {
+    model: 'gpt-4',
+    requester_id: 'user-123',
+  },
+  input: {
+    messages: [{ role: 'user', content: 'Hello' }],
+  },
+  output: {
+    messages: [{ role: 'assistant', content: 'Hi there!' }],
+  },
 });
+
+// Response includes:
+// - analysis: detection results
+// - analyzed_data: the data that was analyzed
+// - modified_data: data with redactions applied
+// - evaluation: { action, threat_level, has_detections }
 ```
 
-### Prompt Analyzer
+### Prompt Analyzer API
 
-Analyzes prompts for injection attacks, PII, unsafe content, and more:
+Analyzes prompts for injection attacks, PII, and unsafe content:
 
 ```typescript
 const result = await client.promptAnalyzer.create({
   prompt: 'Your prompt here',
+  output: 'LLM response',  // optional
+  model: 'gpt-4',          // optional
 });
+
+// Response includes:
+// - verdict: boolean
+// - categories: { prompt_injection, input_pii, unsafe_input, ... }
+// - frameworks: { mitre, owasp }
+// - results: detailed classifier results
 ```
 
-### Model Cards
+### Model Cards API
 
 ```typescript
 const cards = await client.models.cards.list({
@@ -554,84 +555,74 @@ const cards = await client.models.cards.list({
 });
 ```
 
-### Scan Jobs (Low-level API)
+### Scan Jobs API
 
 ```typescript
-// Create a scan job
+// List scans with filtering
+const scans = await client.scans.jobs.list({
+  status: ['done', 'failed'],
+  severity: 'high',
+  model_name: { contains: 'prod' },
+  limit: 50,
+});
+
+// Request a remote scan
 const job = await client.scans.jobs.request({
   access: { source: 'HUGGING_FACE' },
   inventory: {
     model_name: 'model-name',
-    model_version: '1.0',
+    model_version: 'v1',
     requested_scan_location: 'owner/repo',
-    requesting_entity: 'your-entity',
+    requesting_entity: 'user@example.com',
   },
 });
-
-// Get scan results
-const results = await client.scans.jobs.retrieve(scanId);
-
-// List scan jobs
-const jobs = await client.scans.jobs.list({ limit: 10 });
-```
-
-### Upload API (Low-level)
-
-```typescript
-// Start upload
-const upload = await client.scans.upload.start({
-  model_name: 'model-name',
-  model_version: '1.0',
-  requesting_entity: 'your-entity',
-});
-
-// Add file
-const file = await client.scans.upload.file.add(scanId, {
-  'file-name': 'model.bin',
-  'file-content-length': fileSize,
-});
-
-// Complete file upload
-await client.scans.upload.file.complete(fileId, { scan_id: scanId });
-
-// Complete all uploads
-await client.scans.upload.completeAll(scanId);
 ```
 
 ---
 
-## New Features Summary
+## Removed APIs
 
-1. **LLM Security Analysis**
-   - `interactions.analyze()` - Security analysis of LLM inputs and outputs
-   - `promptAnalyzer.create()` - Analyzes prompts for injection attacks, PII, unsafe content
-
-2. **Enhanced Type Safety**
-   - Full TypeScript type definitions for all API requests and responses
-   - Improved IDE autocomplete and type checking
-
-3. **Resource-Based API Design**
-   - APIs organized by resource: `models`, `scans`, `sensors`, `interactions`, `promptAnalyzer`
-   - More intuitive and discoverable API structure
-
-4. **Improved Error Handling**
-   - Typed error classes: `HiddenLayerError`, `APIError`, `AuthenticationError`, etc.
-   - Better error messages and debugging information
-
-5. **Pagination Support**
-   - Built-in pagination helpers with `CursorPagination` and `OffsetPage`
-
-6. **Environment Support**
-   - Easy switching between US and EU regions
-   - Configurable base URL for enterprise deployments
+| v2.x API | Status in v3.0.0 |
+|----------|------------------|
+| `HiddenLayerServiceClient.createSaaSClient()` | Use `new HiddenLayer()` |
+| `HiddenLayerServiceClient.createEnterpriseClient()` | Use `new HiddenLayer({ baseURL })` |
+| `client.model.createOrGetSensor()` | Removed - query then create |
+| `client.model.getSensorWithRetry()` | Built-in retry in v3.0.0 |
+| `client.modelScanner.getScanResults()` | Use `getScanResults()` helper |
+| `client.modelScanner.getSarifResults()` | Use `client.scans.results.sarif()` |
+| `AidrPredictiveApi` | Replaced by `client.interactions` |
+| `HealthApi` | Removed |
+| `ReadinessApi` | Removed |
+| `SensorApi` (direct access) | Use `client.sensors.*` |
+| `ModelApi` (direct access) | Use `client.models.*` |
+| `ModelSupplyChainApi` (direct access) | Use `client.scans.*` |
+| `Configuration` class | Use constructor options |
 
 ---
 
-## Quick Migration Checklist
+## Configuration Options
 
+| Option | v2.x (Previous) | v3.0.0 (New) |
+|--------|---------------|--------------|
+| Client ID | Constructor param | `clientID` |
+| Client Secret | Constructor param | `clientSecret` |
+| Bearer Token | Not supported | `bearerToken` |
+| Base URL | Constructor param | `baseURL` |
+| Environment | N/A | `environment` (`prod-us`, `prod-eu`) |
+| Timeout | Not configurable | `timeout` (default: 60s) |
+| Retries | Not configurable | `maxRetries` (default: 2) |
+| Logging | Not supported | `logLevel`, `logger` |
+| Custom Fetch | Not supported | `fetch`, `fetchOptions` |
+
+---
+
+## Migration Checklist
+
+- [ ] Update package name from `@hiddenlayerai/hiddenlayer-sdk` to `hiddenlayer`
 - [ ] Update import statements
 - [ ] Replace `HiddenLayerServiceClient` with `HiddenLayer`
 - [ ] Update client initialization to use constructor
+- [ ] Update environment variables (`HL_*` → `HIDDENLAYER_*`)
 - [ ] Convert positional arguments to options objects for scanning methods
 - [ ] Update property names from camelCase to snake_case
 - [ ] Update error handling to use new error classes
@@ -639,30 +630,3 @@ await client.scans.upload.completeAll(scanId);
 - [ ] Replace `ResponseError` with `APIError`
 - [ ] Update sensor/model management calls
 - [ ] Test authentication flow
-
----
-
-## Action Required
-
-For users of the TypeScript SDK that wish to update to the latest version, be aware that:
-
-1. **Breaking Changes**: Calls made with the previous version will not be compatible with the new methods mentioned above as the signatures and return types have changed.
-
-2. **Import Changes**: The package export structure has changed. Update your imports accordingly.
-
-3. **Configuration**: The client initialization pattern has changed from factory methods to a constructor-based approach.
-
-4. **Removed Methods**: `submitVectors()` and other legacy methods are no longer available.
-
-5. **Version Pinning**: Users that wish to stay on older versions will need to ensure the version is pinned in their `package.json`.
-
----
-
-## Getting Help
-
-If you encounter issues during migration, please:
-
-1. Check the [API documentation](https://dev.hiddenlayer.ai)
-2. Review the [api.md](./api.md) file for complete API reference
-3. Open an issue on GitHub
-4. Contact HiddenLayer support
