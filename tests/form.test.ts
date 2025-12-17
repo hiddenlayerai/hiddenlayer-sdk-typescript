@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'hiddenlayer-sdk/internal/uploads';
-import { toFile } from 'hiddenlayer-sdk/core/uploads';
+import { multipartFormRequestOptions, createForm } from '@hiddenlayerai/hiddenlayer-sdk/internal/uploads';
+import { toFile } from '@hiddenlayerai/hiddenlayer-sdk/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

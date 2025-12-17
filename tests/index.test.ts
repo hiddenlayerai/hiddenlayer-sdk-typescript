@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from 'hiddenlayer-sdk/core/api-promise';
+import { APIPromise } from '@hiddenlayerai/hiddenlayer-sdk/core/api-promise';
 
 import util from 'node:util';
-import HiddenLayer from 'hiddenlayer-sdk';
-import { APIUserAbortError } from 'hiddenlayer-sdk';
+import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
+import { APIUserAbortError } from '@hiddenlayerai/hiddenlayer-sdk';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {

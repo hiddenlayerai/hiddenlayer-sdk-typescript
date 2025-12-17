@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "hiddenlayer-sdk/*": ["./src/*"],
-      "hiddenlayer-sdk": ["./src/index.ts"]
+      "@hiddenlayerai/hiddenlayer-sdk/*": ["./src/*"],
+      "@hiddenlayerai/hiddenlayer-sdk": ["./src/index.ts"]
     },
     "noEmit": true,
 
