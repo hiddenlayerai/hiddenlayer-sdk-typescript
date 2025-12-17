@@ -7,8 +7,8 @@ const config: JestConfigWithTsJest = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
   },
   moduleNameMapper: {
-    '^hiddenlayer$': '<rootDir>/src/index.ts',
-    '^hiddenlayer/(.*)$': '<rootDir>/src/$1',
+    '^hiddenlayer-sdk$': '<rootDir>/src/index.ts',
+    '^hiddenlayer-sdk/(.*)$': '<rootDir>/src/$1',
     '^@aws-sdk/client-s3$': '<rootDir>/tests/__mocks__/@aws-sdk/client-s3.ts',
     '^@azure/storage-blob$': '<rootDir>/tests/__mocks__/@azure/storage-blob.ts',
     '^@huggingface/hub$': '<rootDir>/tests/__mocks__/@huggingface/hub.ts',
