@@ -1,4 +1,4 @@
-import { createPathTagFunction, encodeURIPath } from 'hiddenlayer/internal/utils/path';
+import { createPathTagFunction, encodeURIPath } from 'hiddenlayer-sdk/internal/utils/path';
 import { inspect } from 'node:util';
 import { runInNewContext } from 'node:vm';
 
