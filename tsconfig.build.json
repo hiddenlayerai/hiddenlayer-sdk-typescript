@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "hiddenlayer-sdk/*": ["./dist/src/*"],
-      "hiddenlayer-sdk": ["./dist/src/index.ts"]
+      "@hiddenlayerai/hiddenlayer-sdk/*": ["./dist/src/*"],
+      "@hiddenlayerai/hiddenlayer-sdk": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,
