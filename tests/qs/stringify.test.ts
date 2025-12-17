@@ -1,7 +1,7 @@
 import iconv from 'iconv-lite';
-import { stringify } from 'hiddenlayer-sdk/internal/qs';
-import { encode } from 'hiddenlayer-sdk/internal/qs/utils';
-import { StringifyOptions } from 'hiddenlayer-sdk/internal/qs/types';
+import { stringify } from '@hiddenlayerai/hiddenlayer-sdk/internal/qs';
+import { encode } from '@hiddenlayerai/hiddenlayer-sdk/internal/qs/utils';
+import { StringifyOptions } from '@hiddenlayerai/hiddenlayer-sdk/internal/qs/types';
 import { empty_test_cases } from './empty-keys-cases';
 import assert from 'assert';
 

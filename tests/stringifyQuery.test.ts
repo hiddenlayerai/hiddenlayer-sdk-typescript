@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { HiddenLayer } from 'hiddenlayer-sdk';
+import { HiddenLayer } from '@hiddenlayerai/hiddenlayer-sdk';
 
 const { stringifyQuery } = HiddenLayer.prototype as any;
 
