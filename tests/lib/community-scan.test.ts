@@ -1,6 +1,6 @@
 // Tests for custom community scan functionality
 
-import HiddenLayer from 'hiddenlayer';
+import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk ';
 import { CommunityScanner, CommunityScanSource } from 'hiddenlayer/lib/community-scan';
 import type { ScanReport } from 'hiddenlayer/resources/scans/results';
 

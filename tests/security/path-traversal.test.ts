@@ -3,7 +3,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import HiddenLayer from 'hiddenlayer';
+import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
 import { ModelScanner } from 'hiddenlayer/lib/model-scan';
 import { PathValidator } from 'hiddenlayer/internal/utils/path-validator';
 

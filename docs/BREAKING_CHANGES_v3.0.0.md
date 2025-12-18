@@ -28,7 +28,7 @@ The new version is a complete rewrite using [Stainless](https://www.stainless.co
 
 | Aspect | v2.x (Previous) | v3.0.0 (New) |
 |--------|---------------|--------------|
-| Package name | `@hiddenlayerai/hiddenlayer-sdk` | `hiddenlayer` |
+| Package name | `@hiddenlayerai/hiddenlayer-sdk` | `@hiddenlayer/hiddenlayer-sdk` |
 | Generated with | OpenAPI Generator | Stainless |
 
 ### Import Changes
@@ -38,7 +38,7 @@ The new version is a complete rewrite using [Stainless](https://www.stainless.co
 import { HiddenLayerServiceClient } from '@hiddenlayerai/hiddenlayer-sdk';
 
 // v3.0.0 (New)
-import HiddenLayer from 'hiddenlayer';
+import HiddenLayer from '@hiddenlayer/hiddenlayer-sdk';
 ```
 
 ---
@@ -65,7 +65,7 @@ const client = HiddenLayerServiceClient.createEnterpriseClient(
 ### v3.0.0 (New)
 
 ```typescript
-import HiddenLayer from 'hiddenlayer';
+import HiddenLayer from '@hiddenlayer/hiddenlayer-sdk';
 
 // Using client credentials (SaaS)
 const client = new HiddenLayer({
@@ -250,7 +250,7 @@ const sarif = await client.modelScanner.getSarifResults(scanId);
 
 **v3.0.0 (New):**
 ```typescript
-import { getScanResults, waitForScanResults } from 'hiddenlayer';
+import { getScanResults, waitForScanResults } from '@hiddenlayer/hiddenlayer-sdk';
 
 const results = await getScanResults(client, scanId);
 const results = await waitForScanResults(client, scanId);
@@ -276,7 +276,7 @@ const result = await client.modelScanner.communityScan(
 
 **v3.0.0 (New):**
 ```typescript
-import { CommunityScanSource } from 'hiddenlayer';
+import { CommunityScanSource } from '@hiddenlayer/hiddenlayer-sdk';
 
 const result = await client.communityScanner.communityScan({
   modelName: 'model-name',
@@ -421,7 +421,7 @@ import HiddenLayer, {
   InternalServerError,
   APIConnectionError,
   APIConnectionTimeoutError,
-} from 'hiddenlayer';
+} from '@hiddenlayer/hiddenlayer-sdk';
 
 try {
   await client.sensors.retrieve('sensor-id');
@@ -493,10 +493,10 @@ import {
 
 **v3.0.0 (New):**
 ```typescript
-import type { ScanReport } from 'hiddenlayer/resources/scans/results';
-import type { SensorCreateResponse } from 'hiddenlayer/resources/sensors';
-import type { ModelRetrieveResponse } from 'hiddenlayer/resources/models/models';
-import { ScanStatus, CommunityScanSource } from 'hiddenlayer';
+import type { ScanReport } from '@hiddenlayer/hiddenlayer-sdk/resources/scans/results';
+import type { SensorCreateResponse } from '@hiddenlayer/hiddenlayer-sdk/resources/sensors';
+import type { ModelRetrieveResponse } from '@hiddenlayer/hiddenlayer-sdk/resources/models/models';
+import { ScanStatus, CommunityScanSource } from '@hiddenlayer/hiddenlayer-sdk';
 ```
 
 ---
@@ -618,7 +618,6 @@ const job = await client.scans.jobs.request({
 
 ## Migration Checklist
 
-- [ ] Update package name from `@hiddenlayerai/hiddenlayer-sdk` to `hiddenlayer`
 - [ ] Update import statements
 - [ ] Replace `HiddenLayerServiceClient` with `HiddenLayer`
 - [ ] Update client initialization to use constructor

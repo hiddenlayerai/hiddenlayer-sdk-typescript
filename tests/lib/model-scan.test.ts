@@ -2,7 +2,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import HiddenLayer from 'hiddenlayer';
+import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
 import { ModelScanner } from 'hiddenlayer/lib/model-scan';
 import type { ScanReport } from 'hiddenlayer/resources/scans/results';
 
