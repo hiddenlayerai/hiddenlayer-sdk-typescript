@@ -3,8 +3,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
-import { ModelScanner } from 'hiddenlayer/lib/model-scan';
-import type { ScanReport } from 'hiddenlayer/resources/scans/results';
+import { ModelScanner } from '@hiddenlayerai/hiddenlayer-sdk/lib/model-scan';
+import type { ScanReport } from '@hiddenlayerai/hiddenlayer-sdk/resources/scans/results';
 
 // Mock fs module
 jest.mock('fs', () => ({
