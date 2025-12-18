@@ -1,9 +1,13 @@
 // Tests for scan utility functions
 
-import HiddenLayer from 'hiddenlayer';
-import { APIError } from 'hiddenlayer/core/error';
-import { getScanResults, waitForScanResults, ScanStatus } from 'hiddenlayer/lib/scan-utils';
-import type { ScanReport } from 'hiddenlayer/resources/scans/results';
+import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
+import { APIError } from '@hiddenlayerai/hiddenlayer-sdk/core/error';
+import {
+  getScanResults,
+  waitForScanResults,
+  ScanStatus,
+} from '@hiddenlayerai/hiddenlayer-sdk/lib/scan-utils';
+import type { ScanReport } from '@hiddenlayerai/hiddenlayer-sdk/resources/scans/results';
 
 describe('scan-utils', () => {
   let client: HiddenLayer;

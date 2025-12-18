@@ -3,9 +3,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import HiddenLayer from 'hiddenlayer';
-import { ModelScanner } from 'hiddenlayer/lib/model-scan';
-import { PathValidator } from 'hiddenlayer/internal/utils/path-validator';
+import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
+import { ModelScanner } from '@hiddenlayerai/hiddenlayer-sdk/lib/model-scan';
+import { PathValidator } from '@hiddenlayerai/hiddenlayer-sdk/internal/utils/path-validator';
 
 // Mock external SDKs are provided via jest moduleNameMapper to tests/__mocks__
 
