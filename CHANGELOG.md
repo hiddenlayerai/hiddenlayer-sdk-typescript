@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.3 (2025-12-19)
+
+Full Changelog: [v3.1.2...v3.1.3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.2...v3.1.3)
+
 ## 3.1.2 (2025-12-19)
 
 Full Changelog: [v3.1.1...v3.1.2](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.1...v3.1.2)
