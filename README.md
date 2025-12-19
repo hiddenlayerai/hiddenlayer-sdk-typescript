@@ -134,6 +134,37 @@ On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
 
+## Auto-pagination
+
+List methods in the HiddenLayer API are paginated.
+You can use the `for await … of` syntax to iterate through items across all pages:
+
+```ts
+async function fetchAllCardListResponses(params) {
+  const allCardListResponses = [];
+  // Automatically fetches more pages as needed.
+  for await (const cardListResponse of client.models.cards.list()) {
+    allCardListResponses.push(cardListResponse);
+  }
+  return allCardListResponses;
+}
+```
+
+Alternatively, you can request a single page at a time:
+
+```ts
+let page = await client.models.cards.list();
+for (const cardListResponse of page.results) {
+  console.log(cardListResponse);
+}
+
+// Convenience methods are provided for manually paginating:
+while (page.hasNextPage()) {
+  page = await page.getNextPage();
+  // ...
+}
+```
+
 ## Advanced Usage
 
 ### Accessing raw Response data (e.g., headers)
