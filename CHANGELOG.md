@@ -1,5 +1,22 @@
 # Changelog
 
+## 3.1.0 (2025-12-19)
+
+Full Changelog: [v3.0.0...v3.1.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.0.0...v3.1.0)
+
+### Features
+
+* **api:** api update ([708046b](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/708046b1d00f288dc9c807d07806d15e8d282135))
+* **api:** api update ([14a1c01](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/14a1c01d17a7b61c6aa98909b885a4cb10800a0d))
+* **api:** api update ([fb4436a](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/fb4436a8e9984a2ee7451e782d67cb337d3b7088))
+* fix linter ([e1cb522](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/e1cb522b9624c0d03a8ab00b6bbad109152b7d41))
+* fix tests ([df28270](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/df28270711b42ca7b5c177d6a166537b57468c84))
+
+
+### Documentation
+
+* add more examples ([7e9a328](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/7e9a328573cab4fb44e7263ca3f4d01d36380839))
+
 ## 3.0.0 (2025-12-16)
 
 Full Changelog: [v0.1.0-alpha.15...v3.0.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v0.1.0-alpha.15...v3.0.0)
