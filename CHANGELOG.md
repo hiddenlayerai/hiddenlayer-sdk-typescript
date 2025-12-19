@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.1.4 (2025-12-19)
+
+Full Changelog: [v3.1.3...v3.1.4](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.3...v3.1.4)
+
+### Bug Fixes
+
+* build pipeline ([#298](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues/298))g ([5a6724a](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/5a6724aad3e57cb37f08d459d0f12cb23c9e8725))
+
 ## 3.1.3 (2025-12-19)
 
 Full Changelog: [v3.1.2...v3.1.3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.2...v3.1.3)
