@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.1.1 (2025-12-19)
+
+Full Changelog: [v3.1.0...v3.1.1](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.0...v3.1.1)
+
+### Bug Fixes
+
+* DIS-556 reintroduce missing publish npm script ([#292](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues/292)) ([00383f3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/00383f3c6f74e88754886596dc277b48f252afa1))
+
 ## 3.1.0 (2025-12-19)
 
 Full Changelog: [v3.0.0...v3.1.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.0.0...v3.1.0)
