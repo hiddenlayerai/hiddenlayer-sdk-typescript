@@ -14,8 +14,7 @@
   ],
   "private": false,
   "publishConfig": {
-    "access": "public",
-    "registry": "https://hiddenlayer.jfrog.io/artifactory/api/npm/npm/"
+    "access": "public"
   },
   "scripts": {
     "test": "./scripts/test",
