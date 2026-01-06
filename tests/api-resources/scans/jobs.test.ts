@@ -79,7 +79,11 @@ describe('resource jobs', () => {
   test.skip('request: only required params', async () => {
     const responsePromise = client.scans.jobs.request({
       access: {},
-      inventory: { model_name: 'some-model', model_version: '', requesting_entity: 'some-user@example.com' },
+      inventory: {
+        model_name: 'some-model',
+        model_version: '',
+        requesting_entity: 'some-user@example.com',
+      },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
