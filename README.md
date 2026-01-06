@@ -108,7 +108,10 @@ const client = new HiddenLayer({
 });
 
 // Or, configure per-request:
-await client.interactions.analyze({ metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' }, input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] } }, {
+await client.interactions.analyze({
+  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+}, {
   maxRetries: 5,
 });
 ```
@@ -125,7 +128,10 @@ const client = new HiddenLayer({
 });
 
 // Override per-request:
-await client.interactions.analyze({ metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' }, input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] } }, {
+await client.interactions.analyze({
+  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+}, {
   timeout: 5 * 1000,
 });
 ```
