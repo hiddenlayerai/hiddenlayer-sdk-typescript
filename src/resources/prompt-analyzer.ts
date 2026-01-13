@@ -618,17 +618,17 @@ export namespace PromptAnalyzerCreateResponse {
 
 export interface PromptAnalyzerCreateParams {
   /**
-   * Body param:
+   * Body param
    */
   prompt: string;
 
   /**
-   * Body param:
+   * Body param
    */
   model?: string;
 
   /**
-   * Body param:
+   * Body param
    */
   output?: string;
 
