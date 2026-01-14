@@ -8,21 +8,27 @@ import { path } from '../internal/utils/path';
 
 export class Sensors extends APIResource {
   /**
-   * Create Sensor Record
+   * ⚠️ **DEPRECATED**: This endpoint will be removed after April 13, 2026.
+   *
+   * @deprecated
    */
   create(body: SensorCreateParams, options?: RequestOptions): APIPromise<SensorCreateResponse> {
     return this._client.post('/api/v2/sensors/create', { body, ...options });
   }
 
   /**
-   * Get Sensor
+   * ⚠️ **DEPRECATED**: This endpoint will be removed after April 13, 2026.
+   *
+   * @deprecated
    */
   retrieve(sensorID: string, options?: RequestOptions): APIPromise<SensorRetrieveResponse> {
     return this._client.get(path`/api/v2/sensors/${sensorID}`, options);
   }
 
   /**
-   * Update Sensor
+   * ⚠️ **DEPRECATED**: This endpoint will be removed after April 13, 2026.
+   *
+   * @deprecated
    */
   update(
     sensorID: string,
@@ -33,7 +39,9 @@ export class Sensors extends APIResource {
   }
 
   /**
-   * Remove an Adhoc Sensor
+   * ⚠️ **DEPRECATED**: This endpoint will be removed after April 13, 2026.
+   *
+   * @deprecated
    */
   delete(sensorID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/api/v2/sensors/${sensorID}`, {
@@ -43,7 +51,9 @@ export class Sensors extends APIResource {
   }
 
   /**
-   * Query Sensors
+   * ⚠️ **DEPRECATED**: This endpoint will be removed after April 13, 2026.
+   *
+   * @deprecated
    */
   query(
     body: SensorQueryParams | null | undefined = {},
