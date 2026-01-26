@@ -1,5 +1,24 @@
 # Changelog
 
+## 3.2.0 (2026-01-26)
+
+Full Changelog: [v3.1.6...v3.2.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.6...v3.2.0)
+
+### Features
+
+* **api:** api update ([da0255d](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/da0255d5c73a81adf5aca6d021ab4bc2c88f43e8))
+* **api:** api update ([dd75aff](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/dd75aff2b55b9d7a497a7f8df62def1abca80821))
+
+
+### Chores
+
+* break long lines in snippets into multiline ([49d55b5](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/49d55b521c7a7871d326ee2c33438388a019bfbf))
+* **ci:** upgrade `actions/github-script` ([0d7002c](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/0d7002cb150b4125c92f73f5d9197ec0fd068bce))
+* fix typo in descriptions ([ce23387](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/ce23387f3a8f56f7a0ae43e55f9a0f9688e89e12))
+* **internal:** codegen related update ([c594f90](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/c594f9032a4b1c4afd73c11f525b56ec1eff79d9))
+* **internal:** update `actions/checkout` version ([3d0feda](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/3d0feda9227a33bfef9b78ff89db44e289781a88))
+* **internal:** upgrade babel, qs, js-yaml ([b62dbb2](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/b62dbb215b7a33def35173c8c12797f748790252))
+
 ## 3.1.6 (2025-12-19)
 
 Full Changelog: [v3.1.5...v3.1.6](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.5...v3.1.6)
