@@ -41,6 +41,7 @@ import {
   SensorUpdateResponse,
   Sensors,
 } from './resources/sensors';
+import { Evaluations } from './resources/evaluations/evaluations';
 import { ModelRetrieveResponse, Models } from './resources/models/models';
 import { Scans } from './resources/scans/scans';
 import { type Fetch } from './internal/builtin-types';
@@ -876,6 +877,7 @@ export class HiddenLayer {
   static toFile = Uploads.toFile;
 
   models: API.Models = new API.Models(this);
+  evaluations: API.Evaluations = new API.Evaluations(this);
   promptAnalyzer: API.PromptAnalyzer = new API.PromptAnalyzer(this);
   interactions: API.Interactions = new API.Interactions(this);
   sensors: API.Sensors = new API.Sensors(this);
@@ -883,6 +885,7 @@ export class HiddenLayer {
 }
 
 HiddenLayer.Models = Models;
+HiddenLayer.Evaluations = Evaluations;
 HiddenLayer.PromptAnalyzer = PromptAnalyzer;
 HiddenLayer.Interactions = Interactions;
 HiddenLayer.Sensors = Sensors;
@@ -901,6 +904,8 @@ export declare namespace HiddenLayer {
   export { type OffsetPageParams as OffsetPageParams, type OffsetPageResponse as OffsetPageResponse };
 
   export { Models as Models, type ModelRetrieveResponse as ModelRetrieveResponse };
+
+  export { Evaluations as Evaluations };
 
   export {
     PromptAnalyzer as PromptAnalyzer,
