@@ -314,17 +314,17 @@ export namespace InteractionAnalyzeResponse {
 
 export interface InteractionAnalyzeParams {
   /**
-   * Body param:
+   * Body param
    */
   metadata: InteractionAnalyzeParams.Metadata;
 
   /**
-   * Body param:
+   * Body param
    */
   input?: InteractionAnalyzeParams.Input;
 
   /**
-   * Body param:
+   * Body param
    */
   output?: InteractionAnalyzeParams.Output;
 
