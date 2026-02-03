@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
@@ -58,8 +59,11 @@ export class RedTeam extends APIResource {
   /**
    * Terminate a running workflow.
    */
-  terminate(workflowID: string, options?: RequestOptions): APIPromise<RedTeamTerminateResponse> {
-    return this._client.post(path`/evaluations/v1-beta/red-team/terminations/${workflowID}`, options);
+  terminate(workflowID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/evaluations/v1-beta/red-team/terminations/${workflowID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 
@@ -248,8 +252,6 @@ export interface RedTeamSubmitTargetResponseResponse {
   error?: string;
 }
 
-export type RedTeamTerminateResponse = null;
-
 export interface RedTeamCreateParams {
   /**
    * Name for this evaluation
@@ -350,7 +352,6 @@ export declare namespace RedTeam {
     type RedTeamRetrieveNextActionResponse as RedTeamRetrieveNextActionResponse,
     type RedTeamRetrieveStatusResponse as RedTeamRetrieveStatusResponse,
     type RedTeamSubmitTargetResponseResponse as RedTeamSubmitTargetResponseResponse,
-    type RedTeamTerminateResponse as RedTeamTerminateResponse,
     type RedTeamCreateParams as RedTeamCreateParams,
     type RedTeamSubmitTargetResponseParams as RedTeamSubmitTargetResponseParams,
   };

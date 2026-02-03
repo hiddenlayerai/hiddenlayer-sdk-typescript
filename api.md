@@ -29,7 +29,6 @@ Types:
 - <code><a href="./src/resources/evaluations/red-team.ts">RedTeamRetrieveNextActionResponse</a></code>
 - <code><a href="./src/resources/evaluations/red-team.ts">RedTeamRetrieveStatusResponse</a></code>
 - <code><a href="./src/resources/evaluations/red-team.ts">RedTeamSubmitTargetResponseResponse</a></code>
-- <code><a href="./src/resources/evaluations/red-team.ts">RedTeamTerminateResponse</a></code>
 
 Methods:
 
@@ -37,7 +36,7 @@ Methods:
 - <code title="get /evaluations/v1-beta/red-team/{workflow_id}/next-action">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">retrieveNextAction</a>(workflowID) -> RedTeamRetrieveNextActionResponse</code>
 - <code title="get /evaluations/v1-beta/red-team/{workflow_id}/status">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">retrieveStatus</a>(workflowID) -> RedTeamRetrieveStatusResponse</code>
 - <code title="post /evaluations/v1-beta/red-team/{workflow_id}/target-response">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">submitTargetResponse</a>(workflowID, { ...params }) -> RedTeamSubmitTargetResponseResponse</code>
-- <code title="post /evaluations/v1-beta/red-team/terminations/{workflow_id}">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">terminate</a>(workflowID) -> RedTeamTerminateResponse</code>
+- <code title="post /evaluations/v1-beta/red-team/terminations/{workflow_id}">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">terminate</a>(workflowID) -> void</code>
 
 # PromptAnalyzer
 

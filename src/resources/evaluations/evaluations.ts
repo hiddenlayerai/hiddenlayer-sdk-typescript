@@ -10,7 +10,6 @@ import {
   RedTeamRetrieveStatusResponse,
   RedTeamSubmitTargetResponseParams,
   RedTeamSubmitTargetResponseResponse,
-  RedTeamTerminateResponse,
 } from './red-team';
 
 export class Evaluations extends APIResource {
@@ -26,7 +25,6 @@ export declare namespace Evaluations {
     type RedTeamRetrieveNextActionResponse as RedTeamRetrieveNextActionResponse,
     type RedTeamRetrieveStatusResponse as RedTeamRetrieveStatusResponse,
     type RedTeamSubmitTargetResponseResponse as RedTeamSubmitTargetResponseResponse,
-    type RedTeamTerminateResponse as RedTeamTerminateResponse,
     type RedTeamCreateParams as RedTeamCreateParams,
     type RedTeamSubmitTargetResponseParams as RedTeamSubmitTargetResponseParams,
   };
