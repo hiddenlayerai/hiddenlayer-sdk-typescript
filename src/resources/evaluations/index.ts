@@ -7,7 +7,6 @@ export {
   type RedTeamRetrieveNextActionResponse,
   type RedTeamRetrieveStatusResponse,
   type RedTeamSubmitTargetResponseResponse,
-  type RedTeamTerminateResponse,
   type RedTeamCreateParams,
   type RedTeamSubmitTargetResponseParams,
 } from './red-team';
