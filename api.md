@@ -26,6 +26,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/evaluations/red-team.ts">RedTeamCreateResponse</a></code>
+- <code><a href="./src/resources/evaluations/red-team.ts">RedTeamRetrieveEvaluationResultsResponse</a></code>
 - <code><a href="./src/resources/evaluations/red-team.ts">RedTeamRetrieveNextActionResponse</a></code>
 - <code><a href="./src/resources/evaluations/red-team.ts">RedTeamRetrieveStatusResponse</a></code>
 - <code><a href="./src/resources/evaluations/red-team.ts">RedTeamSubmitTargetResponseResponse</a></code>
@@ -33,6 +34,7 @@ Types:
 Methods:
 
 - <code title="post /evaluations/v1-beta/red-team">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">create</a>({ ...params }) -> RedTeamCreateResponse</code>
+- <code title="get /evaluations/v1-beta/red-team/{workflow_id}">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">retrieveEvaluationResults</a>(workflowID) -> RedTeamRetrieveEvaluationResultsResponse</code>
 - <code title="get /evaluations/v1-beta/red-team/{workflow_id}/next-action">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">retrieveNextAction</a>(workflowID) -> RedTeamRetrieveNextActionResponse</code>
 - <code title="get /evaluations/v1-beta/red-team/{workflow_id}/status">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">retrieveStatus</a>(workflowID) -> RedTeamRetrieveStatusResponse</code>
 - <code title="post /evaluations/v1-beta/red-team/{workflow_id}/target-response">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">submitTargetResponse</a>(workflowID, { ...params }) -> RedTeamSubmitTargetResponseResponse</code>

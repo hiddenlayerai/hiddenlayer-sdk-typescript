@@ -4,6 +4,7 @@ export { Evaluations } from './evaluations';
 export {
   RedTeam,
   type RedTeamCreateResponse,
+  type RedTeamRetrieveEvaluationResultsResponse,
   type RedTeamRetrieveNextActionResponse,
   type RedTeamRetrieveStatusResponse,
   type RedTeamSubmitTargetResponseResponse,

@@ -6,6 +6,7 @@ import {
   RedTeam,
   RedTeamCreateParams,
   RedTeamCreateResponse,
+  RedTeamRetrieveEvaluationResultsResponse,
   RedTeamRetrieveNextActionResponse,
   RedTeamRetrieveStatusResponse,
   RedTeamSubmitTargetResponseParams,
@@ -22,6 +23,7 @@ export declare namespace Evaluations {
   export {
     RedTeam as RedTeam,
     type RedTeamCreateResponse as RedTeamCreateResponse,
+    type RedTeamRetrieveEvaluationResultsResponse as RedTeamRetrieveEvaluationResultsResponse,
     type RedTeamRetrieveNextActionResponse as RedTeamRetrieveNextActionResponse,
     type RedTeamRetrieveStatusResponse as RedTeamRetrieveStatusResponse,
     type RedTeamSubmitTargetResponseResponse as RedTeamSubmitTargetResponseResponse,
