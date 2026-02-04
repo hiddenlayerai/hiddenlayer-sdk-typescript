@@ -16,6 +16,16 @@ export class RedTeam extends APIResource {
   }
 
   /**
+   * Get the complete result of a red team workflow.
+   */
+  retrieveEvaluationResults(
+    workflowID: string,
+    options?: RequestOptions,
+  ): APIPromise<RedTeamRetrieveEvaluationResultsResponse> {
+    return this._client.get(path`/evaluations/v1-beta/red-team/${workflowID}`, options);
+  }
+
+  /**
    * Poll for next action - CLIENT'S MAIN POLLING ENDPOINT.
    *
    * This endpoint is designed to be polled repeatedly by the client. Returns
@@ -71,6 +81,26 @@ export class RedTeam extends APIResource {
  * Response from starting a workflow.
  */
 export interface RedTeamCreateResponse {
+  /**
+   * Run identifier
+   */
+  run_id: string;
+
+  /**
+   * Workflow identifier
+   */
+  workflow_id: string;
+}
+
+/**
+ * Complete result of a workflow.
+ */
+export interface RedTeamRetrieveEvaluationResultsResponse {
+  /**
+   * Full workflow result payload
+   */
+  result: { [key: string]: unknown };
+
   /**
    * Run identifier
    */
@@ -349,6 +379,7 @@ export interface RedTeamSubmitTargetResponseParams {
 export declare namespace RedTeam {
   export {
     type RedTeamCreateResponse as RedTeamCreateResponse,
+    type RedTeamRetrieveEvaluationResultsResponse as RedTeamRetrieveEvaluationResultsResponse,
     type RedTeamRetrieveNextActionResponse as RedTeamRetrieveNextActionResponse,
     type RedTeamRetrieveStatusResponse as RedTeamRetrieveStatusResponse,
     type RedTeamSubmitTargetResponseResponse as RedTeamSubmitTargetResponseResponse,

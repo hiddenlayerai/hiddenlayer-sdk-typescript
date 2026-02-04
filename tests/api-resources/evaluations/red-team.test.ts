@@ -43,6 +43,18 @@ describe('resource redTeam', () => {
   });
 
   // Prism tests are disabled
+  test.skip('retrieveEvaluationResults', async () => {
+    const responsePromise = client.evaluations.redTeam.retrieveEvaluationResults('workflow_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
   test.skip('retrieveNextAction', async () => {
     const responsePromise = client.evaluations.redTeam.retrieveNextAction('workflow_id');
     const rawResponse = await responsePromise.asResponse();
