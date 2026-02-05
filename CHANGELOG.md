@@ -1,5 +1,36 @@
 # Changelog
 
+## 3.2.0 (2026-02-05)
+
+Full Changelog: [v3.1.6...v3.2.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.6...v3.2.0)
+
+### Features
+
+* **api:** api update ([5cb822d](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/5cb822db102ad8920f84b13c81bc386a303e56f1))
+* **api:** api update ([bd9470e](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/bd9470e4164442a0cf23c67bd97ed69765e6f056))
+* **api:** api update ([da0255d](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/da0255d5c73a81adf5aca6d021ab4bc2c88f43e8))
+* **api:** api update ([dd75aff](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/dd75aff2b55b9d7a497a7f8df62def1abca80821))
+
+
+### Bug Fixes
+
+* **client/oauth:** send grant_type in the right location ([0975034](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/09750343902154639901c242ae99979980ea700a))
+* **client:** avoid memory leak with abort signals ([e23fc35](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/e23fc35d047035369bde9b6bc58eaee6a03b5597))
+* **client:** avoid removing abort listener too early ([6c4dee4](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/6c4dee425a87fcf1b99ea0249117cf3f732b05f8))
+
+
+### Chores
+
+* break long lines in snippets into multiline ([49d55b5](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/49d55b521c7a7871d326ee2c33438388a019bfbf))
+* **ci:** upgrade `actions/github-script` ([0d7002c](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/0d7002cb150b4125c92f73f5d9197ec0fd068bce))
+* **client:** do not parse responses with empty content-length ([e184116](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/e1841169bb03c5e21cdd2b1061b36577d90049b2))
+* **client:** restructure abort controller binding ([bd745d3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/bd745d34977149065c21725a7e3ae12e6f02e6ff))
+* fix typo in descriptions ([ce23387](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/ce23387f3a8f56f7a0ae43e55f9a0f9688e89e12))
+* **internal:** codegen related update ([c594f90](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/c594f9032a4b1c4afd73c11f525b56ec1eff79d9))
+* **internal:** fix pagination internals not accepting option promises ([aa435c6](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/aa435c66bd85a81d03605c261c9aeb95885636ce))
+* **internal:** update `actions/checkout` version ([3d0feda](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/3d0feda9227a33bfef9b78ff89db44e289781a88))
+* **internal:** upgrade babel, qs, js-yaml ([b62dbb2](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/b62dbb215b7a33def35173c8c12797f748790252))
+
 ## 3.1.6 (2025-12-19)
 
 Full Changelog: [v3.1.5...v3.1.6](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.5...v3.1.6)

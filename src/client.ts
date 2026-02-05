@@ -42,6 +42,7 @@ import {
   SensorUpdateResponse,
   Sensors,
 } from './resources/sensors';
+import { Evaluations } from './resources/evaluations/evaluations';
 import { ModelRetrieveResponse, Models } from './resources/models/models';
 import { Scans } from './resources/scans/scans';
 import { type Fetch } from './internal/builtin-types';
@@ -323,15 +324,14 @@ export class HiddenLayer {
 
     if (!this.hiddenLayerUserAuthState) {
       this.hiddenLayerUserAuthState = {
-        promise: this.fetch(
-          this.buildURL('/oauth2/token?grant_type=client_credentials', { grant_type: 'client_credentials' }),
-          {
-            method: 'POST',
-            headers: {
-              Authorization: `Basic ${toBase64(`${this.clientID}:${this.clientSecret}`)}`,
-            },
+        promise: this.fetch(this.buildURL('/oauth2/token?grant_type=client_credentials', {}), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Basic ${toBase64(`${this.clientID}:${this.clientSecret}`)}`,
           },
-        ).then(async (res) => {
+          body: 'grant_type=client_credentials',
+        }).then(async (res) => {
           if (!res.ok) {
             const errText = await res.text().catch(() => '');
             const errJSON = errText ? safeJSON(errText) : undefined;
@@ -617,9 +617,14 @@ export class HiddenLayer {
   getAPIList<Item, PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>>(
     path: string,
     Page: new (...args: any[]) => PageClass,
-    opts?: RequestOptions,
+    opts?: PromiseOrValue<RequestOptions>,
   ): Pagination.PagePromise<PageClass, Item> {
-    return this.requestAPIList(Page, { method: 'get', path, ...opts });
+    return this.requestAPIList(
+      Page,
+      opts && 'then' in opts ?
+        opts.then((opts) => ({ method: 'get', path, ...opts }))
+      : { method: 'get', path, ...opts },
+    );
   }
 
   requestAPIList<
@@ -627,7 +632,7 @@ export class HiddenLayer {
     PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>,
   >(
     Page: new (...args: ConstructorParameters<typeof Pagination.AbstractPage>) => PageClass,
-    options: FinalRequestOptions,
+    options: PromiseOrValue<FinalRequestOptions>,
   ): Pagination.PagePromise<PageClass, Item> {
     const request = this.makeRequest(options, null, undefined);
     return new Pagination.PagePromise<PageClass, Item>(this as any as HiddenLayer, request, Page);
@@ -640,9 +645,10 @@ export class HiddenLayer {
     controller: AbortController,
   ): Promise<Response> {
     const { signal, method, ...options } = init || {};
-    if (signal) signal.addEventListener('abort', () => controller.abort());
+    const abort = this._makeAbort(controller);
+    if (signal) signal.addEventListener('abort', abort, { once: true });
 
-    const timeout = setTimeout(() => controller.abort(), ms);
+    const timeout = setTimeout(abort, ms);
 
     const isReadableBody =
       ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
@@ -820,6 +826,12 @@ export class HiddenLayer {
     return headers.values;
   }
 
+  private _makeAbort(controller: AbortController) {
+    // note: we can't just inline this method inside `fetchWithTimeout()` because then the closure
+    //       would capture all request options, and cause a memory leak.
+    return () => controller.abort();
+  }
+
   private buildBody({ options: { body, headers: rawHeaders } }: { options: FinalRequestOptions }): {
     bodyHeaders: HeadersLike;
     body: BodyInit | undefined;
@@ -877,6 +889,7 @@ export class HiddenLayer {
   static toFile = Uploads.toFile;
 
   models: API.Models = new API.Models(this);
+  evaluations: API.Evaluations = new API.Evaluations(this);
   promptAnalyzer: API.PromptAnalyzer = new API.PromptAnalyzer(this);
   interactions: API.Interactions = new API.Interactions(this);
   sensors: API.Sensors = new API.Sensors(this);
@@ -901,6 +914,7 @@ export class HiddenLayer {
 }
 
 HiddenLayer.Models = Models;
+HiddenLayer.Evaluations = Evaluations;
 HiddenLayer.PromptAnalyzer = PromptAnalyzer;
 HiddenLayer.Interactions = Interactions;
 HiddenLayer.Sensors = Sensors;
@@ -919,6 +933,8 @@ export declare namespace HiddenLayer {
   export { type OffsetPageParams as OffsetPageParams, type OffsetPageResponse as OffsetPageResponse };
 
   export { Models as Models, type ModelRetrieveResponse as ModelRetrieveResponse };
+
+  export { Evaluations as Evaluations };
 
   export {
     PromptAnalyzer as PromptAnalyzer,
