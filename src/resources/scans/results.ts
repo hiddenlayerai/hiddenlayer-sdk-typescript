@@ -340,6 +340,12 @@ export interface ScanReport {
   has_genealogy?: boolean;
 
   /**
+   * Intelligence metadata about a model including origin, licensing, and usage
+   * policies
+   */
+  intelligence?: ScanReport.Intelligence;
+
+  /**
    * @deprecated The highest severity of any detections on the scan, including
    * "safe". Use `.summary.highest_severity` instead.
    */
@@ -418,6 +424,12 @@ export namespace ScanReport {
        * - Azure AI Foundry: "Claude-3-5-Sonnet"
        */
       provider_model_id: string;
+
+      /**
+       * Optional country code (ISO 3166-1 alpha-2) for the location where the model
+       * provider is primarily based.
+       */
+      country?: string;
 
       /**
        * Optional full ARN or resource identifier for the model. Used for provisioned
@@ -720,6 +732,64 @@ export namespace ScanReport {
          */
         status_at?: string;
       }
+    }
+  }
+
+  /**
+   * Intelligence metadata about a model including origin, licensing, and usage
+   * policies
+   */
+  export interface Intelligence {
+    /**
+     * Trust level of the model contributor
+     */
+    contributor_trust_level?: string;
+
+    /**
+     * List of countries where the model originated
+     */
+    country_of_origin?: Array<string>;
+
+    /**
+     * List of licenses associated with the model
+     */
+    licenses?: Array<Intelligence.License>;
+
+    /**
+     * List of usage policies associated with the model
+     */
+    usage_policies?: Array<Intelligence.UsagePolicy>;
+  }
+
+  export namespace Intelligence {
+    /**
+     * License information for a model
+     */
+    export interface License {
+      /**
+       * Name of the license
+       */
+      name: string;
+
+      /**
+       * SHA256 hash of the license file
+       */
+      sha256: string;
+    }
+
+    /**
+     * Usage policy information for a model
+     */
+    export interface UsagePolicy {
+      /**
+       * Name of the usage policy
+       */
+      name: string;
+
+      /**
+       * SHA256 hash of the policy document
+       */
+      sha256: string;
     }
   }
 }

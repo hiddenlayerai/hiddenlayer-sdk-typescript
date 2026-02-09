@@ -179,6 +179,12 @@ export namespace ScanJob {
         provider_model_id: string;
 
         /**
+         * Optional country code (ISO 3166-1 alpha-2) for the location where the model
+         * provider is primarily based.
+         */
+        country?: string;
+
+        /**
          * Optional full ARN or resource identifier for the model. Used for provisioned
          * models, custom deployments, or cross-account access.
          */
@@ -357,6 +363,12 @@ export namespace JobListResponse {
          * - Azure AI Foundry: "Claude-3-5-Sonnet"
          */
         provider_model_id: string;
+
+        /**
+         * Optional country code (ISO 3166-1 alpha-2) for the location where the model
+         * provider is primarily based.
+         */
+        country?: string;
 
         /**
          * Optional full ARN or resource identifier for the model. Used for provisioned
@@ -664,6 +676,12 @@ export namespace JobRequestParams {
          * - Azure AI Foundry: "Claude-3-5-Sonnet"
          */
         provider_model_id: string;
+
+        /**
+         * Optional country code (ISO 3166-1 alpha-2) for the location where the model
+         * provider is primarily based.
+         */
+        country?: string;
 
         /**
          * Optional full ARN or resource identifier for the model. Used for provisioned
