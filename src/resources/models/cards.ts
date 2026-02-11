@@ -57,6 +57,12 @@ export interface CardListResponse {
    */
   model_scan_has_error?: boolean;
 
+  /**
+   * The status of the model's compliance with regard to any policies. A trailing
+   * asterisk indicates the model's status has been overridden.
+   */
+  policy_status?: 'COMPLIANT' | 'COMPLIANT*' | 'NONCOMPLIANT' | 'NONCOMPLIANT*';
+
   security_posture?: CardListResponse.SecurityPosture;
 
   tags?: { [key: string]: unknown };
@@ -106,6 +112,8 @@ export interface CardListParams extends OffsetPageParams {
   >;
 
   modscan_status?: 'ENABLED' | 'DISABLED' | 'ANY';
+
+  policy_status?: Array<'COMPLIANT' | 'NONCOMPLIANT'>;
 
   provider?: Array<'AZURE' | 'ADHOC'>;
 
