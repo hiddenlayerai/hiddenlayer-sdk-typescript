@@ -34,6 +34,7 @@ describe('resource cards', () => {
           modscan_severity: ['SAFE'],
           modscan_status: 'ENABLED',
           offset: 250,
+          policy_status: ['COMPLIANT'],
           provider: ['AZURE'],
           sort: '-model_name',
           source: { contains: 'contains', eq: 'eq' },
