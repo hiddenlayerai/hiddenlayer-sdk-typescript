@@ -12,7 +12,6 @@ describe('resource file', () => {
   test.skip('add: only required params', async () => {
     const responsePromise = client.scans.upload.file.add('00000000-0000-0000-0000-000000000000', {
       'file-content-length': 12345,
-      'file-name': 'exampleFile.txt',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -28,6 +27,7 @@ describe('resource file', () => {
     const response = await client.scans.upload.file.add('00000000-0000-0000-0000-000000000000', {
       'file-content-length': 12345,
       'file-name': 'exampleFile.txt',
+      'file-name-base64': 'file-name-base64',
     });
   });
 
