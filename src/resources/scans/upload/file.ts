@@ -14,19 +14,24 @@ export class File extends APIResource {
    * ```ts
    * const response = await client.scans.upload.file.add(
    *   '00000000-0000-0000-0000-000000000000',
-   *   {
-   *     'file-content-length': 12345,
-   *     'file-name': 'exampleFile.txt',
-   *   },
+   *   { 'file-content-length': 12345 },
    * );
    * ```
    */
   add(scanID: string, params: FileAddParams, options?: RequestOptions): APIPromise<FileAddResponse> {
-    const { 'file-content-length': fileContentLength, 'file-name': fileName } = params;
+    const {
+      'file-content-length': fileContentLength,
+      'file-name': fileName,
+      'file-name-base64': fileNameBase64,
+    } = params;
     return this._client.post(path`/scan/v3/upload/${scanID}/file`, {
       ...options,
       headers: buildHeaders([
-        { 'file-content-length': fileContentLength.toString(), 'file-name': fileName },
+        {
+          'file-content-length': fileContentLength.toString(),
+          ...(fileName != null ? { 'file-name': fileName } : undefined),
+          ...(fileNameBase64 != null ? { 'file-name-base64': fileNameBase64 } : undefined),
+        },
         options?.headers,
       ]),
     });
@@ -88,9 +93,17 @@ export interface FileAddParams {
   'file-content-length': number;
 
   /**
-   * Added file name
+   * File name. One of `file-name` or `file-name-base64` must be provided. When
+   * `file-name-base64` is present it takes precedence; otherwise this value is used.
    */
-  'file-name': string;
+  'file-name'?: string;
+
+  /**
+   * UTF-8 friendly base64-encoded file name. Optional; when omitted, the server uses
+   * the `file-name` header. One of `file-name` or `file-name-base64` must be
+   * provided.
+   */
+  'file-name-base64'?: string;
 }
 
 export interface FileCompleteParams {
