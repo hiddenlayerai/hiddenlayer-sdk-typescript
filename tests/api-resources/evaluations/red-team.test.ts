@@ -8,7 +8,7 @@ const client = new HiddenLayer({
 });
 
 describe('resource redTeam', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.evaluations.redTeam.create({ name: 'name', target_model: 'target_model' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource redTeam', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.evaluations.redTeam.create({
       name: 'name',
@@ -42,7 +42,7 @@ describe('resource redTeam', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieveEvaluationResults', async () => {
     const responsePromise = client.evaluations.redTeam.retrieveEvaluationResults('workflow_id');
     const rawResponse = await responsePromise.asResponse();
@@ -54,7 +54,7 @@ describe('resource redTeam', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieveNextAction', async () => {
     const responsePromise = client.evaluations.redTeam.retrieveNextAction('workflow_id');
     const rawResponse = await responsePromise.asResponse();
@@ -66,7 +66,7 @@ describe('resource redTeam', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieveStatus', async () => {
     const responsePromise = client.evaluations.redTeam.retrieveStatus('workflow_id');
     const rawResponse = await responsePromise.asResponse();
@@ -78,7 +78,7 @@ describe('resource redTeam', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('submitTargetResponse: only required params', async () => {
     const responsePromise = client.evaluations.redTeam.submitTargetResponse('workflow_id', {
       session_id: 'session_id',
@@ -93,7 +93,7 @@ describe('resource redTeam', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('submitTargetResponse: required and optional params', async () => {
     const response = await client.evaluations.redTeam.submitTargetResponse('workflow_id', {
       session_id: 'session_id',
@@ -101,7 +101,7 @@ describe('resource redTeam', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('terminate', async () => {
     const responsePromise = client.evaluations.redTeam.terminate('workflow_id');
     const rawResponse = await responsePromise.asResponse();
