@@ -8,7 +8,7 @@ const client = new HiddenLayer({
 });
 
 describe('resource promptAnalyzer', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.promptAnalyzer.create({ prompt: 'Hello World' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource promptAnalyzer', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.promptAnalyzer.create({
       prompt: 'Hello World',

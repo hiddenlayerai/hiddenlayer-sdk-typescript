@@ -8,7 +8,7 @@ const client = new HiddenLayer({
 });
 
 describe('resource results', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('sarif', async () => {
     const responsePromise = client.scans.results.sarif('00000000-0000-0000-0000-000000000000');
     const rawResponse = await responsePromise.asResponse();

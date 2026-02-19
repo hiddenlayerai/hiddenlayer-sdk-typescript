@@ -8,7 +8,7 @@ const client = new HiddenLayer({
 });
 
 describe('resource interactions', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('analyze: only required params', async () => {
     const responsePromise = client.interactions.analyze({
       metadata: { model: 'gpt-5', requester_id: 'user-1234' },
@@ -22,7 +22,7 @@ describe('resource interactions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('analyze: required and optional params', async () => {
     const response = await client.interactions.analyze({
       metadata: {
