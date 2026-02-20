@@ -748,7 +748,7 @@ export namespace ScanReport {
     /**
      * List of countries where the model originated
      */
-    country_of_origin?: Array<string>;
+    geographic_footprint?: Array<string>;
 
     /**
      * List of licenses associated with the model
