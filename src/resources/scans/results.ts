@@ -746,6 +746,11 @@ export namespace ScanReport {
     contributor_trust_level?: string;
 
     /**
+     * ISO 3166-1 alpha-2 country code of the model's primary origin
+     */
+    country_of_origin?: string;
+
+    /**
      * List of countries where the model originated
      */
     geographic_footprint?: Array<string>;
