@@ -60,7 +60,7 @@ $ yarn link @hiddenlayerai/hiddenlayer-sdk
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global @hiddenlayerai/hiddenlayer-sdk
+$ pnpm link --global @hiddenlayerai/hiddenlayer-sdk
 ```
 
 ## Running tests
