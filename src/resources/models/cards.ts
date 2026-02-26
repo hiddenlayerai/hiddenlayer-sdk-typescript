@@ -61,7 +61,7 @@ export interface CardListResponse {
    * The status of the model's compliance with regard to any policies. A trailing
    * asterisk indicates the model's status has been overridden.
    */
-  policy_status?: 'COMPLIANT' | 'COMPLIANT*' | 'NONCOMPLIANT' | 'NONCOMPLIANT*';
+  policy_status?: 'COMPLIANT' | 'COMPLIANT_OVERRIDDEN' | 'NONCOMPLIANT' | 'NONCOMPLIANT_OVERRIDDEN';
 
   security_posture?: CardListResponse.SecurityPosture;
 
