@@ -53,6 +53,12 @@ export interface CardListResponse {
   aidr_threat_level?: 'high' | 'medium' | 'low' | 'none' | 'not available';
 
   /**
+   * The ID of the most recent model scanner scan for this model's latest version.
+   * Absent if no scan has been run.
+   */
+  latest_scan_id?: string;
+
+  /**
    * True if the model's latest scan has an error
    */
   model_scan_has_error?: boolean;
