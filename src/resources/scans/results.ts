@@ -415,7 +415,7 @@ export namespace ScanReport {
 
   export namespace Inventory {
     export interface ProviderDetails {
-      provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER';
+      provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER' | 'DATABRICKS';
 
       /**
        * The provider's unique identifier for the model. Examples:
