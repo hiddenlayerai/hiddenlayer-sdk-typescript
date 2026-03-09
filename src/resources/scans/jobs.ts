@@ -35,11 +35,7 @@ export class Jobs extends APIResource {
    * ```
    */
   list(query: JobListParams | null | undefined = {}, options?: RequestOptions): APIPromise<JobListResponse> {
-    return this._client.get('/scan/v3/results', {
-      query,
-      ...options,
-      headers: buildHeaders([{ Accept: 'application/json; charset=utf-8' }, options?.headers]),
-    });
+    return this._client.get('/scan/v3/results', { query, ...options });
   }
 
   /**
