@@ -6,6 +6,20 @@ import util from 'node:util';
 import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
 import { APIUserAbortError } from '@hiddenlayerai/hiddenlayer-sdk';
 const defaultFetch = fetch;
+const mockTokenFetch: typeof defaultFetch = async (url, init) => {
+  const urlStr = String(url);
+  if (urlStr.includes('/oauth2/token')) {
+    return new Response(
+      JSON.stringify({
+        access_token: 'mock-test-token',
+        token_type: 'Bearer',
+        expires_in: 3600,
+      }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    );
+  }
+  return defaultFetch(url, init);
+};
 
 describe('instantiate client', () => {
   const env = process.env;
@@ -24,6 +38,7 @@ describe('instantiate client', () => {
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
       bearerToken: 'My Bearer Token',
+      fetch: mockTokenFetch,
     });
 
     test('they are used in the request', async () => {
@@ -91,6 +106,7 @@ describe('instantiate client', () => {
         logger: logger,
         logLevel: 'debug',
         bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
       });
 
       await forceAPIResponseForClient(client);
@@ -98,7 +114,7 @@ describe('instantiate client', () => {
     });
 
     test('default logLevel is warn', async () => {
-      const client = new HiddenLayer({ bearerToken: 'My Bearer Token' });
+      const client = new HiddenLayer({ bearerToken: 'My Bearer Token', fetch: mockTokenFetch });
       expect(client.logLevel).toBe('warn');
     });
 
@@ -115,6 +131,7 @@ describe('instantiate client', () => {
         logger: logger,
         logLevel: 'info',
         bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
       });
 
       await forceAPIResponseForClient(client);
@@ -131,7 +148,11 @@ describe('instantiate client', () => {
       };
 
       process.env['HIDDENLAYER_LOG'] = 'debug';
-      const client = new HiddenLayer({ logger: logger, bearerToken: 'My Bearer Token' });
+      const client = new HiddenLayer({
+        logger: logger,
+        bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
+      });
       expect(client.logLevel).toBe('debug');
 
       await forceAPIResponseForClient(client);
@@ -148,7 +169,11 @@ describe('instantiate client', () => {
       };
 
       process.env['HIDDENLAYER_LOG'] = 'not a log level';
-      const client = new HiddenLayer({ logger: logger, bearerToken: 'My Bearer Token' });
+      const client = new HiddenLayer({
+        logger: logger,
+        bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
+      });
       expect(client.logLevel).toBe('warn');
       expect(warnMock).toHaveBeenCalledWith(
         'process.env[\'HIDDENLAYER_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
@@ -169,6 +194,7 @@ describe('instantiate client', () => {
         logger: logger,
         logLevel: 'off',
         bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
       });
 
       await forceAPIResponseForClient(client);
@@ -189,6 +215,7 @@ describe('instantiate client', () => {
         logger: logger,
         logLevel: 'debug',
         bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
       });
       expect(client.logLevel).toBe('debug');
       expect(warnMock).not.toHaveBeenCalled();
@@ -201,6 +228,7 @@ describe('instantiate client', () => {
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo' },
         bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo');
     });
@@ -210,6 +238,7 @@ describe('instantiate client', () => {
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
         bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo&hello=world');
     });
@@ -219,6 +248,7 @@ describe('instantiate client', () => {
         baseURL: 'http://localhost:5000/',
         defaultQuery: { hello: 'world' },
         bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
       });
       expect(client.buildURL('/foo', { hello: undefined })).toEqual('http://localhost:5000/foo');
     });
@@ -395,6 +425,7 @@ describe('instantiate client', () => {
         baseURL: 'http://localhost:5000/',
         maxRetries: 3,
         bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
       });
 
       const newClient = client.withOptions({
@@ -421,6 +452,7 @@ describe('instantiate client', () => {
         defaultHeaders: { 'X-Test-Header': 'test-value' },
         defaultQuery: { 'test-param': 'test-value' },
         bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
       });
 
       const newClient = client.withOptions({
@@ -439,6 +471,7 @@ describe('instantiate client', () => {
         baseURL: 'http://localhost:5000/',
         timeout: 1000,
         bearerToken: 'My Bearer Token',
+        fetch: mockTokenFetch,
       });
 
       // Modify the client properties directly after creation
@@ -481,7 +514,7 @@ describe('instantiate client', () => {
 });
 
 describe('request building', () => {
-  const client = new HiddenLayer({ bearerToken: 'My Bearer Token' });
+  const client = new HiddenLayer({ bearerToken: 'My Bearer Token', fetch: mockTokenFetch });
 
   describe('custom headers', () => {
     test('handles undefined', async () => {
@@ -500,7 +533,7 @@ describe('request building', () => {
 });
 
 describe('default encoder', () => {
-  const client = new HiddenLayer({ bearerToken: 'My Bearer Token' });
+  const client = new HiddenLayer({ bearerToken: 'My Bearer Token', fetch: mockTokenFetch });
 
   class Serializable {
     toJSON() {
