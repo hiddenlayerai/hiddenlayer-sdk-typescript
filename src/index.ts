@@ -24,6 +24,7 @@ export {
 
 // Export custom lib functionality
 export {
+  warnBeta,
   CommunityScanner,
   CommunityScanSource,
   type CommunityScanOptions,

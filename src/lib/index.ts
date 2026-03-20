@@ -5,6 +5,7 @@
  * to provide backward compatibility and convenience methods.
  */
 
+export { warnBeta } from './beta';
 export {
   CommunityScanner,
   CommunityScanSource,
