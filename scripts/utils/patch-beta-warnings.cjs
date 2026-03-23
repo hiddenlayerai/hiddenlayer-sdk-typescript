@@ -160,7 +160,11 @@ function patchFile(content, className, filePath) {
 
   // Manage import
   const result = manageImport(modified, filePath);
-  return result !== null ? result : (modified !== content ? modified : null);
+  return (
+    result !== null ? result
+    : modified !== content ? modified
+    : null
+  );
 }
 
 /**
@@ -178,7 +182,8 @@ function manageImport(content, filePath) {
   if (hasAnyCalls && !hasImport) {
     const lastImportIndex = findLastImportEnd(modified);
     if (lastImportIndex !== -1) {
-      modified = modified.slice(0, lastImportIndex) + '\n' + importStatement + modified.slice(lastImportIndex);
+      modified =
+        modified.slice(0, lastImportIndex) + '\n' + importStatement + modified.slice(lastImportIndex);
     }
   } else if (!hasAnyCalls && hasImport) {
     modified = modified.replace(new RegExp(`\\nimport\\s*\\{[^}]*warnBeta[^}]*\\}[^;]*;`), '');
