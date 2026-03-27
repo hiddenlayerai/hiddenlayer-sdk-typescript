@@ -26,12 +26,8 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { CommunityScanner, ModelScanner } from './lib/index';
-import { InteractionAnalyzeParams, InteractionAnalyzeResponse, Interactions } from './resources/interactions';
-import {
-  PromptAnalyzer,
-  PromptAnalyzerCreateParams,
-  PromptAnalyzerCreateResponse,
-} from './resources/prompt-analyzer';
+import { Interactions } from './resources/interactions';
+import { PromptAnalyzer } from './resources/prompt-analyzer';
 import {
   SensorCreateParams,
   SensorCreateResponse,
@@ -945,17 +941,9 @@ export declare namespace HiddenLayer {
 
   export { Evaluations as Evaluations };
 
-  export {
-    PromptAnalyzer as PromptAnalyzer,
-    type PromptAnalyzerCreateResponse as PromptAnalyzerCreateResponse,
-    type PromptAnalyzerCreateParams as PromptAnalyzerCreateParams,
-  };
+  export { PromptAnalyzer as PromptAnalyzer };
 
-  export {
-    Interactions as Interactions,
-    type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
-    type InteractionAnalyzeParams as InteractionAnalyzeParams,
-  };
+  export { Interactions as Interactions };
 
   export {
     Sensors as Sensors,
