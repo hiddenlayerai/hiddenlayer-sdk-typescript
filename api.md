@@ -60,6 +60,18 @@ Methods:
 
 - <code title="post /detection/v1/interactions">client.interactions.<a href="./src/resources/interactions.ts">analyze</a>({ ...params }) -> InteractionAnalyzeResponse</code>
 
+# Detection
+
+Types:
+
+- <code><a href="./src/resources/detection.ts">DetectionRequestEvaluationResponse</a></code>
+- <code><a href="./src/resources/detection.ts">DetectionResponseEvaluationResponse</a></code>
+
+Methods:
+
+- <code title="post /detection/v2/request-evaluations">client.detection.<a href="./src/resources/detection.ts">requestEvaluation</a>({ ...params }) -> DetectionRequestEvaluationResponse</code>
+- <code title="post /detection/v2/response-evaluations">client.detection.<a href="./src/resources/detection.ts">responseEvaluation</a>({ ...params }) -> DetectionResponseEvaluationResponse</code>
+
 # Sensors
 
 Types:

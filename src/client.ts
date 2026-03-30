@@ -26,6 +26,13 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { CommunityScanner, ModelScanner } from './lib/index';
+import {
+  Detection,
+  DetectionRequestEvaluationParams,
+  DetectionRequestEvaluationResponse,
+  DetectionResponseEvaluationParams,
+  DetectionResponseEvaluationResponse,
+} from './resources/detection';
 import { InteractionAnalyzeParams, InteractionAnalyzeResponse, Interactions } from './resources/interactions';
 import {
   PromptAnalyzer,
@@ -901,6 +908,7 @@ export class HiddenLayer {
   evaluations: API.Evaluations = new API.Evaluations(this);
   promptAnalyzer: API.PromptAnalyzer = new API.PromptAnalyzer(this);
   interactions: API.Interactions = new API.Interactions(this);
+  detection: API.Detection = new API.Detection(this);
   sensors: API.Sensors = new API.Sensors(this);
   scans: API.Scans = new API.Scans(this);
 
@@ -926,6 +934,7 @@ HiddenLayer.Models = Models;
 HiddenLayer.Evaluations = Evaluations;
 HiddenLayer.PromptAnalyzer = PromptAnalyzer;
 HiddenLayer.Interactions = Interactions;
+HiddenLayer.Detection = Detection;
 HiddenLayer.Sensors = Sensors;
 HiddenLayer.Scans = Scans;
 
@@ -955,6 +964,14 @@ export declare namespace HiddenLayer {
     Interactions as Interactions,
     type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
     type InteractionAnalyzeParams as InteractionAnalyzeParams,
+  };
+
+  export {
+    Detection as Detection,
+    type DetectionRequestEvaluationResponse as DetectionRequestEvaluationResponse,
+    type DetectionResponseEvaluationResponse as DetectionResponseEvaluationResponse,
+    type DetectionRequestEvaluationParams as DetectionRequestEvaluationParams,
+    type DetectionResponseEvaluationParams as DetectionResponseEvaluationParams,
   };
 
   export {
