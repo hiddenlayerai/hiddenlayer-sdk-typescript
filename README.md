@@ -33,9 +33,12 @@ const client = new HiddenLayer({
   environment: 'prod-eu', // defaults to 'prod-us'
 });
 
-const model = await client.models.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+const response = await client.interactions.analyze({
+  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+});
 
-console.log(model.model_id);
+console.log(response.analysis);
 ```
 
 ### Request & Response types
@@ -50,9 +53,11 @@ const client = new HiddenLayer({
   environment: 'prod-eu', // defaults to 'prod-us'
 });
 
-const model: HiddenLayer.ModelRetrieveResponse = await client.models.retrieve(
-  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-);
+const params: HiddenLayer.InteractionAnalyzeParams = {
+  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+};
+const response: HiddenLayer.InteractionAnalyzeResponse = await client.interactions.analyze(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -65,8 +70,11 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const model = await client.models
-  .retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e')
+const response = await client.interactions
+  .analyze({
+    metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+    input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+  })
   .catch(async (err) => {
     if (err instanceof HiddenLayer.APIError) {
       console.log(err.status); // 400
@@ -107,7 +115,10 @@ const client = new HiddenLayer({
 });
 
 // Or, configure per-request:
-await client.models.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
+await client.interactions.analyze({
+  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+}, {
   maxRetries: 5,
 });
 ```
@@ -124,7 +135,10 @@ const client = new HiddenLayer({
 });
 
 // Override per-request:
-await client.models.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
+await client.interactions.analyze({
+  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+}, {
   timeout: 5 * 1000,
 });
 ```
@@ -178,15 +192,23 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new HiddenLayer();
 
-const response = await client.models.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e').asResponse();
+const response = await client.interactions
+  .analyze({
+    metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+    input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+  })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: model, response: raw } = await client.models
-  .retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e')
+const { data: response, response: raw } = await client.interactions
+  .analyze({
+    metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
+    input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+  })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(model.model_id);
+console.log(response.analysis);
 ```
 
 ### Logging
@@ -266,7 +288,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.models.retrieve({
+client.interactions.analyze({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
