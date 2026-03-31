@@ -16,8 +16,19 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
       - name: Run beta warning patcher
         run: node scripts/utils/patch-beta-warnings.cjs
+
+      - name: Fix lint issues
+        run: ./scripts/format
 
       - name: Commit changes
         run: |
