@@ -5,7 +5,8 @@
  * to provide backward compatibility and convenience methods.
  */
 
-export { warnBeta } from './beta';
+export { BETA_ENDPOINTS } from './beta-endpoints';
+export { warnBeta, checkBetaEndpoint } from './beta';
 export {
   CommunityScanner,
   CommunityScanSource,
