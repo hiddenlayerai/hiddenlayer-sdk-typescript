@@ -1,12 +1,5 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export {
-  Detection,
-  type DetectionRequestEvaluationResponse,
-  type DetectionResponseEvaluationResponse,
-  type DetectionRequestEvaluationParams,
-  type DetectionResponseEvaluationParams,
-} from './detection';
 export { Evaluations } from './evaluations/evaluations';
 export { Interactions, type InteractionAnalyzeResponse, type InteractionAnalyzeParams } from './interactions';
 export { Models, type ModelRetrieveResponse } from './models/models';
@@ -15,6 +8,13 @@ export {
   type PromptAnalyzerCreateResponse,
   type PromptAnalyzerCreateParams,
 } from './prompt-analyzer';
+export {
+  Runtime,
+  type RuntimeEvaluateRequestResponse,
+  type RuntimeEvaluateResponseResponse,
+  type RuntimeEvaluateRequestParams,
+  type RuntimeEvaluateResponseParams,
+} from './runtime';
 export { Scans } from './scans/scans';
 export {
   Sensors,
