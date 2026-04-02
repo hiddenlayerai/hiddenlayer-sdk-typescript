@@ -7,10 +7,10 @@ const client = new HiddenLayer({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource detection', () => {
+describe('resource runtime', () => {
   // Mock server tests are disabled
-  test.skip('requestEvaluation: only required params', async () => {
-    const responsePromise = client.detection.requestEvaluation({
+  test.skip('evaluateRequest: only required params', async () => {
+    const responsePromise = client.runtime.evaluateRequest({
       body: {
         model: 'bar',
         messages: 'bar',
@@ -28,8 +28,8 @@ describe('resource detection', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('requestEvaluation: required and optional params', async () => {
-    const response = await client.detection.requestEvaluation({
+  test.skip('evaluateRequest: required and optional params', async () => {
+    const response = await client.runtime.evaluateRequest({
       body: {
         model: 'bar',
         messages: 'bar',
@@ -42,8 +42,8 @@ describe('resource detection', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('responseEvaluation: only required params', async () => {
-    const responsePromise = client.detection.responseEvaluation({
+  test.skip('evaluateResponse: only required params', async () => {
+    const responsePromise = client.runtime.evaluateResponse({
       body: {
         id: 'bar',
         object: 'bar',
@@ -63,8 +63,8 @@ describe('resource detection', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('responseEvaluation: required and optional params', async () => {
-    const response = await client.detection.responseEvaluation({
+  test.skip('evaluateResponse: required and optional params', async () => {
+    const response = await client.runtime.evaluateResponse({
       body: {
         id: 'bar',
         object: 'bar',

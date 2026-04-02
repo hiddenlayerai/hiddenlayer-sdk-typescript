@@ -60,17 +60,17 @@ Methods:
 
 - <code title="post /detection/v1/interactions">client.interactions.<a href="./src/resources/interactions.ts">analyze</a>({ ...params }) -> InteractionAnalyzeResponse</code>
 
-# Detection
+# Runtime
 
 Types:
 
-- <code><a href="./src/resources/detection.ts">DetectionRequestEvaluationResponse</a></code>
-- <code><a href="./src/resources/detection.ts">DetectionResponseEvaluationResponse</a></code>
+- <code><a href="./src/resources/runtime.ts">RuntimeEvaluateRequestResponse</a></code>
+- <code><a href="./src/resources/runtime.ts">RuntimeEvaluateResponseResponse</a></code>
 
 Methods:
 
-- <code title="post /detection/v2/request-evaluations">client.detection.<a href="./src/resources/detection.ts">requestEvaluation</a>({ ...params }) -> DetectionRequestEvaluationResponse</code>
-- <code title="post /detection/v2/response-evaluations">client.detection.<a href="./src/resources/detection.ts">responseEvaluation</a>({ ...params }) -> DetectionResponseEvaluationResponse</code>
+- <code title="post /detection/v2/request-evaluations">client.runtime.<a href="./src/resources/runtime.ts">evaluateRequest</a>({ ...params }) -> RuntimeEvaluateRequestResponse</code>
+- <code title="post /detection/v2/response-evaluations">client.runtime.<a href="./src/resources/runtime.ts">evaluateResponse</a>({ ...params }) -> RuntimeEvaluateResponseResponse</code>
 
 # Sensors
 
