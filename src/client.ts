@@ -26,6 +26,7 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { CommunityScanner, ModelScanner } from './lib/index';
+import { checkBetaEndpoint } from './lib/beta';
 import { InteractionAnalyzeParams, InteractionAnalyzeResponse, Interactions } from './resources/interactions';
 import {
   PromptAnalyzer,
@@ -413,7 +414,9 @@ export class HiddenLayer {
   /**
    * Used as a callback for mutating the given `FinalRequestOptions` object.
    */
-  protected async prepareOptions(options: FinalRequestOptions): Promise<void> {}
+  protected async prepareOptions(options: FinalRequestOptions): Promise<void> {
+    checkBetaEndpoint(options.path);
+  }
 
   /**
    * Used as a callback for mutating the given `RequestInit` object.
