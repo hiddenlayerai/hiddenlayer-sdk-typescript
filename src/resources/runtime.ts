@@ -5,7 +5,7 @@ import { APIPromise } from '../core/api-promise';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 
-export class Detection extends APIResource {
+export class Runtime extends APIResource {
   /**
    * [BETA] This endpoint is not GA or Production ready and is subject to changes at
    * any time. Breaking changes may occur.
@@ -30,7 +30,7 @@ export class Detection extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.detection.requestEvaluation({
+   * const response = await client.runtime.evaluateRequest({
    *   body: {
    *     model: 'bar',
    *     messages: 'bar',
@@ -40,10 +40,10 @@ export class Detection extends APIResource {
    * });
    * ```
    */
-  requestEvaluation(
-    params: DetectionRequestEvaluationParams,
+  evaluateRequest(
+    params: RuntimeEvaluateRequestParams,
     options?: RequestOptions,
-  ): APIPromise<DetectionRequestEvaluationResponse> {
+  ): APIPromise<RuntimeEvaluateRequestResponse> {
     const { body, 'HL-Project-Id': hlProjectID, 'HL-Runtime-Session-Id': hlRuntimeSessionID } = params;
     return this._client.post('/detection/v2/request-evaluations', {
       body: body,
@@ -82,7 +82,7 @@ export class Detection extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.detection.responseEvaluation({
+   * const response = await client.runtime.evaluateResponse({
    *   body: {
    *     id: 'bar',
    *     object: 'bar',
@@ -94,10 +94,10 @@ export class Detection extends APIResource {
    * });
    * ```
    */
-  responseEvaluation(
-    params: DetectionResponseEvaluationParams,
+  evaluateResponse(
+    params: RuntimeEvaluateResponseParams,
     options?: RequestOptions,
-  ): APIPromise<DetectionResponseEvaluationResponse> {
+  ): APIPromise<RuntimeEvaluateResponseResponse> {
     const { body, 'HL-Project-Id': hlProjectID, 'HL-Runtime-Session-Id': hlRuntimeSessionID } = params;
     return this._client.post('/detection/v2/response-evaluations', {
       body: body,
@@ -118,16 +118,16 @@ export class Detection extends APIResource {
  * provider request or response payload is accepted as-is and returned in the same
  * format.
  */
-export type DetectionRequestEvaluationResponse = { [key: string]: unknown };
+export type RuntimeEvaluateRequestResponse = { [key: string]: unknown };
 
 /**
  * A pass-through payload in the native format of the LLM provider. Any valid
  * provider request or response payload is accepted as-is and returned in the same
  * format.
  */
-export type DetectionResponseEvaluationResponse = { [key: string]: unknown };
+export type RuntimeEvaluateResponseResponse = { [key: string]: unknown };
 
-export interface DetectionRequestEvaluationParams {
+export interface RuntimeEvaluateRequestParams {
   /**
    * Body param: A pass-through payload in the native format of the LLM provider. Any
    * valid provider request or response payload is accepted as-is and returned in the
@@ -148,7 +148,7 @@ export interface DetectionRequestEvaluationParams {
   'HL-Runtime-Session-Id'?: string;
 }
 
-export interface DetectionResponseEvaluationParams {
+export interface RuntimeEvaluateResponseParams {
   /**
    * Body param: A pass-through payload in the native format of the LLM provider. Any
    * valid provider request or response payload is accepted as-is and returned in the
@@ -169,11 +169,11 @@ export interface DetectionResponseEvaluationParams {
   'HL-Runtime-Session-Id'?: string;
 }
 
-export declare namespace Detection {
+export declare namespace Runtime {
   export {
-    type DetectionRequestEvaluationResponse as DetectionRequestEvaluationResponse,
-    type DetectionResponseEvaluationResponse as DetectionResponseEvaluationResponse,
-    type DetectionRequestEvaluationParams as DetectionRequestEvaluationParams,
-    type DetectionResponseEvaluationParams as DetectionResponseEvaluationParams,
+    type RuntimeEvaluateRequestResponse as RuntimeEvaluateRequestResponse,
+    type RuntimeEvaluateResponseResponse as RuntimeEvaluateResponseResponse,
+    type RuntimeEvaluateRequestParams as RuntimeEvaluateRequestParams,
+    type RuntimeEvaluateResponseParams as RuntimeEvaluateResponseParams,
   };
 }

@@ -27,19 +27,19 @@ import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { CommunityScanner, ModelScanner } from './lib/index';
 import { checkBetaEndpoint } from './lib/beta';
-import {
-  Detection,
-  DetectionRequestEvaluationParams,
-  DetectionRequestEvaluationResponse,
-  DetectionResponseEvaluationParams,
-  DetectionResponseEvaluationResponse,
-} from './resources/detection';
 import { InteractionAnalyzeParams, InteractionAnalyzeResponse, Interactions } from './resources/interactions';
 import {
   PromptAnalyzer,
   PromptAnalyzerCreateParams,
   PromptAnalyzerCreateResponse,
 } from './resources/prompt-analyzer';
+import {
+  Runtime,
+  RuntimeEvaluateRequestParams,
+  RuntimeEvaluateRequestResponse,
+  RuntimeEvaluateResponseParams,
+  RuntimeEvaluateResponseResponse,
+} from './resources/runtime';
 import {
   SensorCreateParams,
   SensorCreateResponse,
@@ -911,7 +911,7 @@ export class HiddenLayer {
   evaluations: API.Evaluations = new API.Evaluations(this);
   promptAnalyzer: API.PromptAnalyzer = new API.PromptAnalyzer(this);
   interactions: API.Interactions = new API.Interactions(this);
-  detection: API.Detection = new API.Detection(this);
+  runtime: API.Runtime = new API.Runtime(this);
   sensors: API.Sensors = new API.Sensors(this);
   scans: API.Scans = new API.Scans(this);
 
@@ -937,7 +937,7 @@ HiddenLayer.Models = Models;
 HiddenLayer.Evaluations = Evaluations;
 HiddenLayer.PromptAnalyzer = PromptAnalyzer;
 HiddenLayer.Interactions = Interactions;
-HiddenLayer.Detection = Detection;
+HiddenLayer.Runtime = Runtime;
 HiddenLayer.Sensors = Sensors;
 HiddenLayer.Scans = Scans;
 
@@ -970,11 +970,11 @@ export declare namespace HiddenLayer {
   };
 
   export {
-    Detection as Detection,
-    type DetectionRequestEvaluationResponse as DetectionRequestEvaluationResponse,
-    type DetectionResponseEvaluationResponse as DetectionResponseEvaluationResponse,
-    type DetectionRequestEvaluationParams as DetectionRequestEvaluationParams,
-    type DetectionResponseEvaluationParams as DetectionResponseEvaluationParams,
+    Runtime as Runtime,
+    type RuntimeEvaluateRequestResponse as RuntimeEvaluateRequestResponse,
+    type RuntimeEvaluateResponseResponse as RuntimeEvaluateResponseResponse,
+    type RuntimeEvaluateRequestParams as RuntimeEvaluateRequestParams,
+    type RuntimeEvaluateResponseParams as RuntimeEvaluateResponseParams,
   };
 
   export {
