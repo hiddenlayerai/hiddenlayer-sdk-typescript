@@ -4,7 +4,6 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
-import { warnBeta } from '../lib/beta';
 
 export class Runtime extends APIResource {
   /**
@@ -45,7 +44,6 @@ export class Runtime extends APIResource {
     params: RuntimeEvaluateRequestParams,
     options?: RequestOptions,
   ): APIPromise<RuntimeEvaluateRequestResponse> {
-    warnBeta('Runtime.evaluateRequest');
     const { body, 'HL-Project-Id': hlProjectID, 'HL-Runtime-Session-Id': hlRuntimeSessionID } = params;
     return this._client.post('/detection/v2/request-evaluations', {
       body: body,
@@ -100,7 +98,6 @@ export class Runtime extends APIResource {
     params: RuntimeEvaluateResponseParams,
     options?: RequestOptions,
   ): APIPromise<RuntimeEvaluateResponseResponse> {
-    warnBeta('Runtime.evaluateResponse');
     const { body, 'HL-Project-Id': hlProjectID, 'HL-Runtime-Session-Id': hlRuntimeSessionID } = params;
     return this._client.post('/detection/v2/response-evaluations', {
       body: body,

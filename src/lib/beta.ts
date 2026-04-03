@@ -5,6 +5,8 @@
  * so SDK consumers know the method is not yet GA.
  */
 
+import { BETA_ENDPOINTS } from './beta-endpoints';
+
 const warned = new Set<string>();
 
 /**
@@ -20,4 +22,19 @@ export function warnBeta(qualifiedName: string): void {
   console.warn(
     `[BETA] ${qualifiedName}: This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.`,
   );
+}
+
+/**
+ * Look up a request path in the beta endpoint registry and emit a warning if found.
+ *
+ * @param path - The URL path from FinalRequestOptions, e.g. "/detection/v2/request-evaluations"
+ */
+export function checkBetaEndpoint(path: string | undefined): void {
+  if (!path) {
+    return;
+  }
+  const qualifiedName = BETA_ENDPOINTS[path];
+  if (qualifiedName) {
+    warnBeta(qualifiedName);
+  }
 }
