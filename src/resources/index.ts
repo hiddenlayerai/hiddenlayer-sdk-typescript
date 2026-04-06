@@ -8,13 +8,6 @@ export {
   type PromptAnalyzerCreateResponse,
   type PromptAnalyzerCreateParams,
 } from './prompt-analyzer';
-export {
-  Runtime,
-  type RuntimeEvaluateRequestResponse,
-  type RuntimeEvaluateResponseResponse,
-  type RuntimeEvaluateRequestParams,
-  type RuntimeEvaluateResponseParams,
-} from './runtime';
 export { Scans } from './scans/scans';
 export {
   Sensors,
