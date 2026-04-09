@@ -33,12 +33,12 @@ Types:
 
 Methods:
 
-- <code title="post /evaluations/v1-beta/red-team">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">create</a>({ ...params }) -> RedTeamCreateResponse</code>
-- <code title="get /evaluations/v1-beta/red-team/{workflow_id}">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">retrieveEvaluationResults</a>(workflowID) -> RedTeamRetrieveEvaluationResultsResponse</code>
-- <code title="get /evaluations/v1-beta/red-team/{workflow_id}/next-action">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">retrieveNextAction</a>(workflowID) -> RedTeamRetrieveNextActionResponse</code>
-- <code title="get /evaluations/v1-beta/red-team/{workflow_id}/status">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">retrieveStatus</a>(workflowID) -> RedTeamRetrieveStatusResponse</code>
-- <code title="post /evaluations/v1-beta/red-team/{workflow_id}/target-response">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">submitTargetResponse</a>(workflowID, { ...params }) -> RedTeamSubmitTargetResponseResponse</code>
-- <code title="post /evaluations/v1-beta/red-team/terminations/{workflow_id}">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">terminate</a>(workflowID) -> void</code>
+- <code title="post /evaluations/v1/red-team">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">create</a>({ ...params }) -> RedTeamCreateResponse</code>
+- <code title="get /evaluations/v1/red-team/{workflow_id}">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">retrieveEvaluationResults</a>(workflowID) -> RedTeamRetrieveEvaluationResultsResponse</code>
+- <code title="get /evaluations/v1/red-team/{workflow_id}/next-action">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">retrieveNextAction</a>(workflowID) -> RedTeamRetrieveNextActionResponse</code>
+- <code title="get /evaluations/v1/red-team/{workflow_id}/status">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">retrieveStatus</a>(workflowID) -> RedTeamRetrieveStatusResponse</code>
+- <code title="post /evaluations/v1/red-team/{workflow_id}/target-response">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">submitTargetResponse</a>(workflowID, { ...params }) -> RedTeamSubmitTargetResponseResponse</code>
+- <code title="post /evaluations/v1/jobs/{workflow_id}/termination">client.evaluations.redTeam.<a href="./src/resources/evaluations/red-team.ts">terminate</a>(workflowID) -> void</code>
 
 # PromptAnalyzer
 
