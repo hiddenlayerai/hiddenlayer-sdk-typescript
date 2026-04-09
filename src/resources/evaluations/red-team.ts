@@ -8,24 +8,33 @@ import { path } from '../../internal/utils/path';
 
 export class RedTeam extends APIResource {
   /**
+   * [BETA] This endpoint is not GA or Production ready and is subject to changes at
+   * any time. Breaking changes may occur.
+   *
    * Start a new red team client workflow. Auto-triggers planning phase. Client
    * should then poll /next-action.
    */
   create(body: RedTeamCreateParams, options?: RequestOptions): APIPromise<RedTeamCreateResponse> {
-    return this._client.post('/evaluations/v1-beta/red-team', { body, ...options });
+    return this._client.post('/evaluations/v1/red-team', { body, ...options });
   }
 
   /**
+   * [BETA] This endpoint is not GA or Production ready and is subject to changes at
+   * any time. Breaking changes may occur.
+   *
    * Get the complete result of a red team workflow.
    */
   retrieveEvaluationResults(
     workflowID: string,
     options?: RequestOptions,
   ): APIPromise<RedTeamRetrieveEvaluationResultsResponse> {
-    return this._client.get(path`/evaluations/v1-beta/red-team/${workflowID}`, options);
+    return this._client.get(path`/evaluations/v1/red-team/${workflowID}`, options);
   }
 
   /**
+   * [BETA] This endpoint is not GA or Production ready and is subject to changes at
+   * any time. Breaking changes may occur.
+   *
    * Poll for next action - CLIENT'S MAIN POLLING ENDPOINT.
    *
    * This endpoint is designed to be polled repeatedly by the client. Returns
@@ -39,17 +48,23 @@ export class RedTeam extends APIResource {
     workflowID: string,
     options?: RequestOptions,
   ): APIPromise<RedTeamRetrieveNextActionResponse> {
-    return this._client.get(path`/evaluations/v1-beta/red-team/${workflowID}/next-action`, options);
+    return this._client.get(path`/evaluations/v1/red-team/${workflowID}/next-action`, options);
   }
 
   /**
+   * [BETA] This endpoint is not GA or Production ready and is subject to changes at
+   * any time. Breaking changes may occur.
+   *
    * Get current status of a red team workflow.
    */
   retrieveStatus(workflowID: string, options?: RequestOptions): APIPromise<RedTeamRetrieveStatusResponse> {
-    return this._client.get(path`/evaluations/v1-beta/red-team/${workflowID}/status`, options);
+    return this._client.get(path`/evaluations/v1/red-team/${workflowID}/status`, options);
   }
 
   /**
+   * [BETA] This endpoint is not GA or Production ready and is subject to changes at
+   * any time. Breaking changes may occur.
+   *
    * Submit target's response.
    *
    * This triggers the ProcessTargetResponseWorkflow child workflow for the specified
@@ -60,17 +75,20 @@ export class RedTeam extends APIResource {
     body: RedTeamSubmitTargetResponseParams,
     options?: RequestOptions,
   ): APIPromise<RedTeamSubmitTargetResponseResponse> {
-    return this._client.post(path`/evaluations/v1-beta/red-team/${workflowID}/target-response`, {
+    return this._client.post(path`/evaluations/v1/red-team/${workflowID}/target-response`, {
       body,
       ...options,
     });
   }
 
   /**
-   * Terminate a running workflow.
+   * [BETA] This endpoint is not GA or Production ready and is subject to changes at
+   * any time. Breaking changes may occur.
+   *
+   * Terminate a running workflow job.
    */
   terminate(workflowID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/evaluations/v1-beta/red-team/terminations/${workflowID}`, {
+    return this._client.post(path`/evaluations/v1/jobs/${workflowID}/termination`, {
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
@@ -93,13 +111,13 @@ export interface RedTeamCreateResponse {
 }
 
 /**
- * Complete result of a workflow.
+ * Complete result of a red team workflow.
  */
 export interface RedTeamRetrieveEvaluationResultsResponse {
   /**
-   * Full workflow result payload
+   * Full red team workflow result payload.
    */
-  result: { [key: string]: unknown };
+  result: RedTeamRetrieveEvaluationResultsResponse.Result;
 
   /**
    * Run identifier
@@ -110,6 +128,53 @@ export interface RedTeamRetrieveEvaluationResultsResponse {
    * Workflow identifier
    */
   workflow_id: string;
+
+  /**
+   * Workflow status (e.g., "completed")
+   */
+  status?: string;
+}
+
+export namespace RedTeamRetrieveEvaluationResultsResponse {
+  /**
+   * Full red team workflow result payload.
+   */
+  export interface Result {
+    /**
+     * Detailed attacker session results including prompts, responses, and judgements
+     */
+    attacker_results?: { [key: string]: unknown };
+
+    /**
+     * Final evaluation report text
+     */
+    evaluation_report?: string;
+
+    /**
+     * Workflow name
+     */
+    name?: string;
+
+    /**
+     * Structured evaluation report with metrics and analysis
+     */
+    report?: { [key: string]: unknown };
+
+    /**
+     * Workflow configuration settings used for this evaluation
+     */
+    settings?: { [key: string]: unknown };
+
+    /**
+     * Target context description
+     */
+    target_context?: string;
+
+    /**
+     * Token usage statistics across all models
+     */
+    usage?: { [key: string]: unknown };
+  }
 }
 
 /**
@@ -222,11 +287,6 @@ export interface RedTeamRetrieveStatusResponse {
   message?: string;
 
   /**
-   * Percentage complete
-   */
-  percent_complete?: number;
-
-  /**
    * Current workflow phase
    */
   phase?: string;
@@ -235,11 +295,6 @@ export interface RedTeamRetrieveStatusResponse {
    * Completed progress items
    */
   progress_completed?: number;
-
-  /**
-   * Progress percentage
-   */
-  progress_percent?: number;
 
   /**
    * Total progress items
