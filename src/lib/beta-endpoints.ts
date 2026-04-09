@@ -5,5 +5,5 @@
  * Maps URL paths to qualified method names for runtime warnings.
  */
 export const BETA_ENDPOINTS: Record<string, string> = {
-
+  '/evaluations/v1/red-team': 'RedTeam.create',
 };
