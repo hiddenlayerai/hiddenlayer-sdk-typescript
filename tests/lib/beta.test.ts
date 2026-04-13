@@ -1,4 +1,5 @@
-import { warnBeta, checkBetaEndpoint } from '@hiddenlayerai/hiddenlayer-sdk/lib/beta';
+import { warnBeta, checkBetaEndpoint, _resetWarnedForTesting } from '@hiddenlayerai/hiddenlayer-sdk/lib/beta';
+import { BETA_ENDPOINTS } from '@hiddenlayerai/hiddenlayer-sdk/lib/beta-endpoints';
 
 describe('warnBeta', () => {
   let warnSpy: jest.SpyInstance;
@@ -46,17 +47,22 @@ describe('checkBetaEndpoint', () => {
 
   beforeEach(() => {
     warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    _resetWarnedForTesting();
   });
 
   afterEach(() => {
     warnSpy.mockRestore();
   });
 
-  test('emits a warning for a known beta path', () => {
-    checkBetaEndpoint('/detection/v2/request-evaluations');
+  const betaEntries = Object.entries(BETA_ENDPOINTS);
+  const maybeTest = betaEntries.length > 0 ? test : test.skip;
+
+  maybeTest('emits a warning for a known beta path', () => {
+    const [knownPath, knownName] = betaEntries[0]!;
+    checkBetaEndpoint(knownPath);
     expect(warnSpy).toHaveBeenCalledTimes(1);
     expect(warnSpy).toHaveBeenCalledWith(
-      '[BETA] Detection.requestEvaluation: This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.',
+      `[BETA] ${knownName}: This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.`,
     );
   });
 
@@ -70,10 +76,11 @@ describe('checkBetaEndpoint', () => {
     expect(warnSpy).toHaveBeenCalledTimes(0);
   });
 
-  test('deduplicates warnings through warnBeta mechanism', () => {
-    checkBetaEndpoint('/detection/v2/response-evaluations');
-    checkBetaEndpoint('/detection/v2/response-evaluations');
-    checkBetaEndpoint('/detection/v2/response-evaluations');
+  maybeTest('deduplicates warnings through warnBeta mechanism', () => {
+    const [knownPath] = betaEntries[0]!;
+    checkBetaEndpoint(knownPath);
+    checkBetaEndpoint(knownPath);
+    checkBetaEndpoint(knownPath);
     expect(warnSpy).toHaveBeenCalledTimes(1);
   });
 });

@@ -5,6 +5,6 @@
  * Maps URL paths to qualified method names for runtime warnings.
  */
 export const BETA_ENDPOINTS: Record<string, string> = {
-  '/detection/v2/request-evaluations': 'Detection.requestEvaluation',
-  '/detection/v2/response-evaluations': 'Detection.responseEvaluation',
+  '/detection/v2/request-evaluations': 'Runtime.evaluateRequest',
+  '/detection/v2/response-evaluations': 'Runtime.evaluateResponse',
 };
