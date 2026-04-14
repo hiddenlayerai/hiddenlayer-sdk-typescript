@@ -164,7 +164,7 @@ export namespace ScanJob {
       }
 
       export interface ProviderDetails {
-        provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER' | 'DATABRICKS';
+        provider: 'AWS_BEDROCK' | 'AWS_SAGEMAKER' | 'AZURE_AI_FOUNDRY' | 'AZURE_ML' | 'DATABRICKS';
 
         /**
          * The provider's unique identifier for the model. Examples:
@@ -350,7 +350,7 @@ export namespace JobListResponse {
 
     export namespace Inventory {
       export interface ProviderDetails {
-        provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER' | 'DATABRICKS';
+        provider: 'AWS_BEDROCK' | 'AWS_SAGEMAKER' | 'AZURE_AI_FOUNDRY' | 'AZURE_ML' | 'DATABRICKS';
 
         /**
          * The provider's unique identifier for the model. Examples:
@@ -663,7 +663,7 @@ export namespace JobRequestParams {
       }
 
       export interface ProviderDetails {
-        provider: 'AWS_BEDROCK' | 'AZURE_AI_FOUNDRY' | 'AWS_SAGEMAKER' | 'DATABRICKS';
+        provider: 'AWS_BEDROCK' | 'AWS_SAGEMAKER' | 'AZURE_AI_FOUNDRY' | 'AZURE_ML' | 'DATABRICKS';
 
         /**
          * The provider's unique identifier for the model. Examples:
