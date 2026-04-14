@@ -9,6 +9,11 @@ import { BETA_ENDPOINTS } from './beta-endpoints';
 
 const warned = new Set<string>();
 
+/** @internal Reset warned state between tests. Not for production use. */
+export function _resetWarnedForTesting(): void {
+  warned.clear();
+}
+
 /**
  * Emit a one-time warning that a beta endpoint was called.
  *
