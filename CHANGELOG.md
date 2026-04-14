@@ -1,5 +1,88 @@
 # Changelog
 
+## 3.2.0 (2026-04-14)
+
+Full Changelog: [v3.1.6...v3.2.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.6...v3.2.0)
+
+### Features
+
+* add runtime beta warnings for unstable SDK methods ([0bf9a15](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/0bf9a152e7038d72f45418a2175d9ff752bf1a60))
+* **api:** add runtime security evaluations endpoints ([f91ea85](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/f91ea85a4132279d6e9e71d436f09497d8bf40b8))
+* **api:** api update ([b629b2f](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/b629b2ffc8a6c1ab8c9c3909d7904f3625c49291))
+* **api:** api update ([3cdc00b](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/3cdc00b8aeec2ba142bbcbb507492bb3a6ff53c8))
+* **api:** api update ([790e8b9](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/790e8b92bff74ca75121a114a0dfec5e6107c6d3))
+* **api:** api update ([9502be9](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/9502be9e395c8708c1366bd75fbca4223ff869e8))
+* **api:** api update ([4df5af2](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/4df5af235eedc56254a59cf40457407d1f44ef22))
+* **api:** api update ([78b0f23](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/78b0f232f0c2b8bd631d7c2e285bb549780d28e8))
+* **api:** api update ([1e44f6b](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/1e44f6bb305dfa2f766e7e8e5941b2e8853eef5c))
+* **api:** api update ([252d3a4](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/252d3a47521587185aa0ea17e7f43cea5ce6a548))
+* **api:** api update ([2fab4a9](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/2fab4a9f39c6c9c1d03f79a6cf41a6a2971c5ebf))
+* **api:** api update ([d96201e](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/d96201e927a5300889261a82b314bb841fc1ef60))
+* **api:** api update ([6dd09b3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/6dd09b3a4f4ec85182f4a2b38cc87c0a79a93528))
+* **api:** api update ([48d340d](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/48d340de237172e1db984d85749e1e5ee65365a1))
+* **api:** api update ([5ceaa97](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/5ceaa97b43b3f71657bcb8a025160d0ef2e1bb0b))
+* **api:** api update ([1542b36](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/1542b364768e393e7aa4f20f43c5b02e50dc3369))
+* **api:** api update ([5cb822d](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/5cb822db102ad8920f84b13c81bc386a303e56f1))
+* **api:** api update ([bd9470e](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/bd9470e4164442a0cf23c67bd97ed69765e6f056))
+* **api:** api update ([da0255d](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/da0255d5c73a81adf5aca6d021ab4bc2c88f43e8))
+* **api:** api update ([dd75aff](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/dd75aff2b55b9d7a497a7f8df62def1abca80821))
+* **api:** finalize runtime security endpoints ([50cb0bc](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/50cb0bcb9f34d0082af575d364addb96b44834e9))
+
+
+### Bug Fixes
+
+* **beta:** sync endpoint registry and harden CI tests against codegen churn ([#308](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues/308)) ([7c73c40](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/7c73c40a66155ba8e0ba43f2e55cdbf6e2e389f6))
+* **client/oauth:** send grant_type in the right location ([0975034](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/09750343902154639901c242ae99979980ea700a))
+* **client:** avoid memory leak with abort signals ([e23fc35](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/e23fc35d047035369bde9b6bc58eaee6a03b5597))
+* **client:** avoid removing abort listener too early ([6c4dee4](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/6c4dee425a87fcf1b99ea0249117cf3f732b05f8))
+* **client:** preserve URL params already embedded in path ([e0a8ea8](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/e0a8ea888875be1363f8c52bcfe87c550f38386a))
+* **docs/contributing:** correct pnpm link command ([d08ed0d](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/d08ed0d3debd9362131830491095cb2b1693711d))
+* fix request delays for retrying to be more respectful of high requested delays ([b671711](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/b671711365b94cd06904b075ce5ee1acedd1258e))
+* prettier formatting in beta patcher script ([#306](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues/306)) ([94ef8c0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/94ef8c0e548765e8e245840223686def5f28a073))
+* **tests:** correct setup of OAuth 2 Client Credentials tests ([0823ddd](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/0823dddf45804cc36426c9d3e58eaebd722d098f))
+
+
+### Chores
+
+* break long lines in snippets into multiline ([49d55b5](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/49d55b521c7a7871d326ee2c33438388a019bfbf))
+* **ci:** skip lint on metadata-only changes ([d3bd99e](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/d3bd99efeed15d86656eec9f0f580ab6c2d4f3a8))
+* **ci:** skip uploading artifacts on stainless-internal branches ([d966275](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/d9662755a6d191f7f73406987533b652dd24a05d))
+* **ci:** upgrade `actions/github-script` ([0d7002c](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/0d7002cb150b4125c92f73f5d9197ec0fd068bce))
+* **client:** do not parse responses with empty content-length ([e184116](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/e1841169bb03c5e21cdd2b1061b36577d90049b2))
+* **client:** restructure abort controller binding ([bd745d3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/bd745d34977149065c21725a7e3ae12e6f02e6ff))
+* fix typo in descriptions ([ce23387](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/ce23387f3a8f56f7a0ae43e55f9a0f9688e89e12))
+* **internal/client:** fix form-urlencoded requests ([efc829c](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/efc829cb05755fec92a3aec9298eafd44e91c0e1))
+* **internal:** avoid type checking errors with ts-reset ([185685e](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/185685e75e9a5e456dd0682da29b2a0e2c1f33b4))
+* **internal:** codegen related update ([0d3f6b2](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/0d3f6b2b1d679c0070d6725033e073db2a39f3e6))
+* **internal:** codegen related update ([a84518b](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/a84518be87b56c1585097be10e9d6faaf1765729))
+* **internal:** codegen related update ([69f8672](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/69f86726d941a666da48a08d8220dfc4a135e133))
+* **internal:** codegen related update ([9d4c10b](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/9d4c10b9402258057b6c600279a3df8509d5ff35))
+* **internal:** codegen related update ([c594f90](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/c594f9032a4b1c4afd73c11f525b56ec1eff79d9))
+* **internal:** fix pagination internals not accepting option promises ([aa435c6](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/aa435c66bd85a81d03605c261c9aeb95885636ce))
+* **internal:** move stringifyQuery implementation to internal function ([ec25b3c](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/ec25b3cdb2dcf637d5b0f31718a3fa3d2cadf418))
+* **internal:** remove mock server code ([13c9b69](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/13c9b697c69baa71ff0aca10ab21f8c7ddeb1712))
+* **internal:** tweak CI branches ([ab32f16](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/ab32f168e1c7d1bef4565e3a2c13ec6e59672260))
+* **internal:** update `actions/checkout` version ([3d0feda](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/3d0feda9227a33bfef9b78ff89db44e289781a88))
+* **internal:** update dependencies to address dependabot vulnerabilities ([4197a3d](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/4197a3ddb580b8d1733d52c1a99d743901038407))
+* **internal:** update gitignore ([8f0a7ba](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/8f0a7ba730fb53cf1ffe2fd3630029ff434c2a2c))
+* **internal:** upgrade babel, qs, js-yaml ([b62dbb2](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/b62dbb215b7a33def35173c8c12797f748790252))
+* patch beta warnings [skip ci] ([e142d12](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/e142d121dcaa0687a2233b999421e2cda5e9641f))
+* regenerate beta endpoint registry [skip ci] ([e8dda88](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/e8dda88cb22de1db8bb9aeb179245a27aec0f3db))
+* regenerate beta endpoint registry [skip ci] ([4f8b4de](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/4f8b4de157a84e439832e684f7e7005cce3f0c10))
+* regenerate beta endpoint registry [skip ci] ([d0713d9](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/d0713d940e5d08372373e38084e42b1cf6529780))
+* run formatter after beta warning patching ([7edd5c6](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/7edd5c62762e6bc400858008360670e8956f8d3b))
+* update mock server docs ([ebcb1b9](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/ebcb1b9fac2030ae7b965fccb49b0623b9b85244))
+
+
+### Documentation
+
+* **readme:** add Beta APIs section ([0f4da4a](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/0f4da4a59d07f45f1c977b7b7729f085a8bcfe74))
+
+
+### Refactors
+
+* **client:** move beta warnings to prepareOptions interceptor ([#307](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues/307)) ([ee53c5f](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/ee53c5f58e5ca7d8a388560ad6b86e70ca0e88cc))
+
 ## 3.1.6 (2025-12-19)
 
 Full Changelog: [v3.1.5...v3.1.6](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.5...v3.1.6)
