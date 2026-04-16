@@ -32,6 +32,13 @@ import {
   PromptAnalyzerCreateResponse,
 } from './resources/prompt-analyzer';
 import {
+  Runtime,
+  RuntimeEvaluateRequestParams,
+  RuntimeEvaluateRequestResponse,
+  RuntimeEvaluateResponseParams,
+  RuntimeEvaluateResponseResponse,
+} from './resources/runtime';
+import {
   SensorCreateParams,
   SensorCreateResponse,
   SensorQueryParams,
@@ -900,6 +907,7 @@ export class HiddenLayer {
   evaluations: API.Evaluations = new API.Evaluations(this);
   promptAnalyzer: API.PromptAnalyzer = new API.PromptAnalyzer(this);
   interactions: API.Interactions = new API.Interactions(this);
+  runtime: API.Runtime = new API.Runtime(this);
   sensors: API.Sensors = new API.Sensors(this);
   scans: API.Scans = new API.Scans(this);
 }
@@ -908,6 +916,7 @@ HiddenLayer.Models = Models;
 HiddenLayer.Evaluations = Evaluations;
 HiddenLayer.PromptAnalyzer = PromptAnalyzer;
 HiddenLayer.Interactions = Interactions;
+HiddenLayer.Runtime = Runtime;
 HiddenLayer.Sensors = Sensors;
 HiddenLayer.Scans = Scans;
 
@@ -937,6 +946,14 @@ export declare namespace HiddenLayer {
     Interactions as Interactions,
     type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
     type InteractionAnalyzeParams as InteractionAnalyzeParams,
+  };
+
+  export {
+    Runtime as Runtime,
+    type RuntimeEvaluateRequestResponse as RuntimeEvaluateRequestResponse,
+    type RuntimeEvaluateResponseResponse as RuntimeEvaluateResponseResponse,
+    type RuntimeEvaluateRequestParams as RuntimeEvaluateRequestParams,
+    type RuntimeEvaluateResponseParams as RuntimeEvaluateResponseParams,
   };
 
   export {
