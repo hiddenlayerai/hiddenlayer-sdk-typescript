@@ -1,5 +1,23 @@
 # Changelog
 
+## 3.3.0 (2026-04-22)
+
+Full Changelog: [v3.2.0...v3.3.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.2.0...v3.3.0)
+
+### Features
+
+* **api:** Add Runtime Security support ([cd81405](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/cd8140592c50498d5016bc79333111e40fde25ec))
+* **api:** api update ([32677e3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/32677e368245dd857e9796b2f831166557c4e65f))
+* **api:** api update ([2dfa46a](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/2dfa46a04355c689a86ddb956b0d33ff214453ee))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([9962539](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/99625392980f7220536264fbc580f4d730fab70f))
+* regenerate beta endpoint registry [skip ci] ([df6315c](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/df6315c8a50f414ee4a7cac578f531e62c921393))
+* regenerate beta endpoint registry [skip ci] ([df35586](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/df35586c9626b651b0652537c01b186c231adcb2))
+* regenerate beta endpoint registry [skip ci] ([02540ff](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/02540ff613d86f722bd1c7919ef7bb1c758f3b86))
+
 ## 3.2.0 (2026-04-14)
 
 Full Changelog: [v3.1.6...v3.2.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.6...v3.2.0)
