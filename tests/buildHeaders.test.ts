@@ -1,9 +1,5 @@
 import { inspect } from 'node:util';
-import {
-  buildHeaders,
-  type HeadersLike,
-  type NullableHeaders,
-} from '@hiddenlayerai/hiddenlayer-sdk/internal/headers';
+import { buildHeaders, type HeadersLike, type NullableHeaders } from '@hiddenlayerai/hiddenlayer-sdk/internal/headers';
 
 function inspectNullableHeaders(headers: NullableHeaders) {
   return `NullableHeaders {${[

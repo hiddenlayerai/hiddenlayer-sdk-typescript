@@ -19,22 +19,8 @@ export class File extends APIResource {
    * ```
    */
   add(scanID: string, params: FileAddParams, options?: RequestOptions): APIPromise<FileAddResponse> {
-    const {
-      'file-content-length': fileContentLength,
-      'file-name': fileName,
-      'file-name-base64': fileNameBase64,
-    } = params;
-    return this._client.post(path`/scan/v3/upload/${scanID}/file`, {
-      ...options,
-      headers: buildHeaders([
-        {
-          'file-content-length': fileContentLength.toString(),
-          ...(fileName != null ? { 'file-name': fileName } : undefined),
-          ...(fileNameBase64 != null ? { 'file-name-base64': fileNameBase64 } : undefined),
-        },
-        options?.headers,
-      ]),
-    });
+    const { 'file-content-length': fileContentLength, 'file-name': fileName, 'file-name-base64': fileNameBase64 } = params
+    return this._client.post(path`/scan/v3/upload/${scanID}/file`, { ...options, headers: buildHeaders([{'file-content-length': fileContentLength.toString(), ...(fileName != null ? { 'file-name': fileName } : undefined), ...(fileNameBase64 != null ? { 'file-name-base64': fileNameBase64 } : undefined)}, options?.headers]) });
   }
 
   /**
@@ -48,12 +34,8 @@ export class File extends APIResource {
    * );
    * ```
    */
-  complete(
-    fileID: string,
-    params: FileCompleteParams,
-    options?: RequestOptions,
-  ): APIPromise<FileCompleteResponse> {
-    const { scan_id } = params;
+  complete(fileID: string, params: FileCompleteParams, options?: RequestOptions): APIPromise<FileCompleteResponse> {
+    const { scan_id } = params
     return this._client.patch(path`/scan/v3/upload/${scan_id}/file/${fileID}`, options);
   }
 }
@@ -118,6 +100,6 @@ export declare namespace File {
     type FileAddResponse as FileAddResponse,
     type FileCompleteResponse as FileCompleteResponse,
     type FileAddParams as FileAddParams,
-    type FileCompleteParams as FileCompleteParams,
+    type FileCompleteParams as FileCompleteParams
   };
 }
