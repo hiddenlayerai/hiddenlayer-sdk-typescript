@@ -40,22 +40,9 @@ export class Runtime extends APIResource {
    * });
    * ```
    */
-  evaluateRequest(
-    params: RuntimeEvaluateRequestParams,
-    options?: RequestOptions,
-  ): APIPromise<RuntimeEvaluateRequestResponse> {
-    const { body, 'HL-Project-Id': hlProjectID, 'HL-Runtime-Session-Id': hlRuntimeSessionID } = params;
-    return this._client.post('/detection/v2/request-evaluations', {
-      body: body,
-      ...options,
-      headers: buildHeaders([
-        {
-          ...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined),
-          ...(hlRuntimeSessionID != null ? { 'HL-Runtime-Session-Id': hlRuntimeSessionID } : undefined),
-        },
-        options?.headers,
-      ]),
-    });
+  evaluateRequest(params: RuntimeEvaluateRequestParams, options?: RequestOptions): APIPromise<RuntimeEvaluateRequestResponse> {
+    const { body, 'HL-Project-Id': hlProjectID, 'HL-Runtime-Session-Id': hlRuntimeSessionID } = params
+    return this._client.post('/detection/v2/request-evaluations', { body: body, ...options, headers: buildHeaders([{...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined), ...(hlRuntimeSessionID != null ? { 'HL-Runtime-Session-Id': hlRuntimeSessionID } : undefined)}, options?.headers]) });
   }
 
   /**
@@ -94,22 +81,9 @@ export class Runtime extends APIResource {
    * });
    * ```
    */
-  evaluateResponse(
-    params: RuntimeEvaluateResponseParams,
-    options?: RequestOptions,
-  ): APIPromise<RuntimeEvaluateResponseResponse> {
-    const { body, 'HL-Project-Id': hlProjectID, 'HL-Runtime-Session-Id': hlRuntimeSessionID } = params;
-    return this._client.post('/detection/v2/response-evaluations', {
-      body: body,
-      ...options,
-      headers: buildHeaders([
-        {
-          ...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined),
-          ...(hlRuntimeSessionID != null ? { 'HL-Runtime-Session-Id': hlRuntimeSessionID } : undefined),
-        },
-        options?.headers,
-      ]),
-    });
+  evaluateResponse(params: RuntimeEvaluateResponseParams, options?: RequestOptions): APIPromise<RuntimeEvaluateResponseResponse> {
+    const { body, 'HL-Project-Id': hlProjectID, 'HL-Runtime-Session-Id': hlRuntimeSessionID } = params
+    return this._client.post('/detection/v2/response-evaluations', { body: body, ...options, headers: buildHeaders([{...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined), ...(hlRuntimeSessionID != null ? { 'HL-Runtime-Session-Id': hlRuntimeSessionID } : undefined)}, options?.headers]) });
   }
 }
 
@@ -118,14 +92,14 @@ export class Runtime extends APIResource {
  * provider request or response payload is accepted as-is and returned in the same
  * format.
  */
-export type RuntimeEvaluateRequestResponse = { [key: string]: unknown };
+export type RuntimeEvaluateRequestResponse = { [key: string]: unknown }
 
 /**
  * A pass-through payload in the native format of the LLM provider. Any valid
  * provider request or response payload is accepted as-is and returned in the same
  * format.
  */
-export type RuntimeEvaluateResponseResponse = { [key: string]: unknown };
+export type RuntimeEvaluateResponseResponse = { [key: string]: unknown }
 
 export interface RuntimeEvaluateRequestParams {
   /**
@@ -174,6 +148,6 @@ export declare namespace Runtime {
     type RuntimeEvaluateRequestResponse as RuntimeEvaluateRequestResponse,
     type RuntimeEvaluateResponseResponse as RuntimeEvaluateResponseResponse,
     type RuntimeEvaluateRequestParams as RuntimeEvaluateRequestParams,
-    type RuntimeEvaluateResponseParams as RuntimeEvaluateResponseParams,
+    type RuntimeEvaluateResponseParams as RuntimeEvaluateResponseParams
   };
 }

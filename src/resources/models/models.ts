@@ -22,10 +22,7 @@ export class Models extends APIResource {
    * Delete Adhoc Model
    */
   delete(modelID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/api/v2/models/${modelID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/api/v2/models/${modelID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
@@ -70,12 +67,14 @@ export namespace ModelRetrieveResponse {
 Models.Cards = Cards;
 
 export declare namespace Models {
-  export { type ModelRetrieveResponse as ModelRetrieveResponse };
+  export {
+    type ModelRetrieveResponse as ModelRetrieveResponse
+  };
 
   export {
     Cards as Cards,
     type CardListResponse as CardListResponse,
     type CardListResponsesOffsetPage as CardListResponsesOffsetPage,
-    type CardListParams as CardListParams,
+    type CardListParams as CardListParams
   };
 }

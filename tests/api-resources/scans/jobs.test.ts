@@ -2,10 +2,7 @@
 
 import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
 
-const client = new HiddenLayer({
-  bearerToken: 'My Bearer Token',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new HiddenLayer({ bearerToken: 'My Bearer Token', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource jobs', () => {
   // Mock server tests are disabled
@@ -23,13 +20,9 @@ describe('resource jobs', () => {
   // Mock server tests are disabled
   test.skip('retrieve: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.scans.jobs.retrieve(
-        '00000000-0000-0000-0000-000000000000',
-        { has_detections: true },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(HiddenLayer.NotFoundError);
+    await expect(client.scans.jobs.retrieve('00000000-0000-0000-0000-000000000000', { has_detections: true }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(HiddenLayer.NotFoundError);
   });
 
   // Mock server tests are disabled
@@ -47,44 +40,41 @@ describe('resource jobs', () => {
   // Mock server tests are disabled
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.scans.jobs.list(
-        {
-          compliance_status: ['COMPLIANT'],
-          deep_scan: true,
-          detection_category: 'detection_category',
-          end_time: '2019-12-27T18:11:19.117Z',
-          latest_per_model_version_only: true,
-          limit: 1,
-          model_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
-          model_name: { contains: 'contains', eq: 'eq' },
-          model_version_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
-          offset: 0,
-          provider: ['string'],
-          region: ['string'],
-          request_source: ['Hybrid Upload'],
-          scanner_version: '891.0.97194',
-          severity: 'critical',
-          sort: '-region',
-          source: { eq: 'adhoc' },
-          start_time: '2019-12-27T18:11:19.117Z',
-          status: ['string'],
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(HiddenLayer.NotFoundError);
+    await expect(client.scans.jobs.list({
+    compliance_status: ['COMPLIANT'],
+    deep_scan: true,
+    detection_category: 'detection_category',
+    end_time: '2019-12-27T18:11:19.117Z',
+    latest_per_model_version_only: true,
+    limit: 1,
+    model_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+    model_name: { contains: 'contains', eq: 'eq' },
+    model_version_ids: ['182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e'],
+    offset: 0,
+    provider: ['string'],
+    region: ['string'],
+    request_source: ['Hybrid Upload'],
+    scanner_version: '891.0.97194',
+    severity: 'critical',
+    sort: '-region',
+    source: { eq: 'adhoc' },
+    start_time: '2019-12-27T18:11:19.117Z',
+    status: ['string'],
+  }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(HiddenLayer.NotFoundError);
   });
 
   // Mock server tests are disabled
   test.skip('request: only required params', async () => {
     const responsePromise = client.scans.jobs.request({
-      access: {},
-      inventory: {
-        model_name: 'some-model',
-        model_version: '',
-        requesting_entity: 'some-user@example.com',
-      },
-    });
+    access: {},
+    inventory: {
+    model_name: 'some-model',
+    model_version: '',
+    requesting_entity: 'some-user@example.com',
+  },
+  });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -97,33 +87,25 @@ describe('resource jobs', () => {
   // Mock server tests are disabled
   test.skip('request: required and optional params', async () => {
     const response = await client.scans.jobs.request({
-      access: { source: 'HUGGING_FACE' },
-      inventory: {
-        model_name: 'some-model',
-        model_version: '',
-        requesting_entity: 'some-user@example.com',
-        origin: 'Hugging Face',
-        request_source: 'Hybrid Upload',
-        requested_scan_location: 'owner/repo',
-        scan_target: {
-          asset_region: 'us-east-1',
-          deep_scan: {
-            file_location: 'https://huggingface.co/meta-llama/Llama-3.1-8B',
-            files: [
-              {
-                file_location: 'https://huggingface.co/meta-llama/Llama-3.1-8B/resolve/main/config.json',
-                file_name_alias: 'model-config.json',
-              },
-            ],
-          },
-          provider_details: {
-            provider: 'AWS_BEDROCK',
-            provider_model_id: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
-            country: 'US',
-            model_arn: 'arn:aws:bedrock:us-east-1:123456789012:provisioned-model/my-custom-model',
-          },
-        },
-      },
-    });
+    access: { source: 'HUGGING_FACE' },
+    inventory: {
+    model_name: 'some-model',
+    model_version: '',
+    requesting_entity: 'some-user@example.com',
+    origin: 'Hugging Face',
+    request_source: 'Hybrid Upload',
+    requested_scan_location: 'owner/repo',
+    scan_target: {
+    asset_region: 'us-east-1',
+    deep_scan: { file_location: 'https://huggingface.co/meta-llama/Llama-3.1-8B', files: [{ file_location: 'https://huggingface.co/meta-llama/Llama-3.1-8B/resolve/main/config.json', file_name_alias: 'model-config.json' }] },
+    provider_details: {
+    provider: 'AWS_BEDROCK',
+    provider_model_id: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
+    country: 'US',
+    model_arn: 'arn:aws:bedrock:us-east-1:123456789012:provisioned-model/my-custom-model',
+  },
+  },
+  },
+  });
   });
 });

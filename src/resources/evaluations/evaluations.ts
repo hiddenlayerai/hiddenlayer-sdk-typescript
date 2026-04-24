@@ -2,16 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import * as RedTeamAPI from './red-team';
-import {
-  RedTeam,
-  RedTeamCreateParams,
-  RedTeamCreateResponse,
-  RedTeamRetrieveEvaluationResultsResponse,
-  RedTeamRetrieveNextActionResponse,
-  RedTeamRetrieveStatusResponse,
-  RedTeamSubmitTargetResponseParams,
-  RedTeamSubmitTargetResponseResponse,
-} from './red-team';
+import { RedTeam, RedTeamCreateParams, RedTeamCreateResponse, RedTeamRetrieveEvaluationResultsResponse, RedTeamRetrieveNextActionResponse, RedTeamRetrieveStatusResponse, RedTeamSubmitTargetResponseParams, RedTeamSubmitTargetResponseResponse } from './red-team';
 
 export class Evaluations extends APIResource {
   redTeam: RedTeamAPI.RedTeam = new RedTeamAPI.RedTeam(this._client);
@@ -28,6 +19,6 @@ export declare namespace Evaluations {
     type RedTeamRetrieveStatusResponse as RedTeamRetrieveStatusResponse,
     type RedTeamSubmitTargetResponseResponse as RedTeamSubmitTargetResponseResponse,
     type RedTeamCreateParams as RedTeamCreateParams,
-    type RedTeamSubmitTargetResponseParams as RedTeamSubmitTargetResponseParams,
+    type RedTeamSubmitTargetResponseParams as RedTeamSubmitTargetResponseParams
   };
 }
