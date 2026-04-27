@@ -8,12 +8,15 @@ export class Cards extends APIResource {
   /**
    * List Model Cards
    */
-  list(query: CardListParams | null | undefined = {}, options?: RequestOptions): PagePromise<CardListResponsesOffsetPage, CardListResponse> {
+  list(
+    query: CardListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CardListResponsesOffsetPage, CardListResponse> {
     return this._client.getAPIList('/models/v4/cards', OffsetPage<CardListResponse>, { query, ...options });
   }
 }
 
-export type CardListResponsesOffsetPage = OffsetPage<CardListResponse>
+export type CardListResponsesOffsetPage = OffsetPage<CardListResponse>;
 
 export interface CardListResponse {
   active_version_count: number;
@@ -100,7 +103,19 @@ export interface CardListParams extends OffsetPageParams {
    */
   model_name?: CardListParams.ModelName;
 
-  modscan_severity?: Array<'SAFE' | 'UNSAFE' | 'SUSPICIOUS' | 'UNKNOWN' | 'ERROR' | 'critical' | 'high' | 'medium' | 'low' | 'none' | 'unknown'>;
+  modscan_severity?: Array<
+    | 'SAFE'
+    | 'UNSAFE'
+    | 'SUSPICIOUS'
+    | 'UNKNOWN'
+    | 'ERROR'
+    | 'critical'
+    | 'high'
+    | 'medium'
+    | 'low'
+    | 'none'
+    | 'unknown'
+  >;
 
   modscan_status?: 'ENABLED' | 'DISABLED' | 'ANY';
 
@@ -153,6 +168,6 @@ export declare namespace Cards {
   export {
     type CardListResponse as CardListResponse,
     type CardListResponsesOffsetPage as CardListResponsesOffsetPage,
-    type CardListParams as CardListParams
+    type CardListParams as CardListParams,
   };
 }

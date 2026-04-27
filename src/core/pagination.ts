@@ -87,7 +87,8 @@ export class PagePromise<
     super(
       client,
       request,
-      async (client, props) => new Page(client, props.response, await defaultParseResponse(client, props), props.options)
+      async (client, props) =>
+        new Page(client, props.response, await defaultParseResponse(client, props), props.options),
     );
   }
 
@@ -131,7 +132,12 @@ export class CursorPagination<Item> extends AbstractPage<Item> implements Cursor
 
   page: CursorPaginationResponse.Page;
 
-  constructor(client: HiddenLayer, response: Response, body: CursorPaginationResponse<Item>, options: FinalRequestOptions) {
+  constructor(
+    client: HiddenLayer,
+    response: Response,
+    body: CursorPaginationResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
     super(client, response, body, options);
 
     this.items = body.items || [];
@@ -143,7 +149,7 @@ export class CursorPagination<Item> extends AbstractPage<Item> implements Cursor
   }
 
   nextPageRequestOptions(): PageRequestOptions | null {
-    const cursor = this.page?.next
+    const cursor = this.page?.next;
     if (!cursor) {
       return null;
     }
@@ -189,7 +195,12 @@ export class OffsetPage<Item> extends AbstractPage<Item> implements OffsetPageRe
 
   page_number: number;
 
-  constructor(client: HiddenLayer, response: Response, body: OffsetPageResponse<Item>, options: FinalRequestOptions) {
+  constructor(
+    client: HiddenLayer,
+    response: Response,
+    body: OffsetPageResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
     super(client, response, body, options);
 
     this.results = body.results || [];
@@ -214,14 +225,14 @@ export class OffsetPage<Item> extends AbstractPage<Item> implements OffsetPageRe
 
     if (currentCount < totalCount) {
       return {
-      ...this.options,
-      query: {
-        ...maybeObj(this.options.query),
-        offset: currentCount,
-      },
-    };
+        ...this.options,
+        query: {
+          ...maybeObj(this.options.query),
+          offset: currentCount,
+        },
+      };
     }
 
-    return null
+    return null;
   }
 }

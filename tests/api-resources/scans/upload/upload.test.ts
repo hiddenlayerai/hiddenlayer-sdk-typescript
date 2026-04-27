@@ -2,7 +2,10 @@
 
 import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
 
-const client = new HiddenLayer({ bearerToken: 'My Bearer Token', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new HiddenLayer({
+  bearerToken: 'My Bearer Token',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource upload', () => {
   // Mock server tests are disabled
@@ -20,10 +23,10 @@ describe('resource upload', () => {
   // Mock server tests are disabled
   test.skip('start: only required params', async () => {
     const responsePromise = client.scans.upload.start({
-    model_name: 'model_name',
-    model_version: 'model_version',
-    requesting_entity: 'requesting_entity',
-  });
+      model_name: 'model_name',
+      model_version: 'model_version',
+      requesting_entity: 'requesting_entity',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -36,12 +39,12 @@ describe('resource upload', () => {
   // Mock server tests are disabled
   test.skip('start: required and optional params', async () => {
     const response = await client.scans.upload.start({
-    model_name: 'model_name',
-    model_version: 'model_version',
-    requesting_entity: 'requesting_entity',
-    location_alias: 'location_alias',
-    origin: 'Hugging Face',
-    request_source: 'Hybrid Upload',
-  });
+      model_name: 'model_name',
+      model_version: 'model_version',
+      requesting_entity: 'requesting_entity',
+      location_alias: 'location_alias',
+      origin: 'Hugging Face',
+      request_source: 'Hybrid Upload',
+    });
   });
 });

@@ -17,9 +17,19 @@ export class Interactions extends APIResource {
    * });
    * ```
    */
-  analyze(params: InteractionAnalyzeParams, options?: RequestOptions): APIPromise<InteractionAnalyzeResponse> {
-    const { 'HL-Project-Id': hlProjectID, ...body } = params
-    return this._client.post('/detection/v1/interactions', { body, ...options, headers: buildHeaders([{...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined)}, options?.headers]) });
+  analyze(
+    params: InteractionAnalyzeParams,
+    options?: RequestOptions,
+  ): APIPromise<InteractionAnalyzeResponse> {
+    const { 'HL-Project-Id': hlProjectID, ...body } = params;
+    return this._client.post('/detection/v1/interactions', {
+      body,
+      ...options,
+      headers: buildHeaders([
+        { ...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 }
 
@@ -98,7 +108,7 @@ export namespace InteractionAnalyzeResponse {
        */
       frameworks: { [key: string]: Array<Findings.Framework> };
 
-    [k: string]: unknown
+      [k: string]: unknown;
     }
 
     export namespace Findings {
@@ -132,7 +142,7 @@ export namespace InteractionAnalyzeResponse {
        */
       messages?: Array<Input.Message>;
 
-    [k: string]: unknown
+      [k: string]: unknown;
     }
 
     export namespace Input {
@@ -241,7 +251,7 @@ export namespace InteractionAnalyzeResponse {
        */
       messages?: Array<Input.Message>;
 
-    [k: string]: unknown
+      [k: string]: unknown;
     }
 
     export namespace Input {
@@ -348,7 +358,7 @@ export namespace InteractionAnalyzeParams {
      */
     messages?: Array<Input.Message>;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 
   export namespace Input {
@@ -390,6 +400,6 @@ export namespace InteractionAnalyzeParams {
 export declare namespace Interactions {
   export {
     type InteractionAnalyzeResponse as InteractionAnalyzeResponse,
-    type InteractionAnalyzeParams as InteractionAnalyzeParams
+    type InteractionAnalyzeParams as InteractionAnalyzeParams,
   };
 }

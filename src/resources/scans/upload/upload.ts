@@ -94,7 +94,7 @@ export declare namespace Upload {
   export {
     type UploadCompleteAllResponse as UploadCompleteAllResponse,
     type UploadStartResponse as UploadStartResponse,
-    type UploadStartParams as UploadStartParams
+    type UploadStartParams as UploadStartParams,
   };
 
   export {
@@ -102,6 +102,6 @@ export declare namespace Upload {
     type FileAddResponse as FileAddResponse,
     type FileCompleteResponse as FileCompleteResponse,
     type FileAddParams as FileAddParams,
-    type FileCompleteParams as FileCompleteParams
+    type FileCompleteParams as FileCompleteParams,
   };
 }

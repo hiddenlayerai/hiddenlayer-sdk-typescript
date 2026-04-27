@@ -24,7 +24,10 @@ export class RedTeam extends APIResource {
    *
    * Get the complete result of a red team workflow.
    */
-  retrieveEvaluationResults(workflowID: string, options?: RequestOptions): APIPromise<RedTeamRetrieveEvaluationResultsResponse> {
+  retrieveEvaluationResults(
+    workflowID: string,
+    options?: RequestOptions,
+  ): APIPromise<RedTeamRetrieveEvaluationResultsResponse> {
     return this._client.get(path`/evaluations/v1/red-team/${workflowID}`, options);
   }
 
@@ -41,7 +44,10 @@ export class RedTeam extends APIResource {
    * - If processing: Returns processing=true (client continues polling)
    * - If complete: Returns action_type=complete
    */
-  retrieveNextAction(workflowID: string, options?: RequestOptions): APIPromise<RedTeamRetrieveNextActionResponse> {
+  retrieveNextAction(
+    workflowID: string,
+    options?: RequestOptions,
+  ): APIPromise<RedTeamRetrieveNextActionResponse> {
     return this._client.get(path`/evaluations/v1/red-team/${workflowID}/next-action`, options);
   }
 
@@ -64,8 +70,15 @@ export class RedTeam extends APIResource {
    * This triggers the ProcessTargetResponseWorkflow child workflow for the specified
    * session. Returns immediately.
    */
-  submitTargetResponse(workflowID: string, body: RedTeamSubmitTargetResponseParams, options?: RequestOptions): APIPromise<RedTeamSubmitTargetResponseResponse> {
-    return this._client.post(path`/evaluations/v1/red-team/${workflowID}/target-response`, { body, ...options });
+  submitTargetResponse(
+    workflowID: string,
+    body: RedTeamSubmitTargetResponseParams,
+    options?: RequestOptions,
+  ): APIPromise<RedTeamSubmitTargetResponseResponse> {
+    return this._client.post(path`/evaluations/v1/red-team/${workflowID}/target-response`, {
+      body,
+      ...options,
+    });
   }
 
   /**
@@ -75,7 +88,10 @@ export class RedTeam extends APIResource {
    * Terminate a running workflow job.
    */
   terminate(workflowID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/evaluations/v1/jobs/${workflowID}/termination`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/evaluations/v1/jobs/${workflowID}/termination`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 
@@ -423,6 +439,6 @@ export declare namespace RedTeam {
     type RedTeamRetrieveStatusResponse as RedTeamRetrieveStatusResponse,
     type RedTeamSubmitTargetResponseResponse as RedTeamSubmitTargetResponseResponse,
     type RedTeamCreateParams as RedTeamCreateParams,
-    type RedTeamSubmitTargetResponseParams as RedTeamSubmitTargetResponseParams
+    type RedTeamSubmitTargetResponseParams as RedTeamSubmitTargetResponseParams,
   };
 }
