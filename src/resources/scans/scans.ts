@@ -23,7 +23,7 @@ export declare namespace Scans {
     Results as Results,
     type FileScanReport as FileScanReport,
     type ScanReport as ScanReport,
-    type ResultSarifResponse as ResultSarifResponse
+    type ResultSarifResponse as ResultSarifResponse,
   };
 
   export {
@@ -32,13 +32,13 @@ export declare namespace Scans {
     type JobListResponse as JobListResponse,
     type JobRetrieveParams as JobRetrieveParams,
     type JobListParams as JobListParams,
-    type JobRequestParams as JobRequestParams
+    type JobRequestParams as JobRequestParams,
   };
 
   export {
     Upload as Upload,
     type UploadCompleteAllResponse as UploadCompleteAllResponse,
     type UploadStartResponse as UploadStartResponse,
-    type UploadStartParams as UploadStartParams
+    type UploadStartParams as UploadStartParams,
   };
 }

@@ -18,7 +18,11 @@ export class Jobs extends APIResource {
    * );
    * ```
    */
-  retrieve(scanID: string, query: JobRetrieveParams | null | undefined = {}, options?: RequestOptions): APIPromise<ResultsAPI.ScanReport> {
+  retrieve(
+    scanID: string,
+    query: JobRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ResultsAPI.ScanReport> {
     return this._client.get(path`/scan/v3/results/${scanID}`, { query, ...options });
   }
 
@@ -51,7 +55,11 @@ export class Jobs extends APIResource {
    * ```
    */
   request(body: JobRequestParams, options?: RequestOptions): APIPromise<ScanJob> {
-    return this._client.post('/scan/v3/jobs', { body, ...options, headers: buildHeaders([{'Content-Type': 'application/json; charset=utf-8'}, options?.headers]) });
+    return this._client.post('/scan/v3/jobs', {
+      body,
+      ...options,
+      headers: buildHeaders([{ 'Content-Type': 'application/json; charset=utf-8' }, options?.headers]),
+    });
   }
 }
 
@@ -557,7 +565,16 @@ export namespace JobRequestParams {
    * Access method for the location of files associated with the scan
    */
   export interface Access {
-    source?: 'LOCAL' | 'AWS_PRESIGNED' | 'AWS_IAM_ROLE' | 'AZURE_BLOB_SAS' | 'AZURE_BLOB_AD' | 'GOOGLE_SIGNED' | 'GOOGLE_OAUTH' | 'HUGGING_FACE' | 'NONE';
+    source?:
+      | 'LOCAL'
+      | 'AWS_PRESIGNED'
+      | 'AWS_IAM_ROLE'
+      | 'AZURE_BLOB_SAS'
+      | 'AZURE_BLOB_AD'
+      | 'GOOGLE_SIGNED'
+      | 'GOOGLE_OAUTH'
+      | 'HUGGING_FACE'
+      | 'NONE';
   }
 
   export interface Inventory {
@@ -678,6 +695,6 @@ export declare namespace Jobs {
     type JobListResponse as JobListResponse,
     type JobRetrieveParams as JobRetrieveParams,
     type JobListParams as JobListParams,
-    type JobRequestParams as JobRequestParams
+    type JobRequestParams as JobRequestParams,
   };
 }

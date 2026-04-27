@@ -30,7 +30,11 @@ export class Sensors extends APIResource {
    *
    * @deprecated
    */
-  update(sensorID: string, body: SensorUpdateParams, options?: RequestOptions): APIPromise<SensorUpdateResponse> {
+  update(
+    sensorID: string,
+    body: SensorUpdateParams,
+    options?: RequestOptions,
+  ): APIPromise<SensorUpdateResponse> {
     return this._client.put(path`/api/v2/sensors/${sensorID}`, { body, ...options });
   }
 
@@ -40,7 +44,10 @@ export class Sensors extends APIResource {
    * @deprecated
    */
   delete(sensorID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/api/v2/sensors/${sensorID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.delete(path`/api/v2/sensors/${sensorID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   /**
@@ -48,7 +55,10 @@ export class Sensors extends APIResource {
    *
    * @deprecated
    */
-  query(body: SensorQueryParams | null | undefined = {}, options?: RequestOptions): APIPromise<SensorQueryResponse> {
+  query(
+    body: SensorQueryParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<SensorQueryResponse> {
     return this._client.post('/api/v2/sensors/query', { body, ...options });
   }
 }
@@ -185,6 +195,6 @@ export declare namespace Sensors {
     type SensorQueryResponse as SensorQueryResponse,
     type SensorCreateParams as SensorCreateParams,
     type SensorUpdateParams as SensorUpdateParams,
-    type SensorQueryParams as SensorQueryParams
+    type SensorQueryParams as SensorQueryParams,
   };
 }

@@ -18,7 +18,10 @@ export class Results extends APIResource {
    * ```
    */
   sarif(scanID: string, options?: RequestOptions): APIPromise<string> {
-    return this._client.get(path`/scan/v3/results/${scanID}/sarif`, { ...options, headers: buildHeaders([{Accept: 'application/sarif+json'}, options?.headers]) });
+    return this._client.get(path`/scan/v3/results/${scanID}/sarif`, {
+      ...options,
+      headers: buildHeaders([{ Accept: 'application/sarif+json' }, options?.headers]),
+    });
   }
 }
 
@@ -95,7 +98,11 @@ export namespace FileScanReport {
        */
       file_size_bytes?: number;
 
-      file_type_details?: Details.GgufFileAttributes | Details.KerasFileAttributes | Details.NumpyFileAttributes | Details.RdsFileAttributes;
+      file_type_details?:
+        | Details.GgufFileAttributes
+        | Details.KerasFileAttributes
+        | Details.NumpyFileAttributes
+        | Details.RdsFileAttributes;
 
       /**
        * hexadecimal md5 hash of file
@@ -557,7 +564,11 @@ export namespace ScanReport {
        */
       file_size_bytes?: number;
 
-      file_type_details?: Details.GgufFileAttributes | Details.KerasFileAttributes | Details.NumpyFileAttributes | Details.RdsFileAttributes;
+      file_type_details?:
+        | Details.GgufFileAttributes
+        | Details.KerasFileAttributes
+        | Details.NumpyFileAttributes
+        | Details.RdsFileAttributes;
 
       /**
        * hexadecimal md5 hash of file
@@ -788,12 +799,12 @@ export namespace ScanReport {
   }
 }
 
-export type ResultSarifResponse = string
+export type ResultSarifResponse = string;
 
 export declare namespace Results {
   export {
     type FileScanReport as FileScanReport,
     type ScanReport as ScanReport,
-    type ResultSarifResponse as ResultSarifResponse
+    type ResultSarifResponse as ResultSarifResponse,
   };
 }

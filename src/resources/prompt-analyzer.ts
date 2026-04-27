@@ -16,9 +16,22 @@ export class PromptAnalyzer extends APIResource {
    * });
    * ```
    */
-  create(params: PromptAnalyzerCreateParams, options?: RequestOptions): APIPromise<PromptAnalyzerCreateResponse> {
-    const { 'HL-Project-Id': hlProjectID, 'X-Requester-Id': xRequesterID, ...body } = params
-    return this._client.post('/api/v1/submit/prompt-analyzer', { body, ...options, headers: buildHeaders([{...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined), ...(xRequesterID != null ? { 'X-Requester-Id': xRequesterID } : undefined)}, options?.headers]) });
+  create(
+    params: PromptAnalyzerCreateParams,
+    options?: RequestOptions,
+  ): APIPromise<PromptAnalyzerCreateResponse> {
+    const { 'HL-Project-Id': hlProjectID, 'X-Requester-Id': xRequesterID, ...body } = params;
+    return this._client.post('/api/v1/submit/prompt-analyzer', {
+      body,
+      ...options,
+      headers: buildHeaders([
+        {
+          ...(hlProjectID != null ? { 'HL-Project-Id': hlProjectID } : undefined),
+          ...(xRequesterID != null ? { 'X-Requester-Id': xRequesterID } : undefined),
+        },
+        options?.headers,
+      ]),
+    });
   }
 }
 
@@ -633,6 +646,6 @@ export interface PromptAnalyzerCreateParams {
 export declare namespace PromptAnalyzer {
   export {
     type PromptAnalyzerCreateResponse as PromptAnalyzerCreateResponse,
-    type PromptAnalyzerCreateParams as PromptAnalyzerCreateParams
+    type PromptAnalyzerCreateParams as PromptAnalyzerCreateParams,
   };
 }
