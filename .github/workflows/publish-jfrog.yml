@@ -1,14 +1,14 @@
-name: "Publish hiddenlayer SDK to JFrog"
+name: 'Publish hiddenlayer SDK to JFrog'
 
 on:
   push:
     branches:
       - main
     paths:
-      - "src/**"
-      - "package.json"
-      - "scripts/**"
-      - "yarn.lock"
+      - 'src/**'
+      - 'package.json'
+      - 'scripts/**'
+      - 'yarn.lock'
 
 jobs:
   publish:
@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
 
       - name: Install Yarn (classic)
         run: npm install -g yarn@1.22.22
@@ -64,7 +64,7 @@ jobs:
 
       - name: Determine if version is unpublished
         id: version-check
-        if: ${{ github.ref == 'refs/heads/main' }} 
+        if: ${{ github.ref == 'refs/heads/main' }}
         env:
           JFROG_PASSWORD_BASE64: ${{ secrets.JFROG_PASSWORD_BASE64 }}
           JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
@@ -75,7 +75,7 @@ jobs:
           PACKAGE_NAME=$(jq -r .name package.json)
           PACKAGE_VERSION=$(jq -r .version package.json)
           echo "Local package: $PACKAGE_NAME@$PACKAGE_VERSION"
-          
+
           # Configure npm auth for version check
           REGISTRY_URL=https://hiddenlayer.jfrog.io/artifactory/api/npm/npm/
           PASSWORD_B64="$JFROG_PASSWORD_BASE64"
