@@ -6,23 +6,13 @@ Full Changelog: [v3.2.0...v3.3.0](https://github.com/hiddenlayerai/hiddenlayer-s
 
 ### Features
 
-* **api:** Add Runtime Security support ([cd81405](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/cd8140592c50498d5016bc79333111e40fde25ec))
-* **api:** api update ([32677e3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/32677e368245dd857e9796b2f831166557c4e65f))
-* **api:** api update ([2dfa46a](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/2dfa46a04355c689a86ddb956b0d33ff214453ee))
-* support setting headers via env ([571e3b3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/571e3b33c513c879177c81b39a90e200b1f3598c))
+* **api:** Add Runtime Security evaluation endpoints for real-time request and response analysis ([cd81405](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/cd8140592c50498d5016bc79333111e40fde25ec))
+* **client:** Support setting custom request headers via environment variables ([571e3b3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/571e3b33c513c879177c81b39a90e200b1f3598c))
 
 
-### Chores
+### Security
 
-* **format:** run eslint and prettier separately ([83fc3e0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/83fc3e06f97fe9c1821b5597583fafefd1e4ebc3))
-* **format:** run prettier on workflow and docs ([#310](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues/310)) ([b1efd8a](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/b1efd8a3633f2162f4c1d6b951a40452c46225d4))
-* **formatter:** run prettier and eslint separately ([08d433a](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/08d433ad218e45a910bbc2b202e06396640ead97))
-* **internal:** codegen related update ([15f52c7](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/15f52c79a13b2b2d53fe4d4b35427edebf8db8b7))
-* **internal:** more robust bootstrap script ([9962539](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/99625392980f7220536264fbc580f4d730fab70f))
-* redact api-key headers in debug logs ([a9b6abb](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/a9b6abb3b0d528041edab30a982f226ed555ca38))
-* regenerate beta endpoint registry [skip ci] ([df6315c](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/df6315c8a50f414ee4a7cac578f531e62c921393))
-* regenerate beta endpoint registry [skip ci] ([df35586](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/df35586c9626b651b0652537c01b186c231adcb2))
-* regenerate beta endpoint registry [skip ci] ([02540ff](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/02540ff613d86f722bd1c7919ef7bb1c758f3b86))
+* **client:** Redact API key headers in debug logs ([a9b6abb](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/a9b6abb3b0d528041edab30a982f226ed555ca38))
 
 ## 3.2.0 (2026-04-14)
 
