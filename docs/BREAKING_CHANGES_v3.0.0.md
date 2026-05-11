@@ -26,10 +26,10 @@ The new version is a complete rewrite using [Stainless](https://www.stainless.co
 
 ## Package Changes
 
-| Aspect | v2.x (Previous) | v3.0.0 (New) |
-|--------|---------------|--------------|
-| Package name | `@hiddenlayerai/hiddenlayer-sdk` | `@hiddenlayer/hiddenlayer-sdk` |
-| Generated with | OpenAPI Generator | Stainless |
+| Aspect         | v2.x (Previous)                  | v3.0.0 (New)                   |
+| -------------- | -------------------------------- | ------------------------------ |
+| Package name   | `@hiddenlayerai/hiddenlayer-sdk` | `@hiddenlayer/hiddenlayer-sdk` |
+| Generated with | OpenAPI Generator                | Stainless                      |
 
 ### Import Changes
 
@@ -51,15 +51,10 @@ import HiddenLayer from '@hiddenlayer/hiddenlayer-sdk';
 import { HiddenLayerServiceClient } from '@hiddenlayerai/hiddenlayer-sdk';
 
 // SaaS Client
-const client = HiddenLayerServiceClient.createSaaSClient(
-  'your-client-id',
-  'your-client-secret'
-);
+const client = HiddenLayerServiceClient.createSaaSClient('your-client-id', 'your-client-secret');
 
 // Enterprise Client (on-premise)
-const client = HiddenLayerServiceClient.createEnterpriseClient(
-  'https://your-enterprise-host.com'
-);
+const client = HiddenLayerServiceClient.createEnterpriseClient('https://your-enterprise-host.com');
 ```
 
 ### v3.0.0 (New)
@@ -89,19 +84,20 @@ const client = new HiddenLayer({
 
 ### Key Changes
 
-| Aspect | v2.x (Previous) | v3.0.0 (New) |
-|--------|---------------|--------------|
-| Class name | `HiddenLayerServiceClient` | `HiddenLayer` |
-| Creation | Factory methods | Constructor with options |
-| Default host | `https://api.us.hiddenlayer.ai` | `https://api.hiddenlayer.ai` |
-| Environment selection | Via host URL | `environment` option |
-| Bearer token auth | Not supported | Supported |
-| Timeout config | Not configurable | `timeout` option |
-| Retry config | Not built-in | `maxRetries` option |
+| Aspect                | v2.x (Previous)                 | v3.0.0 (New)                 |
+| --------------------- | ------------------------------- | ---------------------------- |
+| Class name            | `HiddenLayerServiceClient`      | `HiddenLayer`                |
+| Creation              | Factory methods                 | Constructor with options     |
+| Default host          | `https://api.us.hiddenlayer.ai` | `https://api.hiddenlayer.ai` |
+| Environment selection | Via host URL                    | `environment` option         |
+| Bearer token auth     | Not supported                   | Supported                    |
+| Timeout config        | Not configurable                | `timeout` option             |
+| Retry config          | Not built-in                    | `maxRetries` option          |
 
 ### Environment Configuration
 
 The new SDK supports environment-based configuration:
+
 - `prod-us` → `https://api.hiddenlayer.ai`
 - `prod-eu` → `https://api.eu.hiddenlayer.ai`
 
@@ -109,13 +105,13 @@ The new SDK supports environment-based configuration:
 
 ## Environment Variables
 
-| v2.x (Previous) | v3.0.0 (New) |
-|---------------|--------------|
-| `HL_CLIENT_ID` | `HIDDENLAYER_CLIENT_ID` |
+| v2.x (Previous)    | v3.0.0 (New)                |
+| ------------------ | --------------------------- |
+| `HL_CLIENT_ID`     | `HIDDENLAYER_CLIENT_ID`     |
 | `HL_CLIENT_SECRET` | `HIDDENLAYER_CLIENT_SECRET` |
-| N/A | `HIDDENLAYER_TOKEN` |
-| N/A | `HIDDENLAYER_BASE_URL` |
-| N/A | `HIDDENLAYER_LOG` |
+| N/A                | `HIDDENLAYER_TOKEN`         |
+| N/A                | `HIDDENLAYER_BASE_URL`      |
+| N/A                | `HIDDENLAYER_LOG`           |
 
 ---
 
@@ -124,16 +120,18 @@ The new SDK supports environment-based configuration:
 ### Scanning a File
 
 **v2.x (Previous):**
+
 ```typescript
 const result = await client.modelScanner.scanFile(
-  'model-name',          // modelName
-  '/path/to/model.pkl',  // modelPath
-  'v1',                  // modelVersion (optional)
-  true                   // waitForResults (optional)
+  'model-name', // modelName
+  '/path/to/model.pkl', // modelPath
+  'v1', // modelVersion (optional)
+  true, // waitForResults (optional)
 );
 ```
 
 **v3.0.0 (New):**
+
 ```typescript
 const result = await client.modelScanner.scanFile({
   modelName: 'model-name',
@@ -148,18 +146,20 @@ const result = await client.modelScanner.scanFile({
 ### Scanning a Folder
 
 **v2.x (Previous):**
+
 ```typescript
 const result = await client.modelScanner.scanFolder(
   'model-name',
   '/path/to/folder',
   'v1',
-  ['*.safetensors'],  // allowFilePatterns
-  ['*.txt'],          // ignoreFilePatterns
-  true
+  ['*.safetensors'], // allowFilePatterns
+  ['*.txt'], // ignoreFilePatterns
+  true,
 );
 ```
 
 **v3.0.0 (New):**
+
 ```typescript
 const result = await client.modelScanner.scanFolder({
   modelName: 'model-name',
@@ -174,24 +174,26 @@ const result = await client.modelScanner.scanFolder({
 ### Scanning S3 Models
 
 **v2.x (Previous):**
+
 ```typescript
 const result = await client.modelScanner.scanS3Model(
   'model-name',
   'bucket-name',
   'path/to/model',
   'v1',
-  true
+  true,
 );
 ```
 
 **v3.0.0 (New):**
+
 ```typescript
 const result = await client.modelScanner.scanS3Model({
   modelName: 'model-name',
   bucket: 'bucket-name',
   key: 'path/to/model',
   modelVersion: 'v1',
-  s3Client: customS3Client,  // optional
+  s3Client: customS3Client, // optional
   waitForResults: true,
 });
 ```
@@ -199,6 +201,7 @@ const result = await client.modelScanner.scanS3Model({
 ### Scanning Azure Blob Models
 
 **v2.x (Previous):**
+
 ```typescript
 const result = await client.modelScanner.scanAzureBlobModel(
   'model-name',
@@ -207,11 +210,12 @@ const result = await client.modelScanner.scanAzureBlobModel(
   'blob-path',
   'v1',
   'sas-key',
-  true
+  true,
 );
 ```
 
 **v3.0.0 (New):**
+
 ```typescript
 const result = await client.modelScanner.scanAzureBlobModel({
   modelName: 'model-name',
@@ -220,7 +224,7 @@ const result = await client.modelScanner.scanAzureBlobModel({
   blob: 'blob-path',
   modelVersion: 'v1',
   credential: '?<sas_key>',
-  blobServiceClient: customClient,  // optional
+  blobServiceClient: customClient, // optional
   waitForResults: true,
 });
 ```
@@ -243,12 +247,14 @@ const result = await client.modelScanner.scanHuggingFaceModel({
 ### Getting Scan Results
 
 **v2.x (Previous):**
+
 ```typescript
 const results = await client.modelScanner.getScanResults(scanId, true);
 const sarif = await client.modelScanner.getSarifResults(scanId);
 ```
 
 **v3.0.0 (New):**
+
 ```typescript
 import { getScanResults, waitForScanResults } from '@hiddenlayer/hiddenlayer-sdk';
 
@@ -262,6 +268,7 @@ const sarif = await client.scans.results.sarif(scanId);
 ## Community Scanning
 
 **v2.x (Previous):**
+
 ```typescript
 import { ScanJobAccessSourceEnum } from '@hiddenlayerai/hiddenlayer-sdk';
 
@@ -270,11 +277,12 @@ const result = await client.modelScanner.communityScan(
   'https://presigned-url',
   ScanJobAccessSourceEnum.AwsPresigned,
   'v1',
-  true
+  true,
 );
 ```
 
 **v3.0.0 (New):**
+
 ```typescript
 import { CommunityScanSource } from '@hiddenlayer/hiddenlayer-sdk';
 
@@ -290,15 +298,15 @@ const result = await client.communityScanner.communityScan({
 ### Source Type Constants
 
 | v2.x (`ScanJobAccessSourceEnum`) | v3.0.0 (`CommunityScanSource`) |
-|----------------------------------|--------------------------------|
-| `AwsPresigned` | `AWS_PRESIGNED` |
-| `AwsIamRole` | `AWS_IAM_ROLE` |
-| `AzureBlobSas` | `AZURE_BLOB_SAS` |
-| `AzureBlobAd` | `AZURE_BLOB_AD` |
-| `GoogleSigned` | `GOOGLE_SIGNED` |
-| `GoogleOauth` | `GOOGLE_OAUTH` |
-| `HuggingFace` | `HUGGING_FACE` |
-| `Local` | `LOCAL` |
+| -------------------------------- | ------------------------------ |
+| `AwsPresigned`                   | `AWS_PRESIGNED`                |
+| `AwsIamRole`                     | `AWS_IAM_ROLE`                 |
+| `AzureBlobSas`                   | `AZURE_BLOB_SAS`               |
+| `AzureBlobAd`                    | `AZURE_BLOB_AD`                |
+| `GoogleSigned`                   | `GOOGLE_SIGNED`                |
+| `GoogleOauth`                    | `GOOGLE_OAUTH`                 |
+| `HuggingFace`                    | `HUGGING_FACE`                 |
+| `Local`                          | `LOCAL`                        |
 
 ---
 
@@ -307,12 +315,14 @@ const result = await client.communityScanner.communityScan({
 ### Creating a Sensor
 
 **v2.x (Previous):**
+
 ```typescript
 const sensor = await client.model.createSensor('model-name', 1);
 const sensor = await client.model.createOrGetSensor('model-name', 1);
 ```
 
 **v3.0.0 (New):**
+
 ```typescript
 const sensor = await client.sensors.create({
   plaintext_name: 'model-name',
@@ -324,11 +334,13 @@ const sensor = await client.sensors.create({
 ### Querying Sensors
 
 **v2.x (Previous):**
+
 ```typescript
 const sensor = await client.model.getSensor('model-name', 1);
 ```
 
 **v3.0.0 (New):**
+
 ```typescript
 const response = await client.sensors.query({
   filter: {
@@ -344,6 +356,7 @@ const sensor = response.results[0];
 **v2.x (Previous):** Not available directly
 
 **v3.0.0 (New):**
+
 ```typescript
 const sensor = await client.sensors.retrieve('sensor-id');
 ```
@@ -353,6 +366,7 @@ const sensor = await client.sensors.retrieve('sensor-id');
 **v2.x (Previous):** Not available
 
 **v3.0.0 (New):**
+
 ```typescript
 await client.sensors.update('sensor-id', {
   plaintext_name: 'new-name',
@@ -363,11 +377,13 @@ await client.sensors.update('sensor-id', {
 ### Deleting a Sensor
 
 **v2.x (Previous):**
+
 ```typescript
 await client.model.deleteSensor('sensor-id');
 ```
 
 **v3.0.0 (New):**
+
 ```typescript
 await client.sensors.delete('sensor-id');
 ```
@@ -377,12 +393,14 @@ await client.sensors.delete('sensor-id');
 ## Model Management
 
 **v2.x (Previous):**
+
 ```typescript
 const model = await client.model.getModel('model-id');
 await client.model.deleteModel('model-id');
 ```
 
 **v3.0.0 (New):**
+
 ```typescript
 const model = await client.models.retrieve('model-id');
 await client.models.delete('model-id');
@@ -427,28 +445,28 @@ try {
   await client.sensors.retrieve('sensor-id');
 } catch (error) {
   if (error instanceof NotFoundError) {
-    console.log(error.status);  // 404
+    console.log(error.status); // 404
     console.log(error.message);
     console.log(error.headers);
-    console.log(error.error);   // JSON body
+    console.log(error.error); // JSON body
   }
 }
 ```
 
 ### Error Classes
 
-| HTTP Status | v3.0.0 Error Class |
-|-------------|-------------------|
-| 400 | `BadRequestError` |
-| 401 | `AuthenticationError` |
-| 403 | `PermissionDeniedError` |
-| 404 | `NotFoundError` |
-| 409 | `ConflictError` |
-| 422 | `UnprocessableEntityError` |
-| 429 | `RateLimitError` |
-| 5xx | `InternalServerError` |
-| Network failure | `APIConnectionError` |
-| Timeout | `APIConnectionTimeoutError` |
+| HTTP Status     | v3.0.0 Error Class          |
+| --------------- | --------------------------- |
+| 400             | `BadRequestError`           |
+| 401             | `AuthenticationError`       |
+| 403             | `PermissionDeniedError`     |
+| 404             | `NotFoundError`             |
+| 409             | `ConflictError`             |
+| 422             | `UnprocessableEntityError`  |
+| 429             | `RateLimitError`            |
+| 5xx             | `InternalServerError`       |
+| Network failure | `APIConnectionError`        |
+| Timeout         | `APIConnectionTimeoutError` |
 
 ---
 
@@ -458,29 +476,30 @@ try {
 
 Properties changed from camelCase to snake_case:
 
-| v2.x (Previous) | v3.0.0 (New) |
-|---------------|--------------|
-| `sensorId` | `sensor_id` |
-| `modelId` | `model_id` |
-| `plaintextName` | `plaintext_name` |
-| `tenantId` | `tenant_id` |
-| `createdAt` | `created_at` |
-| `scanId` | `scan_id` |
+| v2.x (Previous)  | v3.0.0 (New)      |
+| ---------------- | ----------------- |
+| `sensorId`       | `sensor_id`       |
+| `modelId`        | `model_id`        |
+| `plaintextName`  | `plaintext_name`  |
+| `tenantId`       | `tenant_id`       |
+| `createdAt`      | `created_at`      |
+| `scanId`         | `scan_id`         |
 | `detectionCount` | `detection_count` |
-| `fileCount` | `file_count` |
+| `fileCount`      | `file_count`      |
 
 ### Scan Status
 
-| v2.x (Previous) | v3.0.0 (New) |
-|---------------|--------------|
-| `ScanReportV3StatusEnum.Done` | `'done'` or `ScanStatus.DONE` |
-| `ScanReportV3StatusEnum.Failed` | `'failed'` or `ScanStatus.FAILED` |
+| v2.x (Previous)                  | v3.0.0 (New)                        |
+| -------------------------------- | ----------------------------------- |
+| `ScanReportV3StatusEnum.Done`    | `'done'` or `ScanStatus.DONE`       |
+| `ScanReportV3StatusEnum.Failed`  | `'failed'` or `ScanStatus.FAILED`   |
 | `ScanReportV3StatusEnum.Pending` | `'pending'` or `ScanStatus.PENDING` |
 | `ScanReportV3StatusEnum.Running` | `'running'` or `ScanStatus.RUNNING` |
 
 ### Type Imports
 
 **v2.x (Previous):**
+
 ```typescript
 import {
   ScanReportV3,
@@ -492,6 +511,7 @@ import {
 ```
 
 **v3.0.0 (New):**
+
 ```typescript
 import type { ScanReport } from '@hiddenlayer/hiddenlayer-sdk/resources/scans/results';
 import type { SensorCreateResponse } from '@hiddenlayer/hiddenlayer-sdk/resources/sensors';
@@ -535,8 +555,8 @@ Analyzes prompts for injection attacks, PII, and unsafe content:
 ```typescript
 const result = await client.promptAnalyzer.create({
   prompt: 'Your prompt here',
-  output: 'LLM response',  // optional
-  model: 'gpt-4',          // optional
+  output: 'LLM response', // optional
+  model: 'gpt-4', // optional
 });
 
 // Response includes:
@@ -582,37 +602,37 @@ const job = await client.scans.jobs.request({
 
 ## Removed APIs
 
-| v2.x API | Status in v3.0.0 |
-|----------|------------------|
-| `HiddenLayerServiceClient.createSaaSClient()` | Use `new HiddenLayer()` |
+| v2.x API                                            | Status in v3.0.0                   |
+| --------------------------------------------------- | ---------------------------------- |
+| `HiddenLayerServiceClient.createSaaSClient()`       | Use `new HiddenLayer()`            |
 | `HiddenLayerServiceClient.createEnterpriseClient()` | Use `new HiddenLayer({ baseURL })` |
-| `client.model.createOrGetSensor()` | Removed - query then create |
-| `client.model.getSensorWithRetry()` | Built-in retry in v3.0.0 |
-| `client.modelScanner.getScanResults()` | Use `getScanResults()` helper |
-| `client.modelScanner.getSarifResults()` | Use `client.scans.results.sarif()` |
-| `AidrPredictiveApi` | Replaced by `client.interactions` |
-| `HealthApi` | Removed |
-| `ReadinessApi` | Removed |
-| `SensorApi` (direct access) | Use `client.sensors.*` |
-| `ModelApi` (direct access) | Use `client.models.*` |
-| `ModelSupplyChainApi` (direct access) | Use `client.scans.*` |
-| `Configuration` class | Use constructor options |
+| `client.model.createOrGetSensor()`                  | Removed - query then create        |
+| `client.model.getSensorWithRetry()`                 | Built-in retry in v3.0.0           |
+| `client.modelScanner.getScanResults()`              | Use `getScanResults()` helper      |
+| `client.modelScanner.getSarifResults()`             | Use `client.scans.results.sarif()` |
+| `AidrPredictiveApi`                                 | Replaced by `client.interactions`  |
+| `HealthApi`                                         | Removed                            |
+| `ReadinessApi`                                      | Removed                            |
+| `SensorApi` (direct access)                         | Use `client.sensors.*`             |
+| `ModelApi` (direct access)                          | Use `client.models.*`              |
+| `ModelSupplyChainApi` (direct access)               | Use `client.scans.*`               |
+| `Configuration` class                               | Use constructor options            |
 
 ---
 
 ## Configuration Options
 
-| Option | v2.x (Previous) | v3.0.0 (New) |
-|--------|---------------|--------------|
-| Client ID | Constructor param | `clientID` |
-| Client Secret | Constructor param | `clientSecret` |
-| Bearer Token | Not supported | `bearerToken` |
-| Base URL | Constructor param | `baseURL` |
-| Environment | N/A | `environment` (`prod-us`, `prod-eu`) |
-| Timeout | Not configurable | `timeout` (default: 60s) |
-| Retries | Not configurable | `maxRetries` (default: 2) |
-| Logging | Not supported | `logLevel`, `logger` |
-| Custom Fetch | Not supported | `fetch`, `fetchOptions` |
+| Option        | v2.x (Previous)   | v3.0.0 (New)                         |
+| ------------- | ----------------- | ------------------------------------ |
+| Client ID     | Constructor param | `clientID`                           |
+| Client Secret | Constructor param | `clientSecret`                       |
+| Bearer Token  | Not supported     | `bearerToken`                        |
+| Base URL      | Constructor param | `baseURL`                            |
+| Environment   | N/A               | `environment` (`prod-us`, `prod-eu`) |
+| Timeout       | Not configurable  | `timeout` (default: 60s)             |
+| Retries       | Not configurable  | `maxRetries` (default: 2)            |
+| Logging       | Not supported     | `logLevel`, `logger`                 |
+| Custom Fetch  | Not supported     | `fetch`, `fetchOptions`              |
 
 ---
 
