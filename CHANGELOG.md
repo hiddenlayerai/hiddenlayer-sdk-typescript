@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.3.0 (2026-05-07)
+
+Full Changelog: [v3.2.0...v3.3.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.2.0...v3.3.0)
+
+### Features
+
+* **api:** Add Runtime Security evaluation endpoints for real-time request and response analysis ([cd81405](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/cd8140592c50498d5016bc79333111e40fde25ec))
+* **client:** Support setting custom request headers via environment variables ([571e3b3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/571e3b33c513c879177c81b39a90e200b1f3598c))
+
+
+### Security
+
+* **client:** Redact API key headers in debug logs ([a9b6abb](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/a9b6abb3b0d528041edab30a982f226ed555ca38))
+
 ## 3.2.0 (2026-04-14)
 
 Full Changelog: [v3.1.6...v3.2.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.1.6...v3.2.0)
