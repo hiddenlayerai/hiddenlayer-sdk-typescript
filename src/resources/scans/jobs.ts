@@ -376,6 +376,16 @@ export namespace JobListResponse {
 
     export interface Summary {
       /**
+       * list of unique advisory categories found
+       */
+      advisory_categories?: Array<string>;
+
+      /**
+       * total number of advisories found
+       */
+      advisory_count?: number;
+
+      /**
        * list of unique detection categories found
        */
       detection_categories?: Array<string>;
