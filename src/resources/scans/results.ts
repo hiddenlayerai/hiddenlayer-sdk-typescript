@@ -66,6 +66,11 @@ export namespace FileScanReport {
     status: 'skipped' | 'pending' | 'running' | 'done' | 'failed' | 'canceled';
 
     /**
+     * informational advisories associated with this file (e.g. tokenizer family)
+     */
+    advisories?: Array<FileResult.Advisory>;
+
+    /**
      * Error messages returned by the scanner
      */
     file_error?: Array<string>;
@@ -266,6 +271,33 @@ export namespace FileScanReport {
          */
         status_at?: string;
       }
+    }
+
+    /**
+     * An informational advisory associated with a file. Advisories carry guidance
+     * about a property of the model (e.g. tokenizer family) that may matter to a
+     * downstream consumer, but do not represent a concrete detection.
+     */
+    export interface Advisory {
+      /**
+       * unique identifier for the advisory
+       */
+      advisory_id: string;
+
+      /**
+       * category for the advisory
+       */
+      category: string;
+
+      /**
+       * advisory description
+       */
+      description: string;
+
+      /**
+       * unique identifier for the rule that sourced the advisory
+       */
+      rule_id: string;
     }
   }
 }
@@ -441,6 +473,16 @@ export namespace ScanReport {
 
   export interface Summary {
     /**
+     * list of unique advisory categories found
+     */
+    advisory_categories?: Array<string>;
+
+    /**
+     * total number of advisories found
+     */
+    advisory_count?: number;
+
+    /**
      * list of unique detection categories found
      */
     detection_categories?: Array<string>;
@@ -530,6 +572,11 @@ export namespace ScanReport {
      * status of the scan
      */
     status: 'skipped' | 'pending' | 'running' | 'done' | 'failed' | 'canceled';
+
+    /**
+     * informational advisories associated with this file (e.g. tokenizer family)
+     */
+    advisories?: Array<FileResult.Advisory>;
 
     /**
      * Error messages returned by the scanner
@@ -732,6 +779,33 @@ export namespace ScanReport {
          */
         status_at?: string;
       }
+    }
+
+    /**
+     * An informational advisory associated with a file. Advisories carry guidance
+     * about a property of the model (e.g. tokenizer family) that may matter to a
+     * downstream consumer, but do not represent a concrete detection.
+     */
+    export interface Advisory {
+      /**
+       * unique identifier for the advisory
+       */
+      advisory_id: string;
+
+      /**
+       * category for the advisory
+       */
+      category: string;
+
+      /**
+       * advisory description
+       */
+      description: string;
+
+      /**
+       * unique identifier for the rule that sourced the advisory
+       */
+      rule_id: string;
     }
   }
 
