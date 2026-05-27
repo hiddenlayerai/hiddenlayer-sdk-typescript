@@ -10,8 +10,10 @@ export {
 } from './prompt-analyzer';
 export {
   Runtime,
+  type RuntimeEvaluateInteractionResponse,
   type RuntimeEvaluateRequestResponse,
   type RuntimeEvaluateResponseResponse,
+  type RuntimeEvaluateInteractionParams,
   type RuntimeEvaluateRequestParams,
   type RuntimeEvaluateResponseParams,
 } from './runtime';

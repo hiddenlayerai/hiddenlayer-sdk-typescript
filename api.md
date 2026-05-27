@@ -64,11 +64,13 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/runtime.ts">RuntimeEvaluateInteractionResponse</a></code>
 - <code><a href="./src/resources/runtime.ts">RuntimeEvaluateRequestResponse</a></code>
 - <code><a href="./src/resources/runtime.ts">RuntimeEvaluateResponseResponse</a></code>
 
 Methods:
 
+- <code title="post /detection/v2/interaction-evaluations">client.runtime.<a href="./src/resources/runtime.ts">evaluateInteraction</a>({ ...params }) -> RuntimeEvaluateInteractionResponse</code>
 - <code title="post /detection/v2/request-evaluations">client.runtime.<a href="./src/resources/runtime.ts">evaluateRequest</a>({ ...params }) -> RuntimeEvaluateRequestResponse</code>
 - <code title="post /detection/v2/response-evaluations">client.runtime.<a href="./src/resources/runtime.ts">evaluateResponse</a>({ ...params }) -> RuntimeEvaluateResponseResponse</code>
 

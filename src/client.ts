@@ -33,6 +33,8 @@ import {
 } from './resources/prompt-analyzer';
 import {
   Runtime,
+  RuntimeEvaluateInteractionParams,
+  RuntimeEvaluateInteractionResponse,
   RuntimeEvaluateRequestParams,
   RuntimeEvaluateRequestResponse,
   RuntimeEvaluateResponseParams,
@@ -962,8 +964,10 @@ export declare namespace HiddenLayer {
 
   export {
     Runtime as Runtime,
+    type RuntimeEvaluateInteractionResponse as RuntimeEvaluateInteractionResponse,
     type RuntimeEvaluateRequestResponse as RuntimeEvaluateRequestResponse,
     type RuntimeEvaluateResponseResponse as RuntimeEvaluateResponseResponse,
+    type RuntimeEvaluateInteractionParams as RuntimeEvaluateInteractionParams,
     type RuntimeEvaluateRequestParams as RuntimeEvaluateRequestParams,
     type RuntimeEvaluateResponseParams as RuntimeEvaluateResponseParams,
   };
