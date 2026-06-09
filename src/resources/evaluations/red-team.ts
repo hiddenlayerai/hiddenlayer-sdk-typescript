@@ -344,32 +344,49 @@ export interface RedTeamCreateParams {
   name: string;
 
   /**
-   * Target model identifier
+   * Optional intent-only natural-language text the operator supplies to focus the
+   * attacker LLM within the configured APE objectives. Example: "try to get the
+   * model to recommend candy with nuts to a user who's allergic to nuts."
+   *
+   * Sanitized server-side: input is NFKC-normalized, trimmed, and checked against a
+   * strict character whitelist (ASCII letters, digits, spaces/newlines/tabs, and
+   * sentence-level punctuation `. , ? ! ' " - : ; ( )`). Inputs containing
+   * XML/JSON/code/control/markdown characters are rejected with 422.
+   *
+   * No-op for the `STATIC_PROMPT_SET` execution strategy.
    */
-  target_model: string;
+  attacker_guidance?: string;
 
   /**
-   * Maximum generation attempts for attacker
+   * Internal override; service default applies if omitted. Maximum number of
+   * generation attempts for the attacker model per turn.
    */
   attacker_max_generation_attempts?: number;
 
   /**
-   * Model for attacker
+   * Internal override; service default applies if omitted.
    */
   attacker_model?: string;
 
   /**
-   * Model for evaluation report
+   * Optional preset config (see /evaluations/v1/red-team/configs) to seed the
+   * workflow settings. Any field also present in this body overrides the
+   * corresponding value from the config.
+   */
+  config_id?: string;
+
+  /**
+   * Internal override; service default applies if omitted.
    */
   evaluation_report_model?: string;
 
   /**
    * Execution strategy type
    */
-  execution_strategy_type?: string;
+  execution_strategy_type?: 'RANDOM' | 'SINGLE' | 'STATIC_PROMPT_SET';
 
   /**
-   * HiddenLayer project ID
+   * HiddenLayer project UUID or alias
    */
   hl_project_id?: string;
 
@@ -394,17 +411,17 @@ export interface RedTeamCreateParams {
   objective_ids?: Array<string>;
 
   /**
-   * Model for objective judging
+   * Internal override; service default applies if omitted.
    */
   objective_judge_model?: string;
 
   /**
-   * Prompt set ID for static prompt evaluation
+   * Prompt set UUID (built-in catalog or tenant DB)
    */
   prompt_set_id?: string;
 
   /**
-   * Model for refusal judging
+   * Internal override; service default applies if omitted.
    */
   refusal_judge_model?: string;
 
@@ -412,6 +429,23 @@ export interface RedTeamCreateParams {
    * Number of sessions per technique
    */
   sessions_per_technique?: number;
+
+  /**
+   * Map from objective ID to a severity level. Determines the per-session severity
+   * derived from the worst objective achieved during a red team session.
+   *
+   * Keys must be objective IDs known to this service; unknown keys are rejected at
+   * validation time. Limited to 256 entries.
+   */
+  severity_mapping?: { [key: string]: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'NONE' };
+
+  /**
+   * Target model identifier. Freeform for the client-driven workflow: the client
+   * owns and drives its own target, so this is NOT validated against the
+   * servable-model catalog. (The simulated start and config presets do validate
+   * against the catalog.)
+   */
+  target_model?: string;
 
   /**
    * System prompt for the target
