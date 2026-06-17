@@ -333,6 +333,11 @@ export namespace RuntimeEvaluateInteractionResponse {
          * Content part type for tool result.
          */
         type: 'tool_result';
+
+        /**
+         * Whether the tool execution succeeded.
+         */
+        success?: boolean;
       }
 
       /**
@@ -631,6 +636,11 @@ export namespace RuntimeEvaluateInteractionResponse {
            * Content part type for tool result.
            */
           type: 'tool_result';
+
+          /**
+           * Whether the tool execution succeeded.
+           */
+          success?: boolean;
         }
 
         /**
@@ -817,6 +827,11 @@ export namespace RuntimeEvaluateInteractionParams {
          * Content part type for tool result.
          */
         type: 'tool_result';
+
+        /**
+         * Whether the tool execution succeeded.
+         */
+        success?: boolean;
       }
 
       /**
