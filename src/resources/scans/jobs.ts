@@ -127,6 +127,11 @@ export namespace ScanJob {
      */
     export interface ScanTarget {
       /**
+       * identifier of the discovered asset
+       */
+      asset_id?: string;
+
+      /**
        * region of the discovered asset
        */
       asset_region?: string;
@@ -308,6 +313,11 @@ export namespace JobListResponse {
        * Location to be scanned
        */
       requested_scan_location: string;
+
+      /**
+       * Identifier of discovered asset
+       */
+      asset_id?: string;
 
       /**
        * Region of discovered asset
@@ -635,6 +645,11 @@ export namespace JobRequestParams {
      * location details, provider_details, or both.
      */
     export interface ScanTarget {
+      /**
+       * identifier of the discovered asset
+       */
+      asset_id?: string;
+
       /**
        * region of the discovered asset
        */
