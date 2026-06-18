@@ -587,14 +587,19 @@ export namespace PromptAnalyzerCreateResponse {
 
     export interface PromptInjectionClassifierResult {
       /**
-       * The allow override applied to the prompt
+       * The list of allow overrides applied to the prompt
        */
-      allow_override?: string;
+      allow_overrides?: Array<string>;
 
       /**
-       * The block override applied to the prompt
+       * Appeal details for the prompt injection decision, if any
        */
-      block_override?: string;
+      appeal?: unknown;
+
+      /**
+       * The list of block overrides applied to the prompt
+       */
+      block_overrides?: Array<string>;
 
       /**
        * The time in milliseconds it took to process the prompt injection classifier

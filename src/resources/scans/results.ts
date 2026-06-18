@@ -407,6 +407,11 @@ export namespace ScanReport {
     requested_scan_location: string;
 
     /**
+     * Identifier of discovered asset
+     */
+    asset_id?: string;
+
+    /**
      * Region of discovered asset
      */
     asset_region?: string;
