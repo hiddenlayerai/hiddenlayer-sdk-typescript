@@ -127,6 +127,11 @@ export namespace ScanJob {
      */
     export interface ScanTarget {
       /**
+       * identifier of the discovered asset
+       */
+      asset_id?: string;
+
+      /**
        * region of the discovered asset
        */
       asset_region?: string;
@@ -310,6 +315,11 @@ export namespace JobListResponse {
       requested_scan_location: string;
 
       /**
+       * Identifier of discovered asset
+       */
+      asset_id?: string;
+
+      /**
        * Region of discovered asset
        */
       asset_region?: string;
@@ -375,6 +385,16 @@ export namespace JobListResponse {
     }
 
     export interface Summary {
+      /**
+       * list of unique advisory categories found
+       */
+      advisory_categories?: Array<string>;
+
+      /**
+       * total number of advisories found
+       */
+      advisory_count?: number;
+
       /**
        * list of unique detection categories found
        */
@@ -625,6 +645,11 @@ export namespace JobRequestParams {
      * location details, provider_details, or both.
      */
     export interface ScanTarget {
+      /**
+       * identifier of the discovered asset
+       */
+      asset_id?: string;
+
       /**
        * region of the discovered asset
        */
