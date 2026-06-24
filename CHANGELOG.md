@@ -1,5 +1,31 @@
 # Changelog
 
+## 3.4.0 (2026-06-24)
+
+Full Changelog: [v3.3.0...v3.4.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.3.0...v3.4.0)
+
+### Features
+
+* **api:** api update ([d0832a3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/d0832a39a64fcf9c483516b7fab7f032567bc22c))
+* **api:** api update ([e6caf08](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/e6caf0845352500e8e1b25c610c7d54e6e3c2d02))
+* **api:** api update ([140fbbc](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/140fbbc729cd9d391c90dfba678f59b2bcba3c62))
+* **api:** api update ([d911325](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/d911325536526c2472994b441de0e9e90862c2dc))
+* **api:** api update ([21bb3c1](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/21bb3c132b04c6727065dbd3c510f4886952aa5c))
+* **api:** api update ([4f7b0ef](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/4f7b0efcd238ccdeb7bd854e298dd92b84ad65d4))
+
+
+### Bug Fixes
+
+* **client:** send content-type header for requests with an omitted optional body ([b7834a2](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/b7834a280b93e74170779f86fc67dd058ed4df12))
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([6c4773e](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/6c4773e1c9acab17fbedd71be88b1e591217bc4f))
+
+
+### Chores
+
+* **internal:** codegen related update ([1d47ca4](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/1d47ca463335409158f8ffc352ee4418f0bc10e0))
+* regenerate beta endpoint registry [skip ci] ([c7dd8e3](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/c7dd8e3348e468ff4f3b7a15edeab0b2ff8c8b4e))
+* **tests:** remove redundant File import ([bb1e45c](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/bb1e45c52f5d9aaaf06c3e6ea50cedf419548453))
+
 ## 3.3.0 (2026-05-07)
 
 Full Changelog: [v3.2.0...v3.3.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.2.0...v3.3.0)
