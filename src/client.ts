@@ -25,8 +25,6 @@ import {
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import { CommunityScanner, ModelScanner } from './lib/index';
-import { checkBetaEndpoint } from './lib/beta';
 import { InteractionAnalyzeParams, InteractionAnalyzeResponse, Interactions } from './resources/interactions';
 import {
   PromptAnalyzer,
@@ -428,9 +426,7 @@ export class HiddenLayer {
   /**
    * Used as a callback for mutating the given `FinalRequestOptions` object.
    */
-  protected async prepareOptions(options: FinalRequestOptions): Promise<void> {
-    checkBetaEndpoint(options.path);
-  }
+  protected async prepareOptions(options: FinalRequestOptions): Promise<void> {}
 
   /**
    * Used as a callback for mutating the given `RequestInit` object.
@@ -936,23 +932,6 @@ export class HiddenLayer {
   runtime: API.Runtime = new API.Runtime(this);
   sensors: API.Sensors = new API.Sensors(this);
   scans: API.Scans = new API.Scans(this);
-
-  private _communityScanner?: CommunityScanner;
-  private _modelScanner?: ModelScanner;
-
-  get communityScanner(): CommunityScanner {
-    if (!this._communityScanner) {
-      this._communityScanner = new CommunityScanner(this);
-    }
-    return this._communityScanner;
-  }
-
-  get modelScanner(): ModelScanner {
-    if (!this._modelScanner) {
-      this._modelScanner = new ModelScanner(this);
-    }
-    return this._modelScanner;
-  }
 }
 
 HiddenLayer.Models = Models;

@@ -8,6 +8,5 @@ dist
 dist-deno
 /*.tgz
 .idea/
-local-env.sh
 .eslintcache
 

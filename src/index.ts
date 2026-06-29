@@ -21,22 +21,3 @@ export {
   PermissionDeniedError,
   UnprocessableEntityError,
 } from './core/error';
-
-// Export custom lib functionality
-export {
-  warnBeta,
-  CommunityScanner,
-  CommunityScanSource,
-  type CommunityScanOptions,
-  type CommunityScanSourceType,
-  ModelScanner,
-  type ScanFileOptions,
-  type ScanFolderOptions,
-  type ScanS3ModelOptions,
-  type ScanAzureBlobModelOptions,
-  type ScanHuggingFaceModelOptions,
-  getScanResults,
-  waitForScanResults,
-  ScanStatus,
-  type ScanStatusType,
-} from './lib/index';

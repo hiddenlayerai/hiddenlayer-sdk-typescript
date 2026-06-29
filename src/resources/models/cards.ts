@@ -104,17 +104,7 @@ export interface CardListParams extends OffsetPageParams {
   model_name?: CardListParams.ModelName;
 
   modscan_severity?: Array<
-    | 'SAFE'
-    | 'UNSAFE'
-    | 'SUSPICIOUS'
-    | 'UNKNOWN'
-    | 'ERROR'
-    | 'critical'
-    | 'high'
-    | 'medium'
-    | 'low'
-    | 'none'
-    | 'unknown'
+    'SAFE' | 'UNSAFE' | 'SUSPICIOUS' | 'ERROR' | 'critical' | 'high' | 'medium' | 'low' | 'none' | 'unknown'
   >;
 
   modscan_status?: 'ENABLED' | 'DISABLED' | 'ANY';
