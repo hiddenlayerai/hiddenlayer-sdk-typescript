@@ -1,5 +1,7 @@
 import { warnBeta, checkBetaEndpoint, _resetWarnedForTesting } from '@hiddenlayerai/hiddenlayer-sdk/lib/beta';
-import { BETA_ENDPOINTS } from '@hiddenlayerai/hiddenlayer-sdk/lib/beta-endpoints';
+
+const betaMessage = (name: string) =>
+  `[BETA] ${name}: This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.`;
 
 describe('warnBeta', () => {
   let warnSpy: jest.SpyInstance;
@@ -54,20 +56,42 @@ describe('checkBetaEndpoint', () => {
     warnSpy.mockRestore();
   });
 
-  const betaEntries = Object.entries(BETA_ENDPOINTS);
-  const maybeTest = betaEntries.length > 0 ? test : test.skip;
-
-  maybeTest('emits a warning for a known beta path', () => {
-    const [knownPath, knownName] = betaEntries[0]!;
-    checkBetaEndpoint(knownPath);
+  test('emits a warning for a static beta path', () => {
+    checkBetaEndpoint('/detection/v2/request-evaluations');
     expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy).toHaveBeenCalledWith(
-      `[BETA] ${knownName}: This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.`,
-    );
+    expect(warnSpy).toHaveBeenCalledWith(betaMessage('Runtime.evaluateRequest'));
+  });
+
+  test('emits a warning for a dynamic beta path with a substituted parameter', () => {
+    checkBetaEndpoint('/evaluations/v1/red-team/abc123/status');
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy).toHaveBeenCalledWith(betaMessage('RedTeam.retrieveStatus'));
+  });
+
+  test('emits a warning for a dynamic beta path on a single-parameter endpoint', () => {
+    checkBetaEndpoint('/evaluations/v1/red-team/abc123');
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy).toHaveBeenCalledWith(betaMessage('RedTeam.retrieveEvaluationResults'));
+  });
+
+  test('ignores a trailing query string when matching', () => {
+    checkBetaEndpoint('/detection/v2/request-evaluations?foo=bar');
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy).toHaveBeenCalledWith(betaMessage('Runtime.evaluateRequest'));
   });
 
   test('does not emit a warning for a non-beta path', () => {
     checkBetaEndpoint('/models/v2/list');
+    expect(warnSpy).toHaveBeenCalledTimes(0);
+  });
+
+  test('does not emit a warning when a literal segment differs', () => {
+    checkBetaEndpoint('/evaluations/v1/red-team/abc123/not-a-real-action');
+    expect(warnSpy).toHaveBeenCalledTimes(0);
+  });
+
+  test('does not emit a warning when segment counts differ', () => {
+    checkBetaEndpoint('/evaluations/v1/red-team/abc123/status/extra');
     expect(warnSpy).toHaveBeenCalledTimes(0);
   });
 
@@ -76,11 +100,10 @@ describe('checkBetaEndpoint', () => {
     expect(warnSpy).toHaveBeenCalledTimes(0);
   });
 
-  maybeTest('deduplicates warnings through warnBeta mechanism', () => {
-    const [knownPath] = betaEntries[0]!;
-    checkBetaEndpoint(knownPath);
-    checkBetaEndpoint(knownPath);
-    checkBetaEndpoint(knownPath);
+  test('deduplicates warnings through warnBeta mechanism', () => {
+    checkBetaEndpoint('/evaluations/v1/red-team/abc123/status');
+    checkBetaEndpoint('/evaluations/v1/red-team/def456/status');
+    checkBetaEndpoint('/evaluations/v1/red-team/ghi789/status');
     expect(warnSpy).toHaveBeenCalledTimes(1);
   });
 });
