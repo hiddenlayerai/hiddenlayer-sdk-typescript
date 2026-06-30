@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.5.0 (2026-06-30)
+
+Full Changelog: [v3.4.0...v3.5.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.4.0...v3.5.0)
+
+### Features
+
+* **api:** api update ([b0fce7d](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/b0fce7dcc7a33e7224088928135016230145a516))
+
 ## 3.4.0 (2026-06-24)
 
 Full Changelog: [v3.3.0...v3.4.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.3.0...v3.4.0)
