@@ -32,14 +32,31 @@ export function warnBeta(qualifiedName: string): void {
 /**
  * Look up a request path in the beta endpoint registry and emit a warning if found.
  *
+ * Matching is segment-based so that endpoints with path parameters (e.g.
+ * `/evaluations/v1/red-team/{workflowID}/status`) are recognized even though the
+ * runtime path has the parameter value substituted in. A registry segment of
+ * `null` is a wildcard that matches any single path segment.
+ *
  * @param path - The URL path from FinalRequestOptions, e.g. "/detection/v2/request-evaluations"
  */
 export function checkBetaEndpoint(path: string | undefined): void {
   if (!path) {
     return;
   }
-  const qualifiedName = BETA_ENDPOINTS[path];
-  if (qualifiedName) {
-    warnBeta(qualifiedName);
+  const segments = path
+    .split('?')[0]!
+    .replace(/^\/+/, '')
+    .split('/')
+    .filter((s) => s.length > 0);
+
+  for (const entry of BETA_ENDPOINTS) {
+    if (entry.segments.length !== segments.length) {
+      continue;
+    }
+    const matches = entry.segments.every((pattern, i) => pattern === null || pattern === segments[i]);
+    if (matches) {
+      warnBeta(entry.method);
+      return;
+    }
   }
 }
