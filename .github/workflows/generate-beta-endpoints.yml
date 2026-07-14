@@ -26,9 +26,6 @@ jobs:
       - name: Generate beta endpoint registry
         run: node scripts/utils/generate-beta-endpoints.cjs
 
-      - name: Format generated registry
-        run: ./node_modules/.bin/prettier --write src/lib/beta-endpoints.ts
-
       - name: Commit and push if changed
         run: |
           git diff --quiet src/lib/beta-endpoints.ts && exit 0
