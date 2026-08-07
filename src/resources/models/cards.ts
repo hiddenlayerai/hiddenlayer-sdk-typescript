@@ -6,7 +6,13 @@ import { RequestOptions } from '../../internal/request-options';
 
 export class Cards extends APIResource {
   /**
-   * List Model Cards
+   * Deprecated in favor of `GET /asset-inventory/v2/assets`
+   * (`asset_type[in]=MODEL`), which returns the same model-card data — scan
+   * status/timing and findings from the `supply-chain` annotation — alongside the
+   * rest of an asset's data, with matching filters (`model_id[eq]`,
+   * `scan_started_at[gt/gte/lt/lte]`) and sorts (`model_name`, `scan_started_at`).
+   *
+   * @deprecated
    */
   list(
     query: CardListParams | null | undefined = {},
