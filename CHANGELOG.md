@@ -5,7 +5,7 @@
 
 ### Features
 
-* **api:** api update ([c9641d9](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/c9641d9127eb401b2fbea251bf7e0c70631f1c5d))
+* **scans:** add MITRE Atlas tactic/technique pairs to scan summaries ([c9641d9](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/c9641d9127eb401b2fbea251bf7e0c70631f1c5d))
 * **runtime:** qualify action concepts, deprecate unqualified names ([990c65a](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/990c65a3cc117c262fc87ea467bd8b5e55e0cd59))
 * **runtime:** remove beta label from v2 endpoints ([9b01439](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/9b014391859bbd48c0bd4cfa1cee3280b2149584))
 * **scans:** add file upload endpoints ([b50a155](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/b50a155633e6492d720614f08a644d651b6abd3b))
