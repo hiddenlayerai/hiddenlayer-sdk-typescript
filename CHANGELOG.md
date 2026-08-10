@@ -1,5 +1,25 @@
 # Changelog
 
+## [3.5.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.4.0...v3.5.0) (2026-08-10)
+
+
+### Features
+
+* **scans:** add MITRE Atlas tactic/technique pairs to scan summaries ([c9641d9](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/c9641d9127eb401b2fbea251bf7e0c70631f1c5d))
+* **runtime:** qualify action concepts, deprecate unqualified names ([990c65a](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/990c65a3cc117c262fc87ea467bd8b5e55e0cd59))
+* **runtime:** remove beta label from v2 endpoints ([9b01439](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/9b014391859bbd48c0bd4cfa1cee3280b2149584))
+* **scans:** add file upload endpoints ([b50a155](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/b50a155633e6492d720614f08a644d651b6abd3b))
+
+
+### Bug Fixes
+
+* warn on beta endpoints with path parameters ([#312](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues/312)) ([6b5ff72](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/6b5ff727ea481b9a8455731ca79e6e2f2e31eb9f))
+
+
+### Documentation
+
+* define scope and length boundaries for endpoint descriptions ([15e876e](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/15e876e153267a5155dff34a5693f6d1409cca02))
+
 ## 3.4.0 (2026-06-24)
 
 Full Changelog: [v3.3.0...v3.4.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.3.0...v3.4.0)

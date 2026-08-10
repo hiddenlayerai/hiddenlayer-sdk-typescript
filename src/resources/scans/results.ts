@@ -518,6 +518,12 @@ export namespace ScanReport {
     highest_severity?: 'critical' | 'high' | 'medium' | 'low' | 'none' | 'unknown';
 
     /**
+     * deduped list of MITRE Atlas tactic/technique pairs across all detections in the
+     * scan
+     */
+    mitre_atlas?: Array<Summary.MitreAtlas>;
+
+    /**
      * @deprecated The highest severity of any detections on the scan, including
      * "safe". Use `.summary.highest_severity` instead.
      */
@@ -527,6 +533,20 @@ export namespace ScanReport {
      * number of files with unknown file type
      */
     unknown_files?: number;
+  }
+
+  export namespace Summary {
+    export interface MitreAtlas {
+      /**
+       * MITRE Atlas Tactic
+       */
+      tactic?: string;
+
+      /**
+       * MITRE Atlas Technique
+       */
+      technique?: string;
+    }
   }
 
   export interface Compliance {
