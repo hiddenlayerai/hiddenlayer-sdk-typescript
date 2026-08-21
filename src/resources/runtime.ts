@@ -885,6 +885,30 @@ export namespace RuntimeEvaluateInteractionParams {
      * session. The identifier should be unique across all sessions.
      */
     external_session_id?: string;
+
+    /**
+     * External session identifiers with the system that supplied them. Each entry is
+     * attached to the stored interaction as a session alias, in addition to
+     * `external_session_id` when both are supplied.
+     */
+    external_session_ids?: Array<Metadata.ExternalSessionID>;
+  }
+
+  export namespace Metadata {
+    /**
+     * An external session identifier with optional source.
+     */
+    export interface ExternalSessionID {
+      /**
+       * The external session identifier value.
+       */
+      id: string;
+
+      /**
+       * The system or client that supplied this identifier.
+       */
+      source?: string;
+    }
   }
 }
 
