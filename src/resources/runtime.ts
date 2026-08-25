@@ -258,10 +258,22 @@ export namespace RuntimeEvaluateInteractionResponse {
       analysis?: Message.Analysis;
 
       /**
+       * Files supplied with the message by its author, as distinct from files its
+       * content cites.
+       */
+      attachments?: Array<Message.Attachment>;
+
+      /**
        * Optional timestamp for when this message was created. When supplied, `value` is
        * required.
        */
       timestamp?: Message.Timestamp;
+
+      /**
+       * Names of provider-hosted tools invoked while producing this message. Tools the
+       * model called directly appear as `tool_use` content parts instead.
+       */
+      tools_used?: Array<string>;
     }
 
     export namespace Message {
@@ -278,6 +290,53 @@ export namespace RuntimeEvaluateInteractionResponse {
          * Content part type for text.
          */
         type: 'text';
+
+        /**
+         * External sources this text drew on. Absent when the text cites nothing.
+         */
+        annotations?: Array<TextPart.Annotation>;
+      }
+
+      export namespace TextPart {
+        /**
+         * An external source a span of message content drew on.
+         */
+        export interface Annotation {
+          /**
+           * The kind of source cited, as reported by the provider. Common values include:
+           *
+           * - `url_citation`: A web page
+           * - `file_citation`: A file available to the conversation
+           */
+          type: string;
+
+          /**
+           * Files this annotation cites.
+           */
+          files?: Array<Annotation.File>;
+
+          /**
+           * URLs this annotation cites.
+           */
+          urls?: Array<string>;
+        }
+
+        export namespace Annotation {
+          /**
+           * A file referenced by a message, whether attached to it or cited by its content.
+           */
+          export interface File {
+            /**
+             * Provider-assigned identifier for the file.
+             */
+            id: string;
+
+            /**
+             * Filename as presented to the user.
+             */
+            name?: string;
+          }
+        }
       }
 
       /**
@@ -345,6 +404,21 @@ export namespace RuntimeEvaluateInteractionResponse {
          * evolve.
          */
         signals: { [key: string]: { [key: string]: unknown } };
+      }
+
+      /**
+       * A file referenced by a message, whether attached to it or cited by its content.
+       */
+      export interface Attachment {
+        /**
+         * Provider-assigned identifier for the file.
+         */
+        id: string;
+
+        /**
+         * Filename as presented to the user.
+         */
+        name?: string;
       }
 
       /**
@@ -561,10 +635,22 @@ export namespace RuntimeEvaluateInteractionResponse {
         role: string;
 
         /**
+         * Files supplied with the message by its author, as distinct from files its
+         * content cites.
+         */
+        attachments?: Array<Message.Attachment>;
+
+        /**
          * Optional timestamp for when this message was created. When supplied, `value` is
          * required.
          */
         timestamp?: Message.Timestamp;
+
+        /**
+         * Names of provider-hosted tools invoked while producing this message. Tools the
+         * model called directly appear as `tool_use` content parts instead.
+         */
+        tools_used?: Array<string>;
       }
 
       export namespace Message {
@@ -581,6 +667,53 @@ export namespace RuntimeEvaluateInteractionResponse {
            * Content part type for text.
            */
           type: 'text';
+
+          /**
+           * External sources this text drew on. Absent when the text cites nothing.
+           */
+          annotations?: Array<TextPart.Annotation>;
+        }
+
+        export namespace TextPart {
+          /**
+           * An external source a span of message content drew on.
+           */
+          export interface Annotation {
+            /**
+             * The kind of source cited, as reported by the provider. Common values include:
+             *
+             * - `url_citation`: A web page
+             * - `file_citation`: A file available to the conversation
+             */
+            type: string;
+
+            /**
+             * Files this annotation cites.
+             */
+            files?: Array<Annotation.File>;
+
+            /**
+             * URLs this annotation cites.
+             */
+            urls?: Array<string>;
+          }
+
+          export namespace Annotation {
+            /**
+             * A file referenced by a message, whether attached to it or cited by its content.
+             */
+            export interface File {
+              /**
+               * Provider-assigned identifier for the file.
+               */
+              id: string;
+
+              /**
+               * Filename as presented to the user.
+               */
+              name?: string;
+            }
+          }
         }
 
         /**
@@ -632,6 +765,21 @@ export namespace RuntimeEvaluateInteractionResponse {
            * Whether the tool execution succeeded.
            */
           success?: boolean;
+        }
+
+        /**
+         * A file referenced by a message, whether attached to it or cited by its content.
+         */
+        export interface Attachment {
+          /**
+           * Provider-assigned identifier for the file.
+           */
+          id: string;
+
+          /**
+           * Filename as presented to the user.
+           */
+          name?: string;
         }
 
         /**
@@ -752,10 +900,22 @@ export namespace RuntimeEvaluateInteractionParams {
       role: string;
 
       /**
+       * Files supplied with the message by its author, as distinct from files its
+       * content cites.
+       */
+      attachments?: Array<Message.Attachment>;
+
+      /**
        * Optional timestamp for when this message was created. When supplied, `value` is
        * required.
        */
       timestamp?: Message.Timestamp;
+
+      /**
+       * Names of provider-hosted tools invoked while producing this message. Tools the
+       * model called directly appear as `tool_use` content parts instead.
+       */
+      tools_used?: Array<string>;
     }
 
     export namespace Message {
@@ -772,6 +932,53 @@ export namespace RuntimeEvaluateInteractionParams {
          * Content part type for text.
          */
         type: 'text';
+
+        /**
+         * External sources this text drew on. Absent when the text cites nothing.
+         */
+        annotations?: Array<TextPart.Annotation>;
+      }
+
+      export namespace TextPart {
+        /**
+         * An external source a span of message content drew on.
+         */
+        export interface Annotation {
+          /**
+           * The kind of source cited, as reported by the provider. Common values include:
+           *
+           * - `url_citation`: A web page
+           * - `file_citation`: A file available to the conversation
+           */
+          type: string;
+
+          /**
+           * Files this annotation cites.
+           */
+          files?: Array<Annotation.File>;
+
+          /**
+           * URLs this annotation cites.
+           */
+          urls?: Array<string>;
+        }
+
+        export namespace Annotation {
+          /**
+           * A file referenced by a message, whether attached to it or cited by its content.
+           */
+          export interface File {
+            /**
+             * Provider-assigned identifier for the file.
+             */
+            id: string;
+
+            /**
+             * Filename as presented to the user.
+             */
+            name?: string;
+          }
+        }
       }
 
       /**
@@ -823,6 +1030,21 @@ export namespace RuntimeEvaluateInteractionParams {
          * Whether the tool execution succeeded.
          */
         success?: boolean;
+      }
+
+      /**
+       * A file referenced by a message, whether attached to it or cited by its content.
+       */
+      export interface Attachment {
+        /**
+         * Provider-assigned identifier for the file.
+         */
+        id: string;
+
+        /**
+         * Filename as presented to the user.
+         */
+        name?: string;
       }
 
       /**
@@ -885,6 +1107,31 @@ export namespace RuntimeEvaluateInteractionParams {
      * session. The identifier should be unique across all sessions.
      */
     external_session_id?: string;
+
+    /**
+     * External session identifier with the system that supplied it. The entry is
+     * stored as the interaction's session alias and takes precedence over
+     * `external_session_id` when both are supplied. One alias is stored per
+     * interaction.
+     */
+    external_session_ids?: Array<Metadata.ExternalSessionID>;
+  }
+
+  export namespace Metadata {
+    /**
+     * An external session identifier with optional source.
+     */
+    export interface ExternalSessionID {
+      /**
+       * The external session identifier value.
+       */
+      id: string;
+
+      /**
+       * The system or client that supplied this identifier.
+       */
+      source?: string;
+    }
   }
 }
 
