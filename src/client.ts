@@ -70,7 +70,7 @@ import {
 import { isEmptyObj } from './internal/utils/values';
 
 const environments = {
-  'prod-us': 'https://api.hiddenlayer.ai',
+  'prod-us': 'https://api.us.hiddenlayer.ai',
   'prod-eu': 'https://api.eu.hiddenlayer.ai',
 };
 type Environment = keyof typeof environments;
@@ -95,7 +95,7 @@ export interface ClientOptions {
    * Specifies the environment to use for the API.
    *
    * Each environment maps to a different base URL:
-   * - `prod-us` corresponds to `https://api.hiddenlayer.ai`
+   * - `prod-us` corresponds to `https://api.us.hiddenlayer.ai`
    * - `prod-eu` corresponds to `https://api.eu.hiddenlayer.ai`
    */
   environment?: Environment | undefined;
@@ -196,7 +196,7 @@ export class HiddenLayer {
    * @param {string | null | undefined} [opts.clientID=process.env['HIDDENLAYER_CLIENT_ID'] ?? null]
    * @param {string | null | undefined} [opts.clientSecret=process.env['HIDDENLAYER_CLIENT_SECRET'] ?? null]
    * @param {Environment} [opts.environment=prod-us] - Specifies the environment URL to use for the API.
-   * @param {string} [opts.baseURL=process.env['HIDDENLAYER_BASE_URL'] ?? https://api.hiddenlayer.ai] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['HIDDENLAYER_BASE_URL'] ?? https://api.us.hiddenlayer.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
