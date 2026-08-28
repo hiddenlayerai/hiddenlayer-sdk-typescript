@@ -115,7 +115,7 @@ export namespace FileScanReport {
       md5?: string;
 
       /**
-       * TLSH hash of file
+       * TLSH hash of file, with or without the "T1" version prefix
        */
       tlsh?: string;
     }
@@ -648,7 +648,7 @@ export namespace ScanReport {
       md5?: string;
 
       /**
-       * TLSH hash of file
+       * TLSH hash of file, with or without the "T1" version prefix
        */
       tlsh?: string;
     }
