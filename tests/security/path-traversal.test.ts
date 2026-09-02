@@ -31,6 +31,8 @@ describe('Path traversal and temp handling', () => {
   let mockFileComplete: jest.Mock;
   let mockCompleteAll: jest.Mock;
   let mockRetrieve: jest.Mock;
+  let mockRetrieveSummary: jest.Mock;
+  let mockListFiles: jest.Mock;
 
   beforeEach(() => {
     client = new HiddenLayer({ bearerToken: 'test-token' });
@@ -41,12 +43,20 @@ describe('Path traversal and temp handling', () => {
     mockFileComplete = jest.fn().mockResolvedValue({});
     mockCompleteAll = jest.fn().mockResolvedValue({});
     mockRetrieve = jest.fn().mockResolvedValue({ status: 'done' });
+    mockRetrieveSummary = jest.fn().mockResolvedValue({ status: 'done' });
+    mockListFiles = jest.fn().mockResolvedValue({
+      items: [],
+      hasNextPage: () => false,
+      getNextPage: jest.fn(),
+    });
 
     client.scans.upload.start = mockStart;
     client.scans.upload.file.add = mockFileAdd;
     client.scans.upload.file.complete = mockFileComplete;
     client.scans.upload.completeAll = mockCompleteAll;
     client.scans.jobs.retrieve = mockRetrieve;
+    client.scans.results.retrieveSummary = mockRetrieveSummary;
+    client.scans.results.listFiles = mockListFiles;
 
     (fs.statSync as jest.Mock).mockReturnValue({ size: 1234, isFile: () => true });
 
