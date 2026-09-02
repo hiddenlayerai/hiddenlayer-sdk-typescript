@@ -110,15 +110,13 @@ export class PagePromise<
 export interface CursorPaginationResponse<Item> {
   items: Array<Item>;
 
-  page: CursorPaginationResponse.Page;
-}
+  first: string;
 
-export namespace CursorPaginationResponse {
-  export interface Page {
-    next?: string;
+  prev: string;
 
-    prev?: string;
-  }
+  next: string;
+
+  last: string;
 }
 
 export interface CursorPaginationParams {
@@ -130,7 +128,13 @@ export interface CursorPaginationParams {
 export class CursorPagination<Item> extends AbstractPage<Item> implements CursorPaginationResponse<Item> {
   items: Array<Item>;
 
-  page: CursorPaginationResponse.Page;
+  first: string;
+
+  prev: string;
+
+  next: string;
+
+  last: string;
 
   constructor(
     client: HiddenLayer,
@@ -141,7 +145,10 @@ export class CursorPagination<Item> extends AbstractPage<Item> implements Cursor
     super(client, response, body, options);
 
     this.items = body.items || [];
-    this.page = body.page || {};
+    this.first = body.first || '';
+    this.prev = body.prev || '';
+    this.next = body.next || '';
+    this.last = body.last || '';
   }
 
   getPaginatedItems(): Item[] {
@@ -149,7 +156,7 @@ export class CursorPagination<Item> extends AbstractPage<Item> implements Cursor
   }
 
   nextPageRequestOptions(): PageRequestOptions | null {
-    const cursor = this.page?.next;
+    const cursor = this.next;
     if (!cursor) {
       return null;
     }
