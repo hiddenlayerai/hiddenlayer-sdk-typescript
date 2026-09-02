@@ -29,7 +29,9 @@ export type ScanStatusType = (typeof ScanStatus)[keyof typeof ScanStatus];
 // Page size and inter-page delay for collecting file results. The delay
 // throttles reconstruction of massive scans (10k+ files) so the SDK never
 // hammers the API with back-to-back page reads.
+/** @internal */
 export const FILE_RESULTS_PAGE_SIZE = 100;
+/** @internal */
 export const FILE_RESULTS_PAGE_DELAY_MS = 250;
 
 // Deprecated top-level report fields that mirror `.summary.*` per the API contract.
@@ -43,6 +45,8 @@ const DEPRECATED_SUMMARY_MIRROR_FIELDS = [
 
 /**
  * Assemble a full ScanReport from a scan summary plus its paginated file results.
+ *
+ * @internal Implementation detail of the scan helpers — not part of the public API.
  */
 export function buildScanReport(summary: ScanReportSummary, fileResults: ScanFileResult[]): ScanReport {
   const report: Record<string, unknown> = { ...summary, file_results: fileResults };
@@ -57,6 +61,8 @@ export function buildScanReport(summary: ScanReportSummary, fileResults: ScanFil
 
 /**
  * Fetch every file result for a scan, throttling between page reads.
+ *
+ * @internal Implementation detail of the scan helpers — not part of the public API.
  */
 export async function collectFileResults(client: HiddenLayer, scanId: string): Promise<ScanFileResult[]> {
   let page = await client.scans.results.listFiles(scanId, { page_size: FILE_RESULTS_PAGE_SIZE });
