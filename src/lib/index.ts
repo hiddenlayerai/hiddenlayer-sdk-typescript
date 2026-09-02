@@ -21,4 +21,11 @@ export {
   type ScanAzureBlobModelOptions,
   type ScanHuggingFaceModelOptions,
 } from './model-scan';
-export { getScanResults, waitForScanResults, ScanStatus, type ScanStatusType } from './scan-utils';
+export {
+  getScanResults,
+  waitForScanResults,
+  collectFileResults,
+  buildScanReport,
+  ScanStatus,
+  type ScanStatusType,
+} from './scan-utils';
