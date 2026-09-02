@@ -4,7 +4,16 @@ import { APIResource } from '../../core/resource';
 import * as JobsAPI from './jobs';
 import { JobListParams, JobListResponse, JobRequestParams, JobRetrieveParams, Jobs, ScanJob } from './jobs';
 import * as ResultsAPI from './results';
-import { FileScanReport, ResultSarifResponse, Results, ScanReport } from './results';
+import {
+  FileScanReport,
+  ResultListFilesParams,
+  ResultSarifResponse,
+  Results,
+  ScanFileResult,
+  ScanFileResultsCursorPagination,
+  ScanReport,
+  ScanReportSummary,
+} from './results';
 import * as UploadAPI from './upload/upload';
 import { Upload, UploadCompleteAllResponse, UploadStartParams, UploadStartResponse } from './upload/upload';
 
@@ -22,8 +31,12 @@ export declare namespace Scans {
   export {
     Results as Results,
     type FileScanReport as FileScanReport,
+    type ScanFileResult as ScanFileResult,
     type ScanReport as ScanReport,
+    type ScanReportSummary as ScanReportSummary,
     type ResultSarifResponse as ResultSarifResponse,
+    type ScanFileResultsCursorPagination as ScanFileResultsCursorPagination,
+    type ResultListFilesParams as ResultListFilesParams,
   };
 
   export {
