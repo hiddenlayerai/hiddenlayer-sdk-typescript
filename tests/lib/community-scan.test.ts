@@ -2,13 +2,15 @@
 
 import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
 import { CommunityScanner, CommunityScanSource } from '@hiddenlayerai/hiddenlayer-sdk/lib/community-scan';
-import type { ScanReport } from '@hiddenlayerai/hiddenlayer-sdk/resources/scans/results';
+import type { ScanReportSummary } from '@hiddenlayerai/hiddenlayer-sdk/resources/scans/results';
 
 describe('CommunityScanner', () => {
   let client: HiddenLayer;
   let scanner: CommunityScanner;
   let mockRequest: jest.Mock;
   let mockRetrieve: jest.Mock;
+  let mockRetrieveSummary: jest.Mock;
+  let mockListFiles: jest.Mock;
 
   beforeEach(() => {
     client = new HiddenLayer({ bearerToken: 'test-token' });
@@ -19,6 +21,16 @@ describe('CommunityScanner', () => {
     mockRetrieve = jest.fn();
     client.scans.jobs.request = mockRequest;
     client.scans.jobs.retrieve = mockRetrieve;
+    mockRetrieveSummary = jest.fn();
+    client.scans.results.retrieveSummary = mockRetrieveSummary;
+    mockListFiles = jest.fn();
+    client.scans.results.listFiles = mockListFiles;
+    // Single page of one file result unless a test overrides it
+    mockListFiles.mockResolvedValue({
+      items: [{ file_instance_id: 'file-1', file_location: 'model.pkl' }],
+      hasNextPage: () => false,
+      getNextPage: jest.fn(),
+    });
   });
 
   describe('integration', () => {
@@ -38,7 +50,7 @@ describe('CommunityScanner', () => {
   describe('communityScan', () => {
     test('creates scan job with correct parameters', async () => {
       const mockScanJob = { scan_id: 'test-scan-123' };
-      const mockScanReport: ScanReport = {
+      const mockSummary: ScanReportSummary = {
         scan_id: 'test-scan-123',
         status: 'pending',
         summary: {
@@ -46,9 +58,6 @@ describe('CommunityScanner', () => {
           file_count: 0,
           files_with_detections_count: 0,
         },
-        detection_count: 0,
-        file_count: 0,
-        files_with_detections_count: 0,
         inventory: {
           model_id: 'test-model-id',
           model_version_id: 'test-model-version-id',
@@ -57,10 +66,10 @@ describe('CommunityScanner', () => {
         },
         start_time: '2024-01-01T00:00:00Z',
         version: '1.0.0',
-      };
+      } as unknown as ScanReportSummary;
 
       mockRequest.mockResolvedValue(mockScanJob);
-      mockRetrieve.mockResolvedValue(mockScanReport);
+      mockRetrieveSummary.mockResolvedValue(mockSummary);
 
       const result = await scanner.communityScan({
         modelName: 'test-model',
@@ -81,14 +90,17 @@ describe('CommunityScanner', () => {
         },
       });
 
-      expect(mockRetrieve).toHaveBeenCalledWith('test-scan-123');
-      expect(result).toBe(mockScanReport);
+      expect(mockRetrieveSummary).toHaveBeenCalledWith('test-scan-123');
+      expect(mockRetrieve).not.toHaveBeenCalled();
+      expect(result.scan_id).toBe('test-scan-123');
+      expect(result.status).toBe('pending');
+      expect(result.file_results).toHaveLength(1);
     });
 
     test('handles custom parameters', async () => {
       const mockScanJob = { scan_id: 'test-scan-123' };
       mockRequest.mockResolvedValue(mockScanJob);
-      mockRetrieve.mockResolvedValue({ status: 'pending' });
+      mockRetrieveSummary.mockResolvedValue({ status: 'pending' });
 
       await scanner.communityScan({
         modelName: 'custom-model',
@@ -130,7 +142,7 @@ describe('CommunityScanner', () => {
       const mockScanJob = { scan_id: 'test-scan-123' };
       const pendingReport = { scan_id: 'test-scan-123', status: 'pending' };
       const runningReport = { scan_id: 'test-scan-123', status: 'running' };
-      const doneReport: ScanReport = {
+      const doneSummary: ScanReportSummary = {
         scan_id: 'test-scan-123',
         status: 'done',
         summary: {
@@ -138,9 +150,6 @@ describe('CommunityScanner', () => {
           file_count: 1,
           files_with_detections_count: 1,
         },
-        detection_count: 2,
-        file_count: 1,
-        files_with_detections_count: 1,
         inventory: {
           model_id: 'test-model-id',
           model_version_id: 'test-model-version-id',
@@ -149,13 +158,13 @@ describe('CommunityScanner', () => {
         },
         start_time: '2024-01-01T00:00:00Z',
         version: '1.0.0',
-      };
+      } as unknown as ScanReportSummary;
 
       mockRequest.mockResolvedValue(mockScanJob);
-      mockRetrieve
+      mockRetrieveSummary
         .mockResolvedValueOnce(pendingReport)
         .mockResolvedValueOnce(runningReport)
-        .mockResolvedValueOnce(doneReport);
+        .mockResolvedValueOnce(doneSummary);
 
       // Mock sleep to speed up test
       jest.spyOn(global, 'setTimeout').mockImplementation((callback: any) => {
@@ -170,9 +179,14 @@ describe('CommunityScanner', () => {
         waitForResults: true,
       });
 
-      expect(mockRetrieve).toHaveBeenCalledTimes(3);
-      expect(result).toBe(doneReport);
+      expect(mockRetrieveSummary).toHaveBeenCalledTimes(3);
+      expect(mockListFiles).toHaveBeenCalledTimes(1);
+      expect(mockRetrieve).not.toHaveBeenCalled();
+      expect(result.scan_id).toBe('test-scan-123');
       expect(result.status).toBe('done');
+      expect(result.file_results).toHaveLength(1);
+      // Deprecated top-level counts are mirrored from the nested summary
+      expect(result.detection_count).toBe(2);
 
       jest.restoreAllMocks();
     });
