@@ -358,13 +358,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['HIDDENLAYER_BASE_URL'] = ''; // empty
       const client = new HiddenLayer({ bearerToken: 'My Bearer Token' });
-      expect(client.baseURL).toEqual('https://api.hiddenlayer.ai');
+      expect(client.baseURL).toEqual('https://api.us.hiddenlayer.ai');
     });
 
     test('blank env variable', () => {
       process.env['HIDDENLAYER_BASE_URL'] = '  '; // blank
       const client = new HiddenLayer({ bearerToken: 'My Bearer Token' });
-      expect(client.baseURL).toEqual('https://api.hiddenlayer.ai');
+      expect(client.baseURL).toEqual('https://api.us.hiddenlayer.ai');
     });
 
     test('env variable with environment', () => {
@@ -381,7 +381,7 @@ describe('instantiate client', () => {
         baseURL: null,
         environment: 'prod-us',
       });
-      expect(client.baseURL).toEqual('https://api.hiddenlayer.ai');
+      expect(client.baseURL).toEqual('https://api.us.hiddenlayer.ai');
     });
 
     test('in request options', () => {
