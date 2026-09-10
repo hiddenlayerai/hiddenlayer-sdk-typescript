@@ -2,7 +2,11 @@
 
 set -eux
 
-npm config set '//registry.npmjs.org/:_authToken' "$NPM_TOKEN"
+# With npm trusted publishing (OIDC) no token is present; only configure
+# token auth when one is explicitly provided (manual fallback).
+if [[ -n "${NPM_TOKEN:-}" ]]; then
+  npm config set '//registry.npmjs.org/:_authToken' "$NPM_TOKEN"
+fi
 
 yarn build
 cd dist
