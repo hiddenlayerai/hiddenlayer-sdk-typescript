@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
 import { ModelScanner } from '@hiddenlayerai/hiddenlayer-sdk/lib/model-scan';
-import type { ScanReportSummary } from '@hiddenlayerai/hiddenlayer-sdk/resources/scans/results';
+import type { ScanReport } from '@hiddenlayerai/hiddenlayer-sdk/resources/scans/results';
 
 // Mock fs module
 jest.mock('fs', () => ({
@@ -25,8 +25,6 @@ describe('ModelScanner', () => {
   let mockFileComplete: jest.Mock;
   let mockCompleteAll: jest.Mock;
   let mockRetrieve: jest.Mock;
-  let mockRetrieveSummary: jest.Mock;
-  let mockListFiles: jest.Mock;
 
   beforeEach(() => {
     client = new HiddenLayer({ bearerToken: 'test-token' });
@@ -44,16 +42,6 @@ describe('ModelScanner', () => {
     client.scans.upload.file.complete = mockFileComplete;
     client.scans.upload.completeAll = mockCompleteAll;
     client.scans.jobs.retrieve = mockRetrieve;
-    mockRetrieveSummary = jest.fn();
-    client.scans.results.retrieveSummary = mockRetrieveSummary;
-    mockListFiles = jest.fn();
-    client.scans.results.listFiles = mockListFiles;
-    // Single page of one file result unless a test overrides it
-    mockListFiles.mockResolvedValue({
-      items: [{ file_instance_id: 'file-1', file_location: 'model.pkl' }],
-      hasNextPage: () => false,
-      getNextPage: jest.fn(),
-    });
 
     // Mock fetch for file uploads
     global.fetch = jest.fn().mockResolvedValue({
@@ -113,7 +101,7 @@ describe('ModelScanner', () => {
           },
         ],
       };
-      const mockSummary: ScanReportSummary = {
+      const mockScanReport: ScanReport = {
         scan_id: 'test-scan-123',
         status: 'done',
         summary: {
@@ -121,6 +109,9 @@ describe('ModelScanner', () => {
           file_count: 1,
           files_with_detections_count: 0,
         },
+        detection_count: 0,
+        file_count: 1,
+        files_with_detections_count: 0,
         inventory: {
           model_id: 'test-model-id',
           model_version_id: 'test-model-version-id',
@@ -129,13 +120,13 @@ describe('ModelScanner', () => {
         },
         start_time: '2024-01-01T00:00:00Z',
         version: '1.0.0',
-      } as unknown as ScanReportSummary;
+      };
 
       mockStart.mockResolvedValue(mockUploadResponse);
       mockFileAdd.mockResolvedValue(mockFileAddResponse);
       mockFileComplete.mockResolvedValue({});
       mockCompleteAll.mockResolvedValue({});
-      mockRetrieveSummary.mockResolvedValue(mockSummary);
+      mockRetrieve.mockResolvedValue(mockScanReport);
 
       const result = await scanner.scanFile({
         modelName: 'test-model',
@@ -169,10 +160,7 @@ describe('ModelScanner', () => {
 
       expect(mockFileComplete).toHaveBeenCalledWith('upload-123', { scan_id: 'test-scan-123' });
       expect(mockCompleteAll).toHaveBeenCalledWith('test-scan-123');
-      expect(mockRetrieve).not.toHaveBeenCalled();
-      expect(result.scan_id).toBe(mockSummary.scan_id);
-      expect(result.status).toBe(mockSummary.status);
-      expect(result.file_results).toHaveLength(1);
+      expect(result).toBe(mockScanReport);
     });
 
     test('throws error when scan_id is missing', async () => {
@@ -189,7 +177,7 @@ describe('ModelScanner', () => {
     test('handles custom parameters', async () => {
       mockStart.mockResolvedValue({ scan_id: 'test-scan-123' });
       mockFileAdd.mockResolvedValue({ upload_id: 'upload-123', parts: [] });
-      mockRetrieveSummary.mockResolvedValue({ status: 'pending' });
+      mockRetrieve.mockResolvedValue({ status: 'pending' });
 
       await scanner.scanFile({
         modelName: 'custom-model',
@@ -252,7 +240,7 @@ describe('ModelScanner', () => {
       mockStart.mockResolvedValue({ scan_id: 'test-scan-123' });
       mockFileAdd.mockResolvedValue({ upload_id: 'upload-123', parts: [] });
       mockCompleteAll.mockResolvedValue({});
-      mockRetrieveSummary.mockResolvedValue({ status: 'done' });
+      mockRetrieve.mockResolvedValue({ status: 'done' });
 
       await scanner.scanFolder({
         modelName: 'folder-models',
@@ -269,7 +257,7 @@ describe('ModelScanner', () => {
       mockStart.mockResolvedValue({ scan_id: 'test-scan-123' });
       mockFileAdd.mockResolvedValue({ upload_id: 'upload-123', parts: [] });
       mockCompleteAll.mockResolvedValue({});
-      mockRetrieveSummary.mockResolvedValue({ status: 'done' });
+      mockRetrieve.mockResolvedValue({ status: 'done' });
 
       await scanner.scanFolder({
         modelName: 'folder-models',
@@ -321,7 +309,7 @@ describe('ModelScanner', () => {
         Body: { pipe: jest.fn().mockImplementation((ws: any) => ws) },
       });
 
-      mockRetrieveSummary.mockResolvedValue({ status: 'done' });
+      mockRetrieve.mockResolvedValue({ status: 'done' });
       await expect(
         scanner.scanS3Model({
           modelName: 's3-model',
@@ -353,7 +341,7 @@ describe('ModelScanner', () => {
         }),
       } as any;
 
-      mockRetrieveSummary.mockResolvedValue({ status: 'done' });
+      mockRetrieve.mockResolvedValue({ status: 'done' });
       await expect(
         scanner.scanAzureBlobModel({
           modelName: 'azure-model',
@@ -380,7 +368,7 @@ describe('ModelScanner', () => {
       mockFileAdd.mockResolvedValue({ upload_id: 'upload-123', parts: [] });
       mockFileComplete.mockResolvedValue({});
       mockCompleteAll.mockResolvedValue({});
-      mockRetrieveSummary.mockResolvedValue({ status: 'done' });
+      mockRetrieve.mockResolvedValue({ status: 'done' });
 
       await expect(
         scanner.scanHuggingFaceModel({ repoId: 'test/model', waitForResults: false }),
@@ -415,7 +403,7 @@ describe('ModelScanner', () => {
       mockStart.mockResolvedValue({ scan_id: 'test-scan-123' });
       mockFileAdd.mockResolvedValue({ upload_id: 'upload-123', parts: [] });
       mockCompleteAll.mockResolvedValue({});
-      mockRetrieveSummary.mockResolvedValue({ status: 'done' });
+      mockRetrieve.mockResolvedValue({ status: 'done' });
 
       await scanner.scanFolder({
         modelName: 'test',
