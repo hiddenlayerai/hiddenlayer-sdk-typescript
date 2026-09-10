@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [3.7.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.6.0...v3.7.0) (2026-09-10)
+
+
+### Features
+
+* **governance:** add replace_active_policy param to rule set create ([#354](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues/354)) ([3faf370](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/3faf3707c0b1cd15bdf3b5174707a6116ee34760))
+
+
+### Bug Fixes
+
+* **scans:** restore paginated scan helpers reverted by stale custom-code seal ([#356](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues/356)) ([210d174](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/210d1744ddfdfa7ea6f707389ad8da4642102edc))
+
 ## [3.6.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.5.0...v3.6.0) (2026-09-08)
 
 
