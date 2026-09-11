@@ -23,15 +23,12 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
         with:
-          node-version: '20'
+          # Trusted publishing requires npm >= 11.5.1; latest Node 24 bundles it.
+          node-version: '24'
 
       - name: Install dependencies
         run: |
           yarn install
-
-      # Trusted publishing requires npm >= 11.5.1; Node 20 bundles npm 10.
-      - name: Update npm for trusted publishing
-        run: npm install -g npm@latest
 
       - name: Publish to NPM
         run: |
