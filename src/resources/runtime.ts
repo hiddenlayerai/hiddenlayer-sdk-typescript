@@ -329,6 +329,13 @@ export namespace RuntimeEvaluateInteractionResponse {
          * Whether the tool execution succeeded.
          */
         success?: boolean;
+
+        /**
+         * Name of the tool that produced this result. Interaction evaluations preserve a
+         * nonempty supplied name. When omitted or empty, the name may be populated from
+         * the tool invocation matching `id`; it is omitted if unknown.
+         */
+        tool_name?: string;
       }
 
       /**
@@ -632,6 +639,13 @@ export namespace RuntimeEvaluateInteractionResponse {
            * Whether the tool execution succeeded.
            */
           success?: boolean;
+
+          /**
+           * Name of the tool that produced this result. Interaction evaluations preserve a
+           * nonempty supplied name. When omitted or empty, the name may be populated from
+           * the tool invocation matching `id`; it is omitted if unknown.
+           */
+          tool_name?: string;
         }
 
         /**
@@ -823,6 +837,13 @@ export namespace RuntimeEvaluateInteractionParams {
          * Whether the tool execution succeeded.
          */
         success?: boolean;
+
+        /**
+         * Name of the tool that produced this result. Interaction evaluations preserve a
+         * nonempty supplied name. When omitted or empty, the name may be populated from
+         * the tool invocation matching `id`; it is omitted if unknown.
+         */
+        tool_name?: string;
       }
 
       /**
