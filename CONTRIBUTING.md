@@ -1,11 +1,13 @@
 ## Setting up the environment
 
-This repository uses [`yarn@v1`](https://classic.yarnpkg.com/lang/en/docs/install).
-Other package managers may work but are not officially supported for development.
+This repository uses [Yarn 4](https://yarnpkg.com) on Node.js 24 (see `.nvmrc`). Yarn is provided by
+[Corepack](https://nodejs.org/api/corepack.html), which ships with Node.js 24 and uses the version pinned in
+`package.json`. Other package managers may work but are not officially supported for development.
 
 To set up the repository, run:
 
 ```sh
+$ corepack enable
 $ yarn
 $ yarn build
 ```
@@ -53,9 +55,8 @@ $ git clone https://www.github.com/hiddenlayerai/hiddenlayer-sdk-typescript
 $ cd hiddenlayer-sdk-typescript
 
 # With yarn
-$ yarn link
 $ cd ../my-package
-$ yarn link @hiddenlayerai/hiddenlayer-sdk
+$ yarn link ../hiddenlayer-sdk-typescript
 
 # With pnpm
 $ pnpm link --global
