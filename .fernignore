@@ -1,0 +1,7 @@
+# Files this repo owns. Fern deletes anything it does not generate unless it is listed here.
+# package.json is not listed: Fern writes the version into it.
+.changeset/
+.github/
+.nvmrc
+.yarnrc.yml
+CHANGELOG.md
