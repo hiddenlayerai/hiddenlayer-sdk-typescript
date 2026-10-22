@@ -158,8 +158,15 @@ export class SearchClient {
                 (request?.limit == null || (response?.items ?? []).length >= request?.limit),
             getItems: (response) => response?.items ?? [],
             loadPage: (response) => {
-                _offset += response?.items != null ? response.items.length : 1;
-                return list(core.setObjectProperty(request, "offset", _offset));
+                const _nextOffset = _offset + (response?.items != null ? response.items.length : 1);
+                return core.HttpResponsePromise.fromPromise(
+                    list(core.setObjectProperty(request, "offset", _nextOffset))
+                        .withRawResponse()
+                        .then((_pageResponse) => {
+                            _offset = _nextOffset;
+                            return _pageResponse;
+                        }),
+                );
             },
         });
     }

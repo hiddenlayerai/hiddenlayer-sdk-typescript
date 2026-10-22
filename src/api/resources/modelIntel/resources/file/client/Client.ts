@@ -65,7 +65,7 @@ export class FileClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `model-intel/v1/file/${core.url.encodePathParam(sha256)}`,
+                `model-intel/v1/file/${core.url.encodePathParam(sha256, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -145,7 +145,7 @@ export class FileClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `model-intel/v1/file/${core.url.encodePathParam(sha256)}/metadata`,
+                `model-intel/v1/file/${core.url.encodePathParam(sha256, errors.HiddenLayerError)}/metadata`,
             ),
             method: "GET",
             headers: _headers,

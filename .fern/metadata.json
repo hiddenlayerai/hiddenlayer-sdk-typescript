@@ -1,7 +1,7 @@
 {
     "cliVersion": "5.131.1",
     "generatorName": "fernapi/fern-typescript-sdk",
-    "generatorVersion": "3.96.3",
+    "generatorVersion": "3.107.3",
     "generatorConfig": {
         "namespaceExport": "HiddenLayer",
         "offsetSemantics": "item-index",
@@ -10,7 +10,7 @@
             "name": "@hiddenlayerai/hiddenlayer-sdk"
         }
     },
-    "originGitCommit": "4837563dbd08872a20fccf94d376ebee9210aee1",
+    "originGitCommit": "dbb8ecb6e1684261883228e798082ca6d0530a11",
     "originGitCommitIsDirty": true,
     "invokedBy": "ci",
     "requestedVersion": "3.6.0",

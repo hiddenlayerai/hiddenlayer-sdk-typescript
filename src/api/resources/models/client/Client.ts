@@ -78,7 +78,7 @@ export class ModelsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/models/${core.url.encodePathParam(modelId)}`,
+                `api/v2/models/${core.url.encodePathParam(modelId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -150,7 +150,7 @@ export class ModelsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/models/${core.url.encodePathParam(modelId)}`,
+                `api/v2/models/${core.url.encodePathParam(modelId, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,

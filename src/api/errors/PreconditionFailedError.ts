@@ -2,12 +2,9 @@
 
 import type * as core from "../../core/index.js";
 import * as errors from "../../errors/index.js";
-import type * as HiddenLayer from "../index.js";
 
 export class PreconditionFailedError extends errors.HiddenLayerError {
-    public declare readonly body: HiddenLayer.PreconditionFailedErrorBody;
-
-    constructor(body: HiddenLayer.PreconditionFailedErrorBody, rawResponse?: core.RawResponse) {
+    constructor(body?: unknown, rawResponse?: core.RawResponse) {
         super({
             message: "PreconditionFailedError",
             statusCode: 412,

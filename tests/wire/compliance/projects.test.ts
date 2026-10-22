@@ -454,7 +454,7 @@ describe("ProjectsClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {};
-        const rawResponseBody = { message: "message" };
+        const rawResponseBody = { key: "value" };
 
         server
             .mockEndpoint()

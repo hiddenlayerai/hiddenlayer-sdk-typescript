@@ -156,7 +156,7 @@ export class EvaluationsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `governance/v1/evaluations/${core.url.encodePathParam(artifactId)}`,
+                `governance/v1/evaluations/${core.url.encodePathParam(artifactId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,

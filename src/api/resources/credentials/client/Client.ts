@@ -231,7 +231,7 @@ export class CredentialsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/credentials/${core.url.encodePathParam(id)}`,
+                `api/v2/credentials/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,

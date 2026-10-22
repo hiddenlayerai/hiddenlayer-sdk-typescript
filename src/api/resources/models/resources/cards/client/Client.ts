@@ -150,8 +150,15 @@ export class CardsClient {
                 (request?.limit == null || (response?.results ?? []).length >= request?.limit),
             getItems: (response) => response?.results ?? [],
             loadPage: (response) => {
-                _offset += response?.results != null ? response.results.length : 1;
-                return list(core.setObjectProperty(request, "offset", _offset));
+                const _nextOffset = _offset + (response?.results != null ? response.results.length : 1);
+                return core.HttpResponsePromise.fromPromise(
+                    list(core.setObjectProperty(request, "offset", _nextOffset))
+                        .withRawResponse()
+                        .then((_pageResponse) => {
+                            _offset = _nextOffset;
+                            return _pageResponse;
+                        }),
+                );
             },
         });
     }
@@ -292,8 +299,15 @@ export class CardsClient {
                 (request?.limit == null || (response?.results ?? []).length >= request?.limit),
             getItems: (response) => response?.results ?? [],
             loadPage: (response) => {
-                _offset += response?.results != null ? response.results.length : 1;
-                return list(core.setObjectProperty(request, "offset", _offset));
+                const _nextOffset = _offset + (response?.results != null ? response.results.length : 1);
+                return core.HttpResponsePromise.fromPromise(
+                    list(core.setObjectProperty(request, "offset", _nextOffset))
+                        .withRawResponse()
+                        .then((_pageResponse) => {
+                            _offset = _nextOffset;
+                            return _pageResponse;
+                        }),
+                );
             },
         });
     }

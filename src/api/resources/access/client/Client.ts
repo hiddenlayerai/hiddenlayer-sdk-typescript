@@ -2,6 +2,7 @@
 
 import type { BaseClientOptions } from "../../../../BaseClient.js";
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "../../../../BaseClient.js";
+import { ApiKeysClient } from "../resources/apiKeys/client/Client.js";
 import { PermissionsClient } from "../resources/permissions/client/Client.js";
 import { TokensClient } from "../resources/tokens/client/Client.js";
 import { UsersClient } from "../resources/users/client/Client.js";
@@ -12,12 +13,17 @@ export declare namespace AccessClient {
 
 export class AccessClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<AccessClient.Options>;
+    protected _apiKeys: ApiKeysClient | undefined;
     protected _users: UsersClient | undefined;
     protected _permissions: PermissionsClient | undefined;
     protected _tokens: TokensClient | undefined;
 
     constructor(options: AccessClient.Options) {
         this._options = normalizeClientOptionsWithAuth(options);
+    }
+
+    public get apiKeys(): ApiKeysClient {
+        return (this._apiKeys ??= new ApiKeysClient(this._options));
     }
 
     public get users(): UsersClient {

@@ -265,7 +265,7 @@ export class RuleSetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `compliance/v1/rule-sets/${core.url.encodePathParam(id)}`,
+                `compliance/v1/rule-sets/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -352,7 +352,7 @@ export class RuleSetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `compliance/v1/rule-sets/${core.url.encodePathParam(id)}`,
+                `compliance/v1/rule-sets/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -378,7 +378,7 @@ export class RuleSetsClient {
                     throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 412:
                     throw new HiddenLayer.PreconditionFailedError(
-                        _response.error.body as HiddenLayer.PreconditionFailedErrorBody,
+                        _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 422:
@@ -444,7 +444,7 @@ export class RuleSetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `compliance/v1/rule-sets/${core.url.encodePathParam(id)}`,
+                `compliance/v1/rule-sets/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,

@@ -207,7 +207,7 @@ export class UsersClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/users/${core.url.encodePathParam(id)}`,
+                `api/v2/users/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -288,7 +288,7 @@ export class UsersClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/users/${core.url.encodePathParam(id)}`,
+                `api/v2/users/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -374,7 +374,7 @@ export class UsersClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/users/${core.url.encodePathParam(id)}`,
+                `api/v2/users/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,

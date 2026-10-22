@@ -62,7 +62,7 @@ export class ScansClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v1/scans/${core.url.encodePathParam(scanId)}`,
+                `asset-inventory/v1/scans/${core.url.encodePathParam(scanId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,

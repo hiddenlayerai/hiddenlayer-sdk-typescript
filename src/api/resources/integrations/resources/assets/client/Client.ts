@@ -65,7 +65,7 @@ export class AssetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `integrations/v1/assets/${core.url.encodePathParam(assetId)}/scans`,
+                `integrations/v1/assets/${core.url.encodePathParam(assetId, errors.HiddenLayerError)}/scans`,
             ),
             method: "POST",
             headers: _headers,

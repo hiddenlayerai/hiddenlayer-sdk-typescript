@@ -298,7 +298,7 @@ export class RuleSetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `governance/v1/rule-sets/${core.url.encodePathParam(ruleSetId)}`,
+                `governance/v1/rule-sets/${core.url.encodePathParam(ruleSetId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -393,7 +393,7 @@ export class RuleSetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `governance/v1/rule-sets/${core.url.encodePathParam(ruleSetId)}`,
+                `governance/v1/rule-sets/${core.url.encodePathParam(ruleSetId, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,

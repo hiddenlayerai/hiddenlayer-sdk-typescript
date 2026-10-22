@@ -2143,6 +2143,286 @@ await client.models.update([{
 </dl>
 </details>
 
+## Access ApiKeys
+<details><summary><code>client.access.apiKeys.<a href="/src/api/resources/access/resources/apiKeys/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.StaticApiKey, HiddenLayer.ListApiKeysResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const pageableResponse = await client.access.apiKeys.list({
+    limit: 50
+});
+for await (const item of pageableResponse) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+let page = await client.access.apiKeys.list({
+    limit: 50
+});
+while (page.hasNextPage()) {
+    page = await page.getNextPage();
+}
+
+// You can also access the underlying response
+const response = page.response;
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.access.ListApiKeysRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApiKeysClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.access.apiKeys.<a href="/src/api/resources/access/resources/apiKeys/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.StaticApiKeyWithValue</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+A tenant can have at most 100 keys that are neither revoked nor retired, including keys with no active secret.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.access.apiKeys.create({
+    name: "ci-pipeline"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.access.StaticApiKeyCreateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApiKeysClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.access.apiKeys.<a href="/src/api/resources/access/resources/apiKeys/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.StaticApiKey</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.access.apiKeys.get({
+    id: "00000000-0000-0000-0000-000000000000"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.access.GetApiKeysRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApiKeysClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.access.apiKeys.<a href="/src/api/resources/access/resources/apiKeys/client/Client.ts">delete</a>({ ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Revokes the key and all its secrets. Revoking a key that is already revoked returns `204`, whatever the `If-Match` value.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.access.apiKeys.delete({
+    "If-Match": "\"7da7a728-f910-11e6-942a-68f728c1ba70\"",
+    id: "00000000-0000-0000-0000-000000000000"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.access.DeleteApiKeysRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApiKeysClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Access Users
 <details><summary><code>client.access.users.<a href="/src/api/resources/access/resources/users/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.User, HiddenLayer.ListUsersResponse&gt;</code></summary>
 <dl>
@@ -2334,6 +2614,145 @@ await client.access.tokens.shortLived();
 <dd>
 
 **requestOptions:** `TokensClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Access ApiKeys Secrets
+<details><summary><code>client.access.apiKeys.secrets.<a href="/src/api/resources/access/resources/apiKeys/resources/secrets/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.StaticApiKeySecretWithValue</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Adds a secret to the key. Existing secrets keep working until they are revoked or expire.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.access.apiKeys.secrets.create({
+    "If-Match": "\"7da7a728-f910-11e6-942a-68f728c1ba70\"",
+    id: "00000000-0000-0000-0000-000000000000",
+    body: {}
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.access.apiKeys.CreateSecretsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `SecretsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.access.apiKeys.secrets.<a href="/src/api/resources/access/resources/apiKeys/resources/secrets/client/Client.ts">delete</a>({ ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Revokes only this secret; the key and its other secret keep working. Revoking a secret that is already revoked or expired, or whose key is revoked, returns `204`, whatever the `If-Match` value.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.access.apiKeys.secrets.delete({
+    "If-Match": "\"7da7a728-f910-11e6-942a-68f728c1ba70\"",
+    id: "00000000-0000-0000-0000-000000000000",
+    secret_id: "01n1adc0r38r9n4m5p6t7w8x9y"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.access.apiKeys.DeleteSecretsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `SecretsClient.RequestOptions` 
     
 </dd>
 </dl>

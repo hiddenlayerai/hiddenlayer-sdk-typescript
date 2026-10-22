@@ -66,7 +66,7 @@ export class TechniquesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `mitre/v1/atlas/techniques/${core.url.encodePathParam(techniqueId)}`,
+                `mitre/v1/atlas/techniques/${core.url.encodePathParam(techniqueId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,

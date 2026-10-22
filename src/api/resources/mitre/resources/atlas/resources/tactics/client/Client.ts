@@ -63,7 +63,7 @@ export class TacticsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `mitre/v1/atlas/tactics/${core.url.encodePathParam(tacticId)}`,
+                `mitre/v1/atlas/tactics/${core.url.encodePathParam(tacticId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,

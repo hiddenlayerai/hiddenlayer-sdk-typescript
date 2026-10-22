@@ -295,7 +295,7 @@ export class RedTeamClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId)}/status`,
+                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId, errors.HiddenLayerError)}/status`,
             ),
             method: "GET",
             headers: _headers,
@@ -392,7 +392,7 @@ export class RedTeamClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId)}/next-action`,
+                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId, errors.HiddenLayerError)}/next-action`,
             ),
             method: "GET",
             headers: _headers,
@@ -489,7 +489,7 @@ export class RedTeamClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId)}/target-response`,
+                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId, errors.HiddenLayerError)}/target-response`,
             ),
             method: "POST",
             headers: _headers,
@@ -588,7 +588,7 @@ export class RedTeamClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId)}`,
+                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -679,7 +679,7 @@ export class RedTeamClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId)}`,
+                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,
@@ -770,7 +770,7 @@ export class RedTeamClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `evaluations/v1/jobs/${core.url.encodePathParam(workflowId)}/termination`,
+                `evaluations/v1/jobs/${core.url.encodePathParam(workflowId, errors.HiddenLayerError)}/termination`,
             ),
             method: "POST",
             headers: _headers,

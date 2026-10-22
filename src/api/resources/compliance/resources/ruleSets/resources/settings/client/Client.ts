@@ -161,7 +161,7 @@ export class SettingsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `compliance/v1/rule-sets/${core.url.encodePathParam(id)}/settings`,
+                `compliance/v1/rule-sets/${core.url.encodePathParam(id, errors.HiddenLayerError)}/settings`,
             ),
             method: "POST",
             headers: _headers,
@@ -255,7 +255,7 @@ export class SettingsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `compliance/v1/rule-sets/${core.url.encodePathParam(id)}/settings/${core.url.encodePathParam(settingsId)}`,
+                `compliance/v1/rule-sets/${core.url.encodePathParam(id, errors.HiddenLayerError)}/settings/${core.url.encodePathParam(settingsId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -356,7 +356,7 @@ export class SettingsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `compliance/v1/rule-sets/${core.url.encodePathParam(id)}/settings/${core.url.encodePathParam(settingsId)}`,
+                `compliance/v1/rule-sets/${core.url.encodePathParam(id, errors.HiddenLayerError)}/settings/${core.url.encodePathParam(settingsId, errors.HiddenLayerError)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -382,7 +382,7 @@ export class SettingsClient {
                     throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 412:
                     throw new HiddenLayer.PreconditionFailedError(
-                        _response.error.body as HiddenLayer.PreconditionFailedErrorBody,
+                        _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 422:
@@ -454,7 +454,7 @@ export class SettingsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `compliance/v1/rule-sets/${core.url.encodePathParam(id)}/settings/${core.url.encodePathParam(settingsId)}`,
+                `compliance/v1/rule-sets/${core.url.encodePathParam(id, errors.HiddenLayerError)}/settings/${core.url.encodePathParam(settingsId, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,

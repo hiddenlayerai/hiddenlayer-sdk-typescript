@@ -224,7 +224,7 @@ export class CsvClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `scan/v3/reports/supply-chain/csv/${core.url.encodePathParam(reportId)}`,
+                `scan/v3/reports/supply-chain/csv/${core.url.encodePathParam(reportId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,

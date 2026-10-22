@@ -63,7 +63,7 @@ export class PolicyComplianceClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `models/v4/${core.url.encodePathParam(modelId)}/policy-compliance`,
+                `models/v4/${core.url.encodePathParam(modelId, errors.HiddenLayerError)}/policy-compliance`,
             ),
             method: "PUT",
             headers: _headers,
@@ -142,7 +142,7 @@ export class PolicyComplianceClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `models/v4/${core.url.encodePathParam(modelId)}/policy-compliance`,
+                `models/v4/${core.url.encodePathParam(modelId, errors.HiddenLayerError)}/policy-compliance`,
             ),
             method: "DELETE",
             headers: _headers,

@@ -72,7 +72,7 @@ export class RuleSuggestionsClient {
                         (await core.Supplier.get(this._options.baseUrl)) ??
                             (await core.Supplier.get(this._options.environment)) ??
                             environments.HiddenLayerEnvironment.ProdUs,
-                        `evaluations/v1/red-team/${core.url.encodePathParam(workflowId)}/rule-suggestions`,
+                        `evaluations/v1/red-team/${core.url.encodePathParam(workflowId, errors.HiddenLayerError)}/rule-suggestions`,
                     ),
                     method: "GET",
                     headers: _headers,
@@ -195,7 +195,7 @@ export class RuleSuggestionsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId)}/rule-suggestions`,
+                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId, errors.HiddenLayerError)}/rule-suggestions`,
             ),
             method: "POST",
             headers: _headers,
@@ -296,7 +296,7 @@ export class RuleSuggestionsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId)}/rule-suggestions/${core.url.encodePathParam(suggestionId)}/status`,
+                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId, errors.HiddenLayerError)}/rule-suggestions/${core.url.encodePathParam(suggestionId, errors.HiddenLayerError)}/status`,
             ),
             method: "GET",
             headers: _headers,
@@ -391,7 +391,7 @@ export class RuleSuggestionsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId)}/rule-suggestions/${core.url.encodePathParam(suggestionId)}`,
+                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId, errors.HiddenLayerError)}/rule-suggestions/${core.url.encodePathParam(suggestionId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,

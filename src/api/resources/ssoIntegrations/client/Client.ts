@@ -231,7 +231,7 @@ export class SsoIntegrationsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/sso-integrations/${core.url.encodePathParam(id)}`,
+                `api/v2/sso-integrations/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -315,7 +315,7 @@ export class SsoIntegrationsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/sso-integrations/${core.url.encodePathParam(id)}`,
+                `api/v2/sso-integrations/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "PATCH",
             headers: _headers,

@@ -64,7 +64,7 @@ export class ResultsClient {
                         (await core.Supplier.get(this._options.baseUrl)) ??
                             (await core.Supplier.get(this._options.environment)) ??
                             environments.HiddenLayerEnvironment.ProdUs,
-                        `scan/v3/results/${core.url.encodePathParam(scanId)}/files`,
+                        `scan/v3/results/${core.url.encodePathParam(scanId, errors.HiddenLayerError)}/files`,
                     ),
                     method: "GET",
                     headers: _headers,
@@ -160,7 +160,7 @@ export class ResultsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `scan/v3/results/${core.url.encodePathParam(scanId)}/sarif`,
+                `scan/v3/results/${core.url.encodePathParam(scanId, errors.HiddenLayerError)}/sarif`,
             ),
             method: "GET",
             headers: _headers,
@@ -239,7 +239,7 @@ export class ResultsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `scan/v3/results/${core.url.encodePathParam(scanId)}/summary`,
+                `scan/v3/results/${core.url.encodePathParam(scanId, errors.HiddenLayerError)}/summary`,
             ),
             method: "GET",
             headers: _headers,

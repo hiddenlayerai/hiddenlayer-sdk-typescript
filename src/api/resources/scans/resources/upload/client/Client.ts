@@ -146,7 +146,7 @@ export class UploadClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `scan/v3/upload/${core.url.encodePathParam(scanId)}`,
+                `scan/v3/upload/${core.url.encodePathParam(scanId, errors.HiddenLayerError)}`,
             ),
             method: "PATCH",
             headers: _headers,

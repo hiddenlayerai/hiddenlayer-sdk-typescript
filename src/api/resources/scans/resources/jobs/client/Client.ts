@@ -206,7 +206,7 @@ export class JobsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `scan/v3/results/${core.url.encodePathParam(scanId)}`,
+                `scan/v3/results/${core.url.encodePathParam(scanId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -392,8 +392,15 @@ export class JobsClient {
                 (request?.limit == null || (response?.items ?? []).length >= request?.limit),
             getItems: (response) => response?.items ?? [],
             loadPage: (response) => {
-                _offset += response?.items != null ? response.items.length : 1;
-                return list(core.setObjectProperty(request, "offset", _offset));
+                const _nextOffset = _offset + (response?.items != null ? response.items.length : 1);
+                return core.HttpResponsePromise.fromPromise(
+                    list(core.setObjectProperty(request, "offset", _nextOffset))
+                        .withRawResponse()
+                        .then((_pageResponse) => {
+                            _offset = _nextOffset;
+                            return _pageResponse;
+                        }),
+                );
             },
         });
     }

@@ -72,7 +72,7 @@ export class AnnotationsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v2/annotations/${core.url.encodePathParam(annotatingService)}/${core.url.encodePathParam(annotatingServiceKey)}`,
+                `asset-inventory/v2/annotations/${core.url.encodePathParam(annotatingService, errors.HiddenLayerError)}/${core.url.encodePathParam(annotatingServiceKey, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,

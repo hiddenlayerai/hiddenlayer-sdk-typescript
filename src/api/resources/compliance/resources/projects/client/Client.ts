@@ -272,7 +272,7 @@ export class ProjectsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `compliance/v1/projects/${core.url.encodePathParam(id)}`,
+                `compliance/v1/projects/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -361,7 +361,7 @@ export class ProjectsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `compliance/v1/projects/${core.url.encodePathParam(id)}`,
+                `compliance/v1/projects/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -389,7 +389,7 @@ export class ProjectsClient {
                     throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 412:
                     throw new HiddenLayer.PreconditionFailedError(
-                        _response.error.body as HiddenLayer.PreconditionFailedErrorBody,
+                        _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 422:
@@ -455,7 +455,7 @@ export class ProjectsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `compliance/v1/projects/${core.url.encodePathParam(id)}`,
+                `compliance/v1/projects/${core.url.encodePathParam(id, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,

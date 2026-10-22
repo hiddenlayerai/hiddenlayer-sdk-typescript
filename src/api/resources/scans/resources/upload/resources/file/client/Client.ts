@@ -74,7 +74,7 @@ export class FileClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `scan/v3/upload/${core.url.encodePathParam(scanId)}/file`,
+                `scan/v3/upload/${core.url.encodePathParam(scanId, errors.HiddenLayerError)}/file`,
             ),
             method: "POST",
             headers: _headers,
@@ -156,7 +156,7 @@ export class FileClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `scan/v3/upload/${core.url.encodePathParam(scanId)}/file/${core.url.encodePathParam(fileId)}`,
+                `scan/v3/upload/${core.url.encodePathParam(scanId, errors.HiddenLayerError)}/file/${core.url.encodePathParam(fileId, errors.HiddenLayerError)}`,
             ),
             method: "PATCH",
             headers: _headers,

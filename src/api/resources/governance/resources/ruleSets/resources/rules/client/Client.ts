@@ -77,7 +77,7 @@ export class RulesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `governance/v1/rule-sets/${core.url.encodePathParam(ruleSetId)}/rules`,
+                `governance/v1/rule-sets/${core.url.encodePathParam(ruleSetId, errors.HiddenLayerError)}/rules`,
             ),
             method: "POST",
             headers: _headers,
@@ -181,7 +181,7 @@ export class RulesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `governance/v1/rule-sets/${core.url.encodePathParam(ruleSetId)}/rules/${core.url.encodePathParam(ruleId)}`,
+                `governance/v1/rule-sets/${core.url.encodePathParam(ruleSetId, errors.HiddenLayerError)}/rules/${core.url.encodePathParam(ruleId, errors.HiddenLayerError)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -277,7 +277,7 @@ export class RulesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `governance/v1/rule-sets/${core.url.encodePathParam(ruleSetId)}/rules/${core.url.encodePathParam(ruleId)}`,
+                `governance/v1/rule-sets/${core.url.encodePathParam(ruleSetId, errors.HiddenLayerError)}/rules/${core.url.encodePathParam(ruleId, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,

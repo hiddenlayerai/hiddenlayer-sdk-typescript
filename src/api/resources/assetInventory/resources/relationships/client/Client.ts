@@ -61,7 +61,7 @@ export class RelationshipsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v1/relationships/${core.url.encodePathParam(relationshipId)}`,
+                `asset-inventory/v1/relationships/${core.url.encodePathParam(relationshipId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,

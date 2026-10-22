@@ -68,7 +68,7 @@ export class DiscoveredTagsClient {
                         (await core.Supplier.get(this._options.baseUrl)) ??
                             (await core.Supplier.get(this._options.environment)) ??
                             environments.HiddenLayerEnvironment.ProdUs,
-                        `asset-inventory/v1/discovered-tags/${core.url.encodePathParam(tagName)}/values`,
+                        `asset-inventory/v1/discovered-tags/${core.url.encodePathParam(tagName, errors.HiddenLayerError)}/values`,
                     ),
                     method: "GET",
                     headers: _headers,
@@ -176,7 +176,7 @@ export class DiscoveredTagsClient {
                         (await core.Supplier.get(this._options.baseUrl)) ??
                             (await core.Supplier.get(this._options.environment)) ??
                             environments.HiddenLayerEnvironment.ProdUs,
-                        `asset-inventory/v2/discovered-tags/${core.url.encodePathParam(tagName)}/values`,
+                        `asset-inventory/v2/discovered-tags/${core.url.encodePathParam(tagName, errors.HiddenLayerError)}/values`,
                     ),
                     method: "GET",
                     headers: _headers,

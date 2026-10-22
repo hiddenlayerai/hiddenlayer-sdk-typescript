@@ -73,7 +73,7 @@ export class CustomTagsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v1/assets/${core.url.encodePathParam(assetId)}/custom-tags/${core.url.encodePathParam(tagName)}`,
+                `asset-inventory/v1/assets/${core.url.encodePathParam(assetId, errors.HiddenLayerError)}/custom-tags/${core.url.encodePathParam(tagName, errors.HiddenLayerError)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -170,7 +170,7 @@ export class CustomTagsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v1/assets/${core.url.encodePathParam(assetId)}/custom-tags/${core.url.encodePathParam(tagName)}`,
+                `asset-inventory/v1/assets/${core.url.encodePathParam(assetId, errors.HiddenLayerError)}/custom-tags/${core.url.encodePathParam(tagName, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,
@@ -260,7 +260,7 @@ export class CustomTagsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v2/assets/${core.url.encodePathParam(assetId)}/custom-tags/${core.url.encodePathParam(tagName)}`,
+                `asset-inventory/v2/assets/${core.url.encodePathParam(assetId, errors.HiddenLayerError)}/custom-tags/${core.url.encodePathParam(tagName, errors.HiddenLayerError)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -354,7 +354,7 @@ export class CustomTagsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v2/assets/${core.url.encodePathParam(assetId)}/custom-tags/${core.url.encodePathParam(tagName)}`,
+                `asset-inventory/v2/assets/${core.url.encodePathParam(assetId, errors.HiddenLayerError)}/custom-tags/${core.url.encodePathParam(tagName, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,

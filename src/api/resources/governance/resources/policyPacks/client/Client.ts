@@ -389,7 +389,7 @@ export class PolicyPacksClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `governance/v2/policy-packs/${core.url.encodePathParam(policyPackId)}`,
+                `governance/v2/policy-packs/${core.url.encodePathParam(policyPackId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -491,7 +491,7 @@ export class PolicyPacksClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `governance/v2/policy-packs/${core.url.encodePathParam(policyPackId)}`,
+                `governance/v2/policy-packs/${core.url.encodePathParam(policyPackId, errors.HiddenLayerError)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -593,7 +593,7 @@ export class PolicyPacksClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `governance/v2/policy-packs/${core.url.encodePathParam(policyPackId)}`,
+                `governance/v2/policy-packs/${core.url.encodePathParam(policyPackId, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,

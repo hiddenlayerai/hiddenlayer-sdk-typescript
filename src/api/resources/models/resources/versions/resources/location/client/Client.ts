@@ -61,7 +61,7 @@ export class LocationClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/models/versions/${core.url.encodePathParam(versionId)}/location/internal`,
+                `api/v2/models/versions/${core.url.encodePathParam(versionId, errors.HiddenLayerError)}/location/internal`,
             ),
             method: "GET",
             headers: _headers,

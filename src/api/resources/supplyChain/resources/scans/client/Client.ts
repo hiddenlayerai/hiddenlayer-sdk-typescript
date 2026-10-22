@@ -61,7 +61,7 @@ export class ScansClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `supply-chain/v3/scans/${core.url.encodePathParam(scanId)}`,
+                `supply-chain/v3/scans/${core.url.encodePathParam(scanId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -147,7 +147,7 @@ export class ScansClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `supply-chain/v3/scans/${core.url.encodePathParam(scanId)}/guidance`,
+                `supply-chain/v3/scans/${core.url.encodePathParam(scanId, errors.HiddenLayerError)}/guidance`,
             ),
             method: "GET",
             headers: _headers,

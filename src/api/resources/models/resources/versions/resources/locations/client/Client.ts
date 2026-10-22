@@ -63,7 +63,7 @@ export class LocationsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/models/versions/${core.url.encodePathParam(versionId)}/locations/${core.url.encodePathParam(key)}`,
+                `api/v2/models/versions/${core.url.encodePathParam(versionId, errors.HiddenLayerError)}/locations/${core.url.encodePathParam(key, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -141,7 +141,7 @@ export class LocationsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/models/versions/${core.url.encodePathParam(versionId)}/locations/${core.url.encodePathParam(key)}`,
+                `api/v2/models/versions/${core.url.encodePathParam(versionId, errors.HiddenLayerError)}/locations/${core.url.encodePathParam(key, errors.HiddenLayerError)}`,
             ),
             method: "PUT",
             headers: _headers,

@@ -187,7 +187,7 @@ export class AssetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v1/assets/${core.url.encodePathParam(assetId)}`,
+                `asset-inventory/v1/assets/${core.url.encodePathParam(assetId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -270,7 +270,7 @@ export class AssetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v1/assets/${core.url.encodePathParam(assetId)}/graph`,
+                `asset-inventory/v1/assets/${core.url.encodePathParam(assetId, errors.HiddenLayerError)}/graph`,
             ),
             method: "GET",
             headers: _headers,
@@ -427,7 +427,7 @@ export class AssetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v1/assets/${core.url.encodePathParam(assetId)}/tags`,
+                `asset-inventory/v1/assets/${core.url.encodePathParam(assetId, errors.HiddenLayerError)}/tags`,
             ),
             method: "GET",
             headers: _headers,
@@ -966,7 +966,7 @@ export class AssetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v2/assets/${core.url.encodePathParam(assetId)}`,
+                `asset-inventory/v2/assets/${core.url.encodePathParam(assetId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -1079,7 +1079,7 @@ export class AssetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v2/assets/${core.url.encodePathParam(assetId)}/discovered-graph`,
+                `asset-inventory/v2/assets/${core.url.encodePathParam(assetId, errors.HiddenLayerError)}/discovered-graph`,
             ),
             method: "GET",
             headers: _headers,
@@ -1175,7 +1175,7 @@ export class AssetsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `asset-inventory/v2/assets/${core.url.encodePathParam(assetId)}/tags`,
+                `asset-inventory/v2/assets/${core.url.encodePathParam(assetId, errors.HiddenLayerError)}/tags`,
             ),
             method: "GET",
             headers: _headers,

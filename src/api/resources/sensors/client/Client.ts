@@ -149,7 +149,7 @@ export class SensorsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/sensors/${core.url.encodePathParam(sensorId)}`,
+                `api/v2/sensors/${core.url.encodePathParam(sensorId, errors.HiddenLayerError)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -224,7 +224,7 @@ export class SensorsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/sensors/${core.url.encodePathParam(sensorId)}`,
+                `api/v2/sensors/${core.url.encodePathParam(sensorId, errors.HiddenLayerError)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -311,7 +311,7 @@ export class SensorsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.HiddenLayerEnvironment.ProdUs,
-                `api/v2/sensors/${core.url.encodePathParam(sensorId)}`,
+                `api/v2/sensors/${core.url.encodePathParam(sensorId, errors.HiddenLayerError)}`,
             ),
             method: "DELETE",
             headers: _headers,
@@ -436,8 +436,15 @@ export class SensorsClient {
             hasNextPage: (response) => (response?.results ?? []).length > 0,
             getItems: (response) => response?.results ?? [],
             loadPage: (_response) => {
-                _offset += 1;
-                return list(core.setObjectProperty(request, "page_number", _offset));
+                const _nextOffset = _offset + 1;
+                return core.HttpResponsePromise.fromPromise(
+                    list(core.setObjectProperty(request, "page_number", _nextOffset))
+                        .withRawResponse()
+                        .then((_pageResponse) => {
+                            _offset = _nextOffset;
+                            return _pageResponse;
+                        }),
+                );
             },
         });
     }
@@ -527,8 +534,15 @@ export class SensorsClient {
             hasNextPage: (response) => (response?.results ?? []).length > 0,
             getItems: (response) => response?.results ?? [],
             loadPage: (_response) => {
-                _offset += 1;
-                return list(core.setObjectProperty(request, "page_number", _offset));
+                const _nextOffset = _offset + 1;
+                return core.HttpResponsePromise.fromPromise(
+                    list(core.setObjectProperty(request, "page_number", _nextOffset))
+                        .withRawResponse()
+                        .then((_pageResponse) => {
+                            _offset = _nextOffset;
+                            return _pageResponse;
+                        }),
+                );
             },
         });
     }
