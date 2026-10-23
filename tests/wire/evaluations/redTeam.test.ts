@@ -51,7 +51,7 @@ describe("RedTeamClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server
             .mockEndpoint()
@@ -170,7 +170,7 @@ describe("RedTeamClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server
             .mockEndpoint()
@@ -274,7 +274,7 @@ describe("RedTeamClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server
             .mockEndpoint()
@@ -388,7 +388,7 @@ describe("RedTeamClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server
             .mockEndpoint()
@@ -519,7 +519,7 @@ describe("RedTeamClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { session_id: "session_id", target_response: "target_response" };
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server
             .mockEndpoint()
@@ -648,7 +648,7 @@ describe("RedTeamClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server
             .mockEndpoint()
@@ -744,7 +744,7 @@ describe("RedTeamClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server
             .mockEndpoint()
@@ -845,7 +845,7 @@ describe("RedTeamClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server
             .mockEndpoint()

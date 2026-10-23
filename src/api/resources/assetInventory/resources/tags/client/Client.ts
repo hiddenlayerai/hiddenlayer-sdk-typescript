@@ -95,7 +95,7 @@ export class TagsClient {
                     switch (_response.error.statusCode) {
                         case 401:
                             throw new HiddenLayer.UnauthorizedError(
-                                _response.error.body as HiddenLayer.AuthenticationErrorModel,
+                                _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
@@ -206,7 +206,7 @@ export class TagsClient {
                     switch (_response.error.statusCode) {
                         case 401:
                             throw new HiddenLayer.UnauthorizedError(
-                                _response.error.body as HiddenLayer.AuthenticationErrorModel,
+                                _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:

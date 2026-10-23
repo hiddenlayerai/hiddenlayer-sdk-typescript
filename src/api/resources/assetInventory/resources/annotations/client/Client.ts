@@ -94,10 +94,7 @@ export class AnnotationsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(
-                        _response.error.body as HiddenLayer.AuthenticationErrorModel,
-                        _response.rawResponse,
-                    );
+                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
                     throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:

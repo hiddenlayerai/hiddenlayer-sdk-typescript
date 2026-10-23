@@ -14,6 +14,7 @@ import { MetricsClient } from "./api/resources/metrics/client/Client.js";
 import { MitreClient } from "./api/resources/mitre/client/Client.js";
 import { ModelIntelClient } from "./api/resources/modelIntel/client/Client.js";
 import { ModelsClient } from "./api/resources/models/client/Client.js";
+import { Oauth2Client } from "./api/resources/oauth2/client/Client.js";
 import { PermissionsClient } from "./api/resources/permissions/client/Client.js";
 import { PromptAnalyzerClient } from "./api/resources/promptAnalyzer/client/Client.js";
 import { RolesClient } from "./api/resources/roles/client/Client.js";
@@ -41,6 +42,7 @@ export class HiddenLayerClient {
     protected _permissions: PermissionsClient | undefined;
     protected _roles: RolesClient | undefined;
     protected _users: UsersClient | undefined;
+    protected _oauth2: Oauth2Client | undefined;
     protected _ssoIntegrations: SsoIntegrationsClient | undefined;
     protected _interactions: InteractionsClient | undefined;
     protected _promptAnalyzer: PromptAnalyzerClient | undefined;
@@ -83,6 +85,10 @@ export class HiddenLayerClient {
 
     public get users(): UsersClient {
         return (this._users ??= new UsersClient(this._options));
+    }
+
+    public get oauth2(): Oauth2Client {
+        return (this._oauth2 ??= new Oauth2Client(this._options));
     }
 
     public get ssoIntegrations(): SsoIntegrationsClient {

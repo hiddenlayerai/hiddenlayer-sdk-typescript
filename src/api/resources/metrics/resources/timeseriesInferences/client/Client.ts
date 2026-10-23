@@ -94,10 +94,7 @@ export class TimeseriesInferencesClient {
                 case 400:
                     throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(
-                        _response.error.body as HiddenLayer.AuthenticationErrorModel,
-                        _response.rawResponse,
-                    );
+                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
                     throw new HiddenLayer.UnprocessableEntityError(
                         _response.error.body as unknown,
@@ -197,10 +194,7 @@ export class TimeseriesInferencesClient {
                 case 400:
                     throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(
-                        _response.error.body as HiddenLayer.AuthenticationErrorModel,
-                        _response.rawResponse,
-                    );
+                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
                     throw new HiddenLayer.UnprocessableEntityError(
                         _response.error.body as unknown,

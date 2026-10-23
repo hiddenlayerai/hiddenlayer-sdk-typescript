@@ -18,6 +18,7 @@ export * as modelIntel from "./modelIntel/index.js";
 export * from "./models/client/requests/index.js";
 export * as models from "./models/index.js";
 export * from "./models/types/index.js";
+export * as oauth2 from "./oauth2/index.js";
 export * as permissions from "./permissions/index.js";
 export * from "./permissions/types/index.js";
 export * from "./promptAnalyzer/client/requests/index.js";

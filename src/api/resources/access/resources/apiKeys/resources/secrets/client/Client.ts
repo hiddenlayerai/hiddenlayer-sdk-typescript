@@ -102,10 +102,7 @@ export class SecretsClient {
                 case 400:
                     throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(
-                        _response.error.body as HiddenLayer.AuthenticationErrorModel,
-                        _response.rawResponse,
-                    );
+                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
                     throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
@@ -209,10 +206,7 @@ export class SecretsClient {
                 case 400:
                     throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(
-                        _response.error.body as HiddenLayer.AuthenticationErrorModel,
-                        _response.rawResponse,
-                    );
+                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
                     throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:

@@ -1,3 +1,5 @@
+export * from "./AccessToken.js";
+export * from "./AccessTokenRequest.js";
 export * from "./ActivityType.js";
 export * from "./ActivityTypeList.js";
 export * from "./ActorType.js";
@@ -201,6 +203,7 @@ export * from "./NamedObject.js";
 export * from "./NextActionResponse.js";
 export * from "./NullablePolicyStatus.js";
 export * from "./NumpyFileAttributes.js";
+export * from "./OAuth2Error.js";
 export * from "./OauthScope.js";
 export * from "./Offset.js";
 export * from "./Org.js";

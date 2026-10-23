@@ -101,7 +101,7 @@ export class ApiKeysClient {
                             );
                         case 401:
                             throw new HiddenLayer.UnauthorizedError(
-                                _response.error.body as HiddenLayer.AuthenticationErrorModel,
+                                _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
@@ -140,6 +140,8 @@ export class ApiKeysClient {
 
     /**
      * [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+     *
+     * Prefer [API credentials](#operation/create_credentials_api_v2_credentials_post), which trade a client ID and secret for short-lived OAuth2 access tokens. Reserve Static API Keys for integrations that cannot easily support OAuth2.
      *
      * A tenant can have at most 100 keys that are neither revoked nor retired, including keys with no active secret.
      *
@@ -205,10 +207,7 @@ export class ApiKeysClient {
                 case 400:
                     throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(
-                        _response.error.body as HiddenLayer.AuthenticationErrorModel,
-                        _response.rawResponse,
-                    );
+                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
                     throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
@@ -294,10 +293,7 @@ export class ApiKeysClient {
                 case 400:
                     throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(
-                        _response.error.body as HiddenLayer.AuthenticationErrorModel,
-                        _response.rawResponse,
-                    );
+                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
                     throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
@@ -383,10 +379,7 @@ export class ApiKeysClient {
                 case 400:
                     throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(
-                        _response.error.body as HiddenLayer.AuthenticationErrorModel,
-                        _response.rawResponse,
-                    );
+                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
                     throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:

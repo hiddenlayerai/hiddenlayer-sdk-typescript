@@ -35,7 +35,7 @@ describe("UsersClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server.mockEndpoint().get("/api/v2/users").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
@@ -172,7 +172,7 @@ describe("UsersClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server.mockEndpoint().get("/api/v2/users/id").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
@@ -381,7 +381,7 @@ describe("UsersClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server
             .mockEndpoint()

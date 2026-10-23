@@ -2092,7 +2092,7 @@ describe("RuntimeClient", () => {
                 ],
             },
         };
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server
             .mockEndpoint()

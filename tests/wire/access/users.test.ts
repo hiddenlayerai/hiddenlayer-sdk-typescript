@@ -65,7 +65,7 @@ describe("UsersClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { detail: "Failed to authenticate" };
+        const rawResponseBody = { key: "value" };
 
         server.mockEndpoint().get("/access/v2/users").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 

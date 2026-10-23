@@ -2,12 +2,9 @@
 
 import type * as core from "../../core/index.js";
 import * as errors from "../../errors/index.js";
-import type * as HiddenLayer from "../index.js";
 
 export class UnauthorizedError extends errors.HiddenLayerError {
-    public declare readonly body: HiddenLayer.AuthenticationErrorModel;
-
-    constructor(body: HiddenLayer.AuthenticationErrorModel, rawResponse?: core.RawResponse) {
+    constructor(body?: unknown, rawResponse?: core.RawResponse) {
         super({
             message: "UnauthorizedError",
             statusCode: 401,
