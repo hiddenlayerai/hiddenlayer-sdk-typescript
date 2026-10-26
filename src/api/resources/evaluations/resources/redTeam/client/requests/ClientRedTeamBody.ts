@@ -52,7 +52,7 @@ export interface ClientRedTeamBody {
     attacker_model?: string;
     /** HiddenLayer project UUID or alias */
     hl_project_id?: string;
-    /** Prompt set UUID (built-in catalog or tenant DB) */
+    /** Prompt set UUID (built-in or tenant prompt set) */
     prompt_set_id?: string;
     /** Number of sessions per technique */
     sessions_per_technique?: number;

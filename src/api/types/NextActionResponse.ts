@@ -8,7 +8,7 @@ export interface NextActionResponse {
     is_ready: boolean;
     /** Whether processing is in progress */
     is_processing?: boolean | undefined;
-    /** Type of action (e.g., "attack", "complete") */
+    /** Type of action: `attack_task`, `complete` or `failed` */
     action_type?: string | undefined;
     /** Status message */
     message?: string | undefined;

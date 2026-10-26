@@ -118,5 +118,14 @@ export const OauthScope = {
     /**
      * Grants delete access to runtime security monitoring resources */
     RuntimeD: "runtime:d",
+    /**
+     * Grants read access to Attack Simulation evaluations, configurations, objectives and prompt sets */
+    AasR: "aas:r",
+    /**
+     * Grants write access to Attack Simulation evaluations, configurations, objectives and prompt sets */
+    AasW: "aas:w",
+    /**
+     * Grants delete access to Attack Simulation evaluations, configurations, objectives and prompt sets */
+    AasD: "aas:d",
 } as const;
 export type OauthScope = (typeof OauthScope)[keyof typeof OauthScope];

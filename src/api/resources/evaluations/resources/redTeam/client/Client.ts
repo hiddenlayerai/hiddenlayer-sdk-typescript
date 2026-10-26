@@ -9,7 +9,8 @@ import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
 import * as HiddenLayer from "../../../../../index.js";
-import { RuleSuggestionsClient } from "../resources/ruleSuggestions/client/Client.js";
+import { ConfigsClient } from "../resources/configs/client/Client.js";
+import { ObjectivesClient } from "../resources/objectives/client/Client.js";
 
 export declare namespace RedTeamClient {
     export type Options = BaseClientOptions;
@@ -19,14 +20,101 @@ export declare namespace RedTeamClient {
 
 export class RedTeamClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<RedTeamClient.Options>;
-    protected _ruleSuggestions: RuleSuggestionsClient | undefined;
+    protected _objectives: ObjectivesClient | undefined;
+    protected _configs: ConfigsClient | undefined;
 
     constructor(options: RedTeamClient.Options) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
-    public get ruleSuggestions(): RuleSuggestionsClient {
-        return (this._ruleSuggestions ??= new RuleSuggestionsClient(this._options));
+    public get objectives(): ObjectivesClient {
+        return (this._objectives ??= new ObjectivesClient(this._options));
+    }
+
+    public get configs(): ConfigsClient {
+        return (this._configs ??= new ConfigsClient(this._options));
+    }
+
+    /**
+     * [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+     *
+     * Returns the list of available target models for red team evaluations.
+     *
+     * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link HiddenLayer.UnauthorizedError}
+     * @throws {@link HiddenLayer.ForbiddenError}
+     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link errors.HiddenLayerError}
+     * @throws {@link errors.HiddenLayerTimeoutError}
+     *
+     * @example
+     *     await client.evaluations.redTeam.targetModels()
+     */
+    public targetModels(
+        requestOptions?: RedTeamClient.RequestOptions,
+    ): core.HttpResponsePromise<HiddenLayer.TargetModelResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__targetModels(requestOptions));
+    }
+
+    private async __targetModels(
+        requestOptions?: RedTeamClient.RequestOptions,
+    ): Promise<core.WithRawResponse<HiddenLayer.TargetModelResponse>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.HiddenLayerEnvironment.ProdUs,
+                "evaluations/v1/red-team/target-models",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as HiddenLayer.TargetModelResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 401:
+                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new HiddenLayer.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.HiddenLayerError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/evaluations/v1/red-team/target-models",
+        );
     }
 
     /**
@@ -794,6 +882,183 @@ export class RedTeamClient {
             _response.rawResponse,
             "POST",
             "/evaluations/v1/jobs/{workflow_id}/termination",
+        );
+    }
+
+    /**
+     * [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+     *
+     * Start a new simulated red team workflow with a built-in target model.
+     *
+     * @param {HiddenLayer.evaluations.StartRedTeamBody} request
+     * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link HiddenLayer.BadRequestError}
+     * @throws {@link HiddenLayer.UnauthorizedError}
+     * @throws {@link HiddenLayer.ForbiddenError}
+     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link errors.HiddenLayerError}
+     * @throws {@link errors.HiddenLayerTimeoutError}
+     *
+     * @example
+     *     await client.evaluations.redTeam.simulated({
+     *         name: "name"
+     *     })
+     */
+    public simulated(
+        request: HiddenLayer.evaluations.StartRedTeamBody,
+        requestOptions?: RedTeamClient.RequestOptions,
+    ): core.HttpResponsePromise<HiddenLayer.StartWorkflowResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__simulated(request, requestOptions));
+    }
+
+    private async __simulated(
+        request: HiddenLayer.evaluations.StartRedTeamBody,
+        requestOptions?: RedTeamClient.RequestOptions,
+    ): Promise<core.WithRawResponse<HiddenLayer.StartWorkflowResponse>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.HiddenLayerEnvironment.ProdUs,
+                "evaluations/v1/red-team/simulated",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as HiddenLayer.StartWorkflowResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new HiddenLayer.UnprocessableEntityError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new HiddenLayer.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.HiddenLayerError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/evaluations/v1/red-team/simulated",
+        );
+    }
+
+    /**
+     * [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+     *
+     * Export attacker/target interactions for a red team workflow as CSV (one row per message).
+     *
+     * @throws {@link HiddenLayer.UnauthorizedError}
+     * @throws {@link HiddenLayer.ForbiddenError}
+     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link errors.HiddenLayerError}
+     * @throws {@link errors.HiddenLayerTimeoutError}
+     */
+    public csv(
+        request: HiddenLayer.evaluations.CsvRedTeamRequest,
+        requestOptions?: RedTeamClient.RequestOptions,
+    ): core.HttpResponsePromise<core.BinaryResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__csv(request, requestOptions));
+    }
+
+    private async __csv(
+        request: HiddenLayer.evaluations.CsvRedTeamRequest,
+        requestOptions?: RedTeamClient.RequestOptions,
+    ): Promise<core.WithRawResponse<core.BinaryResponse>> {
+        const { workflow_id: workflowId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await core.fetcher<core.BinaryResponse>({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.HiddenLayerEnvironment.ProdUs,
+                `evaluations/v1/red-team/${core.url.encodePathParam(workflowId, errors.HiddenLayerError)}/csv`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            responseType: "binary-response",
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 401:
+                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new HiddenLayer.UnprocessableEntityError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.HiddenLayerError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/evaluations/v1/red-team/{workflow_id}/csv",
         );
     }
 }

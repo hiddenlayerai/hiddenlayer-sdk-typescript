@@ -5,6 +5,102 @@ import { HiddenLayerClient } from "../../../src/Client";
 import { mockServerPool } from "../../mock-server/MockServerPool";
 
 describe("RedTeamClient", () => {
+    test("target_models (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            models: [{ model_id: "model_id", name: "name", provider: "provider", is_beta: true }],
+        };
+
+        server
+            .mockEndpoint()
+            .get("/evaluations/v1/red-team/target-models")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.evaluations.redTeam.targetModels();
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("target_models (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .get("/evaluations/v1/red-team/target-models")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluations.redTeam.targetModels();
+        }).rejects.toThrow(HiddenLayer.UnauthorizedError);
+    });
+
+    test("target_models (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .get("/evaluations/v1/red-team/target-models")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluations.redTeam.targetModels();
+        }).rejects.toThrow(HiddenLayer.ForbiddenError);
+    });
+
+    test("target_models (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .get("/evaluations/v1/red-team/target-models")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluations.redTeam.targetModels();
+        }).rejects.toThrow(HiddenLayer.InternalServerError);
+    });
+
+    test("target_models (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .get("/evaluations/v1/red-team/target-models")
+            .respondWith()
+            .statusCode(503)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluations.redTeam.targetModels();
+        }).rejects.toThrow(HiddenLayer.ServiceUnavailableError);
+    });
+
     test("list (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
@@ -24,7 +120,7 @@ describe("RedTeamClient", () => {
                     started_at: "2024-01-15T09:30:00Z",
                     completed_at: "2024-01-15T09:30:00Z",
                     attack_success_rate: 1.1,
-                    highest_severity: "NONE",
+                    highest_severity: "CRITICAL",
                     hl_project_id: "hl_project_id",
                 },
             ],
@@ -923,5 +1019,136 @@ describe("RedTeamClient", () => {
                 workflow_id: "workflow_id",
             });
         }).rejects.toThrow(HiddenLayer.UnprocessableEntityError);
+    });
+
+    test("simulated (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name" };
+        const rawResponseBody = { workflow_id: "workflow_id", run_id: "run_id" };
+
+        server
+            .mockEndpoint()
+            .post("/evaluations/v1/red-team/simulated")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.evaluations.redTeam.simulated({
+            name: "name",
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("simulated (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/evaluations/v1/red-team/simulated")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluations.redTeam.simulated({
+                name: "name",
+            });
+        }).rejects.toThrow(HiddenLayer.BadRequestError);
+    });
+
+    test("simulated (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/evaluations/v1/red-team/simulated")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluations.redTeam.simulated({
+                name: "name",
+            });
+        }).rejects.toThrow(HiddenLayer.UnauthorizedError);
+    });
+
+    test("simulated (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/evaluations/v1/red-team/simulated")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluations.redTeam.simulated({
+                name: "name",
+            });
+        }).rejects.toThrow(HiddenLayer.ForbiddenError);
+    });
+
+    test("simulated (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/evaluations/v1/red-team/simulated")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluations.redTeam.simulated({
+                name: "name",
+            });
+        }).rejects.toThrow(HiddenLayer.UnprocessableEntityError);
+    });
+
+    test("simulated (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/evaluations/v1/red-team/simulated")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(503)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluations.redTeam.simulated({
+                name: "name",
+            });
+        }).rejects.toThrow(HiddenLayer.ServiceUnavailableError);
     });
 });

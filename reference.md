@@ -6271,6 +6271,63 @@ await client.compliance.ruleSets.settings.delete({
 </details>
 
 ## Evaluations RedTeam
+<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">targetModels</a>() -> HiddenLayer.TargetModelResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Returns the list of available target models for red team evaluations.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.redTeam.targetModels();
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**requestOptions:** `RedTeamClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.RedTeamResultItem, HiddenLayer.RedTeamListResultsResponse&gt;</code></summary>
 <dl>
 <dd>
@@ -6832,8 +6889,7 @@ await client.evaluations.redTeam.terminate({
 </dl>
 </details>
 
-## Evaluations RedTeam RuleSuggestions
-<details><summary><code>client.evaluations.redTeam.ruleSuggestions.<a href="/src/api/resources/evaluations/resources/redTeam/resources/ruleSuggestions/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.RuleSuggestionListItem, HiddenLayer.RuleSuggestionListResponse&gt;</code></summary>
+<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">simulated</a>({ ...params }) -> HiddenLayer.StartWorkflowResponse</code></summary>
 <dl>
 <dd>
 
@@ -6847,9 +6903,7 @@ await client.evaluations.redTeam.terminate({
 
 [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
 
-List rule suggestion runs generated for a red team evaluation, newest first.
-
-Each run is independent - triggering a new run does not replace or affect prior runs.
+Start a new simulated red team workflow with a built-in target model.
 </dd>
 </dl>
 </dd>
@@ -6864,16 +6918,492 @@ Each run is independent - triggering a new run does not replace or affect prior 
 <dd>
 
 ```typescript
-const pageableResponse = await client.evaluations.redTeam.ruleSuggestions.list({
+await client.evaluations.redTeam.simulated({
+    name: "name"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.StartRedTeamBody` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `RedTeamClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">csv</a>({ ...params }) -> core.BinaryResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Export attacker/target interactions for a red team workflow as CSV (one row per message).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.redTeam.csv({
     workflow_id: "workflow_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.CsvRedTeamRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `RedTeamClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Evaluations PromptSets
+<details><summary><code>client.evaluations.promptSets.<a href="/src/api/resources/evaluations/resources/promptSets/client/Client.ts">list</a>() -> HiddenLayer.PromptSetsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+List all available prompt sets for a tenant.
+
+Returns both:
+- Built-in prompt sets
+- Tenant-specific prompt sets with their current status
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.promptSets.list();
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**requestOptions:** `PromptSetsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.promptSets.<a href="/src/api/resources/evaluations/resources/promptSets/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.CreatePromptSetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Create a new tenant-specific prompt set.
+
+The server assigns the `prompt_set_id` (a UUID). The prompt set is stored
+with status `IN_PROGRESS` and the response returns immediately. A
+background job then tags the prompts, after applying any requested
+mutations. List the prompt sets to see when the status changes.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.promptSets.create({
+    name: "name",
+    provider: "provider",
+    prompts: [{
+            user_prompt: "user_prompt"
+        }]
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.CreatePromptSetRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `PromptSetsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.promptSets.<a href="/src/api/resources/evaluations/resources/promptSets/client/Client.ts">mutations</a>() -> HiddenLayer.AvailableMutationsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Return static list of available mutation types by category.
+
+Returns all available mutation methods organized by category:
+- mutations: Character/word-level text mutations
+- encodings: Text encoding transformations
+- semantic_transformations: LLM-based semantic transformations
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.promptSets.mutations();
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**requestOptions:** `PromptSetsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.promptSets.<a href="/src/api/resources/evaluations/resources/promptSets/client/Client.ts">delete</a>({ ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Delete a tenant-specific prompt set.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.promptSets.delete({
+    prompt_set_id: "prompt_set_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.DeletePromptSetsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `PromptSetsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.promptSets.<a href="/src/api/resources/evaluations/resources/promptSets/client/Client.ts">csv</a>({ ...params }) -> core.BinaryResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Export a prompt set as CSV.
+
+Exports a built-in or tenant-specific prompt set as CSV with columns:
+prompt_id, system_prompt, user_prompt, technique_ids.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.promptSets.csv({
+    prompt_set_id: "prompt_set_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.CsvPromptSetsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `PromptSetsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Evaluations RedTeam Objectives
+<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.ApeObjective, HiddenLayer.ObjectivesListResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+List the red team evaluation objectives available to the tenant.
+
+The first page is prefixed with the built-in HLO catalog (read-only,
+`HLO.NN` IDs); subsequent pages contain only the tenant's custom
+objectives (UUID IDs). The list is cursor-paginated.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const pageableResponse = await client.evaluations.redTeam.objectives.list({
+    limit: 50
 });
 for await (const item of pageableResponse) {
     console.log(item);
 }
 
 // Or you can manually iterate page-by-page
-let page = await client.evaluations.redTeam.ruleSuggestions.list({
-    workflow_id: "workflow_id"
+let page = await client.evaluations.redTeam.objectives.list({
+    limit: 50
 });
 while (page.hasNextPage()) {
     page = await page.getNextPage();
@@ -6896,7 +7426,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.ListRuleSuggestionsRequest` 
+**request:** `HiddenLayer.evaluations.redTeam.ListObjectivesRequest` 
     
 </dd>
 </dl>
@@ -6904,7 +7434,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**requestOptions:** `RuleSuggestionsClient.RequestOptions` 
+**requestOptions:** `ObjectivesClient.RequestOptions` 
     
 </dd>
 </dl>
@@ -6916,7 +7446,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.ruleSuggestions.<a href="/src/api/resources/evaluations/resources/redTeam/resources/ruleSuggestions/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.StartRuleSuggestionResponse</code></summary>
+<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.ApeObjective</code></summary>
 <dl>
 <dd>
 
@@ -6930,17 +7460,15 @@ const response = page.response;
 
 [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
 
-Start a new rule suggestion run for a completed red team evaluation. Analyzes the
-evaluation's successful attacks and generates a detection rule suggestion that can be
-reviewed and added to a project's runtime security policy.
+Create a tenant custom objective. Custom objectives flow through the
+same attacker/judge pipeline as the built-in HLO catalog and are
+referenced by their UUID in `objective_ids` on a config preset or a
+start request.
 
-Callable multiple times for the same evaluation; each call starts an independent run.
-The response's `suggestion_id` identifies the new run - use it in the status, result,
-and list endpoints (the `{workflow_id}` path segment continues to identify the source
-red team evaluation). Client should poll /status, then fetch the full result once
-complete.
-
-An empty JSON object `{}` is the minimal valid request body.
+`objective_name`, `objective_description`, and the optional
+`attacker_guidance` are sanitized server-side (NFKC normalization plus
+a strict character whitelist). A per-tenant cap applies; exceeding it
+returns 409.
 </dd>
 </dl>
 </dd>
@@ -6955,8 +7483,10 @@ An empty JSON object `{}` is the minimal valid request body.
 <dd>
 
 ```typescript
-await client.evaluations.redTeam.ruleSuggestions.create({
-    workflow_id: "workflow_id"
+await client.evaluations.redTeam.objectives.create({
+    objective_name: "objective_name",
+    objective_description: "objective_description",
+    default_severity: "CRITICAL"
 });
 
 ```
@@ -6973,7 +7503,7 @@ await client.evaluations.redTeam.ruleSuggestions.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.StartRuleSuggestionBody` 
+**request:** `HiddenLayer.evaluations.redTeam.CreateCustomObjectiveRequest` 
     
 </dd>
 </dl>
@@ -6981,7 +7511,7 @@ await client.evaluations.redTeam.ruleSuggestions.create({
 <dl>
 <dd>
 
-**requestOptions:** `RuleSuggestionsClient.RequestOptions` 
+**requestOptions:** `ObjectivesClient.RequestOptions` 
     
 </dd>
 </dl>
@@ -6993,7 +7523,7 @@ await client.evaluations.redTeam.ruleSuggestions.create({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.ruleSuggestions.<a href="/src/api/resources/evaluations/resources/redTeam/resources/ruleSuggestions/client/Client.ts">status</a>({ ...params }) -> HiddenLayer.RuleSuggestionStatusResponse</code></summary>
+<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.ApeObjective</code></summary>
 <dl>
 <dd>
 
@@ -7007,8 +7537,8 @@ await client.evaluations.redTeam.ruleSuggestions.create({
 
 [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
 
-Get current status of a rule suggestion run (polling endpoint).
-Returns immediately with current state.
+Return a single objective by ID. `HLO.NN` IDs return a built-in
+objective; UUIDs return one of the tenant's custom objectives.
 </dd>
 </dl>
 </dd>
@@ -7023,9 +7553,8 @@ Returns immediately with current state.
 <dd>
 
 ```typescript
-await client.evaluations.redTeam.ruleSuggestions.status({
-    workflow_id: "workflow_id",
-    suggestion_id: "suggestion_id"
+await client.evaluations.redTeam.objectives.get({
+    objective_id: "objective_id"
 });
 
 ```
@@ -7042,7 +7571,7 @@ await client.evaluations.redTeam.ruleSuggestions.status({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.StatusRuleSuggestionsRequest` 
+**request:** `HiddenLayer.evaluations.redTeam.GetObjectivesRequest` 
     
 </dd>
 </dl>
@@ -7050,7 +7579,7 @@ await client.evaluations.redTeam.ruleSuggestions.status({
 <dl>
 <dd>
 
-**requestOptions:** `RuleSuggestionsClient.RequestOptions` 
+**requestOptions:** `ObjectivesClient.RequestOptions` 
     
 </dd>
 </dl>
@@ -7062,7 +7591,7 @@ await client.evaluations.redTeam.ruleSuggestions.status({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.ruleSuggestions.<a href="/src/api/resources/evaluations/resources/redTeam/resources/ruleSuggestions/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.RuleSuggestionResultResponse</code></summary>
+<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">delete</a>({ ...params }) -> void</code></summary>
 <dl>
 <dd>
 
@@ -7076,7 +7605,12 @@ await client.evaluations.redTeam.ruleSuggestions.status({
 
 [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
 
-Get the complete result of a rule suggestion run, including any generated rules.
+Hard-delete a tenant custom objective. Past workflow runs that
+referenced this objective are unaffected: the resolved objective is
+snapshotted into the result row at start time.
+
+Built-in `HLO.NN` objectives are read-only: a DELETE against one
+returns 409.
 </dd>
 </dl>
 </dd>
@@ -7091,9 +7625,8 @@ Get the complete result of a rule suggestion run, including any generated rules.
 <dd>
 
 ```typescript
-await client.evaluations.redTeam.ruleSuggestions.get({
-    workflow_id: "workflow_id",
-    suggestion_id: "suggestion_id"
+await client.evaluations.redTeam.objectives.delete({
+    objective_id: "objective_id"
 });
 
 ```
@@ -7110,7 +7643,7 @@ await client.evaluations.redTeam.ruleSuggestions.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.GetRuleSuggestionsRequest` 
+**request:** `HiddenLayer.evaluations.redTeam.DeleteObjectivesRequest` 
     
 </dd>
 </dl>
@@ -7118,7 +7651,454 @@ await client.evaluations.redTeam.ruleSuggestions.get({
 <dl>
 <dd>
 
-**requestOptions:** `RuleSuggestionsClient.RequestOptions` 
+**requestOptions:** `ObjectivesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.ApeObjective</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Partially update a tenant custom objective. Omitted fields are left
+unchanged; an explicit `""` clears `attacker_guidance`.
+
+Built-in `HLO.NN` objectives are read-only: a PATCH against one returns
+409. Use `severity_mapping` on a config or start request to tune a
+built-in's effective severity instead.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.redTeam.objectives.update({
+    objective_id: "objective_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.redTeam.UpdateCustomObjectiveRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ObjectivesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Evaluations RedTeam Configs
+<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.RedTeamConfigSummary, HiddenLayer.RedTeamConfigsResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+List all red team config presets for the tenant.
+
+Each config is a reusable bundle of preset-able workflow settings (target model,
+target system prompt, objective IDs, severity mapping, prompt set, project, tuning
+knobs). Configs are referenced from the start endpoints via `config_id`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const pageableResponse = await client.evaluations.redTeam.configs.list({
+    limit: 50
+});
+for await (const item of pageableResponse) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+let page = await client.evaluations.redTeam.configs.list({
+    limit: 50
+});
+while (page.hasNextPage()) {
+    page = await page.getNextPage();
+}
+
+// You can also access the underlying response
+const response = page.response;
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.redTeam.ListConfigsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ConfigsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.RedTeamConfig</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Create a new red team config preset for the tenant.
+
+A config may hold any subset of the preset-able workflow settings. The
+server validates that any supplied `prompt_set_id` exists (built-in or tenant prompt set) and that any
+supplied `hl_project_id` (UUID or alias) names an existing project; an alias
+is stored as the canonical project UUID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.redTeam.configs.create({
+    name: "name"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.redTeam.CreateRedTeamConfigRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ConfigsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.RedTeamConfig</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Return a single red team config by ID.
+
+Includes the staleness signals `prompt_set_status` and `hl_project_status`,
+which show whether the referenced prompt set or project was deleted.
+`hl_project_status` is `unknown` when the project service is unavailable.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.redTeam.configs.get({
+    config_id: "config_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.redTeam.GetConfigsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ConfigsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">delete</a>({ ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Delete a red team config by ID. Past workflow runs that referenced this config
+are unaffected because the resolved settings are snapshotted into the result row
+at start time.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.redTeam.configs.delete({
+    config_id: "config_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.redTeam.DeleteConfigsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ConfigsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.RedTeamConfig</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Partially update an existing red team config.
+
+Omitted fields are left unchanged.
+
+To clear a field that supports an empty value, send the explicit empty value
+for the type (`""` for strings, `[]` for arrays, `{}` for maps). The reference
+fields `prompt_set_id` and `hl_project_id` have no empty value: to clear one,
+delete the config and create it again.
+
+Cross-reference fields (`prompt_set_id`, `hl_project_id`) are re-validated
+whenever they are present in the request body with a non-empty value.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.redTeam.configs.update({
+    config_id: "config_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.redTeam.UpdateRedTeamConfigRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ConfigsClient.RequestOptions` 
     
 </dd>
 </dl>

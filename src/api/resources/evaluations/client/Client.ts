@@ -2,6 +2,7 @@
 
 import type { BaseClientOptions } from "../../../../BaseClient.js";
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "../../../../BaseClient.js";
+import { PromptSetsClient } from "../resources/promptSets/client/Client.js";
 import { RedTeamClient } from "../resources/redTeam/client/Client.js";
 
 export declare namespace EvaluationsClient {
@@ -11,6 +12,7 @@ export declare namespace EvaluationsClient {
 export class EvaluationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<EvaluationsClient.Options>;
     protected _redTeam: RedTeamClient | undefined;
+    protected _promptSets: PromptSetsClient | undefined;
 
     constructor(options: EvaluationsClient.Options) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -18,5 +20,9 @@ export class EvaluationsClient {
 
     public get redTeam(): RedTeamClient {
         return (this._redTeam ??= new RedTeamClient(this._options));
+    }
+
+    public get promptSets(): PromptSetsClient {
+        return (this._promptSets ??= new PromptSetsClient(this._options));
     }
 }
