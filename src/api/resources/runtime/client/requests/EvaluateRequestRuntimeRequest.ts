@@ -59,6 +59,61 @@ import type * as HiddenLayer from "../../../../index.js";
  *             ]
  *         }
  *     }
+ *
+ * @example
+ *     {
+ *         "HL-Project-Id": "internal-search-chatbot",
+ *         "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+ *         body: {
+ *             "model": "jev-latest",
+ *             "state": "Help! My payouts have been failing for 3 days.",
+ *             "questions": {
+ *                 "is_urgent": {
+ *                     "type": "noul",
+ *                     "instructions": "Does this convey urgency?"
+ *                 },
+ *                 "department": {
+ *                     "type": "choice",
+ *                     "instructions": "Which team should handle this ticket?",
+ *                     "criteria": {
+ *                         "billing": "Payments and refunds",
+ *                         "technical": "Bugs and outages"
+ *                     }
+ *                 }
+ *             }
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         "HL-Project-Id": "internal-search-chatbot",
+ *         "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+ *         body: {
+ *             "model": "gpt-6-luna",
+ *             "input": "My order arrived with a cracked screen.",
+ *             "safety_identifier": "user-8f3a",
+ *             "questions": [
+ *                 {
+ *                     "type": "predicate",
+ *                     "name": "visible_damage",
+ *                     "instructions": "Is there visible damage?"
+ *                 },
+ *                 {
+ *                     "type": "choice",
+ *                     "name": "department",
+ *                     "instructions": "Which department should handle this?",
+ *                     "choices": [
+ *                         {
+ *                             "value": "billing"
+ *                         },
+ *                         {
+ *                             "value": "support"
+ *                         }
+ *                     ]
+ *                 }
+ *             ]
+ *         }
+ *     }
  */
 export interface EvaluateRequestRuntimeRequest {
     /** The ID or alias for the Project to govern the request processing. */

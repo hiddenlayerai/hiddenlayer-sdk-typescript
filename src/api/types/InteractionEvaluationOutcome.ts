@@ -42,10 +42,11 @@ export interface InteractionEvaluationOutcome {
      * of the request's `interaction` field: if the request supplied the
      * canonical form (`CanonicalInteraction`), the response returns the
      * canonical form here; if the request supplied a native LLM-provider
-     * payload (OpenAI Chat Completions, OpenAI Responses, or Anthropic
-     * Messages), the response returns that same provider-native shape.
-     * Any redactions, substitutions, or tool modifications from the
-     * outcome's `action` are applied in place.
+     * payload (OpenAI Chat Completions, OpenAI Responses, Anthropic
+     * Messages, TypeSafe System One or OpenAI Decisions), the response
+     * returns that same provider-native shape. Any redactions,
+     * substitutions, or tool modifications from the outcome's `action`
+     * are applied in place.
      */
     effective_interaction: InteractionEvaluationOutcome.EffectiveInteraction;
 }
@@ -80,10 +81,11 @@ export namespace InteractionEvaluationOutcome {
      * of the request's `interaction` field: if the request supplied the
      * canonical form (`CanonicalInteraction`), the response returns the
      * canonical form here; if the request supplied a native LLM-provider
-     * payload (OpenAI Chat Completions, OpenAI Responses, or Anthropic
-     * Messages), the response returns that same provider-native shape.
-     * Any redactions, substitutions, or tool modifications from the
-     * outcome's `action` are applied in place.
+     * payload (OpenAI Chat Completions, OpenAI Responses, Anthropic
+     * Messages, TypeSafe System One or OpenAI Decisions), the response
+     * returns that same provider-native shape. Any redactions,
+     * substitutions, or tool modifications from the outcome's `action`
+     * are applied in place.
      */
     export type EffectiveInteraction = HiddenLayer.CanonicalInteraction | HiddenLayer.ProviderPayload;
 }

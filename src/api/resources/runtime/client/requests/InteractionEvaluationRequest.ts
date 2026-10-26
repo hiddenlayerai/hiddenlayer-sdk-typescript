@@ -235,6 +235,167 @@ import type * as HiddenLayer from "../../../../index.js";
  *                 }]
  *         }
  *     }
+ *
+ * @example
+ *     {
+ *         "HL-Project-Id": "internal-search-chatbot",
+ *         metadata: {
+ *             model: "jev-latest",
+ *             requester_id: "support-triage",
+ *             provider: "typesafe",
+ *             external_session_id: "sess_typesafe_triage_01"
+ *         },
+ *         interaction: {
+ *             "model": "jev-latest",
+ *             "state": "Help! My payouts have been failing for 3 days.",
+ *             "questions": {
+ *                 "is_urgent": {
+ *                     "type": "noul",
+ *                     "instructions": "Does this convey urgency?"
+ *                 },
+ *                 "department": {
+ *                     "type": "choice",
+ *                     "instructions": "Which team should handle this ticket?",
+ *                     "criteria": {
+ *                         "billing": "Payments and refunds",
+ *                         "technical": "Bugs and outages"
+ *                     }
+ *                 }
+ *             }
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         "HL-Project-Id": "internal-search-chatbot",
+ *         metadata: {
+ *             model: "gpt-6-luna",
+ *             requester_id: "user-8f3a",
+ *             provider: "openai",
+ *             external_session_id: "sess_openai_decisions_01"
+ *         },
+ *         interaction: {
+ *             "model": "gpt-6-luna",
+ *             "input": "My order arrived with a cracked screen.",
+ *             "questions": [
+ *                 {
+ *                     "type": "predicate",
+ *                     "name": "visible_damage",
+ *                     "instructions": "Is there visible damage?"
+ *                 },
+ *                 {
+ *                     "type": "choice",
+ *                     "name": "department",
+ *                     "instructions": "Which department should handle this?",
+ *                     "choices": [
+ *                         {
+ *                             "value": "billing"
+ *                         },
+ *                         {
+ *                             "value": "support"
+ *                         }
+ *                     ]
+ *                 }
+ *             ]
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         "HL-Project-Id": "internal-search-chatbot",
+ *         metadata: {
+ *             model: "jev-1.13.0",
+ *             requester_id: "support-triage",
+ *             provider: "typesafe",
+ *             external_session_id: "sess_typesafe_triage_01"
+ *         },
+ *         interaction: {
+ *             messages: [{
+ *                     role: "user",
+ *                     content: [{
+ *                             type: "text",
+ *                             text: "Hello, how can I help you today?"
+ *                         }, {
+ *                             type: "decision_question",
+ *                             decision_question_payload: {
+ *                                 "type": "choice",
+ *                                 "instructions": "Which team should handle this ticket?",
+ *                                 "criteria": {
+ *                                     "billing": "Payments and refunds",
+ *                                     "technical": "Bugs and outages"
+ *                                 }
+ *                             }
+ *                         }, {
+ *                             type: "decision_question",
+ *                             decision_question_payload: {
+ *                                 "type": "choice",
+ *                                 "instructions": "Which team should handle this ticket?",
+ *                                 "criteria": {
+ *                                     "billing": "Payments and refunds",
+ *                                     "technical": "Bugs and outages"
+ *                                 }
+ *                             }
+ *                         }]
+ *                 }, {
+ *                     role: "assistant",
+ *                     content: [{
+ *                             type: "decision_answer",
+ *                             decision_answer_payload: {
+ *                                 "type": "choice",
+ *                                 "choice": "billing",
+ *                                 "confidence": 0.81
+ *                             }
+ *                         }, {
+ *                             type: "decision_answer",
+ *                             decision_answer_payload: {
+ *                                 "type": "choice",
+ *                                 "choice": "billing",
+ *                                 "confidence": 0.81
+ *                             }
+ *                         }]
+ *                 }]
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         "HL-Project-Id": "internal-search-chatbot",
+ *         metadata: {
+ *             model: "gpt-6-luna",
+ *             requester_id: "user-8f3a",
+ *             provider: "openai",
+ *             external_session_id: "sess_openai_decisions_01"
+ *         },
+ *         interaction: {
+ *             messages: [{
+ *                     role: "user",
+ *                     content: [{
+ *                             type: "text",
+ *                             text: "Hello, how can I help you today?"
+ *                         }, {
+ *                             type: "decision_question",
+ *                             decision_question_payload: {
+ *                                 "type": "choice",
+ *                                 "instructions": "Which team should handle this ticket?",
+ *                                 "criteria": {
+ *                                     "billing": "Payments and refunds",
+ *                                     "technical": "Bugs and outages"
+ *                                 }
+ *                             }
+ *                         }]
+ *                 }, {
+ *                     role: "assistant",
+ *                     content: [{
+ *                             type: "decision_answer",
+ *                             decision_answer_payload: {
+ *                                 "type": "choice",
+ *                                 "choice": "billing",
+ *                                 "confidence": 0.81
+ *                             }
+ *                         }]
+ *                 }]
+ *         }
+ *     }
  */
 export interface InteractionEvaluationRequest {
     /** The ID or alias for the Project to govern the request processing. */
@@ -244,10 +405,11 @@ export interface InteractionEvaluationRequest {
      * The interaction to evaluate. Accepts either the canonical form
      * (`CanonicalInteraction` — `messages` and optional `tools_available`)
      * or a native LLM-provider payload passed through verbatim. Supported
-     * provider formats are OpenAI Chat Completions, OpenAI Responses, and
-     * Anthropic Messages. `ProviderPayload` is intentionally permissive
-     * (any JSON object) so callers can supply provider-native shapes
-     * without schema constraints.
+     * provider formats are OpenAI Chat Completions, OpenAI Responses,
+     * Anthropic Messages, TypeSafe System One and OpenAI Decisions.
+     * `ProviderPayload` is intentionally permissive (any JSON object) so
+     * callers can supply provider-native shapes without schema
+     * constraints.
      */
     interaction: InteractionEvaluationRequest.Interaction;
 }
@@ -257,10 +419,11 @@ export namespace InteractionEvaluationRequest {
      * The interaction to evaluate. Accepts either the canonical form
      * (`CanonicalInteraction` — `messages` and optional `tools_available`)
      * or a native LLM-provider payload passed through verbatim. Supported
-     * provider formats are OpenAI Chat Completions, OpenAI Responses, and
-     * Anthropic Messages. `ProviderPayload` is intentionally permissive
-     * (any JSON object) so callers can supply provider-native shapes
-     * without schema constraints.
+     * provider formats are OpenAI Chat Completions, OpenAI Responses,
+     * Anthropic Messages, TypeSafe System One and OpenAI Decisions.
+     * `ProviderPayload` is intentionally permissive (any JSON object) so
+     * callers can supply provider-native shapes without schema
+     * constraints.
      */
     export type Interaction = HiddenLayer.CanonicalInteraction | HiddenLayer.ProviderPayload;
 }

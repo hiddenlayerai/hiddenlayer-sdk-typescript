@@ -1308,6 +1308,996 @@ describe("RuntimeClient", () => {
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
             metadata: {
+                model: "jev-latest",
+                requester_id: "support-triage",
+                provider: "typesafe",
+                external_session_id: "sess_typesafe_triage_01",
+            },
+            interaction: {
+                model: "jev-latest",
+                state: "Help! My payouts have been failing for 3 days.",
+                questions: {
+                    is_urgent: { type: "noul", instructions: "Does this convey urgency?" },
+                    department: {
+                        type: "choice",
+                        instructions: "Which team should handle this ticket?",
+                        criteria: { billing: "Payments and refunds", technical: "Bugs and outages" },
+                    },
+                },
+            },
+        };
+        const rawResponseBody = {
+            metadata: {
+                evaluation_id: "c3d4e5f6-a7b8-4901-c234-567890abcdef",
+                evaluated_at: "2024-01-15T10:31:00Z",
+                provider: "anthropic",
+                model: "claude-3-opus-20240229",
+                requester_id: "agent-service-001",
+                project: {
+                    project_id: "ca87b009-90bd-4724-91c2-f23326acd51a",
+                    project_alias: "enterprise-search",
+                    policy_id: "dfaf7f57-2290-435f-b14a-d0e4da4b4ce2",
+                    configuration_id: "b5d7d261-b7be-451a-b943-0d408ab88aab",
+                },
+                processing_time_ms: 8.21,
+            },
+            evaluated_interaction: {
+                messages: [
+                    {
+                        role: "user",
+                        content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 8 },
+                            },
+                        },
+                    },
+                    {
+                        role: "assistant",
+                        content: [
+                            { type: "text", text: "Hello, how can I help you today?" },
+                            { type: "tool_use", id: "call_abc123", tool_name: "web_search" },
+                        ],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 7 },
+                            },
+                        },
+                    },
+                    {
+                        role: "tool",
+                        content: [
+                            {
+                                type: "tool_result",
+                                id: "call_abc123",
+                                tool_name: "get_weather",
+                                result: "The weather in San Francisco is sunny, 72°F.",
+                                success: true,
+                            },
+                        ],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 8 },
+                            },
+                        },
+                    },
+                    {
+                        role: "assistant",
+                        content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 16 },
+                            },
+                        },
+                    },
+                ],
+                tools_available: [
+                    {
+                        name: "get_weather",
+                        description: "Get current weather for a location",
+                        parameters: {
+                            type: "object",
+                            properties: { location: { type: "string" } },
+                            required: ["location"],
+                        },
+                    },
+                ],
+            },
+            outcome: {
+                action: "NONE",
+                threat_level: "NONE",
+                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                effective_interaction: {
+                    messages: [
+                        {
+                            role: "user",
+                            content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "assistant",
+                            content: [
+                                { type: "text", text: "Hello, how can I help you today?" },
+                                { type: "tool_use", id: "call_abc123", tool_name: "web_search" },
+                            ],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "tool",
+                            content: [
+                                {
+                                    type: "tool_result",
+                                    id: "call_abc123",
+                                    tool_name: "get_weather",
+                                    result: "The weather in San Francisco is sunny, 72°F.",
+                                    success: true,
+                                },
+                            ],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "assistant",
+                            content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                    ],
+                    tools_available: [
+                        {
+                            name: "get_weather",
+                            description: "Get current weather for a location",
+                            parameters: {
+                                type: "object",
+                                properties: { location: { type: "string" } },
+                                required: ["location"],
+                            },
+                        },
+                    ],
+                },
+            },
+        };
+
+        server
+            .mockEndpoint()
+            .post("/detection/v2/interaction-evaluations")
+            .header("HL-Project-Id", "internal-search-chatbot")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.runtime.evaluateInteraction({
+            "HL-Project-Id": "internal-search-chatbot",
+            metadata: {
+                model: "jev-latest",
+                requester_id: "support-triage",
+                provider: "typesafe",
+                external_session_id: "sess_typesafe_triage_01",
+            },
+            interaction: {
+                model: "jev-latest",
+                state: "Help! My payouts have been failing for 3 days.",
+                questions: {
+                    is_urgent: {
+                        type: "noul",
+                        instructions: "Does this convey urgency?",
+                    },
+                    department: {
+                        type: "choice",
+                        instructions: "Which team should handle this ticket?",
+                        criteria: {
+                            billing: "Payments and refunds",
+                            technical: "Bugs and outages",
+                        },
+                    },
+                },
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("evaluate_interaction (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            metadata: {
+                model: "gpt-6-luna",
+                requester_id: "user-8f3a",
+                provider: "openai",
+                external_session_id: "sess_openai_decisions_01",
+            },
+            interaction: {
+                model: "gpt-6-luna",
+                input: "My order arrived with a cracked screen.",
+                questions: [
+                    { type: "predicate", name: "visible_damage", instructions: "Is there visible damage?" },
+                    {
+                        type: "choice",
+                        name: "department",
+                        instructions: "Which department should handle this?",
+                        choices: [{ value: "billing" }, { value: "support" }],
+                    },
+                ],
+            },
+        };
+        const rawResponseBody = {
+            metadata: {
+                evaluation_id: "c3d4e5f6-a7b8-4901-c234-567890abcdef",
+                evaluated_at: "2024-01-15T10:31:00Z",
+                provider: "anthropic",
+                model: "claude-3-opus-20240229",
+                requester_id: "agent-service-001",
+                project: {
+                    project_id: "ca87b009-90bd-4724-91c2-f23326acd51a",
+                    project_alias: "enterprise-search",
+                    policy_id: "dfaf7f57-2290-435f-b14a-d0e4da4b4ce2",
+                    configuration_id: "b5d7d261-b7be-451a-b943-0d408ab88aab",
+                },
+                processing_time_ms: 8.21,
+            },
+            evaluated_interaction: {
+                messages: [
+                    {
+                        role: "user",
+                        content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 8 },
+                            },
+                        },
+                    },
+                    {
+                        role: "assistant",
+                        content: [
+                            { type: "text", text: "Hello, how can I help you today?" },
+                            { type: "tool_use", id: "call_abc123", tool_name: "web_search" },
+                        ],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 7 },
+                            },
+                        },
+                    },
+                    {
+                        role: "tool",
+                        content: [
+                            {
+                                type: "tool_result",
+                                id: "call_abc123",
+                                tool_name: "get_weather",
+                                result: "The weather in San Francisco is sunny, 72°F.",
+                                success: true,
+                            },
+                        ],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 8 },
+                            },
+                        },
+                    },
+                    {
+                        role: "assistant",
+                        content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 16 },
+                            },
+                        },
+                    },
+                ],
+                tools_available: [
+                    {
+                        name: "get_weather",
+                        description: "Get current weather for a location",
+                        parameters: {
+                            type: "object",
+                            properties: { location: { type: "string" } },
+                            required: ["location"],
+                        },
+                    },
+                ],
+            },
+            outcome: {
+                action: "NONE",
+                threat_level: "NONE",
+                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                effective_interaction: {
+                    messages: [
+                        {
+                            role: "user",
+                            content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "assistant",
+                            content: [
+                                { type: "text", text: "Hello, how can I help you today?" },
+                                { type: "tool_use", id: "call_abc123", tool_name: "web_search" },
+                            ],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "tool",
+                            content: [
+                                {
+                                    type: "tool_result",
+                                    id: "call_abc123",
+                                    tool_name: "get_weather",
+                                    result: "The weather in San Francisco is sunny, 72°F.",
+                                    success: true,
+                                },
+                            ],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "assistant",
+                            content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                    ],
+                    tools_available: [
+                        {
+                            name: "get_weather",
+                            description: "Get current weather for a location",
+                            parameters: {
+                                type: "object",
+                                properties: { location: { type: "string" } },
+                                required: ["location"],
+                            },
+                        },
+                    ],
+                },
+            },
+        };
+
+        server
+            .mockEndpoint()
+            .post("/detection/v2/interaction-evaluations")
+            .header("HL-Project-Id", "internal-search-chatbot")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.runtime.evaluateInteraction({
+            "HL-Project-Id": "internal-search-chatbot",
+            metadata: {
+                model: "gpt-6-luna",
+                requester_id: "user-8f3a",
+                provider: "openai",
+                external_session_id: "sess_openai_decisions_01",
+            },
+            interaction: {
+                model: "gpt-6-luna",
+                input: "My order arrived with a cracked screen.",
+                questions: [
+                    {
+                        type: "predicate",
+                        name: "visible_damage",
+                        instructions: "Is there visible damage?",
+                    },
+                    {
+                        type: "choice",
+                        name: "department",
+                        instructions: "Which department should handle this?",
+                        choices: [
+                            {
+                                value: "billing",
+                            },
+                            {
+                                value: "support",
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("evaluate_interaction (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            metadata: {
+                model: "jev-1.13.0",
+                requester_id: "support-triage",
+                provider: "typesafe",
+                external_session_id: "sess_typesafe_triage_01",
+            },
+            interaction: {
+                messages: [
+                    {
+                        role: "user",
+                        content: [
+                            { type: "text", text: "Hello, how can I help you today?" },
+                            {
+                                type: "decision_question",
+                                decision_question_payload: {
+                                    type: "choice",
+                                    instructions: "Which team should handle this ticket?",
+                                    criteria: { billing: "Payments and refunds", technical: "Bugs and outages" },
+                                },
+                            },
+                            {
+                                type: "decision_question",
+                                decision_question_payload: {
+                                    type: "choice",
+                                    instructions: "Which team should handle this ticket?",
+                                    criteria: { billing: "Payments and refunds", technical: "Bugs and outages" },
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        role: "assistant",
+                        content: [
+                            {
+                                type: "decision_answer",
+                                decision_answer_payload: { type: "choice", choice: "billing", confidence: 0.81 },
+                            },
+                            {
+                                type: "decision_answer",
+                                decision_answer_payload: { type: "choice", choice: "billing", confidence: 0.81 },
+                            },
+                        ],
+                    },
+                ],
+            },
+        };
+        const rawResponseBody = {
+            metadata: {
+                evaluation_id: "c3d4e5f6-a7b8-4901-c234-567890abcdef",
+                evaluated_at: "2024-01-15T10:31:00Z",
+                provider: "anthropic",
+                model: "claude-3-opus-20240229",
+                requester_id: "agent-service-001",
+                project: {
+                    project_id: "ca87b009-90bd-4724-91c2-f23326acd51a",
+                    project_alias: "enterprise-search",
+                    policy_id: "dfaf7f57-2290-435f-b14a-d0e4da4b4ce2",
+                    configuration_id: "b5d7d261-b7be-451a-b943-0d408ab88aab",
+                },
+                processing_time_ms: 8.21,
+            },
+            evaluated_interaction: {
+                messages: [
+                    {
+                        role: "user",
+                        content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 8 },
+                            },
+                        },
+                    },
+                    {
+                        role: "assistant",
+                        content: [
+                            { type: "text", text: "Hello, how can I help you today?" },
+                            { type: "tool_use", id: "call_abc123", tool_name: "web_search" },
+                        ],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 7 },
+                            },
+                        },
+                    },
+                    {
+                        role: "tool",
+                        content: [
+                            {
+                                type: "tool_result",
+                                id: "call_abc123",
+                                tool_name: "get_weather",
+                                result: "The weather in San Francisco is sunny, 72°F.",
+                                success: true,
+                            },
+                        ],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 8 },
+                            },
+                        },
+                    },
+                    {
+                        role: "assistant",
+                        content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 16 },
+                            },
+                        },
+                    },
+                ],
+                tools_available: [
+                    {
+                        name: "get_weather",
+                        description: "Get current weather for a location",
+                        parameters: {
+                            type: "object",
+                            properties: { location: { type: "string" } },
+                            required: ["location"],
+                        },
+                    },
+                ],
+            },
+            outcome: {
+                action: "NONE",
+                threat_level: "NONE",
+                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                effective_interaction: {
+                    messages: [
+                        {
+                            role: "user",
+                            content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "assistant",
+                            content: [
+                                { type: "text", text: "Hello, how can I help you today?" },
+                                { type: "tool_use", id: "call_abc123", tool_name: "web_search" },
+                            ],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "tool",
+                            content: [
+                                {
+                                    type: "tool_result",
+                                    id: "call_abc123",
+                                    tool_name: "get_weather",
+                                    result: "The weather in San Francisco is sunny, 72°F.",
+                                    success: true,
+                                },
+                            ],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "assistant",
+                            content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                    ],
+                    tools_available: [
+                        {
+                            name: "get_weather",
+                            description: "Get current weather for a location",
+                            parameters: {
+                                type: "object",
+                                properties: { location: { type: "string" } },
+                                required: ["location"],
+                            },
+                        },
+                    ],
+                },
+            },
+        };
+
+        server
+            .mockEndpoint()
+            .post("/detection/v2/interaction-evaluations")
+            .header("HL-Project-Id", "internal-search-chatbot")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.runtime.evaluateInteraction({
+            "HL-Project-Id": "internal-search-chatbot",
+            metadata: {
+                model: "jev-1.13.0",
+                requester_id: "support-triage",
+                provider: "typesafe",
+                external_session_id: "sess_typesafe_triage_01",
+            },
+            interaction: {
+                messages: [
+                    {
+                        role: "user",
+                        content: [
+                            {
+                                type: "text",
+                                text: "Hello, how can I help you today?",
+                            },
+                            {
+                                type: "decision_question",
+                                decision_question_payload: {
+                                    type: "choice",
+                                    instructions: "Which team should handle this ticket?",
+                                    criteria: {
+                                        billing: "Payments and refunds",
+                                        technical: "Bugs and outages",
+                                    },
+                                },
+                            },
+                            {
+                                type: "decision_question",
+                                decision_question_payload: {
+                                    type: "choice",
+                                    instructions: "Which team should handle this ticket?",
+                                    criteria: {
+                                        billing: "Payments and refunds",
+                                        technical: "Bugs and outages",
+                                    },
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        role: "assistant",
+                        content: [
+                            {
+                                type: "decision_answer",
+                                decision_answer_payload: {
+                                    type: "choice",
+                                    choice: "billing",
+                                    confidence: 0.81,
+                                },
+                            },
+                            {
+                                type: "decision_answer",
+                                decision_answer_payload: {
+                                    type: "choice",
+                                    choice: "billing",
+                                    confidence: 0.81,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("evaluate_interaction (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            metadata: {
+                model: "gpt-6-luna",
+                requester_id: "user-8f3a",
+                provider: "openai",
+                external_session_id: "sess_openai_decisions_01",
+            },
+            interaction: {
+                messages: [
+                    {
+                        role: "user",
+                        content: [
+                            { type: "text", text: "Hello, how can I help you today?" },
+                            {
+                                type: "decision_question",
+                                decision_question_payload: {
+                                    type: "choice",
+                                    instructions: "Which team should handle this ticket?",
+                                    criteria: { billing: "Payments and refunds", technical: "Bugs and outages" },
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        role: "assistant",
+                        content: [
+                            {
+                                type: "decision_answer",
+                                decision_answer_payload: { type: "choice", choice: "billing", confidence: 0.81 },
+                            },
+                        ],
+                    },
+                ],
+            },
+        };
+        const rawResponseBody = {
+            metadata: {
+                evaluation_id: "c3d4e5f6-a7b8-4901-c234-567890abcdef",
+                evaluated_at: "2024-01-15T10:31:00Z",
+                provider: "anthropic",
+                model: "claude-3-opus-20240229",
+                requester_id: "agent-service-001",
+                project: {
+                    project_id: "ca87b009-90bd-4724-91c2-f23326acd51a",
+                    project_alias: "enterprise-search",
+                    policy_id: "dfaf7f57-2290-435f-b14a-d0e4da4b4ce2",
+                    configuration_id: "b5d7d261-b7be-451a-b943-0d408ab88aab",
+                },
+                processing_time_ms: 8.21,
+            },
+            evaluated_interaction: {
+                messages: [
+                    {
+                        role: "user",
+                        content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 8 },
+                            },
+                        },
+                    },
+                    {
+                        role: "assistant",
+                        content: [
+                            { type: "text", text: "Hello, how can I help you today?" },
+                            { type: "tool_use", id: "call_abc123", tool_name: "web_search" },
+                        ],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 7 },
+                            },
+                        },
+                    },
+                    {
+                        role: "tool",
+                        content: [
+                            {
+                                type: "tool_result",
+                                id: "call_abc123",
+                                tool_name: "get_weather",
+                                result: "The weather in San Francisco is sunny, 72°F.",
+                                success: true,
+                            },
+                        ],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 8 },
+                            },
+                        },
+                    },
+                    {
+                        role: "assistant",
+                        content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                        timestamp: { value: "2024-02-10T12:00:00Z" },
+                        analysis: {
+                            signals: {
+                                prompt_injection: { detected: false },
+                                guardrails: { detected: false },
+                                personally_identifiable_information: {},
+                                url: {},
+                                language: { detected: "en" },
+                                code: {},
+                                denial_of_service: { token_count: 16 },
+                            },
+                        },
+                    },
+                ],
+                tools_available: [
+                    {
+                        name: "get_weather",
+                        description: "Get current weather for a location",
+                        parameters: {
+                            type: "object",
+                            properties: { location: { type: "string" } },
+                            required: ["location"],
+                        },
+                    },
+                ],
+            },
+            outcome: {
+                action: "NONE",
+                threat_level: "NONE",
+                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                effective_interaction: {
+                    messages: [
+                        {
+                            role: "user",
+                            content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "assistant",
+                            content: [
+                                { type: "text", text: "Hello, how can I help you today?" },
+                                { type: "tool_use", id: "call_abc123", tool_name: "web_search" },
+                            ],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "tool",
+                            content: [
+                                {
+                                    type: "tool_result",
+                                    id: "call_abc123",
+                                    tool_name: "get_weather",
+                                    result: "The weather in San Francisco is sunny, 72°F.",
+                                    success: true,
+                                },
+                            ],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                        {
+                            role: "assistant",
+                            content: [{ type: "text", text: "Hello, how can I help you today?" }],
+                            timestamp: { value: "2024-02-10T12:00:00Z" },
+                        },
+                    ],
+                    tools_available: [
+                        {
+                            name: "get_weather",
+                            description: "Get current weather for a location",
+                            parameters: {
+                                type: "object",
+                                properties: { location: { type: "string" } },
+                                required: ["location"],
+                            },
+                        },
+                    ],
+                },
+            },
+        };
+
+        server
+            .mockEndpoint()
+            .post("/detection/v2/interaction-evaluations")
+            .header("HL-Project-Id", "internal-search-chatbot")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.runtime.evaluateInteraction({
+            "HL-Project-Id": "internal-search-chatbot",
+            metadata: {
+                model: "gpt-6-luna",
+                requester_id: "user-8f3a",
+                provider: "openai",
+                external_session_id: "sess_openai_decisions_01",
+            },
+            interaction: {
+                messages: [
+                    {
+                        role: "user",
+                        content: [
+                            {
+                                type: "text",
+                                text: "Hello, how can I help you today?",
+                            },
+                            {
+                                type: "decision_question",
+                                decision_question_payload: {
+                                    type: "choice",
+                                    instructions: "Which team should handle this ticket?",
+                                    criteria: {
+                                        billing: "Payments and refunds",
+                                        technical: "Bugs and outages",
+                                    },
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        role: "assistant",
+                        content: [
+                            {
+                                type: "decision_answer",
+                                decision_answer_payload: {
+                                    type: "choice",
+                                    choice: "billing",
+                                    confidence: 0.81,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("evaluate_interaction (10)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            metadata: {
                 model: "gpt-4-turbo",
                 requester_id: "user-12345",
                 provider: "openai",
@@ -1522,7 +2512,7 @@ describe("RuntimeClient", () => {
         expect(response).toEqual(rawResponseBody);
     });
 
-    test("evaluate_interaction (7)", async () => {
+    test("evaluate_interaction (11)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -1662,7 +2652,7 @@ describe("RuntimeClient", () => {
         expect(response).toEqual(rawResponseBody);
     });
 
-    test("evaluate_interaction (8)", async () => {
+    test("evaluate_interaction (12)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -1776,7 +2766,7 @@ describe("RuntimeClient", () => {
         expect(response).toEqual(rawResponseBody);
     });
 
-    test("evaluate_interaction (9)", async () => {
+    test("evaluate_interaction (13)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -1992,7 +2982,7 @@ describe("RuntimeClient", () => {
         expect(response).toEqual(rawResponseBody);
     });
 
-    test("evaluate_interaction (10)", async () => {
+    test("evaluate_interaction (14)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -2068,7 +3058,7 @@ describe("RuntimeClient", () => {
         }).rejects.toThrow(HiddenLayer.BadRequestError);
     });
 
-    test("evaluate_interaction (11)", async () => {
+    test("evaluate_interaction (15)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -2144,7 +3134,7 @@ describe("RuntimeClient", () => {
         }).rejects.toThrow(HiddenLayer.UnauthorizedError);
     });
 
-    test("evaluate_interaction (12)", async () => {
+    test("evaluate_interaction (16)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -2220,7 +3210,7 @@ describe("RuntimeClient", () => {
         }).rejects.toThrow(HiddenLayer.ForbiddenError);
     });
 
-    test("evaluate_interaction (13)", async () => {
+    test("evaluate_interaction (17)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -2296,7 +3286,7 @@ describe("RuntimeClient", () => {
         }).rejects.toThrow(HiddenLayer.UnprocessableEntityError);
     });
 
-    test("evaluate_interaction (14)", async () => {
+    test("evaluate_interaction (18)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -2521,6 +3511,192 @@ describe("RuntimeClient", () => {
         expect(response).toEqual(rawResponseBody);
     });
 
+    test("evaluate_request (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            model: "jev-latest",
+            state: "Help! My payouts have been failing for 3 days.",
+            questions: {
+                is_urgent: { type: "noul", instructions: "Does this convey urgency?" },
+                department: {
+                    type: "choice",
+                    instructions: "Which team should handle this ticket?",
+                    criteria: { billing: "Payments and refunds", technical: "Bugs and outages" },
+                },
+            },
+        };
+        const rawResponseBody = {
+            model: "jev-latest",
+            state: "Help! My payouts have been failing for 3 days.",
+            questions: {
+                is_urgent: { type: "noul", instructions: "Does this convey urgency?" },
+                department: {
+                    type: "choice",
+                    instructions: "Which team should handle this ticket?",
+                    criteria: { billing: "Payments and refunds", technical: "Bugs and outages" },
+                },
+            },
+        };
+
+        server
+            .mockEndpoint()
+            .post("/detection/v2/request-evaluations")
+            .header("HL-Project-Id", "internal-search-chatbot")
+            .header("HL-Runtime-Session-Id", "sess_4b8cde94604f4c389406a0b2f806069a")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.runtime.evaluateRequest({
+            "HL-Project-Id": "internal-search-chatbot",
+            "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+            body: {
+                model: "jev-latest",
+                state: "Help! My payouts have been failing for 3 days.",
+                questions: {
+                    is_urgent: {
+                        type: "noul",
+                        instructions: "Does this convey urgency?",
+                    },
+                    department: {
+                        type: "choice",
+                        instructions: "Which team should handle this ticket?",
+                        criteria: {
+                            billing: "Payments and refunds",
+                            technical: "Bugs and outages",
+                        },
+                    },
+                },
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("evaluate_request (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            model: "gpt-6-luna",
+            input: "My order arrived with a cracked screen.",
+            safety_identifier: "user-8f3a",
+            questions: [
+                { type: "predicate", name: "visible_damage", instructions: "Is there visible damage?" },
+                {
+                    type: "choice",
+                    name: "department",
+                    instructions: "Which department should handle this?",
+                    choices: [{ value: "billing" }, { value: "support" }],
+                },
+            ],
+        };
+        const rawResponseBody = {
+            model: "gpt-6-luna",
+            input: "My order arrived with a cracked screen.",
+            safety_identifier: "user-8f3a",
+            questions: [
+                { type: "predicate", name: "visible_damage", instructions: "Is there visible damage?" },
+                {
+                    type: "choice",
+                    name: "department",
+                    instructions: "Which department should handle this?",
+                    choices: [{ value: "billing" }, { value: "support" }],
+                },
+            ],
+        };
+
+        server
+            .mockEndpoint()
+            .post("/detection/v2/request-evaluations")
+            .header("HL-Project-Id", "internal-search-chatbot")
+            .header("HL-Runtime-Session-Id", "sess_4b8cde94604f4c389406a0b2f806069a")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.runtime.evaluateRequest({
+            "HL-Project-Id": "internal-search-chatbot",
+            "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+            body: {
+                model: "gpt-6-luna",
+                input: "My order arrived with a cracked screen.",
+                safety_identifier: "user-8f3a",
+                questions: [
+                    {
+                        type: "predicate",
+                        name: "visible_damage",
+                        instructions: "Is there visible damage?",
+                    },
+                    {
+                        type: "choice",
+                        name: "department",
+                        instructions: "Which department should handle this?",
+                        choices: [
+                            {
+                                value: "billing",
+                            },
+                            {
+                                value: "support",
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("evaluate_request (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            model: "gpt-4",
+            messages: [
+                { role: "system", content: "You are a helpful assistant." },
+                { role: "user", content: "What is the capital of France?" },
+            ],
+            max_tokens: 1000,
+            temperature: 0.7,
+        };
+        const rawResponseBody = { error: "request blocked by policy" };
+
+        server
+            .mockEndpoint()
+            .post("/detection/v2/request-evaluations")
+            .header("HL-Project-Id", "internal-search-chatbot")
+            .header("HL-Runtime-Session-Id", "sess_4b8cde94604f4c389406a0b2f806069a")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.runtime.evaluateRequest({
+            "HL-Project-Id": "internal-search-chatbot",
+            "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+            body: {
+                model: "gpt-4",
+                messages: [
+                    {
+                        role: "system",
+                        content: "You are a helpful assistant.",
+                    },
+                    {
+                        role: "user",
+                        content: "What is the capital of France?",
+                    },
+                ],
+                max_tokens: 1000,
+                temperature: 0.7,
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
     test("evaluate_response (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
@@ -2719,6 +3895,184 @@ describe("RuntimeClient", () => {
                 usage: {
                     input_tokens: 25,
                     output_tokens: 10,
+                },
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("evaluate_response (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            model: "jev-1.13.0",
+            answers: {
+                is_urgent: { type: "noul", noul: 0.95 },
+                department: {
+                    type: "choice",
+                    choice: "billing",
+                    probabilities: { billing: 0.88, technical: 0.12 },
+                    confidence: 0.81,
+                },
+            },
+            usage: { input_tokens: 318, output_tokens: 34 },
+        };
+        const rawResponseBody = {
+            model: "jev-1.13.0",
+            answers: {
+                is_urgent: { type: "noul", noul: 0.95 },
+                department: {
+                    type: "choice",
+                    choice: "billing",
+                    probabilities: { billing: 0.88, technical: 0.12 },
+                    confidence: 0.81,
+                },
+            },
+            usage: { input_tokens: 318, output_tokens: 34 },
+        };
+
+        server
+            .mockEndpoint()
+            .post("/detection/v2/response-evaluations")
+            .header("HL-Project-Id", "internal-search-chatbot")
+            .header("HL-Runtime-Session-Id", "sess_4b8cde94604f4c389406a0b2f806069a")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.runtime.evaluateResponse({
+            "HL-Project-Id": "internal-search-chatbot",
+            "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+            body: {
+                model: "jev-1.13.0",
+                answers: {
+                    is_urgent: {
+                        type: "noul",
+                        noul: 0.95,
+                    },
+                    department: {
+                        type: "choice",
+                        choice: "billing",
+                        probabilities: {
+                            billing: 0.88,
+                            technical: 0.12,
+                        },
+                        confidence: 0.81,
+                    },
+                },
+                usage: {
+                    input_tokens: 318,
+                    output_tokens: 34,
+                },
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("evaluate_response (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            model: "gpt-6-luna",
+            answers: [{ type: "predicate", name: "visible_damage", probability: 0.92 }, { type: "refusal" }],
+            usage: { input_tokens: 212, output_tokens: 3, total_tokens: 215 },
+        };
+        const rawResponseBody = {
+            model: "gpt-6-luna",
+            answers: [{ type: "predicate", name: "visible_damage", probability: 0.92 }, { type: "refusal" }],
+            usage: { input_tokens: 212, output_tokens: 3, total_tokens: 215 },
+        };
+
+        server
+            .mockEndpoint()
+            .post("/detection/v2/response-evaluations")
+            .header("HL-Project-Id", "internal-search-chatbot")
+            .header("HL-Runtime-Session-Id", "sess_4b8cde94604f4c389406a0b2f806069a")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.runtime.evaluateResponse({
+            "HL-Project-Id": "internal-search-chatbot",
+            "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+            body: {
+                model: "gpt-6-luna",
+                answers: [
+                    {
+                        type: "predicate",
+                        name: "visible_damage",
+                        probability: 0.92,
+                    },
+                    {
+                        type: "refusal",
+                    },
+                ],
+                usage: {
+                    input_tokens: 212,
+                    output_tokens: 3,
+                    total_tokens: 215,
+                },
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("evaluate_response (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            id: "chatcmpl-abc123",
+            object: "chat.completion",
+            created: 1704067200,
+            model: "gpt-4",
+            choices: [
+                {
+                    index: 0,
+                    message: { role: "assistant", content: "The capital of France is Paris." },
+                    finish_reason: "stop",
+                },
+            ],
+            usage: { prompt_tokens: 25, completion_tokens: 10, total_tokens: 35 },
+        };
+        const rawResponseBody = { error: "request blocked by policy" };
+
+        server
+            .mockEndpoint()
+            .post("/detection/v2/response-evaluations")
+            .header("HL-Project-Id", "internal-search-chatbot")
+            .header("HL-Runtime-Session-Id", "sess_4b8cde94604f4c389406a0b2f806069a")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.runtime.evaluateResponse({
+            "HL-Project-Id": "internal-search-chatbot",
+            "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+            body: {
+                id: "chatcmpl-abc123",
+                object: "chat.completion",
+                created: 1704067200,
+                model: "gpt-4",
+                choices: [
+                    {
+                        index: 0,
+                        message: {
+                            role: "assistant",
+                            content: "The capital of France is Paris.",
+                        },
+                        finish_reason: "stop",
+                    },
+                ],
+                usage: {
+                    prompt_tokens: 25,
+                    completion_tokens: 10,
+                    total_tokens: 35,
                 },
             },
         });

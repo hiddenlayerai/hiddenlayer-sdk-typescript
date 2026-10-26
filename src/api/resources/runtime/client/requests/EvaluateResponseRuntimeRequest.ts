@@ -82,6 +82,58 @@ import type * as HiddenLayer from "../../../../index.js";
  *             }
  *         }
  *     }
+ *
+ * @example
+ *     {
+ *         "HL-Project-Id": "internal-search-chatbot",
+ *         "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+ *         body: {
+ *             "model": "jev-1.13.0",
+ *             "answers": {
+ *                 "is_urgent": {
+ *                     "type": "noul",
+ *                     "noul": 0.95
+ *                 },
+ *                 "department": {
+ *                     "type": "choice",
+ *                     "choice": "billing",
+ *                     "probabilities": {
+ *                         "billing": 0.88,
+ *                         "technical": 0.12
+ *                     },
+ *                     "confidence": 0.81
+ *                 }
+ *             },
+ *             "usage": {
+ *                 "input_tokens": 318,
+ *                 "output_tokens": 34
+ *             }
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         "HL-Project-Id": "internal-search-chatbot",
+ *         "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+ *         body: {
+ *             "model": "gpt-6-luna",
+ *             "answers": [
+ *                 {
+ *                     "type": "predicate",
+ *                     "name": "visible_damage",
+ *                     "probability": 0.92
+ *                 },
+ *                 {
+ *                     "type": "refusal"
+ *                 }
+ *             ],
+ *             "usage": {
+ *                 "input_tokens": 212,
+ *                 "output_tokens": 3,
+ *                 "total_tokens": 215
+ *             }
+ *         }
+ *     }
  */
 export interface EvaluateResponseRuntimeRequest {
     /** The ID or alias for the Project to govern the request processing. */

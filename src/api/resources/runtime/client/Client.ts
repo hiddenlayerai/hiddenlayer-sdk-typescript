@@ -40,6 +40,8 @@ export class RuntimeClient {
      *   - [OpenAI Chat Completions](https://platform.openai.com/docs/api-reference/chat)
      *   - [OpenAI Responses](https://platform.openai.com/docs/api-reference/responses)
      *   - [Anthropic Messages](https://docs.anthropic.com/en/api/messages)
+     *   - [TypeSafe System One](https://api.typesafe.ai/openapi.json), as JSON
+     *   - [OpenAI Decisions](https://developers.openai.com/api/docs/guides/decisions)
      *
      * Returns the evaluation context (`evaluated_interaction`): the canonicalized messages
      * with per-message signals and findings attached. Also returns the policy
@@ -293,6 +295,167 @@ export class RuntimeClient {
      *                 }]
      *         }
      *     })
+     *
+     * @example
+     *     await client.runtime.evaluateInteraction({
+     *         "HL-Project-Id": "internal-search-chatbot",
+     *         metadata: {
+     *             model: "jev-latest",
+     *             requester_id: "support-triage",
+     *             provider: "typesafe",
+     *             external_session_id: "sess_typesafe_triage_01"
+     *         },
+     *         interaction: {
+     *             "model": "jev-latest",
+     *             "state": "Help! My payouts have been failing for 3 days.",
+     *             "questions": {
+     *                 "is_urgent": {
+     *                     "type": "noul",
+     *                     "instructions": "Does this convey urgency?"
+     *                 },
+     *                 "department": {
+     *                     "type": "choice",
+     *                     "instructions": "Which team should handle this ticket?",
+     *                     "criteria": {
+     *                         "billing": "Payments and refunds",
+     *                         "technical": "Bugs and outages"
+     *                     }
+     *                 }
+     *             }
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.runtime.evaluateInteraction({
+     *         "HL-Project-Id": "internal-search-chatbot",
+     *         metadata: {
+     *             model: "gpt-6-luna",
+     *             requester_id: "user-8f3a",
+     *             provider: "openai",
+     *             external_session_id: "sess_openai_decisions_01"
+     *         },
+     *         interaction: {
+     *             "model": "gpt-6-luna",
+     *             "input": "My order arrived with a cracked screen.",
+     *             "questions": [
+     *                 {
+     *                     "type": "predicate",
+     *                     "name": "visible_damage",
+     *                     "instructions": "Is there visible damage?"
+     *                 },
+     *                 {
+     *                     "type": "choice",
+     *                     "name": "department",
+     *                     "instructions": "Which department should handle this?",
+     *                     "choices": [
+     *                         {
+     *                             "value": "billing"
+     *                         },
+     *                         {
+     *                             "value": "support"
+     *                         }
+     *                     ]
+     *                 }
+     *             ]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.runtime.evaluateInteraction({
+     *         "HL-Project-Id": "internal-search-chatbot",
+     *         metadata: {
+     *             model: "jev-1.13.0",
+     *             requester_id: "support-triage",
+     *             provider: "typesafe",
+     *             external_session_id: "sess_typesafe_triage_01"
+     *         },
+     *         interaction: {
+     *             messages: [{
+     *                     role: "user",
+     *                     content: [{
+     *                             type: "text",
+     *                             text: "Hello, how can I help you today?"
+     *                         }, {
+     *                             type: "decision_question",
+     *                             decision_question_payload: {
+     *                                 "type": "choice",
+     *                                 "instructions": "Which team should handle this ticket?",
+     *                                 "criteria": {
+     *                                     "billing": "Payments and refunds",
+     *                                     "technical": "Bugs and outages"
+     *                                 }
+     *                             }
+     *                         }, {
+     *                             type: "decision_question",
+     *                             decision_question_payload: {
+     *                                 "type": "choice",
+     *                                 "instructions": "Which team should handle this ticket?",
+     *                                 "criteria": {
+     *                                     "billing": "Payments and refunds",
+     *                                     "technical": "Bugs and outages"
+     *                                 }
+     *                             }
+     *                         }]
+     *                 }, {
+     *                     role: "assistant",
+     *                     content: [{
+     *                             type: "decision_answer",
+     *                             decision_answer_payload: {
+     *                                 "type": "choice",
+     *                                 "choice": "billing",
+     *                                 "confidence": 0.81
+     *                             }
+     *                         }, {
+     *                             type: "decision_answer",
+     *                             decision_answer_payload: {
+     *                                 "type": "choice",
+     *                                 "choice": "billing",
+     *                                 "confidence": 0.81
+     *                             }
+     *                         }]
+     *                 }]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.runtime.evaluateInteraction({
+     *         "HL-Project-Id": "internal-search-chatbot",
+     *         metadata: {
+     *             model: "gpt-6-luna",
+     *             requester_id: "user-8f3a",
+     *             provider: "openai",
+     *             external_session_id: "sess_openai_decisions_01"
+     *         },
+     *         interaction: {
+     *             messages: [{
+     *                     role: "user",
+     *                     content: [{
+     *                             type: "text",
+     *                             text: "Hello, how can I help you today?"
+     *                         }, {
+     *                             type: "decision_question",
+     *                             decision_question_payload: {
+     *                                 "type": "choice",
+     *                                 "instructions": "Which team should handle this ticket?",
+     *                                 "criteria": {
+     *                                     "billing": "Payments and refunds",
+     *                                     "technical": "Bugs and outages"
+     *                                 }
+     *                             }
+     *                         }]
+     *                 }, {
+     *                     role: "assistant",
+     *                     content: [{
+     *                             type: "decision_answer",
+     *                             decision_answer_payload: {
+     *                                 "type": "choice",
+     *                                 "choice": "billing",
+     *                                 "confidence": 0.81
+     *                             }
+     *                         }]
+     *                 }]
+     *         }
+     *     })
      */
     public evaluateInteraction(
         request: HiddenLayer.InteractionEvaluationRequest,
@@ -376,7 +539,9 @@ export class RuntimeClient {
      *
      * Accepts any valid provider request payload and returns:
      * - If detect or redact action: the request payload (potentially modified) in the provider's request format
-     * - If block action: a canned block message in the provider's response format
+     * - If block action: a canned block message in the provider's response format. For TypeSafe
+     *   System One and OpenAI Decisions it is the generic block body,
+     *   `{"error": "request blocked by policy"}`.
      *
      * If the project is in monitor mode, the endpoint does not block or redact. It returns the
      * request payload unchanged.
@@ -387,6 +552,11 @@ export class RuntimeClient {
      * - [OpenAI Chat Completions](https://platform.openai.com/docs/api-reference/chat)
      * - [OpenAI Responses](https://platform.openai.com/docs/api-reference/responses)
      * - [Anthropic Messages](https://docs.anthropic.com/en/api/messages)
+     * - [TypeSafe System One](https://api.typesafe.ai/openapi.json), as JSON or as
+     *   `multipart/form-data` with the JSON request in its `request` part and the images in
+     *   the other parts. A multipart request is returned with the same boundary and its image
+     *   parts unchanged.
+     * - [OpenAI Decisions](https://developers.openai.com/api/docs/guides/decisions)
      *
      * @param {HiddenLayer.EvaluateRequestRuntimeRequest} request
      * @param {RuntimeClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -446,6 +616,61 @@ export class RuntimeClient {
      *                 {
      *                     "role": "user",
      *                     "content": "What is the capital of France?"
+     *                 }
+     *             ]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.runtime.evaluateRequest({
+     *         "HL-Project-Id": "internal-search-chatbot",
+     *         "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+     *         body: {
+     *             "model": "jev-latest",
+     *             "state": "Help! My payouts have been failing for 3 days.",
+     *             "questions": {
+     *                 "is_urgent": {
+     *                     "type": "noul",
+     *                     "instructions": "Does this convey urgency?"
+     *                 },
+     *                 "department": {
+     *                     "type": "choice",
+     *                     "instructions": "Which team should handle this ticket?",
+     *                     "criteria": {
+     *                         "billing": "Payments and refunds",
+     *                         "technical": "Bugs and outages"
+     *                     }
+     *                 }
+     *             }
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.runtime.evaluateRequest({
+     *         "HL-Project-Id": "internal-search-chatbot",
+     *         "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+     *         body: {
+     *             "model": "gpt-6-luna",
+     *             "input": "My order arrived with a cracked screen.",
+     *             "safety_identifier": "user-8f3a",
+     *             "questions": [
+     *                 {
+     *                     "type": "predicate",
+     *                     "name": "visible_damage",
+     *                     "instructions": "Is there visible damage?"
+     *                 },
+     *                 {
+     *                     "type": "choice",
+     *                     "name": "department",
+     *                     "instructions": "Which department should handle this?",
+     *                     "choices": [
+     *                         {
+     *                             "value": "billing"
+     *                         },
+     *                         {
+     *                             "value": "support"
+     *                         }
+     *                     ]
      *                 }
      *             ]
      *         }
@@ -525,6 +750,11 @@ export class RuntimeClient {
      * - [OpenAI Chat Completions](https://platform.openai.com/docs/api-reference/chat)
      * - [OpenAI Responses](https://platform.openai.com/docs/api-reference/responses)
      * - [Anthropic Messages](https://docs.anthropic.com/en/api/messages)
+     * - [TypeSafe System One](https://api.typesafe.ai/openapi.json)
+     * - [OpenAI Decisions](https://developers.openai.com/api/docs/guides/decisions)
+     *
+     * A TypeSafe System One or OpenAI Decisions response is never redacted. When blocked, it
+     * is replaced by the generic block body, `{"error": "request blocked by policy"}`.
      *
      * @param {HiddenLayer.EvaluateResponseRuntimeRequest} request
      * @param {RuntimeClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -608,6 +838,58 @@ export class RuntimeClient {
      *             "usage": {
      *                 "input_tokens": 25,
      *                 "output_tokens": 10
+     *             }
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.runtime.evaluateResponse({
+     *         "HL-Project-Id": "internal-search-chatbot",
+     *         "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+     *         body: {
+     *             "model": "jev-1.13.0",
+     *             "answers": {
+     *                 "is_urgent": {
+     *                     "type": "noul",
+     *                     "noul": 0.95
+     *                 },
+     *                 "department": {
+     *                     "type": "choice",
+     *                     "choice": "billing",
+     *                     "probabilities": {
+     *                         "billing": 0.88,
+     *                         "technical": 0.12
+     *                     },
+     *                     "confidence": 0.81
+     *                 }
+     *             },
+     *             "usage": {
+     *                 "input_tokens": 318,
+     *                 "output_tokens": 34
+     *             }
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.runtime.evaluateResponse({
+     *         "HL-Project-Id": "internal-search-chatbot",
+     *         "HL-Runtime-Session-Id": "sess_4b8cde94604f4c389406a0b2f806069a",
+     *         body: {
+     *             "model": "gpt-6-luna",
+     *             "answers": [
+     *                 {
+     *                     "type": "predicate",
+     *                     "name": "visible_damage",
+     *                     "probability": 0.92
+     *                 },
+     *                 {
+     *                     "type": "refusal"
+     *                 }
+     *             ],
+     *             "usage": {
+     *                 "input_tokens": 212,
+     *                 "output_tokens": 3,
+     *                 "total_tokens": 215
      *             }
      *         }
      *     })

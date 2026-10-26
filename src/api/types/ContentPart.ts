@@ -8,7 +8,9 @@ import type * as HiddenLayer from "../index.js";
 export type ContentPart =
     | HiddenLayer.ContentPart.Text
     | HiddenLayer.ContentPart.ToolUse
-    | HiddenLayer.ContentPart.ToolResult;
+    | HiddenLayer.ContentPart.ToolResult
+    | HiddenLayer.ContentPart.DecisionQuestion
+    | HiddenLayer.ContentPart.DecisionAnswer;
 
 export namespace ContentPart {
     export interface Text extends HiddenLayer.TextPart {
@@ -21,5 +23,13 @@ export namespace ContentPart {
 
     export interface ToolResult extends HiddenLayer.ToolResultPart {
         type: "tool_result";
+    }
+
+    export interface DecisionQuestion extends HiddenLayer.DecisionQuestionPart {
+        type: "decision_question";
+    }
+
+    export interface DecisionAnswer extends HiddenLayer.DecisionAnswerPart {
+        type: "decision_answer";
     }
 }

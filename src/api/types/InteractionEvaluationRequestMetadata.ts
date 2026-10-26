@@ -11,7 +11,7 @@ export interface InteractionEvaluationRequestMetadata {
      * Could be a user ID, service account, or agent identifier.
      */
     requester_id: string;
-    /** The LLM provider (e.g., openai, anthropic, azure, bedrock). */
+    /** The LLM provider (e.g., openai, anthropic, typesafe, azure, bedrock). */
     provider: string;
     /**
      * An externally-defined session identifier to group interactions into a
