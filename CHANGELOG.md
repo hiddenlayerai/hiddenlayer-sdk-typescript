@@ -1,7 +1,9 @@
 # Changelog
 
 
-## [3.6.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.5.0...v3.6.0) (2026-09-08)
+## 3.6.0 (2026-09-08)
+
+[Full diff](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.5.0...v3.6.0)
 
 
 ### Features
@@ -16,7 +18,9 @@
 * **scans:** fetch scan results via summary polling and paginated file reads ([#352](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues/352)) ([accaf5d](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/accaf5d0364d35e0d6d0e5ce62cf6ceeec3a3c84))
 * update US region API base URL to https://api.us.hiddenlayer.ai ([#350](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues/350)) ([ed9baeb](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/ed9baeb173b2959d2c02402d6e3dcfd620d8cc6f))
 
-## [3.5.0](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.4.0...v3.5.0) (2026-08-10)
+## 3.5.0 (2026-08-10)
+
+[Full diff](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.4.0...v3.5.0)
 
 
 ### Features

@@ -5,20 +5,20 @@
  * to provide backward compatibility and convenience methods.
  */
 
-export { BETA_ENDPOINTS } from './beta-endpoints';
-export { warnBeta, checkBetaEndpoint } from './beta';
+export { checkBetaEndpoint, warnBeta } from "./beta.js";
 export {
-  CommunityScanner,
-  CommunityScanSource,
-  type CommunityScanOptions,
-  type CommunityScanSourceType,
-} from './community-scan';
+    type CommunityScanOptions,
+    CommunityScanner,
+    CommunityScanSource,
+    type CommunityScanSourceType,
+} from "./community-scan.js";
 export {
-  ModelScanner,
-  type ScanFileOptions,
-  type ScanFolderOptions,
-  type ScanS3ModelOptions,
-  type ScanAzureBlobModelOptions,
-  type ScanHuggingFaceModelOptions,
-} from './model-scan';
-export { getScanResults, waitForScanResults, ScanStatus, type ScanStatusType } from './scan-utils';
+    type AzureBlobCredential,
+    ModelScanner,
+    type ScanAzureBlobModelOptions,
+    type ScanFileOptions,
+    type ScanFolderOptions,
+    type ScanHuggingFaceModelOptions,
+    type ScanS3ModelOptions,
+} from "./model-scan.js";
+export { getScanResults, type ScanReport, ScanStatus, type ScanStatusType, waitForScanResults } from "./scan-utils.js";

@@ -1,7 +1,31 @@
 # Files this repo owns. Fern deletes anything it does not generate unless it is listed here.
-# package.json is not listed: Fern writes the version into it.
-.changeset/
+# Never list a file Fern writes the version into, or Fern's version and the release's drift apart.
 .github/
+CHANGELOG.md
+README.md
+docs/
+# Fern generates CONTRIBUTING.md, but none of these
+LICENSE
+SECURITY.md
+# Safe only because hl-sdk-gen deletes a fern/sdk with no open PR before Fern pushes, and replaces
+# its own changeset when it updates an open one (PLT-1422): Fern's push keeps whatever is here.
+.changeset/
+# package.json isn't listed: Fern writes the version into it.
+# scripts/ holds generated files too, so only the release scripts are listed.
+scripts/sync-version.mjs
+scripts/verify-package.mjs
 .nvmrc
 .yarnrc.yml
-CHANGELOG.md
+# Fern's doesn't ignore the .yarn/ install state Yarn 4 writes.
+.gitignore
+
+# Wrapper code and its tests (PLT-1429)
+# src/index.ts exports the wrapper in place of Fern's client, per Fern's TypeScript custom-code guide.
+src/index.ts
+src/wrapper/
+src/lib/
+src/internal/
+tests/wrapper/
+tests/lib/
+tests/security/
+tests/__mocks__/

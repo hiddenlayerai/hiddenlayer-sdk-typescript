@@ -2,18 +2,9 @@
 
 [![NPM version](<https://img.shields.io/npm/v/@hiddenlayerai/hiddenlayer-sdk.svg?label=npm%20(stable)>)](https://npmjs.org/package/@hiddenlayerai/hiddenlayer-sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@hiddenlayerai/hiddenlayer-sdk)
 
-This library provides convenient access to the HiddenLayer REST API from server-side TypeScript or JavaScript.
+This library provides access to the HiddenLayer REST API from server-side TypeScript or JavaScript. The REST API documentation is on [dev.hiddenlayer.ai](https://dev.hiddenlayer.ai); every method of this library is in [reference.md](reference.md).
 
-The REST API documentation can be found on [dev.hiddenlayer.ai](https://dev.hiddenlayer.ai). The full API of this library can be found in [api.md](api.md).
-
-It is generated with [Stainless](https://www.stainless.com/).
-
-## Beta APIs
-
-Some HiddenLayer APIs are marked as **Beta**, meaning they are not yet generally available (GA) or production ready. Beta APIs can be used in a production environment, but at your own risk and discretion. For full details, see the [Beta API Guidelines](https://dev.hiddenlayer.ai/docs/beta-api-faq) on the developer portal.
-
-- HiddenLayer does not provide compatibility guarantees for Beta APIs. Breaking changes may occur at any time.
-- SDK functions and types associated with Beta APIs are excluded when determining semver release versions.
+Upgrading from 3.x? [docs/BREAKING_CHANGES_v4.0.0.md](docs/BREAKING_CHANGES_v4.0.0.md) lists every change.
 
 ## Installation
 
@@ -23,402 +14,123 @@ npm install @hiddenlayerai/hiddenlayer-sdk
 
 ## Usage
 
-The full API of this library can be found in [api.md](api.md).
-
-<!-- prettier-ignore -->
-```js
-import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
+```ts
+import { HiddenLayer } from "@hiddenlayerai/hiddenlayer-sdk";
 
 const client = new HiddenLayer({
-  environment: 'prod-eu', // defaults to 'prod-us'
+    environment: "prod-eu", // defaults to "prod-us"
 });
 
 const response = await client.interactions.analyze({
-  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
-  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
+    metadata: { model: "gpt-5", requester_id: "user-1234", provider: "openai" },
 });
-
-console.log(response.analysis);
 ```
 
-### Request & Response types
+### Credentials
 
-This library includes TypeScript definitions for all request params and response fields. You may import and use them like so:
+The client authenticates with the first of these it finds, options before the environment:
 
-<!-- prettier-ignore -->
+1. `token` in the options: sent as a bearer token.
+2. `clientId` and `clientSecret` in the options: exchanged for an access token, which the client reuses until shortly before it expires.
+3. The `HIDDENLAYER_TOKEN` environment variable.
+4. The `HIDDENLAYER_CLIENT_ID` and `HIDDENLAYER_CLIENT_SECRET` environment variables.
+
+With none of them, requests fail with a `HiddenLayerError`. For a deployment that takes unauthenticated requests, pass `auth: false`.
+
+### Environments
+
+`environment` takes a region by name, `"prod-us"` or `"prod-eu"`, or a `HiddenLayerEnvironment` value. `baseUrl` overrides it with any URL. With neither option, the client uses `HIDDENLAYER_BASE_URL` if it is set, and `prod-us` otherwise.
+
+## Model scanning
+
 ```ts
-import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
-
-const client = new HiddenLayer({
-  environment: 'prod-eu', // defaults to 'prod-us'
+const report = await client.modelScanner.scanFile({
+    modelName: "my-model",
+    modelPath: "./models/model.pkl",
 });
-
-const params: HiddenLayer.InteractionAnalyzeParams = {
-  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
-  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
-};
-const response: HiddenLayer.InteractionAnalyzeResponse = await client.interactions.analyze(params);
+console.log(report.summary.severity);
 ```
 
-Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
+`client.modelScanner` also has `scanFolder`, `scanS3Model`, `scanAzureBlobModel` and `scanHuggingFaceModel`; `client.communityScanner.communityScan` scans a model the scanner fetches from a remote location. Each waits for the scan to finish unless you pass `waitForResults: false`.
+
+The S3, Azure Blob Storage and Hugging Face scans use `@aws-sdk/client-s3`, `@azure/storage-blob` and `@huggingface/hub`. They are peer dependencies, loaded only by the scan that needs one: npm installs them with the SDK, and with Yarn or pnpm you install the ones you use.
+
+## Request and response types
+
+Every request and response type is in the `HiddenLayerApi` namespace:
+
+```ts
+import { type HiddenLayerApi } from "@hiddenlayerai/hiddenlayer-sdk";
+
+const request: HiddenLayerApi.InteractionsRequest = {
+    metadata: { model: "gpt-5", requester_id: "user-1234", provider: "openai" },
+};
+const response: HiddenLayerApi.EnrichedResponse = await client.interactions.analyze(request);
+```
 
 ## Handling errors
 
-When the library is unable to connect to the API,
-or if the API returns a non-success status code (i.e., 4xx or 5xx response),
-a subclass of `APIError` will be thrown:
+A non-success status code throws a `HiddenLayerError`, or the subclass the API declares for that status, such as `HiddenLayerApi.NotFoundError`:
 
-<!-- prettier-ignore -->
 ```ts
-const response = await client.interactions
-  .analyze({
-    metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
-    input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
-  })
-  .catch(async (err) => {
-    if (err instanceof HiddenLayer.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
+import { HiddenLayerError } from "@hiddenlayerai/hiddenlayer-sdk";
+
+try {
+    await client.sensors.retrieve({ sensor_id: "unknown" });
+} catch (err) {
+    if (err instanceof HiddenLayerError) {
+        console.log(err.statusCode, err.body);
     }
-  });
-```
-
-Error codes are as follows:
-
-| Status Code | Error Type                 |
-| ----------- | -------------------------- |
-| 400         | `BadRequestError`          |
-| 401         | `AuthenticationError`      |
-| 403         | `PermissionDeniedError`    |
-| 404         | `NotFoundError`            |
-| 422         | `UnprocessableEntityError` |
-| 429         | `RateLimitError`           |
-| >=500       | `InternalServerError`      |
-| N/A         | `APIConnectionError`       |
-
-### Retries
-
-Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
-Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,
-429 Rate Limit, and >=500 Internal errors will all be retried by default.
-
-You can use the `maxRetries` option to configure or disable this:
-
-<!-- prettier-ignore -->
-```js
-// Configure the default for all requests:
-const client = new HiddenLayer({
-  maxRetries: 0, // default is 2
-});
-
-// Or, configure per-request:
-await client.interactions.analyze({
-  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
-  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
-}, {
-  maxRetries: 5,
-});
-```
-
-### Timeouts
-
-Requests time out after 1 minute by default. You can configure this with a `timeout` option:
-
-<!-- prettier-ignore -->
-```ts
-// Configure the default for all requests:
-const client = new HiddenLayer({
-  timeout: 20 * 1000, // 20 seconds (default is 1 minute)
-});
-
-// Override per-request:
-await client.interactions.analyze({
-  metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
-  input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
-}, {
-  timeout: 5 * 1000,
-});
-```
-
-On timeout, an `APIConnectionTimeoutError` is thrown.
-
-Note that requests which time out will be [retried twice by default](#retries).
-
-## Auto-pagination
-
-List methods in the HiddenLayer API are paginated.
-You can use the `for await … of` syntax to iterate through items across all pages:
-
-```ts
-async function fetchAllCardListResponses(params) {
-  const allCardListResponses = [];
-  // Automatically fetches more pages as needed.
-  for await (const cardListResponse of client.models.cards.list()) {
-    allCardListResponses.push(cardListResponse);
-  }
-  return allCardListResponses;
 }
 ```
 
-Alternatively, you can request a single page at a time:
+A request that times out throws `HiddenLayerTimeoutError`.
+
+## Pagination
+
+List methods return a `Page`. `for await` walks every item across pages:
 
 ```ts
-let page = await client.models.cards.list();
-for (const cardListResponse of page.results) {
-  console.log(cardListResponse);
-}
-
-// Convenience methods are provided for manually paginating:
-while (page.hasNextPage()) {
-  page = await page.getNextPage();
-  // ...
+for await (const sensor of await client.sensors.query({ filter: { active: true } })) {
+    console.log(sensor.sensor_id);
 }
 ```
 
-## Advanced Usage
+`page.data` holds the current page's items, and `page.hasNextPage()` and `page.getNextPage()` move through pages by hand.
 
-### Accessing raw Response data (e.g., headers)
+## Retries and timeouts
 
-The "raw" `Response` returned by `fetch()` can be accessed through the `.asResponse()` method on the `APIPromise` type that all methods return.
-This method returns as soon as the headers for a successful response are received and does not consume the response body, so you are free to write custom parsing or streaming logic.
-
-You can also use the `.withResponse()` method to get the raw `Response` along with the parsed data.
-Unlike `.asResponse()` this method consumes the body, returning once it is parsed.
-
-<!-- prettier-ignore -->
-```ts
-const client = new HiddenLayer();
-
-const response = await client.interactions
-  .analyze({
-    metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
-    input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
-  })
-  .asResponse();
-console.log(response.headers.get('X-My-Header'));
-console.log(response.statusText); // access the underlying Response object
-
-const { data: response, response: raw } = await client.interactions
-  .analyze({
-    metadata: { model: 'REPLACE_ME', requester_id: 'REPLACE_ME' },
-    input: { messages: [{ role: 'user', content: 'REPLACE_ME' }] },
-  })
-  .withResponse();
-console.log(raw.headers.get('X-My-Header'));
-console.log(response.analysis);
-```
-
-### Logging
-
-> [!IMPORTANT]
-> All log messages are intended for debugging only. The format and content of log messages
-> may change between releases.
-
-#### Log levels
-
-The log level can be configured in two ways:
-
-1. Via the `HIDDENLAYER_LOG` environment variable
-2. Using the `logLevel` client option (overrides the environment variable if set)
+408, 429 and 5xx responses are retried twice by default, with exponential backoff. Requests time out after 60 seconds. Both can be set for the client or per request:
 
 ```ts
-import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
+const client = new HiddenLayer({ maxRetries: 0, timeoutInSeconds: 20 });
 
-const client = new HiddenLayer({
-  logLevel: 'debug', // Show all log messages
-});
+await client.sensors.retrieve({ sensor_id: "..." }, { maxRetries: 5, timeoutInSeconds: 5 });
 ```
 
-Available log levels, from most to least verbose:
-
-- `'debug'` - Show debug messages, info, warnings, and errors
-- `'info'` - Show info messages, warnings, and errors
-- `'warn'` - Show warnings and errors (default)
-- `'error'` - Show only errors
-- `'off'` - Disable all logging
-
-At the `'debug'` level, all HTTP requests and responses are logged, including headers and bodies.
-Some authentication-related headers are redacted, but sensitive data in request and response bodies
-may still be visible.
-
-#### Custom logger
-
-By default, this library logs to `globalThis.console`. You can also provide a custom logger.
-Most logging libraries are supported, including [pino](https://www.npmjs.com/package/pino), [winston](https://www.npmjs.com/package/winston), [bunyan](https://www.npmjs.com/package/bunyan), [consola](https://www.npmjs.com/package/consola), [signale](https://www.npmjs.com/package/signale), and [@std/log](https://jsr.io/@std/log). If your logger doesn't work, please open an issue.
-
-When providing a custom logger, the `logLevel` option still controls which messages are emitted, messages
-below the configured level will not be sent to your logger.
+## Raw responses
 
 ```ts
-import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
-import pino from 'pino';
-
-const logger = pino();
-
-const client = new HiddenLayer({
-  logger: logger.child({ name: 'HiddenLayer' }),
-  logLevel: 'debug', // Send all messages to pino, allowing it to filter
-});
+const { data, rawResponse } = await client.sensors.retrieve({ sensor_id: "..." }).withRawResponse();
+console.log(rawResponse.headers.get("x-request-id"));
 ```
 
-### Making custom/undocumented requests
+## Beta APIs
 
-This library is typed for convenient access to the documented API. If you need to access undocumented
-endpoints, params, or response properties, the library can still be used.
+Some HiddenLayer APIs are marked **Beta**: not yet generally available or production ready. They can be used in production at your own risk; see the [Beta API Guidelines](https://dev.hiddenlayer.ai/docs/beta-api-faq).
 
-#### Undocumented endpoints
-
-To make requests to undocumented endpoints, you can use `client.get`, `client.post`, and other HTTP verbs.
-Options on the client, such as retries, will be respected when making these requests.
-
-```ts
-await client.post('/some/path', {
-  body: { some_prop: 'foo' },
-  query: { some_query_arg: 'bar' },
-});
-```
-
-#### Undocumented request params
-
-To make requests using undocumented parameters, you may use `// @ts-expect-error` on the undocumented
-parameter. This library doesn't validate at runtime that the request matches the type, so any extra values you
-send will be sent as-is.
-
-```ts
-client.interactions.analyze({
-  // ...
-  // @ts-expect-error baz is not yet public
-  baz: 'undocumented option',
-});
-```
-
-For requests with the `GET` verb, any extra params will be in the query, all other requests will send the
-extra param in the body.
-
-If you want to explicitly send an extra argument, you can do so with the `query`, `body`, and `headers` request
-options.
-
-#### Undocumented response properties
-
-To access undocumented response properties, you may access the response object with `// @ts-expect-error` on
-the response object, or cast the response object to the requisite type. Like the request params, we do not
-validate or strip extra properties from the response from the API.
-
-### Customizing the fetch client
-
-By default, this library expects a global `fetch` function is defined.
-
-If you want to use a different `fetch` function, you can either polyfill the global:
-
-```ts
-import fetch from 'my-fetch';
-
-globalThis.fetch = fetch;
-```
-
-Or pass it to the client:
-
-```ts
-import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
-import fetch from 'my-fetch';
-
-const client = new HiddenLayer({ fetch });
-```
-
-### Fetch options
-
-If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
-
-```ts
-import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
-
-const client = new HiddenLayer({
-  fetchOptions: {
-    // `RequestInit` options
-  },
-});
-```
-
-#### Configuring proxies
-
-To modify proxy behavior, you can provide custom `fetchOptions` that add runtime-specific proxy
-options to requests:
-
-<img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
-
-```ts
-import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
-import * as undici from 'undici';
-
-const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
-const client = new HiddenLayer({
-  fetchOptions: {
-    dispatcher: proxyAgent,
-  },
-});
-```
-
-<img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
-
-```ts
-import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
-
-const client = new HiddenLayer({
-  fetchOptions: {
-    proxy: 'http://localhost:8888',
-  },
-});
-```
-
-<img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
-
-```ts
-import HiddenLayer from 'npm:@hiddenlayerai/hiddenlayer-sdk';
-
-const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new HiddenLayer({
-  fetchOptions: {
-    client: httpClient,
-  },
-});
-```
-
-## Frequently Asked Questions
-
-## Semantic versioning
-
-This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
-
-1. Changes that only affect static types, without breaking runtime behavior.
-2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_
-3. Changes that we do not expect to impact the vast majority of users in practice.
-
-We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
-
-We are keen for your feedback; please open an [issue](https://www.github.com/hiddenlayerai/hiddenlayer-sdk-typescript/issues) with questions, bugs, or suggestions.
+- HiddenLayer makes no compatibility guarantees for Beta APIs. Breaking changes may occur at any time.
+- Changes to Beta APIs don't count towards this package's semantic version.
+- The first call to each beta endpoint logs a `console.warn`, once per process.
 
 ## Requirements
 
-TypeScript >= 4.9 is supported.
+Node.js 20 or later, and TypeScript 4.9 or later. The package ships CommonJS and ESM builds.
 
-The following runtimes are supported:
+## Versioning and changelog
 
-- Web browsers (Up-to-date Chrome, Firefox, Safari, Edge, and more)
-- Node.js 20 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
-- Deno v1.28.0 or higher.
-- Bun 1.0 or later.
-- Cloudflare Workers.
-- Vercel Edge Runtime.
-- Jest 28 or greater with the `"node"` environment (`"jsdom"` is not supported at this time).
-- Nitro v2.6 or greater.
-
-Note that React Native is not supported at this time.
-
-If you are interested in other runtime environments, please open or upvote an issue on GitHub.
+Releases follow [SemVer](https://semver.org/spec/v2.0.0.html), apart from Beta APIs. [CHANGELOG.md](CHANGELOG.md) lists each release.
 
 ## Contributing
 
-See [the contributing documentation](./CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md). A pull request that changes `src/` needs a changeset: run `npx changeset` and describe the change for the changelog.

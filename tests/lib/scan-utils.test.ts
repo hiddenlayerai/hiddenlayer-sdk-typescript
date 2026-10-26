@@ -1,339 +1,258 @@
-// Tests for scan utility functions
-
-import HiddenLayer from '@hiddenlayerai/hiddenlayer-sdk';
-import { APIError } from '@hiddenlayerai/hiddenlayer-sdk/core/error';
+import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from "vitest";
+import { NotFoundError } from "../../src/api/errors/NotFoundError.js";
+import { HiddenLayerError } from "../../src/errors/index.js";
 import {
-  FILE_RESULTS_PAGE_DELAY_MS,
-  FILE_RESULTS_PAGE_SIZE,
-  buildScanReport,
-  collectFileResults,
-  getScanResults,
-  waitForScanResults,
-  ScanStatus,
-} from '@hiddenlayerai/hiddenlayer-sdk/lib/scan-utils';
-import type {
-  ScanFileResult,
-  ScanReportSummary,
-} from '@hiddenlayerai/hiddenlayer-sdk/resources/scans/results';
+    buildScanReport,
+    collectFileResults,
+    FILE_RESULTS_PAGE_DELAY_MS,
+    FILE_RESULTS_PAGE_SIZE,
+    getScanResults,
+    ScanStatus,
+    waitForScanResults,
+} from "../../src/lib/scan-utils.js";
+import { HiddenLayer } from "../../src/wrapper/HiddenLayer.js";
+import { type FileResult, fakePage, fileResult, runTimersImmediately, scanSummary } from "./fixtures.js";
 
-describe('scan-utils', () => {
-  let client: HiddenLayer;
-  let mockRetrieve: jest.Mock;
-  let mockRetrieveSummary: jest.Mock;
-  let mockListFiles: jest.Mock;
+vi.mock("@aws-sdk/client-s3");
+vi.mock("@azure/storage-blob");
+vi.mock("@huggingface/hub");
 
-  beforeEach(() => {
-    client = new HiddenLayer({ bearerToken: 'test-token' });
-    mockRetrieve = jest.fn();
-    client.scans.jobs.retrieve = mockRetrieve;
-    mockRetrieveSummary = jest.fn();
-    client.scans.results.retrieveSummary = mockRetrieveSummary;
-    mockListFiles = jest.fn();
-    client.scans.results.listFiles = mockListFiles;
+describe("scan-utils", () => {
+    let client: HiddenLayer;
+    let mockRetrieve: MockInstance<HiddenLayer["scans"]["jobs"]["retrieve"]>;
+    let mockRetrieveSummary: MockInstance<HiddenLayer["scans"]["results"]["retrieveSummary"]>;
+    let mockListFiles: MockInstance<HiddenLayer["scans"]["results"]["listFiles"]>;
 
-    // Mock console methods to avoid noise in tests
-    jest.spyOn(console, 'info').mockImplementation();
-    jest.spyOn(console, 'error').mockImplementation();
+    beforeEach(() => {
+        client = new HiddenLayer({ token: "test-token" });
+        mockRetrieve = vi.spyOn(client.scans.jobs, "retrieve");
+        mockRetrieveSummary = vi.spyOn(client.scans.results, "retrieveSummary");
+        mockListFiles = vi.spyOn(client.scans.results, "listFiles");
 
-    // Mock sleep to speed up tests
-    jest.spyOn(global, 'setTimeout').mockImplementation((callback: any) => {
-      callback();
-      return {} as NodeJS.Timeout;
-    });
-  });
+        vi.spyOn(console, "info").mockImplementation(() => {});
+        vi.spyOn(console, "error").mockImplementation(() => {});
 
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
-
-  // Helper function to create a mock scan summary
-  function createMockSummary(status: string = 'pending'): ScanReportSummary {
-    return {
-      scan_id: 'test-scan-123',
-      status,
-      summary: {
-        detection_count: 1,
-        file_count: 2,
-        files_with_detections_count: 1,
-      },
-      inventory: {
-        model_id: 'test-model-id',
-        model_version_id: 'test-model-version-id',
-        model_name: 'test-model',
-        requested_scan_location: 'test.pkl',
-      },
-      start_time: '2024-01-01T00:00:00Z',
-      version: '1.0.0',
-    } as unknown as ScanReportSummary;
-  }
-
-  function mockFileResult(fileId: string): ScanFileResult {
-    return { file_instance_id: fileId, file_location: `${fileId}.pkl` } as unknown as ScanFileResult;
-  }
-
-  // Helper to create a mock page of file results
-  function mockPage(items: ScanFileResult[], nextPage?: unknown) {
-    return {
-      items,
-      hasNextPage: () => nextPage !== undefined,
-      getNextPage: jest.fn().mockResolvedValue(nextPage),
-    };
-  }
-
-  function mockSinglePageOfFiles(items: ScanFileResult[] = [mockFileResult('file-1')]) {
-    mockListFiles.mockResolvedValue(mockPage(items));
-    return items;
-  }
-
-  describe('ScanStatus constants', () => {
-    test('has all expected status constants', () => {
-      expect(ScanStatus.DONE).toBe('done');
-      expect(ScanStatus.FAILED).toBe('failed');
-      expect(ScanStatus.PENDING).toBe('pending');
-      expect(ScanStatus.RUNNING).toBe('running');
-      expect(ScanStatus.CANCELED).toBe('canceled');
-    });
-  });
-
-  describe('collectFileResults', () => {
-    test('collects a single page without throttling', async () => {
-      const items = mockSinglePageOfFiles();
-
-      const results = await collectFileResults(client, 'test-scan-123');
-
-      expect(results).toEqual(items);
-      expect(mockListFiles).toHaveBeenCalledWith('test-scan-123', {
-        page_size: FILE_RESULTS_PAGE_SIZE,
-      });
+        runTimersImmediately();
     });
 
-    test('collects every page in order, throttled between page reads', async () => {
-      const page3 = mockPage([mockFileResult('file-3')]);
-      const page2 = mockPage([mockFileResult('file-2')], page3);
-      const page1 = mockPage([mockFileResult('file-1')], page2);
-      mockListFiles.mockResolvedValue(page1);
-
-      const delays: number[] = [];
-      jest.spyOn(global, 'setTimeout').mockImplementation((callback: any, delay?: number) => {
-        if (delay) delays.push(delay);
-        callback();
-        return {} as NodeJS.Timeout;
-      });
-
-      const results = await collectFileResults(client, 'test-scan-123');
-
-      expect(results.map((r: any) => r.file_instance_id)).toEqual(['file-1', 'file-2', 'file-3']);
-      // One throttle sleep before each subsequent page fetch
-      expect(delays).toEqual([FILE_RESULTS_PAGE_DELAY_MS, FILE_RESULTS_PAGE_DELAY_MS]);
-    });
-  });
-
-  describe('buildScanReport', () => {
-    test('maps summary, file results, and deprecated mirror fields', () => {
-      const summary = createMockSummary('done');
-      const fileResults = [mockFileResult('file-1'), mockFileResult('file-2')];
-
-      const report = buildScanReport(summary, fileResults);
-
-      expect(report.scan_id).toBe('test-scan-123');
-      expect(report.status).toBe('done');
-      expect(report.file_results).toEqual(fileResults);
-      // Deprecated top-level fields are mirrored from the nested summary
-      expect(report.detection_count).toBe(1);
-      expect(report.file_count).toBe(2);
-      expect(report.files_with_detections_count).toBe(1);
+    afterEach(() => {
+        vi.restoreAllMocks();
     });
 
-    test('does not overwrite top-level fields already on the summary', () => {
-      const summary = { ...createMockSummary('done'), detection_count: 7 } as ScanReportSummary;
+    function mockSinglePageOfFiles(items: FileResult[] = [fileResult("file-1")]): FileResult[] {
+        mockListFiles.mockResolvedValue(fakePage(items));
+        return items;
+    }
 
-      const report = buildScanReport(summary, []);
-
-      expect(report.detection_count).toBe(7);
-    });
-  });
-
-  describe('getScanResults', () => {
-    test('assembles the report from the summary and file results on first try', async () => {
-      mockRetrieveSummary.mockResolvedValue(createMockSummary('pending'));
-      const items = mockSinglePageOfFiles();
-
-      const result = await getScanResults(client, 'test-scan-123');
-
-      expect(mockRetrieveSummary).toHaveBeenCalledTimes(1);
-      expect(mockRetrieveSummary).toHaveBeenCalledWith('test-scan-123');
-      expect(mockRetrieve).not.toHaveBeenCalled();
-      expect(result.scan_id).toBe('test-scan-123');
-      expect(result.status).toBe('pending');
-      expect(result.file_results).toEqual(items);
+    describe("ScanStatus constants", () => {
+        it("has all expected status constants", () => {
+            expect(ScanStatus.DONE).toBe("done");
+            expect(ScanStatus.FAILED).toBe("failed");
+            expect(ScanStatus.PENDING).toBe("pending");
+            expect(ScanStatus.RUNNING).toBe("running");
+            expect(ScanStatus.CANCELED).toBe("canceled");
+        });
     });
 
-    test('retries on 404 error', async () => {
-      const notFoundError = new APIError(
-        404,
-        { error: { message: 'Not found' } },
-        'Not found',
-        new Headers(),
-      );
+    describe("collectFileResults", () => {
+        it("collects a single page without throttling", async () => {
+            const items = mockSinglePageOfFiles();
+            const delays = runTimersImmediately();
 
-      mockRetrieveSummary
-        .mockRejectedValueOnce(notFoundError)
-        .mockRejectedValueOnce(notFoundError)
-        .mockResolvedValueOnce(createMockSummary('pending'));
-      mockSinglePageOfFiles();
+            const results = await collectFileResults(client, "test-scan-123");
 
-      const result = await getScanResults(client, 'test-scan-123');
+            expect(results).toEqual(items);
+            expect(mockListFiles).toHaveBeenCalledWith({ scan_id: "test-scan-123", page_size: FILE_RESULTS_PAGE_SIZE });
+            expect(delays).toEqual([]);
+        });
 
-      expect(mockRetrieveSummary).toHaveBeenCalledTimes(3);
-      expect(result.scan_id).toBe('test-scan-123');
-      expect(console.info).toHaveBeenCalledWith(expect.stringContaining('Scan not yet available'));
+        it("collects every page in order, throttled between page reads", async () => {
+            const page = fakePage([fileResult("file-1")], [fileResult("file-2")], [fileResult("file-3")]);
+            mockListFiles.mockResolvedValue(page);
+            const delays = runTimersImmediately();
+
+            const results = await collectFileResults(client, "test-scan-123");
+
+            expect(results.map((r) => r.file_instance_id)).toEqual(["file-1", "file-2", "file-3"]);
+            expect(mockListFiles).toHaveBeenCalledTimes(1);
+            expect(page.getNextPage).toHaveBeenCalledTimes(2);
+            // One throttle sleep before each subsequent page fetch
+            expect(delays).toEqual([FILE_RESULTS_PAGE_DELAY_MS, FILE_RESULTS_PAGE_DELAY_MS]);
+        });
     });
 
-    test('throws error after max retries', async () => {
-      const notFoundError = new APIError(
-        404,
-        { error: { message: 'Not found' } },
-        'Not found',
-        new Headers(),
-      );
+    describe("buildScanReport", () => {
+        it("maps summary, file results, and deprecated mirror fields", () => {
+            const summary = scanSummary("done");
+            const fileResults = [fileResult("file-1"), fileResult("file-2")];
 
-      mockRetrieveSummary.mockRejectedValue(notFoundError);
+            const report = buildScanReport(summary, fileResults);
 
-      await expect(getScanResults(client, 'test-scan-123')).rejects.toThrow(notFoundError);
+            expect(report.scan_id).toBe("test-scan-123");
+            expect(report.status).toBe("done");
+            expect(report.file_results).toEqual(fileResults);
+            // Deprecated top-level fields are mirrored from the nested summary
+            expect(report.detection_count).toBe(1);
+            expect(report.file_count).toBe(2);
+            expect(report.files_with_detections_count).toBe(1);
+        });
 
-      expect(mockRetrieveSummary).toHaveBeenCalledTimes(5); // max retries
-      expect(console.error).toHaveBeenCalledWith('Scan test-scan-123 not found after 5 attempts');
+        it("does not overwrite top-level fields already on the summary", () => {
+            const summary = scanSummary("done", { detection_count: 7 });
+
+            const report = buildScanReport(summary, []);
+
+            expect(report.detection_count).toBe(7);
+        });
     });
 
-    test('throws non-404 errors immediately', async () => {
-      const serverError = new APIError(
-        500,
-        { error: { message: 'Server error' } },
-        'Server error',
-        new Headers(),
-      );
+    describe("getScanResults", () => {
+        it("assembles the report from the summary and file results on first try", async () => {
+            mockRetrieveSummary.mockResolvedValue(scanSummary("pending"));
+            const items = mockSinglePageOfFiles();
 
-      mockRetrieveSummary.mockRejectedValue(serverError);
+            const result = await getScanResults(client, "test-scan-123");
 
-      await expect(getScanResults(client, 'test-scan-123')).rejects.toThrow(serverError);
+            expect(mockRetrieveSummary).toHaveBeenCalledTimes(1);
+            expect(mockRetrieveSummary).toHaveBeenCalledWith({ scan_id: "test-scan-123" });
+            expect(mockRetrieve).not.toHaveBeenCalled();
+            expect(result.scan_id).toBe("test-scan-123");
+            expect(result.status).toBe("pending");
+            expect(result.file_results).toEqual(items);
+        });
 
-      expect(mockRetrieveSummary).toHaveBeenCalledTimes(1);
-    });
-  });
+        it("retries on 404 error", async () => {
+            const notFoundError = new NotFoundError({ detail: "Not found" });
+            mockRetrieveSummary
+                .mockRejectedValueOnce(notFoundError)
+                .mockRejectedValueOnce(notFoundError)
+                .mockResolvedValueOnce(scanSummary("pending"));
+            mockSinglePageOfFiles();
 
-  describe('waitForScanResults', () => {
-    test('polls the summary until scan is done, then assembles the report', async () => {
-      mockRetrieveSummary
-        .mockResolvedValueOnce(createMockSummary('pending'))
-        .mockResolvedValueOnce(createMockSummary('running'))
-        .mockResolvedValueOnce(createMockSummary('done'));
-      const items = mockSinglePageOfFiles();
+            const result = await getScanResults(client, "test-scan-123");
 
-      const result = await waitForScanResults(client, 'test-scan-123');
+            expect(mockRetrieveSummary).toHaveBeenCalledTimes(3);
+            expect(result.scan_id).toBe("test-scan-123");
+            expect(console.info).toHaveBeenCalledWith(expect.stringContaining("Scan not yet available"));
+        });
 
-      expect(mockRetrieveSummary).toHaveBeenCalledTimes(3);
-      expect(mockListFiles).toHaveBeenCalledTimes(1);
-      expect(mockRetrieve).not.toHaveBeenCalled();
-      expect(result.status).toBe('done');
-      expect(result.file_results).toEqual(items);
-      expect(console.info).toHaveBeenCalledWith('scan status: pending');
-      expect(console.info).toHaveBeenCalledWith('scan status: running');
-    });
+        it("retries on a generic HiddenLayerError with status 404", async () => {
+            mockRetrieveSummary
+                .mockRejectedValueOnce(new HiddenLayerError({ statusCode: 404, body: { detail: "Not found" } }))
+                .mockResolvedValueOnce(scanSummary("pending"));
+            mockSinglePageOfFiles();
 
-    test('handles initial 404 errors gracefully', async () => {
-      const notFoundError = new APIError(
-        404,
-        { error: { message: 'Not found' } },
-        'Not found',
-        new Headers(),
-      );
+            const result = await getScanResults(client, "test-scan-123");
 
-      mockRetrieveSummary
-        .mockRejectedValueOnce(notFoundError)
-        .mockRejectedValueOnce(notFoundError)
-        .mockResolvedValueOnce(createMockSummary('pending'))
-        .mockResolvedValueOnce(createMockSummary('done'));
-      mockSinglePageOfFiles();
+            expect(mockRetrieveSummary).toHaveBeenCalledTimes(2);
+            expect(result.scan_id).toBe("test-scan-123");
+        });
 
-      const result = await waitForScanResults(client, 'test-scan-123');
+        it("throws error after max retries", async () => {
+            const notFoundError = new NotFoundError({ detail: "Not found" });
+            mockRetrieveSummary.mockRejectedValue(notFoundError);
 
-      expect(mockRetrieveSummary).toHaveBeenCalledTimes(4);
-      expect(result.status).toBe('done');
-      expect(console.info).toHaveBeenCalledWith('scan not found yet, retrying...');
-    });
+            await expect(getScanResults(client, "test-scan-123")).rejects.toBe(notFoundError);
 
-    test('returns immediately on failed status', async () => {
-      mockRetrieveSummary.mockResolvedValueOnce(createMockSummary('failed'));
-      mockSinglePageOfFiles();
+            expect(mockRetrieveSummary).toHaveBeenCalledTimes(5); // max retries
+            expect(console.error).toHaveBeenCalledWith("Scan test-scan-123 not found after 5 attempts");
+        });
 
-      const result = await waitForScanResults(client, 'test-scan-123');
+        it("throws non-404 errors immediately", async () => {
+            const serverError = new HiddenLayerError({ statusCode: 500, body: { detail: "Server error" } });
+            mockRetrieveSummary.mockRejectedValue(serverError);
 
-      expect(mockRetrieveSummary).toHaveBeenCalledTimes(1);
-      expect(result.status).toBe('failed');
+            await expect(getScanResults(client, "test-scan-123")).rejects.toBe(serverError);
+
+            expect(mockRetrieveSummary).toHaveBeenCalledTimes(1);
+        });
     });
 
-    test('returns immediately on canceled status', async () => {
-      mockRetrieveSummary.mockResolvedValueOnce(createMockSummary('canceled'));
-      mockSinglePageOfFiles();
+    describe("waitForScanResults", () => {
+        it("polls the summary until scan is done, then assembles the report", async () => {
+            mockRetrieveSummary
+                .mockResolvedValueOnce(scanSummary("pending"))
+                .mockResolvedValueOnce(scanSummary("running"))
+                .mockResolvedValueOnce(scanSummary("done"));
+            const items = mockSinglePageOfFiles();
 
-      const result = await waitForScanResults(client, 'test-scan-123');
+            const result = await waitForScanResults(client, "test-scan-123");
 
-      expect(mockRetrieveSummary).toHaveBeenCalledTimes(1);
-      expect(result.status).toBe('canceled');
+            expect(mockRetrieveSummary).toHaveBeenCalledTimes(3);
+            expect(mockListFiles).toHaveBeenCalledTimes(1);
+            expect(mockRetrieve).not.toHaveBeenCalled();
+            expect(result.status).toBe("done");
+            expect(result.file_results).toEqual(items);
+            expect(console.info).toHaveBeenCalledWith("scan status: pending");
+            expect(console.info).toHaveBeenCalledWith("scan status: running");
+        });
+
+        it("handles initial 404 errors gracefully", async () => {
+            const notFoundError = new NotFoundError({ detail: "Not found" });
+            mockRetrieveSummary
+                .mockRejectedValueOnce(notFoundError)
+                .mockRejectedValueOnce(notFoundError)
+                .mockResolvedValueOnce(scanSummary("pending"))
+                .mockResolvedValueOnce(scanSummary("done"));
+            mockSinglePageOfFiles();
+
+            const result = await waitForScanResults(client, "test-scan-123");
+
+            expect(mockRetrieveSummary).toHaveBeenCalledTimes(4);
+            expect(result.status).toBe("done");
+            expect(console.info).toHaveBeenCalledWith("scan not found yet, retrying...");
+        });
+
+        it("returns immediately on failed status", async () => {
+            mockRetrieveSummary.mockResolvedValueOnce(scanSummary("failed"));
+            mockSinglePageOfFiles();
+
+            const result = await waitForScanResults(client, "test-scan-123");
+
+            expect(mockRetrieveSummary).toHaveBeenCalledTimes(1);
+            expect(result.status).toBe("failed");
+        });
+
+        it("returns immediately on canceled status", async () => {
+            mockRetrieveSummary.mockResolvedValueOnce(scanSummary("canceled"));
+            mockSinglePageOfFiles();
+
+            const result = await waitForScanResults(client, "test-scan-123");
+
+            expect(mockRetrieveSummary).toHaveBeenCalledTimes(1);
+            expect(result.status).toBe("canceled");
+        });
+
+        it("throws non-404 errors", async () => {
+            const serverError = new HiddenLayerError({ statusCode: 500, body: { detail: "Server error" } });
+            mockRetrieveSummary.mockRejectedValue(serverError);
+
+            await expect(waitForScanResults(client, "test-scan-123")).rejects.toBe(serverError);
+
+            expect(mockRetrieveSummary).toHaveBeenCalledTimes(1);
+            expect(mockListFiles).not.toHaveBeenCalled();
+        });
+
+        it("exponential backoff works correctly", async () => {
+            vi.spyOn(Math, "random").mockReturnValue(0.5);
+            mockRetrieveSummary
+                .mockResolvedValueOnce(scanSummary("pending"))
+                .mockResolvedValueOnce(scanSummary("pending"))
+                .mockResolvedValueOnce(scanSummary("pending"))
+                .mockResolvedValueOnce(scanSummary("pending"))
+                .mockResolvedValueOnce(scanSummary("done"));
+            mockSinglePageOfFiles();
+            const delays = runTimersImmediately();
+
+            await waitForScanResults(client, "test-scan-123");
+
+            expect(delays).toHaveLength(4);
+            for (let i = 1; i < delays.length; i++) {
+                expect(delays[i - 1]).toBeLessThan(delays[i]);
+            }
+            for (const delay of delays) {
+                expect(delay).toBeLessThanOrEqual(30000);
+            }
+        });
     });
-
-    test('throws non-404 errors', async () => {
-      const serverError = new APIError(
-        500,
-        { error: { message: 'Server error' } },
-        'Server error',
-        new Headers(),
-      );
-
-      mockRetrieveSummary.mockRejectedValue(serverError);
-
-      await expect(waitForScanResults(client, 'test-scan-123')).rejects.toThrow(serverError);
-
-      expect(mockRetrieveSummary).toHaveBeenCalledTimes(1);
-      expect(mockListFiles).not.toHaveBeenCalled();
-    });
-
-    test('exponential backoff works correctly', async () => {
-      // Mock Math.random to return consistent values
-      const mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.5);
-
-      // Need many pending responses to test backoff
-      mockRetrieveSummary
-        .mockResolvedValueOnce(createMockSummary('pending'))
-        .mockResolvedValueOnce(createMockSummary('pending'))
-        .mockResolvedValueOnce(createMockSummary('pending'))
-        .mockResolvedValueOnce(createMockSummary('pending'))
-        .mockResolvedValueOnce(createMockSummary('done'));
-      mockSinglePageOfFiles();
-
-      let delays: number[] = [];
-      jest.spyOn(global, 'setTimeout').mockImplementation((callback: any, delay?: number) => {
-        if (delay) delays.push(delay);
-        callback();
-        return {} as NodeJS.Timeout;
-      });
-
-      await waitForScanResults(client, 'test-scan-123');
-
-      // Check that delays increase exponentially but are capped
-      expect(delays.length).toBeGreaterThanOrEqual(3);
-      if (delays[0] !== undefined && delays[1] !== undefined) {
-        expect(delays[0]).toBeLessThan(delays[1]);
-      }
-      if (delays[1] !== undefined && delays[2] !== undefined) {
-        expect(delays[1]).toBeLessThan(delays[2]);
-      }
-      // All delays should be capped at 30 seconds (30000 ms)
-      delays.forEach((delay) => {
-        expect(delay).toBeLessThanOrEqual(30000);
-      });
-
-      mockRandom.mockRestore();
-    });
-  });
 });

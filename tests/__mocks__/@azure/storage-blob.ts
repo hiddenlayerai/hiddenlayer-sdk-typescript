@@ -1,16 +1,26 @@
-// Jest mock for @azure/storage-blob used in tests
+// Stand-in for @azure/storage-blob, installed per test file with vi.mock.
+import { type Mock, vi } from "vitest";
+
+interface FakeBlobClient {
+    downloadToFile: Mock<(path: string) => Promise<void>>;
+}
+
+interface FakeContainerClient {
+    getBlobClient: (blob: string) => FakeBlobClient;
+}
+
 export class BlobServiceClient {
-  url: string;
-  credential: any;
-  constructor(url: string, credential?: any) {
-    this.url = url;
-    this.credential = credential;
-  }
-  getContainerClient() {
-    return {
-      getBlobClient: () => ({
-        downloadToFile: jest.fn().mockResolvedValue(undefined),
-      }),
-    };
-  }
+    readonly url: string;
+    readonly credential: unknown;
+
+    constructor(url: string, credential?: unknown) {
+        this.url = url;
+        this.credential = credential;
+    }
+
+    getContainerClient(_container: string): FakeContainerClient {
+        return {
+            getBlobClient: () => ({ downloadToFile: vi.fn(async (_path: string) => undefined) }),
+        };
+    }
 }
