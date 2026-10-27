@@ -1,5 +1,5 @@
 {
-    "cliVersion": "5.131.1",
+    "cliVersion": "5.170.3",
     "generatorName": "fernapi/fern-typescript-sdk",
     "generatorVersion": "3.107.7",
     "generatorConfig": {
@@ -10,7 +10,7 @@
             "name": "@hiddenlayerai/hiddenlayer-sdk"
         }
     },
-    "originGitCommit": "8f50db361895e06db9ada2b28563f7ac56a29c01",
+    "originGitCommit": "ac42f197c0b82c3215da39456cd3c4723a7d4b4a",
     "originGitCommitIsDirty": true,
     "invokedBy": "ci",
     "requestedVersion": "3.6.0",

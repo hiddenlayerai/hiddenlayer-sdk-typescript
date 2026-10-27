@@ -16,6 +16,7 @@ describe("CredentialsClient", () => {
                     client_id: "client_id",
                     created_at: "2024-01-15T09:30:00Z",
                     created_by: "created_by",
+                    created_by_user: { email: "email", firstname: "firstname", lastname: "lastname", roles: ["roles"] },
                     expires_at: "2024-01-15T09:30:00Z",
                     permissions: ["permissions"],
                 },

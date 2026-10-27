@@ -2,9 +2,11 @@
 
 import type * as HiddenLayer from "../../../index.js";
 
-export interface SelfEulaResponsesResponse extends HiddenLayer.EulaResponseValue, HiddenLayer.EulaVersion {
+export interface SelfEulaResponsesResponse extends HiddenLayer.EulaVersion {
     /** The date and time when the EULA response was last modified */
     modified_at?: string | undefined;
     /** The tenant administrator that last modified the EULA response */
     modified_by?: string | undefined;
+    /** The response to the EULA */
+    response: HiddenLayer.EulaResponseStatus;
 }
