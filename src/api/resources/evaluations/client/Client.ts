@@ -4,6 +4,8 @@ import type { BaseClientOptions } from "../../../../BaseClient.js";
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "../../../../BaseClient.js";
 import { PromptSetsClient } from "../resources/promptSets/client/Client.js";
 import { RedTeamClient } from "../resources/redTeam/client/Client.js";
+import { SystemPromptAnalysisClient } from "../resources/systemPromptAnalysis/client/Client.js";
+import { ThreatModelingClient } from "../resources/threatModeling/client/Client.js";
 
 export declare namespace EvaluationsClient {
     export type Options = BaseClientOptions;
@@ -13,6 +15,8 @@ export class EvaluationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<EvaluationsClient.Options>;
     protected _redTeam: RedTeamClient | undefined;
     protected _promptSets: PromptSetsClient | undefined;
+    protected _systemPromptAnalysis: SystemPromptAnalysisClient | undefined;
+    protected _threatModeling: ThreatModelingClient | undefined;
 
     constructor(options: EvaluationsClient.Options) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -24,5 +28,13 @@ export class EvaluationsClient {
 
     public get promptSets(): PromptSetsClient {
         return (this._promptSets ??= new PromptSetsClient(this._options));
+    }
+
+    public get systemPromptAnalysis(): SystemPromptAnalysisClient {
+        return (this._systemPromptAnalysis ??= new SystemPromptAnalysisClient(this._options));
+    }
+
+    public get threatModeling(): ThreatModelingClient {
+        return (this._threatModeling ??= new ThreatModelingClient(this._options));
     }
 }

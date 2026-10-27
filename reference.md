@@ -7360,6 +7360,801 @@ await client.evaluations.promptSets.csv({
 </dl>
 </details>
 
+## Evaluations SystemPromptAnalysis
+<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.SystemPromptResultItem, HiddenLayer.SystemPromptListResultsResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+List completed system prompt analysis results with filtering and bidirectional pagination.
+
+Results are ordered by completed_at DESC (newest first).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const pageableResponse = await client.evaluations.systemPromptAnalysis.list();
+for await (const item of pageableResponse) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+let page = await client.evaluations.systemPromptAnalysis.list();
+while (page.hasNextPage()) {
+    page = await page.getNextPage();
+}
+
+// You can also access the underlying response
+const response = page.response;
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.ListSystemPromptAnalysisRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `SystemPromptAnalysisClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.StartWorkflowResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Start a new system prompt analysis workflow.
+
+This immediately starts the workflow which auto-triggers question generation.
+Client should poll /status to check progress.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.systemPromptAnalysis.create({
+    name: "name",
+    system_prompt: "system_prompt"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.StartSystemPromptWorkflowBody` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `SystemPromptAnalysisClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">status</a>({ ...params }) -> HiddenLayer.AnalysisStatus</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Get current status of analysis workflow (polling endpoint).
+
+This endpoint is designed to be polled by clients to track progress.
+Returns immediately with current state.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.systemPromptAnalysis.status({
+    workflow_id: "workflow_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.StatusSystemPromptAnalysisRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `SystemPromptAnalysisClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.AnalysisResult</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Get the final result of a completed analysis workflow.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.systemPromptAnalysis.get({
+    workflow_id: "workflow_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.GetSystemPromptAnalysisRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `SystemPromptAnalysisClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">delete</a>({ ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Delete a system prompt analysis result from storage.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.systemPromptAnalysis.delete({
+    workflow_id: "workflow_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.DeleteSystemPromptAnalysisRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `SystemPromptAnalysisClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">answers</a>({ ...params }) -> HiddenLayer.SubmitAnswersResult</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Submit answers to questions - triggers compile+validate.
+
+This endpoint accepts user answers and triggers the compile+validate
+child workflow. Returns immediately; client should poll /status for results.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.systemPromptAnalysis.answers({
+    workflow_id: "workflow_id",
+    answers: [{
+            question: "question",
+            answer: "answer"
+        }]
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.SubmitAnswersBody` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `SystemPromptAnalysisClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Evaluations ThreatModeling
+<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.ThreatModelingResultItem, HiddenLayer.ThreatModelingListResultsResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+List completed threat modeling results with filtering and bidirectional pagination.
+
+Results are ordered by completed_at DESC (newest first).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const pageableResponse = await client.evaluations.threatModeling.list();
+for await (const item of pageableResponse) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+let page = await client.evaluations.threatModeling.list();
+while (page.hasNextPage()) {
+    page = await page.getNextPage();
+}
+
+// You can also access the underlying response
+const response = page.response;
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.ListThreatModelingRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ThreatModelingClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.StartWorkflowResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Start a new threat modeling workflow.
+
+This immediately starts the workflow which auto-executes both analysis phases.
+Client should poll /status to check progress.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.threatModeling.create({
+    name: "name",
+    systems: [{
+            name: "name",
+            description: "description",
+            system_prompt: "system_prompt",
+            tools: "tools",
+            model: "model",
+            is_internet_facing: true,
+            is_handling_sensitive_data: true,
+            is_using_memory: true,
+            is_using_mcp: true,
+            has_authentication: true,
+            has_role_based_access_control: true,
+            has_input_output_validation: true
+        }]
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.StartThreatModelingWorkflowBody` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ThreatModelingClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">status</a>({ ...params }) -> HiddenLayer.ThreatModelingStatus</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Get current status of threat modeling workflow (polling endpoint).
+Returns immediately with current state.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.threatModeling.status({
+    workflow_id: "workflow_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.StatusThreatModelingRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ThreatModelingClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.ThreatModelingResult</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Get the final result of a completed threat modeling workflow.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.threatModeling.get({
+    workflow_id: "workflow_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.GetThreatModelingRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ThreatModelingClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">delete</a>({ ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Delete a threat modeling result from storage.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluations.threatModeling.delete({
+    workflow_id: "workflow_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayer.evaluations.DeleteThreatModelingRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ThreatModelingClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Evaluations RedTeam Objectives
 <details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.ApeObjective, HiddenLayer.ObjectivesListResponse&gt;</code></summary>
 <dl>

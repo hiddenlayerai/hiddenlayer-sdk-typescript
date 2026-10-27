@@ -7,7 +7,7 @@ export interface SearchResult extends HiddenLayer.AiAssetSummary {
     /** Relevance score (0-1) */
     score?: number | undefined;
     match_type?: SearchResult.MatchType | undefined;
-    match_confidence?: SearchResult.MatchConfidence | undefined;
+    match_confidence?: HiddenLayer.ImpactLevel | undefined;
 }
 
 export namespace SearchResult {
@@ -16,10 +16,4 @@ export namespace SearchResult {
         Fuzzy: "FUZZY",
     } as const;
     export type MatchType = (typeof MatchType)[keyof typeof MatchType];
-    export const MatchConfidence = {
-        High: "HIGH",
-        Medium: "MEDIUM",
-        Low: "LOW",
-    } as const;
-    export type MatchConfidence = (typeof MatchConfidence)[keyof typeof MatchConfidence];
 }
