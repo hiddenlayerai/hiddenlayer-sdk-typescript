@@ -4801,7 +4801,7 @@ await client.assetInventory.annotations.get({
 </details>
 
 ## AssetInventory Jobs
-<details><summary><code>client.assetInventory.jobs.<a href="/src/api/resources/assetInventory/resources/jobs/client/Client.ts">customTags</a>({ ...params }) -> HiddenLayer.CustomTagsJobsResponse</code></summary>
+<details><summary><code>client.assetInventory.jobs.<a href="/src/api/resources/assetInventory/resources/jobs/client/Client.ts">customTags</a>({ ...params }) -> HiddenLayer.SyncJob</code></summary>
 <dl>
 <dd>
 

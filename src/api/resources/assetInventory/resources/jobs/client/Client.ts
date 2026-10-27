@@ -86,14 +86,14 @@ export class JobsClient {
     public customTags(
         request: HiddenLayer.assetInventory.BulkCustomTagJobRequestV2,
         requestOptions?: JobsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.assetInventory.CustomTagsJobsResponse> {
+    ): core.HttpResponsePromise<HiddenLayer.SyncJob> {
         return core.HttpResponsePromise.fromPromise(this.__customTags(request, requestOptions));
     }
 
     private async __customTags(
         request: HiddenLayer.assetInventory.BulkCustomTagJobRequestV2,
         requestOptions?: JobsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.assetInventory.CustomTagsJobsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayer.SyncJob>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -120,10 +120,7 @@ export class JobsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return {
-                data: _response.body as HiddenLayer.assetInventory.CustomTagsJobsResponse,
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as HiddenLayer.SyncJob, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
