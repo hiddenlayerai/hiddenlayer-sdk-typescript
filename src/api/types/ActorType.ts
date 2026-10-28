@@ -2,6 +2,9 @@
 
 export const ActorType = {
     User: "USER",
+    ClientCredential: "CLIENT_CREDENTIAL",
+    StaticApiKey: "STATIC_API_KEY",
+    System: "SYSTEM",
     ApiKey: "API_KEY",
 } as const;
 export type ActorType = (typeof ActorType)[keyof typeof ActorType];

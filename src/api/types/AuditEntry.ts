@@ -6,16 +6,22 @@ export interface AuditEntry extends HiddenLayer.AuditEntryBase {
     /** Description of the action performed */
     description?: string | undefined;
     actor_type: HiddenLayer.ActorType;
-    /** Unique identifier for the actor */
+    /**
+     * ID of the actor, by `actor_type`:
+     * - `USER`: the user's `id`.
+     * - `CLIENT_CREDENTIAL` and `API_KEY`: the API credential's `client_id`.
+     * - `STATIC_API_KEY`: the Static API Key's `id`, not a secret's `id`.
+     * - `SYSTEM`: an ID that HiddenLayer assigns to the process.
+     */
     actor_id: string;
     /** Name of the actor */
     actor_name?: string | undefined;
-    /** Email address of the actor */
+    /** Email address of the actor. Empty unless `actor_type` is `USER`. */
     actor_email?: string | undefined;
-    /** Snapshot of the roles assigned to the actor at the time of the action */
+    /** Snapshot of the roles assigned to the actor at the time of the action. Empty unless `actor_type` is `USER`. */
     assigned_roles: string[];
     /** Correlation ID associated with the action */
     correlation_id?: string | undefined;
-    /** Session ID */
+    /** ID of the user's login session. Empty unless `actor_type` is `USER`. */
     session_id?: string | undefined;
 }

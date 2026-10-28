@@ -14,13 +14,13 @@ export interface ListEntriesRequest {
     start_time?: string;
     /** Filter audit entries by time range */
     end_time?: string;
-    /** Filter audit entries by role */
+    /** Filter audit entries by a role in `assigned_roles` */
     role?: string;
     /** Filter audit entries by action */
     action?: string;
     /** Filter audit entries by resource_type */
     resource_type?: string;
-    /** Filter audit entries by actor_type */
+    /** Filter audit entries by actor_type. `CLIENT_CREDENTIAL` and `API_KEY` return the same entries; neither returns Static API Key actions. */
     actor_type?: HiddenLayer.ActorType;
     /** Search for audit entries by text (searches user, role, action, resource type) */
     search?: string;
