@@ -130,7 +130,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "NONE",
                 threat_level: "NONE",
-                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                detections: [
+                    {
+                        rule_id: "550e8400-e29b-41d4-a716-446655440000",
+                        rule_name: "prompt_injection",
+                        risk_level: "LOW",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {
@@ -377,7 +383,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "NONE",
                 threat_level: "NONE",
-                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                detections: [
+                    {
+                        rule_id: "550e8400-e29b-41d4-a716-446655440000",
+                        rule_name: "prompt_injection",
+                        risk_level: "LOW",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {
@@ -638,7 +650,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "NONE",
                 threat_level: "NONE",
-                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                detections: [
+                    {
+                        rule_id: "550e8400-e29b-41d4-a716-446655440000",
+                        rule_name: "prompt_injection",
+                        risk_level: "LOW",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {
@@ -922,7 +940,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "NONE",
                 threat_level: "NONE",
-                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                detections: [
+                    {
+                        rule_id: "550e8400-e29b-41d4-a716-446655440000",
+                        rule_name: "prompt_injection",
+                        risk_level: "LOW",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {
@@ -1185,7 +1209,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "NONE",
                 threat_level: "NONE",
-                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                detections: [
+                    {
+                        rule_id: "550e8400-e29b-41d4-a716-446655440000",
+                        rule_name: "prompt_injection",
+                        risk_level: "LOW",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {
@@ -1434,7 +1464,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "NONE",
                 threat_level: "NONE",
-                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                detections: [
+                    {
+                        rule_id: "550e8400-e29b-41d4-a716-446655440000",
+                        rule_name: "prompt_injection",
+                        risk_level: "LOW",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {
@@ -1656,7 +1692,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "NONE",
                 threat_level: "NONE",
-                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                detections: [
+                    {
+                        rule_id: "550e8400-e29b-41d4-a716-446655440000",
+                        rule_name: "prompt_injection",
+                        risk_level: "LOW",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {
@@ -1910,7 +1952,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "NONE",
                 threat_level: "NONE",
-                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                detections: [
+                    {
+                        rule_id: "550e8400-e29b-41d4-a716-446655440000",
+                        rule_name: "prompt_injection",
+                        risk_level: "LOW",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {
@@ -2184,7 +2232,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "NONE",
                 threat_level: "NONE",
-                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                detections: [
+                    {
+                        rule_id: "550e8400-e29b-41d4-a716-446655440000",
+                        rule_name: "prompt_injection",
+                        risk_level: "LOW",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {
@@ -2418,7 +2472,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "NONE",
                 threat_level: "NONE",
-                detections: [{ rule_name: "prompt_injection", risk_level: "LOW" }],
+                detections: [
+                    {
+                        rule_id: "550e8400-e29b-41d4-a716-446655440000",
+                        rule_name: "prompt_injection",
+                        risk_level: "LOW",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {
@@ -2587,8 +2647,12 @@ describe("RuntimeClient", () => {
                 action: "REDACT",
                 threat_level: "HIGH",
                 detections: [
-                    { rule_name: "sensitive_pii_exposed", risk_level: "HIGH" },
-                    { rule_name: "refusal", risk_level: "LOW" },
+                    {
+                        rule_id: "6f1c2a4e-8b3d-4e5f-9a7b-1c2d3e4f5a6b",
+                        rule_name: "sensitive_pii_exposed",
+                        risk_level: "HIGH",
+                    },
+                    { rule_id: "9d8c7b6a-5e4f-4a3b-8c2d-1e0f9a8b7c6d", rule_name: "refusal", risk_level: "LOW" },
                 ],
                 effective_interaction: {
                     messages: [
@@ -2708,7 +2772,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "BLOCK",
                 threat_level: "HIGH",
-                detections: [{ rule_name: "prompt_injection", risk_level: "HIGH" }],
+                detections: [
+                    {
+                        rule_id: "550e8400-e29b-41d4-a716-446655440000",
+                        rule_name: "prompt_injection",
+                        risk_level: "HIGH",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {
@@ -2904,7 +2974,13 @@ describe("RuntimeClient", () => {
             outcome: {
                 action: "DETECT",
                 threat_level: "LOW",
-                detections: [{ rule_name: "tool_use_observed", risk_level: "LOW" }],
+                detections: [
+                    {
+                        rule_id: "3a2b1c0d-9e8f-4a7b-b6c5-d4e3f2a1b0c9",
+                        rule_name: "tool_use_observed",
+                        risk_level: "LOW",
+                    },
+                ],
                 effective_interaction: {
                     messages: [
                         {

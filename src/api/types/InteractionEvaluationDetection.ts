@@ -8,6 +8,8 @@
  * via the signals and findings that the rule matched.
  */
 export interface InteractionEvaluationDetection {
+    /** The unique identifier for the detection rule that produced this detection. */
+    rule_id?: string | undefined;
     /** The human-readable name of the detection rule (e.g., prompt_injection, sensitive_pii_exposed). */
     rule_name: string;
     /** Categorical risk level for this detection. */
