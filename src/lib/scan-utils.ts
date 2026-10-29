@@ -8,23 +8,25 @@
  * file-results endpoint; the unpaginated results endpoint is not used.
  */
 
-import type { HiddenLayer } from '../client';
-import type { ScanFileResult, ScanReport, ScanReportSummary } from '../resources/scans/results';
-import { APIError } from '../core/error';
-import { sleep } from '../internal/utils/sleep';
+import type * as HiddenLayerApi from "../api/index.js";
+import type { HiddenLayerClient } from "../Client.js";
+import { HiddenLayerError } from "../errors/index.js";
 
 /**
  * Scan status constants
  */
 export const ScanStatus = {
-  DONE: 'done',
-  FAILED: 'failed',
-  PENDING: 'pending',
-  RUNNING: 'running',
-  CANCELED: 'canceled',
+    DONE: "done",
+    FAILED: "failed",
+    PENDING: "pending",
+    RUNNING: "running",
+    CANCELED: "canceled",
 } as const;
 
 export type ScanStatusType = (typeof ScanStatus)[keyof typeof ScanStatus];
+
+/** A full scan report: the summary plus every file result. */
+export type ScanReport = HiddenLayerApi.ScanReportOfRecordV3;
 
 // Page size and inter-page delay for collecting file results. The delay
 // throttles reconstruction of massive scans (10k+ files) so the SDK never
@@ -36,27 +38,39 @@ export const FILE_RESULTS_PAGE_DELAY_MS = 250;
 
 // Deprecated top-level report fields that mirror `.summary.*` per the API contract.
 const DEPRECATED_SUMMARY_MIRROR_FIELDS = [
-  'detection_count',
-  'file_count',
-  'files_with_detections_count',
-  'detection_categories',
-  'severity',
+    "detection_count",
+    "file_count",
+    "files_with_detections_count",
+    "detection_categories",
+    "severity",
 ] as const;
+
+/** @internal */
+export function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isNotFound(error: unknown): boolean {
+    return error instanceof HiddenLayerError && error.statusCode === 404;
+}
 
 /**
  * Assemble a full ScanReport from a scan summary plus its paginated file results.
  *
  * @internal Implementation detail of the scan helpers — not part of the public API.
  */
-export function buildScanReport(summary: ScanReportSummary, fileResults: ScanFileResult[]): ScanReport {
-  const report: Record<string, unknown> = { ...summary, file_results: fileResults };
-  const nestedSummary = (summary as unknown as { summary?: Record<string, unknown> }).summary ?? {};
-  for (const field of DEPRECATED_SUMMARY_MIRROR_FIELDS) {
-    if (report[field] === undefined && nestedSummary[field] !== undefined) {
-      report[field] = nestedSummary[field];
+export function buildScanReport(
+    summary: HiddenLayerApi.ScanReportSummaryResponseV3,
+    fileResults: HiddenLayerApi.ScanFileResultWithComplianceV3[],
+): ScanReport {
+    const report: Record<string, unknown> = { ...summary, file_results: fileResults };
+    const nestedSummary: Record<string, unknown> = { ...summary.summary };
+    for (const field of DEPRECATED_SUMMARY_MIRROR_FIELDS) {
+        if (report[field] === undefined && nestedSummary[field] !== undefined) {
+            report[field] = nestedSummary[field];
+        }
     }
-  }
-  return report as unknown as ScanReport;
+    return report as unknown as ScanReport;
 }
 
 /**
@@ -64,15 +78,18 @@ export function buildScanReport(summary: ScanReportSummary, fileResults: ScanFil
  *
  * @internal Implementation detail of the scan helpers — not part of the public API.
  */
-export async function collectFileResults(client: HiddenLayer, scanId: string): Promise<ScanFileResult[]> {
-  let page = await client.scans.results.listFiles(scanId, { page_size: FILE_RESULTS_PAGE_SIZE });
-  const fileResults: ScanFileResult[] = [...(page.items ?? [])];
-  while (page.hasNextPage()) {
-    await sleep(FILE_RESULTS_PAGE_DELAY_MS);
-    page = await page.getNextPage();
-    fileResults.push(...(page.items ?? []));
-  }
-  return fileResults;
+export async function collectFileResults(
+    client: HiddenLayerClient,
+    scanId: string,
+): Promise<HiddenLayerApi.ScanFileResultWithComplianceV3[]> {
+    const page = await client.scans.results.listFiles({ scan_id: scanId, page_size: FILE_RESULTS_PAGE_SIZE });
+    const fileResults = [...page.data];
+    while (page.hasNextPage()) {
+        await sleep(FILE_RESULTS_PAGE_DELAY_MS);
+        await page.getNextPage();
+        fileResults.push(...page.data);
+    }
+    return fileResults;
 }
 
 /**
@@ -85,39 +102,38 @@ export async function collectFileResults(client: HiddenLayer, scanId: string): P
  * a point-in-time snapshot: paginating over an active scan may miss or
  * duplicate file entries.
  */
-export async function getScanResults(client: HiddenLayer, scanId: string): Promise<ScanReport> {
-  let retries = 0;
-  const maxRetries = 5; // Fewer retries since we're not waiting for completion
-  const baseDelay = 500; // milliseconds
+export async function getScanResults(client: HiddenLayerClient, scanId: string): Promise<ScanReport> {
+    let retries = 0;
+    const maxRetries = 5; // Fewer retries since we're not waiting for completion
+    const baseDelay = 500; // milliseconds
 
-  while (retries < maxRetries) {
-    try {
-      const summary = await client.scans.results.retrieveSummary(scanId);
-      const fileResults = await collectFileResults(client, scanId);
-      return buildScanReport(summary, fileResults);
-    } catch (error) {
-      if (error instanceof APIError && error.status === 404) {
-        retries++;
-        if (retries >= maxRetries) {
-          console.error(`Scan ${scanId} not found after ${maxRetries} attempts`);
-          throw error;
+    while (retries < maxRetries) {
+        try {
+            const summary = await client.scans.results.retrieveSummary({ scan_id: scanId });
+            const fileResults = await collectFileResults(client, scanId);
+            return buildScanReport(summary, fileResults);
+        } catch (error) {
+            if (!isNotFound(error)) {
+                throw error;
+            }
+            retries++;
+            if (retries >= maxRetries) {
+                console.error(`Scan ${scanId} not found after ${maxRetries} attempts`);
+                throw error;
+            }
+
+            const delay = baseDelay * retries + Math.random() * 500;
+            console.info(
+                `Scan not yet available, retrying in ${(delay / 1000).toFixed(1)}s (attempt ${
+                    retries + 1
+                }/${maxRetries})`,
+            );
+            await sleep(delay);
         }
-
-        const delay = baseDelay * retries + Math.random() * 500;
-        console.info(
-          `Scan not yet available, retrying in ${(delay / 1000).toFixed(1)}s (attempt ${
-            retries + 1
-          }/${maxRetries})`,
-        );
-        await sleep(delay);
-      } else {
-        throw error;
-      }
     }
-  }
 
-  // Should never reach here due to throw above, but satisfy TypeScript
-  throw new Error(`Scan ${scanId} not found after ${maxRetries} attempts`);
+    // Should never reach here due to throw above, but satisfy TypeScript
+    throw new Error(`Scan ${scanId} not found after ${maxRetries} attempts`);
 }
 
 /**
@@ -129,38 +145,32 @@ export async function getScanResults(client: HiddenLayer, scanId: string): Promi
  *
  * Handles initial 404 errors when scan is not immediately available.
  */
-export async function waitForScanResults(client: HiddenLayer, scanId: string): Promise<ScanReport> {
-  const baseDelay = 100; // milliseconds
-  let retries = 0;
-  let summary: ScanReportSummary | null = null;
+export async function waitForScanResults(client: HiddenLayerClient, scanId: string): Promise<ScanReport> {
+    const baseDelay = 100; // milliseconds
+    let retries = 0;
 
-  while (true) {
-    try {
-      summary = await client.scans.results.retrieveSummary(scanId);
-      // If we got here, scan exists - check if it's done
-      if (
-        summary.status === ScanStatus.DONE ||
-        summary.status === ScanStatus.FAILED ||
-        summary.status === ScanStatus.CANCELED
-      ) {
-        break;
-      }
-      console.info(`scan status: ${summary.status}`);
-    } catch (error) {
-      if (error instanceof APIError && error.status === 404) {
-        // Scan not found yet, treat it like any other retry condition
-        console.info('scan not found yet, retrying...');
-      } else {
-        throw error;
-      }
+    while (true) {
+        try {
+            const summary = await client.scans.results.retrieveSummary({ scan_id: scanId });
+            if (
+                summary.status === ScanStatus.DONE ||
+                summary.status === ScanStatus.FAILED ||
+                summary.status === ScanStatus.CANCELED
+            ) {
+                const fileResults = await collectFileResults(client, scanId);
+                return buildScanReport(summary, fileResults);
+            }
+            console.info(`scan status: ${summary.status}`);
+        } catch (error) {
+            if (!isNotFound(error)) {
+                throw error;
+            }
+            console.info("scan not found yet, retrying...");
+        }
+
+        retries++;
+        let delay = baseDelay * 2 ** retries + Math.random() * 1000; // exponential back off retry
+        delay = Math.min(delay, 30000); // cap at 30 seconds
+        await sleep(delay);
     }
-
-    retries++;
-    let delay = baseDelay * Math.pow(2, retries) + Math.random() * 1000; // exponential back off retry
-    delay = Math.min(delay, 30000); // cap at 30 seconds
-    await sleep(delay);
-  }
-
-  const fileResults = await collectFileResults(client, scanId);
-  return buildScanReport(summary!, fileResults);
 }

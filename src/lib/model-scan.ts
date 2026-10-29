@@ -1,100 +1,120 @@
 /**
- * Model scanning functionality for Hidden Layer SDK.
+ * The model scanner: uploads local files and folders, and models fetched from S3, Azure Blob Storage and
+ * Hugging Face, to the scan upload API, then waits for or reads the scan report.
  *
- * This module provides the model scanning methods that were available in the old SDK,
- * including scanFile and scanFolder methods with multipart upload functionality.
+ * The storage SDKs are optional peer dependencies imported by the scan that needs one, so importing the
+ * package works without them. The exported types describe only what the scans call on those SDKs' objects,
+ * so the package's declarations type-check without them too.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
-import { PathValidator } from '../internal/utils/path-validator';
-import { minimatch } from 'minimatch';
-import type { HiddenLayer } from '../client';
-import type { ScanReport } from '../resources/scans/results';
-import { getScanResults, waitForScanResults } from './scan-utils';
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
-import { BlobServiceClient } from '@azure/storage-blob';
-import { listFiles, downloadFile } from '@huggingface/hub';
+import type { GetObjectCommandOutput } from "@aws-sdk/client-s3";
+import type { newPipeline } from "@azure/storage-blob";
+import type { downloadFile, listFiles } from "@huggingface/hub";
+import * as fs from "fs";
+import { minimatch } from "minimatch";
+import * as path from "path";
+import type * as HiddenLayerApi from "../api/index.js";
+import type { HiddenLayerClient } from "../Client.js";
+import { PathValidator } from "../internal/utils/path-validator.js";
+import { getScanResults, type ScanReport, waitForScanResults } from "./scan-utils.js";
 
-// Exclude patterns
-const EXCLUDE_FILE_TYPES = [
-  '*.txt',
-  '*.md',
-  '*.lock',
-  '.gitattributes',
-  '.git',
-  '.git/*',
-  '*/.git',
-  '**/.git/**',
-];
+const EXCLUDE_FILE_TYPES = ["*.txt", "*.md", "*.lock", ".gitattributes", ".git", ".git/*", "*/.git", "**/.git/**"];
 
-type HubListFilesParams = {
-  repo: string;
-  recursive?: boolean;
-  revision?: string;
-  accessToken?: string;
-};
+type HubListFilesParams = Parameters<typeof listFiles>[0];
+type HubDownloadFileParams = Parameters<typeof downloadFile>[0];
+type StorageBlobCredential = Parameters<typeof newPipeline>[0];
 
-type HubDownloadFileParams = {
-  repo: string;
-  path: string;
-  revision?: string;
-  accessToken?: string;
-};
+/** The part of an `S3Client` from `@aws-sdk/client-s3` that `scanS3Model` calls. */
+export interface S3ClientLike {
+    send(command: object): Promise<object>;
+}
+
+/** The part of a `BlobServiceClient` from `@azure/storage-blob` that `scanAzureBlobModel` calls. */
+export interface BlobServiceClientLike {
+    getContainerClient(containerName: string): {
+        getBlobClient(blobName: string): { downloadToFile(filePath: string): Promise<unknown> };
+    };
+}
+
+/**
+ * The credential `new BlobServiceClient(accountUrl, credential)` takes: a `TokenCredential`, such as `DefaultAzureCredential`
+ * from `@azure/identity`, or a `StorageSharedKeyCredential` or `AnonymousCredential`. Omit it when `accountUrl` carries a
+ * SAS token.
+ */
+export type AzureBlobCredential =
+    | {
+          getToken(
+              scopes: string | string[],
+              options?: object,
+          ): Promise<{ token: string; expiresOnTimestamp: number } | null>;
+      }
+    | { create(nextPolicy: object, options: object): object };
+
+async function importPeer<T>(name: string, load: () => Promise<T>): Promise<T> {
+    try {
+        return await load();
+    } catch (error) {
+        throw new Error(`This scan needs ${name}: install it beside @hiddenlayerai/hiddenlayer-sdk. ${errorMessage(error)}`);
+    }
+}
 
 export interface ScanFileOptions {
-  modelName: string;
-  modelPath: string;
-  modelVersion?: string;
-  waitForResults?: boolean;
-  requestSource?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
-  origin?: string;
+    modelName: string;
+    modelPath: string;
+    modelVersion?: string;
+    waitForResults?: boolean;
+    requestSource?: HiddenLayerApi.ScanJobRequestSource;
+    origin?: string;
 }
 
 export interface ScanFolderOptions {
-  modelName: string;
-  path: string;
-  modelVersion?: string;
-  allowFilePatterns?: string[];
-  ignoreFilePatterns?: string[];
-  waitForResults?: boolean;
-  requestSource?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
-  origin?: string;
+    modelName: string;
+    path: string;
+    modelVersion?: string;
+    allowFilePatterns?: string[];
+    ignoreFilePatterns?: string[];
+    waitForResults?: boolean;
+    requestSource?: HiddenLayerApi.ScanJobRequestSource;
+    origin?: string;
 }
 
 export interface ScanS3ModelOptions {
-  modelName: string;
-  bucket: string;
-  key: string;
-  modelVersion?: string;
-  s3Client?: S3Client;
-  waitForResults?: boolean;
-  requestSource?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
+    modelName: string;
+    bucket: string;
+    key: string;
+    modelVersion?: string;
+    s3Client?: S3ClientLike;
+    waitForResults?: boolean;
+    requestSource?: HiddenLayerApi.ScanJobRequestSource;
 }
 
 export interface ScanAzureBlobModelOptions {
-  modelName: string;
-  accountUrl: string;
-  container: string;
-  blob: string;
-  modelVersion?: string;
-  blobServiceClient?: BlobServiceClient;
-  credential?: any;
-  waitForResults?: boolean;
-  requestSource?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
+    modelName: string;
+    accountUrl: string;
+    container: string;
+    blob: string;
+    modelVersion?: string;
+    blobServiceClient?: BlobServiceClientLike;
+    credential?: AzureBlobCredential;
+    waitForResults?: boolean;
+    requestSource?: HiddenLayerApi.ScanJobRequestSource;
 }
 
 export interface ScanHuggingFaceModelOptions {
-  repoId: string;
-  modelName?: string;
-  revision?: string;
-  localDir?: string;
-  allowFilePatterns?: string[];
-  ignoreFilePatterns?: string[];
-  forceDownload?: boolean;
-  hfToken?: string | boolean;
-  waitForResults?: boolean;
-  requestSource?: 'Hybrid Upload' | 'API Upload' | 'Integration' | 'UI Upload';
+    repoId: string;
+    modelName?: string;
+    revision?: string;
+    localDir?: string;
+    allowFilePatterns?: string[];
+    ignoreFilePatterns?: string[];
+    forceDownload?: boolean;
+    hfToken?: string | boolean;
+    waitForResults?: boolean;
+    requestSource?: HiddenLayerApi.ScanJobRequestSource;
+}
+
+function matchesAny(basename: string, patterns: string[] | undefined): boolean {
+    return (patterns ?? []).some((pattern) => minimatch(basename, pattern));
 }
 
 /**
@@ -108,65 +128,43 @@ export interface ScanHuggingFaceModelOptions {
  * @returns Filtered list of paths
  */
 function* filterPathObjects(
-  items: Iterable<string>,
-  allowPatterns?: string[],
-  ignorePatterns?: string[],
+    items: Iterable<string>,
+    allowPatterns?: string[],
+    ignorePatterns?: string[],
 ): Generator<string> {
-  for (const item of items) {
-    const stats = fs.statSync(item);
-    if (stats.isDirectory()) {
-      continue;
+    for (const item of items) {
+        if (fs.statSync(item).isDirectory()) {
+            continue;
+        }
+        const basename = path.basename(item);
+        if (allowPatterns && allowPatterns.length > 0 && !matchesAny(basename, allowPatterns)) {
+            continue;
+        }
+        if (matchesAny(basename, ignorePatterns)) {
+            continue;
+        }
+        yield item;
     }
-
-    // Get the basename for pattern matching
-    const basename = path.basename(item);
-
-    // Skip if there's an allowlist and path doesn't match any
-    if (allowPatterns && allowPatterns.length > 0) {
-      if (!allowPatterns.some((pattern) => minimatch(basename, pattern))) {
-        continue;
-      }
-    }
-
-    // Skip if there's a denylist and path matches any
-    if (ignorePatterns && ignorePatterns.length > 0) {
-      if (ignorePatterns.some((pattern) => minimatch(basename, pattern))) {
-        continue;
-      }
-    }
-
-    yield item;
-  }
 }
 
 /**
  * Recursively get all files in a directory.
  */
 function* getAllFiles(dir: string, excludePatterns: string[] = []): Generator<string> {
-  const files = fs.readdirSync(dir, { withFileTypes: true });
-
-  for (const file of files) {
-    const filePath = path.join(dir, file.name);
-
-    if (file.isDirectory()) {
-      // Check if directory should be excluded
-      const shouldExclude = excludePatterns.some((pattern) => {
-        // Check against directory name
-        if (minimatch(file.name, pattern)) return true;
-        // Check against full path for patterns like **/.git/**
-        if (minimatch(filePath, pattern)) return true;
-        // Check if path contains .git directory
-        if (filePath.includes('/.git/') || filePath.endsWith('/.git')) return true;
-        return false;
-      });
-
-      if (!shouldExclude) {
-        yield* getAllFiles(filePath, excludePatterns);
-      }
-    } else {
-      yield filePath;
+    for (const file of fs.readdirSync(dir, { withFileTypes: true })) {
+        const filePath = path.join(dir, file.name);
+        if (!file.isDirectory()) {
+            yield filePath;
+            continue;
+        }
+        const shouldExclude =
+            filePath.includes("/.git/") ||
+            filePath.endsWith("/.git") ||
+            excludePatterns.some((pattern) => minimatch(file.name, pattern) || minimatch(filePath, pattern));
+        if (!shouldExclude) {
+            yield* getAllFiles(filePath, excludePatterns);
+        }
     }
-  }
 }
 
 /**
@@ -176,393 +174,353 @@ function* getAllFiles(dir: string, excludePatterns: string[] = []): Generator<st
  * ModelScanAPI, including multipart upload functionality for files and folders.
  */
 export class ModelScanner {
-  private readonly client: HiddenLayer;
+    private readonly client: HiddenLayerClient;
 
-  constructor(client: HiddenLayer) {
-    this.client = client;
-  }
-
-  /**
-   * Scan a local model file using the HiddenLayer Model Scanner.
-   *
-   * @param options - The scan options
-   * @returns Scan Results
-   */
-  async scanFile(options: ScanFileOptions): Promise<ScanReport> {
-    const {
-      modelName,
-      modelPath,
-      modelVersion = '1',
-      waitForResults = true,
-      requestSource = 'API Upload',
-      origin = '',
-    } = options;
-
-    // Start the upload
-    const uploadResponse = await this.client.scans.upload.start({
-      model_name: modelName,
-      model_version: modelVersion,
-      requesting_entity: 'hiddenlayer-typescript-sdk',
-      request_source: requestSource,
-      origin: origin,
-    });
-
-    const scanId = uploadResponse.scan_id;
-    if (!scanId) {
-      throw new Error('scan_id must have a value');
+    constructor(client: HiddenLayerClient) {
+        this.client = client;
     }
 
-    // Upload the file
-    await this.scanFileInternal(scanId, modelPath);
+    /**
+     * Scan a local model file using the HiddenLayer Model Scanner.
+     *
+     * @param options - The scan options
+     * @returns Scan Results
+     */
+    async scanFile(options: ScanFileOptions): Promise<ScanReport> {
+        const {
+            modelName,
+            modelPath,
+            modelVersion = "1",
+            waitForResults = true,
+            requestSource = "API Upload",
+            origin = "",
+        } = options;
 
-    // Complete the upload
-    await this.client.scans.upload.completeAll(scanId);
-
-    if (waitForResults) {
-      return await waitForScanResults(this.client, scanId);
-    } else {
-      return await getScanResults(this.client, scanId);
-    }
-  }
-
-  /**
-   * Submits all files in a directory and its sub directories to be scanned.
-   *
-   * @param options - The scan options
-   * @returns Scan Results
-   */
-  async scanFolder(options: ScanFolderOptions): Promise<ScanReport> {
-    const {
-      modelName,
-      path: folderPath,
-      modelVersion = '1',
-      allowFilePatterns,
-      ignoreFilePatterns,
-      waitForResults = true,
-      requestSource = 'API Upload',
-      origin = '',
-    } = options;
-
-    // Start the upload
-    const uploadResponse = await this.client.scans.upload.start({
-      model_name: modelName,
-      model_version: modelVersion,
-      requesting_entity: 'hiddenlayer-typescript-sdk',
-      request_source: requestSource,
-      origin: origin,
-    });
-
-    const scanId = uploadResponse.scan_id;
-    if (!scanId) {
-      throw new Error('scan_id must have a value');
+        const scanId = await this.startUpload(modelName, modelVersion, requestSource, origin);
+        await this.scanFileInternal(scanId, modelPath);
+        return await this.completeUpload(scanId, waitForResults);
     }
 
-    // Prepare file patterns
-    const finalIgnorePatterns =
-      ignoreFilePatterns ? [...EXCLUDE_FILE_TYPES, ...ignoreFilePatterns] : EXCLUDE_FILE_TYPES;
+    /**
+     * Submits all files in a directory and its sub directories to be scanned.
+     *
+     * @param options - The scan options
+     * @returns Scan Results
+     */
+    async scanFolder(options: ScanFolderOptions): Promise<ScanReport> {
+        const {
+            modelName,
+            path: folderPath,
+            modelVersion = "1",
+            allowFilePatterns,
+            ignoreFilePatterns,
+            waitForResults = true,
+            requestSource = "API Upload",
+            origin = "",
+        } = options;
 
-    // Get all files recursively (excluding directories that match patterns)
-    const allFiles = getAllFiles(folderPath, finalIgnorePatterns);
+        const scanId = await this.startUpload(modelName, modelVersion, requestSource, origin);
 
-    // Filter files
-    const files = filterPathObjects(allFiles, allowFilePatterns, finalIgnorePatterns);
-
-    // Upload each file
-    for (const file of files) {
-      await this.scanFileInternal(scanId, file);
-    }
-
-    // Complete the upload
-    await this.client.scans.upload.completeAll(scanId);
-
-    if (waitForResults) {
-      return await waitForScanResults(this.client, scanId);
-    } else {
-      return await getScanResults(this.client, scanId);
-    }
-  }
-
-  /**
-   * Scan a model file on S3.
-   *
-   * @param options - The scan options
-   * @returns Scan Results
-   *
-   * @example
-   * ```ts
-   * await client.modelScanner.scanS3Model({
-   *   modelName: 'your-model-name',
-   *   bucket: 's3_bucket',
-   *   key: 'path/to/file'
-   * });
-   * ```
-   */
-  async scanS3Model(options: ScanS3ModelOptions): Promise<ScanReport> {
-    const {
-      modelName,
-      bucket,
-      key,
-      modelVersion = '1',
-      s3Client,
-      waitForResults = true,
-      requestSource = 'API Upload',
-    } = options;
-
-    const client: S3Client = s3Client || new S3Client();
-    const tempPath = PathValidator.createSafeTempPath(key);
-
-    try {
-      // Download file from S3
-      const response = await client.send(
-        new GetObjectCommand({
-          Bucket: bucket,
-          Key: key,
-        }),
-      );
-
-      // Save to temp file
-      const stream = response.Body as any;
-      if (!stream) {
-        throw new Error('No response body from S3');
-      }
-
-      const writeStream = fs.createWriteStream(tempPath);
-
-      await new Promise((resolve, reject) => {
-        stream.pipe(writeStream).on('finish', resolve).on('error', reject);
-      });
-
-      return await this.scanFile({
-        modelPath: tempPath,
-        modelName,
-        modelVersion,
-        waitForResults,
-        requestSource,
-        origin: 'S3',
-      });
-    } catch (e: any) {
-      throw new Error(`Couldn't download model s3://${bucket}/${key}: ${e.message}`);
-    } finally {
-      this.cleanupTempFile(tempPath);
-    }
-  }
-
-  /**
-   * Scan a model file on Azure Blob Storage.
-   *
-   * @param options - The scan options
-   * @returns Scan Results
-   *
-   * @example
-   * ```ts
-   * await client.modelScanner.scanAzureBlobModel({
-   *   modelName: 'your-model-name',
-   *   accountUrl: 'https://<storageaccountname>.blob.core.windows.net',
-   *   container: 'container_name',
-   *   blob: 'path/to/file.bin',
-   *   credential: '?<sas_key>', // If using a SAS key and not DefaultCredentials
-   * });
-   * ```
-   */
-  async scanAzureBlobModel(options: ScanAzureBlobModelOptions): Promise<ScanReport> {
-    const {
-      modelName,
-      accountUrl,
-      container,
-      blob,
-      modelVersion = '1',
-      blobServiceClient,
-      credential,
-      waitForResults = true,
-      requestSource = 'API Upload',
-    } = options;
-
-    const client: BlobServiceClient = blobServiceClient || new BlobServiceClient(accountUrl, credential);
-
-    const tempPath = PathValidator.createSafeTempPath(blob);
-
-    const containerClient = client.getContainerClient(container);
-    const blobClient = containerClient.getBlobClient(blob);
-
-    try {
-      await blobClient.downloadToFile(tempPath);
-
-      return await this.scanFile({
-        modelPath: tempPath,
-        modelName,
-        modelVersion,
-        waitForResults,
-        requestSource,
-        origin: 'Azure Blob Storage',
-      });
-    } catch (e: any) {
-      throw new Error(`Couldn't download model ${accountUrl}, ${container}, ${blob}: ${e.message}`);
-    } finally {
-      this.cleanupTempFile(tempPath);
-    }
-  }
-
-  /**
-   * Scans a model on HuggingFace.
-   *
-   * Note: Requires the `@huggingface/hub` package to be installed.
-   *
-   * @param options - The scan options
-   * @returns Scan Results
-   */
-  async scanHuggingFaceModel(options: ScanHuggingFaceModelOptions): Promise<ScanReport> {
-    const {
-      repoId,
-      modelName,
-      revision,
-      localDir,
-      allowFilePatterns,
-      ignoreFilePatterns,
-      forceDownload = false,
-      hfToken,
-      waitForResults = true,
-      requestSource = 'API Upload',
-    } = options;
-
-    const createdTempDir = !localDir;
-    const finalLocalDir = createdTempDir ? PathValidator.createSafeTempDir(repoId) : (localDir as string);
-    const finalIgnorePatterns =
-      ignoreFilePatterns ? [...EXCLUDE_FILE_TYPES, ...ignoreFilePatterns] : EXCLUDE_FILE_TYPES;
-
-    // Ensure base directory exists
-    await fs.promises.mkdir(finalLocalDir, { recursive: true });
-
-    // Download files from the repo into finalLocalDir based on patterns
-    const listParams: HubListFilesParams = { repo: repoId, recursive: true };
-    if (revision) listParams.revision = revision;
-    if (typeof hfToken === 'string' && hfToken) listParams.accessToken = hfToken;
-
-    for await (const entry of listFiles(listParams)) {
-      if (entry.type !== 'file') continue;
-      const basename = path.basename(entry.path);
-      if (allowFilePatterns && allowFilePatterns.length > 0) {
-        if (!allowFilePatterns.some((pattern) => minimatch(basename, pattern))) {
-          continue;
-        }
-      }
-      if (finalIgnorePatterns && finalIgnorePatterns.length > 0) {
-        if (finalIgnorePatterns.some((pattern) => minimatch(basename, pattern))) {
-          continue;
-        }
-      }
-
-      const dlParams: HubDownloadFileParams = { repo: repoId, path: entry.path };
-      if (revision) dlParams.revision = revision;
-      if (typeof hfToken === 'string' && hfToken) dlParams.accessToken = hfToken;
-      const res = await downloadFile(dlParams);
-      if (!res) continue;
-      const buf = Buffer.from(await (res as any).arrayBuffer());
-      const outPath = path.join(finalLocalDir, entry.path);
-      await fs.promises.mkdir(path.dirname(outPath), { recursive: true });
-      await fs.promises.writeFile(outPath, buf);
-    }
-
-    const downloadedPath = finalLocalDir;
-
-    try {
-      return await this.scanFolder({
-        modelName: modelName || repoId,
-        modelVersion: revision || '1',
-        path: downloadedPath,
-        ...(allowFilePatterns ? { allowFilePatterns } : {}),
-        ...(ignoreFilePatterns ? { ignoreFilePatterns } : {}),
-        waitForResults,
-        requestSource,
-        origin: 'Hugging Face',
-      });
-    } finally {
-      if (createdTempDir) {
-        this.cleanupTempDir(downloadedPath);
-      }
-    }
-  }
-
-  /**
-   * Upload a single file using multipart upload.
-   */
-  private async scanFileInternal(scanId: string, filePath: string): Promise<void> {
-    const stats = fs.statSync(filePath);
-    const filesize = stats.size;
-
-    // Initiate multipart upload for this file
-    const baseFileName = path.basename(filePath);
-    const sanitizedFileName = baseFileName.replace(/[^A-Za-z0-9._-]/g, '_').slice(0, 255) || 'file';
-    const upload = await this.client.scans.upload.file.add(scanId, {
-      'file-name': sanitizedFileName,
-      'file-content-length': filesize,
-    });
-
-    // Upload each part
-    const fileHandle = await fs.promises.open(filePath, 'r');
-    try {
-      for (const part of upload.parts) {
-        if (part.start_offset === null || part.start_offset === undefined) {
-          throw new Error('part must have a start_offset');
+        const finalIgnorePatterns = ignoreFilePatterns
+            ? [...EXCLUDE_FILE_TYPES, ...ignoreFilePatterns]
+            : EXCLUDE_FILE_TYPES;
+        const files = filterPathObjects(
+            getAllFiles(folderPath, finalIgnorePatterns),
+            allowFilePatterns,
+            finalIgnorePatterns,
+        );
+        for (const file of files) {
+            await this.scanFileInternal(scanId, file);
         }
 
-        const readAmount =
-          part.end_offset !== null && part.end_offset !== undefined ?
-            part.end_offset - part.start_offset
-          : undefined;
+        return await this.completeUpload(scanId, waitForResults);
+    }
 
-        // Read the part data
-        const buffer = Buffer.alloc(readAmount || filesize - part.start_offset);
-        const { bytesRead } = await fileHandle.read(buffer, 0, buffer.length, part.start_offset);
-        const partData = buffer.subarray(0, bytesRead);
+    /**
+     * Scan a model file on S3.
+     *
+     * @param options - The scan options
+     * @returns Scan Results
+     *
+     * @example
+     * ```ts
+     * await client.modelScanner.scanS3Model({
+     *   modelName: 'your-model-name',
+     *   bucket: 's3_bucket',
+     *   key: 'path/to/file'
+     * });
+     * ```
+     */
+    async scanS3Model(options: ScanS3ModelOptions): Promise<ScanReport> {
+        const {
+            modelName,
+            bucket,
+            key,
+            modelVersion = "1",
+            s3Client,
+            waitForResults = true,
+            requestSource = "API Upload",
+        } = options;
 
-        // Upload this part directly to the presigned URL
-        if (!part.upload_url) {
-          throw new Error('part.upload_url must not be null');
+        const s3 = await importPeer("@aws-sdk/client-s3", () => import("@aws-sdk/client-s3"));
+        const client: S3ClientLike = s3Client ?? new s3.S3Client();
+        const tempPath = PathValidator.createSafeTempPath(key);
+
+        try {
+            // A GetObjectCommand resolves to its output; S3ClientLike can't say so without the SDK's types.
+            const response = (await client.send(
+                new s3.GetObjectCommand({ Bucket: bucket, Key: key }),
+            )) as GetObjectCommandOutput;
+            if (!response.Body) {
+                throw new Error("No response body from S3");
+            }
+            // In Node the body is a Readable; the SDK types it as a union with the browser stream types.
+            const stream = response.Body as NodeJS.ReadableStream;
+            const writeStream = fs.createWriteStream(tempPath);
+            await new Promise<void>((resolve, reject) => {
+                // pipe() doesn't forward the source's errors, so a failed download would otherwise never settle.
+                stream.on("error", reject);
+                stream.pipe(writeStream).on("finish", () => resolve()).on("error", reject);
+            });
+
+            return await this.scanFile({
+                modelPath: tempPath,
+                modelName,
+                modelVersion,
+                waitForResults,
+                requestSource,
+                origin: "S3",
+            });
+        } catch (e) {
+            throw new Error(`Couldn't download model s3://${bucket}/${key}: ${errorMessage(e)}`);
+        } finally {
+            cleanupTempFile(tempPath);
         }
+    }
 
-        const response = await fetch(part.upload_url, {
-          method: 'PUT',
-          body: partData,
-          headers: {
-            'Content-Type': 'application/octet-stream',
-          },
+    /**
+     * Scan a model file on Azure Blob Storage.
+     *
+     * @param options - The scan options
+     * @returns Scan Results
+     *
+     * @example
+     * ```ts
+     * await client.modelScanner.scanAzureBlobModel({
+     *   modelName: 'your-model-name',
+     *   accountUrl: 'https://<storageaccountname>.blob.core.windows.net',
+     *   container: 'container_name',
+     *   blob: 'path/to/file.bin',
+     *   credential: new DefaultAzureCredential(), // or put a SAS token in accountUrl and omit it
+     * });
+     * ```
+     */
+    async scanAzureBlobModel(options: ScanAzureBlobModelOptions): Promise<ScanReport> {
+        const {
+            modelName,
+            accountUrl,
+            container,
+            blob,
+            modelVersion = "1",
+            blobServiceClient,
+            credential,
+            waitForResults = true,
+            requestSource = "API Upload",
+        } = options;
+
+        let client: BlobServiceClientLike | undefined = blobServiceClient;
+        if (client === undefined) {
+            const azure = await importPeer("@azure/storage-blob", () => import("@azure/storage-blob"));
+            // AzureBlobCredential matches the SDK's credential classes by shape, so it's wider than they are.
+            client = new azure.BlobServiceClient(accountUrl, credential as StorageBlobCredential);
+        }
+        const tempPath = PathValidator.createSafeTempPath(blob);
+        const blobClient = client.getContainerClient(container).getBlobClient(blob);
+
+        try {
+            await blobClient.downloadToFile(tempPath);
+
+            return await this.scanFile({
+                modelPath: tempPath,
+                modelName,
+                modelVersion,
+                waitForResults,
+                requestSource,
+                origin: "Azure Blob Storage",
+            });
+        } catch (e) {
+            throw new Error(`Couldn't download model ${accountUrl}, ${container}, ${blob}: ${errorMessage(e)}`);
+        } finally {
+            cleanupTempFile(tempPath);
+        }
+    }
+
+    /**
+     * Scans a model on HuggingFace.
+     *
+     * Note: Requires the `@huggingface/hub` package to be installed.
+     *
+     * @param options - The scan options
+     * @returns Scan Results
+     */
+    async scanHuggingFaceModel(options: ScanHuggingFaceModelOptions): Promise<ScanReport> {
+        const {
+            repoId,
+            modelName,
+            revision,
+            localDir,
+            allowFilePatterns,
+            ignoreFilePatterns,
+            hfToken,
+            waitForResults = true,
+            requestSource = "API Upload",
+        } = options;
+
+        // Before the temp dir, so a missing @huggingface/hub leaves nothing behind.
+        const hub = await importPeer("@huggingface/hub", () => import("@huggingface/hub"));
+        const isTempDir = !localDir;
+        const finalLocalDir = localDir ?? PathValidator.createSafeTempDir(repoId);
+        const finalIgnorePatterns = ignoreFilePatterns
+            ? [...EXCLUDE_FILE_TYPES, ...ignoreFilePatterns]
+            : EXCLUDE_FILE_TYPES;
+        const accessToken = typeof hfToken === "string" && hfToken ? hfToken : undefined;
+        await fs.promises.mkdir(finalLocalDir, { recursive: true });
+
+        try {
+            const listParams: HubListFilesParams = { repo: repoId, recursive: true };
+            if (revision) listParams.revision = revision;
+            if (accessToken) listParams.accessToken = accessToken;
+
+            for await (const entry of hub.listFiles(listParams)) {
+                if (entry.type !== "file") continue;
+                const basename = path.basename(entry.path);
+                if (allowFilePatterns && allowFilePatterns.length > 0 && !matchesAny(basename, allowFilePatterns)) {
+                    continue;
+                }
+                if (matchesAny(basename, finalIgnorePatterns)) {
+                    continue;
+                }
+
+                const dlParams: HubDownloadFileParams = { repo: repoId, path: entry.path };
+                if (revision) dlParams.revision = revision;
+                if (accessToken) dlParams.accessToken = accessToken;
+                const res = await hub.downloadFile(dlParams);
+                if (!res) continue;
+                const outPath = PathValidator.validateFilePath(entry.path, finalLocalDir);
+                await fs.promises.mkdir(path.dirname(outPath), { recursive: true });
+                await fs.promises.writeFile(outPath, Buffer.from(await res.arrayBuffer()));
+            }
+
+            return await this.scanFolder({
+                modelName: modelName || repoId,
+                modelVersion: revision || "1",
+                path: finalLocalDir,
+                ...(allowFilePatterns ? { allowFilePatterns } : {}),
+                ...(ignoreFilePatterns ? { ignoreFilePatterns } : {}),
+                waitForResults,
+                requestSource,
+                origin: "Hugging Face",
+            });
+        } finally {
+            if (isTempDir) {
+                cleanupTempDir(finalLocalDir);
+            }
+        }
+    }
+
+    private async startUpload(
+        modelName: string,
+        modelVersion: string,
+        requestSource: HiddenLayerApi.ScanJobRequestSource,
+        origin: string,
+    ): Promise<string> {
+        const { scan_id: scanId } = await this.client.scans.upload.start({
+            model_name: modelName,
+            model_version: modelVersion,
+            requesting_entity: "hiddenlayer-typescript-sdk",
+            request_source: requestSource,
+            origin: origin,
+        });
+        if (!scanId) {
+            throw new Error("scan_id must have a value");
+        }
+        return scanId;
+    }
+
+    private async completeUpload(scanId: string, waitForResults: boolean): Promise<ScanReport> {
+        await this.client.scans.upload.completeAll({ scan_id: scanId });
+        if (waitForResults) {
+            return await waitForScanResults(this.client, scanId);
+        }
+        return await getScanResults(this.client, scanId);
+    }
+
+    /**
+     * Upload a single file using multipart upload.
+     */
+    private async scanFileInternal(scanId: string, filePath: string): Promise<void> {
+        const filesize = fs.statSync(filePath).size;
+
+        const baseFileName = path.basename(filePath);
+        const sanitizedFileName = baseFileName.replace(/[^A-Za-z0-9._-]/g, "_").slice(0, 255) || "file";
+        const upload = await this.client.scans.upload.file.add({
+            scan_id: scanId,
+            "file-name": sanitizedFileName,
+            "file-content-length": filesize,
         });
 
-        if (!response.ok) {
-          throw new Error(`Failed to upload part: ${response.statusText}`);
+        const fileHandle = await fs.promises.open(filePath, "r");
+        try {
+            for (const part of upload.parts) {
+                if (part.start_offset == null) {
+                    throw new Error("part must have a start_offset");
+                }
+                if (!part.upload_url) {
+                    throw new Error("part.upload_url must not be null");
+                }
+
+                const span = part.end_offset != null ? part.end_offset - part.start_offset : 0;
+                const buffer = Buffer.alloc(span || filesize - part.start_offset);
+                const { bytesRead } = await fileHandle.read(buffer, 0, buffer.length, part.start_offset);
+
+                // Presigned storage URL: uploaded with plain fetch, never through the API client.
+                const response = await fetch(part.upload_url, {
+                    method: "PUT",
+                    body: buffer.subarray(0, bytesRead),
+                    headers: { "Content-Type": "application/octet-stream" },
+                });
+                if (!response.ok) {
+                    throw new Error(`Failed to upload part: ${response.statusText}`);
+                }
+            }
+        } finally {
+            await fileHandle.close();
         }
-      }
-    } finally {
-      await fileHandle.close();
+
+        await this.client.scans.upload.file.complete({ scan_id: scanId, file_id: upload.upload_id });
     }
+}
 
-    // Complete the file upload
-    await this.client.scans.upload.file.complete(upload.upload_id, { scan_id: scanId });
-  }
+function errorMessage(error: unknown): string {
+    return error instanceof Error ? error.message : String(error);
+}
 
-  private cleanupTempFile(filePath: string): void {
+function cleanupTempFile(filePath: string): void {
     try {
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    } catch {
-      // Best-effort cleanup; ignore errors
-    }
-  }
-
-  private cleanupTempDir(dirPath: string): void {
-    try {
-      if (fs.existsSync(dirPath)) {
-        // Node 14+ supports rmSync; recursive directory cleanup
-        const hasRmSync = (fs as any).rmSync;
-        if (hasRmSync) {
-          (fs as any).rmSync(dirPath, { recursive: true, force: true });
-        } else {
-          fs.rmdirSync(dirPath, { recursive: true });
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
         }
-      }
     } catch {
-      // Best-effort cleanup; ignore errors
+        // Best-effort cleanup; ignore errors
     }
-  }
+}
+
+function cleanupTempDir(dirPath: string): void {
+    try {
+        if (fs.existsSync(dirPath)) {
+            fs.rmSync(dirPath, { recursive: true, force: true });
+        }
+    } catch {
+        // Best-effort cleanup; ignore errors
+    }
 }

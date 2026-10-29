@@ -1,42 +1,9 @@
-// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
-
-export { HiddenLayer as default } from './client';
-
-export { type Uploadable, toFile } from './core/uploads';
-export { APIPromise } from './core/api-promise';
-export { HiddenLayer, type ClientOptions } from './client';
-export { PagePromise } from './core/pagination';
-export {
-  HiddenLayerError,
-  APIError,
-  APIConnectionError,
-  APIConnectionTimeoutError,
-  APIUserAbortError,
-  NotFoundError,
-  ConflictError,
-  RateLimitError,
-  BadRequestError,
-  AuthenticationError,
-  InternalServerError,
-  PermissionDeniedError,
-  UnprocessableEntityError,
-} from './core/error';
-
-// Export custom lib functionality
-export {
-  warnBeta,
-  CommunityScanner,
-  CommunityScanSource,
-  type CommunityScanOptions,
-  type CommunityScanSourceType,
-  ModelScanner,
-  type ScanFileOptions,
-  type ScanFolderOptions,
-  type ScanS3ModelOptions,
-  type ScanAzureBlobModelOptions,
-  type ScanHuggingFaceModelOptions,
-  getScanResults,
-  waitForScanResults,
-  ScanStatus,
-  type ScanStatusType,
-} from './lib/index';
+// Fern's generated index, with the HiddenLayer wrapper and the scan helpers exported beside the generated client.
+export * as HiddenLayerApi from "./api/index.js";
+export type { BaseClientOptions, BaseRequestOptions } from "./BaseClient.js";
+export { HiddenLayerClient } from "./Client.js";
+export { HiddenLayerEnvironment } from "./environments.js";
+export { HiddenLayerError, HiddenLayerTimeoutError } from "./errors/index.js";
+export * from "./exports.js";
+export * from "./lib/index.js";
+export { HiddenLayer, HiddenLayer as default, HiddenLayerEnvironmentName } from "./wrapper/HiddenLayer.js";

@@ -1,10 +1,16 @@
-// Jest mock for @aws-sdk/client-s3 used in tests
+// Stand-in for @aws-sdk/client-s3, installed per test file with vi.mock.
+import { type Mock, vi } from "vitest";
+
 export class S3Client {
-  send = jest.fn(async (_command: any) => ({ Body: { pipe: jest.fn() } }));
+    send: Mock<(command: unknown) => Promise<{ Body: unknown }>> = vi.fn(async (_command: unknown) => ({
+        Body: { on: vi.fn(), pipe: vi.fn() },
+    }));
 }
+
 export class GetObjectCommand {
-  input: any;
-  constructor(input: any) {
-    this.input = input;
-  }
+    readonly input: unknown;
+
+    constructor(input: unknown) {
+        this.input = input;
+    }
 }

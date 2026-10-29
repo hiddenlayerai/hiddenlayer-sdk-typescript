@@ -1,81 +1,94 @@
+# .github/workflows/ci.yml
+#
+# Builds the package and runs its tests on every PR and every push to main:
+# the generated client with Fern's unit and wire tests, and the wrapper with
+# its own (PLT-1429). Fern PRs merge on green, so this is the gate between a
+# generation and main.
+#
+# Invariants:
+#   - Installs are immutable: a PR whose yarn.lock doesn't match package.json
+#     fails here rather than relocking in CI.
+#   - No secret and no write permission: this runs on PRs from anyone.
+#   - test runs on the oldest Node package.json's engines allows, so an API
+#     newer than that fails here. Keep it one job named test: main's ruleset
+#     requires that context, and the hand-off waits for every required one.
+#
+# From hl-sdk-gen's template/; edit it there and copy it into the repo.
+
 name: CI
+
 on:
-  push:
-    branches:
-      - '**'
-      - '!integrated/**'
-      - '!stl-preview-head/**'
-      - '!stl-preview-base/**'
-      - '!generated'
-      - '!codegen/**'
-      - 'codegen/stl/**'
   pull_request:
-    branches-ignore:
-      - 'stl-preview-head/**'
-      - 'stl-preview-base/**'
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
-  lint:
-    timeout-minutes: 10
-    name: lint
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: '24'
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Bootstrap
-        run: ./scripts/bootstrap
-
-      - name: Check types
-        run: ./scripts/lint
-
   build:
-    timeout-minutes: 5
-    name: build
+    # hiddenlayerai has no scale-set runners
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version: '24'
+          persist-credentials: false
 
-      - name: Enable Corepack
-        run: corepack enable
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+          package-manager-cache: false
 
-      - name: Bootstrap
-        run: ./scripts/bootstrap
+      - name: Install dependencies
+        run: |
+          # The package manager comes from package.json's packageManager pin, which Corepack enforces.
+          corepack enable
+          case "$(node -p "(require('./package.json').packageManager ?? '').split('@')[0]")" in
+            pnpm) pnpm install --frozen-lockfile ;;
+            yarn) yarn install --immutable ;;
+            *) echo "::error::package.json pins no packageManager; Fern writes one."; exit 1 ;;
+          esac
 
-      - name: Check build
-        run: ./scripts/build
+      - name: Build
+        run: npm run build
+
+      - name: Check the package's exports
+        run: node scripts/verify-package.mjs
 
   test:
-    timeout-minutes: 10
-    name: test
+    # hiddenlayerai has no scale-set runners
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version: '24'
+          persist-credentials: false
 
-      - name: Enable Corepack
-        run: corepack enable
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+          package-manager-cache: false
 
-      - name: Bootstrap
-        run: ./scripts/bootstrap
+      - name: Install dependencies
+        run: |
+          # The package manager comes from package.json's packageManager pin, which Corepack enforces.
+          corepack enable
+          case "$(node -p "(require('./package.json').packageManager ?? '').split('@')[0]")" in
+            pnpm) pnpm install --frozen-lockfile ;;
+            yarn) yarn install --immutable ;;
+            *) echo "::error::package.json pins no packageManager; Fern writes one."; exit 1 ;;
+          esac
 
-      - name: Run tests
-        run: ./scripts/test
+      - name: Test
+        run: npm exec --no -- vitest run
