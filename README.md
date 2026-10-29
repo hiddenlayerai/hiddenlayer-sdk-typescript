@@ -53,7 +53,7 @@ console.log(report.summary.severity);
 
 `client.modelScanner` also has `scanFolder`, `scanS3Model`, `scanAzureBlobModel` and `scanHuggingFaceModel`; `client.communityScanner.communityScan` scans a model the scanner fetches from a remote location. Each waits for the scan to finish unless you pass `waitForResults: false`.
 
-The S3, Azure Blob Storage and Hugging Face scans use `@aws-sdk/client-s3`, `@azure/storage-blob` and `@huggingface/hub`. They are peer dependencies, loaded only by the scan that needs one: npm installs them with the SDK, and with Yarn or pnpm you install the ones you use.
+The S3, Azure Blob Storage and Hugging Face scans use `@aws-sdk/client-s3`, `@azure/storage-blob` and `@huggingface/hub`. They are optional peer dependencies, so no package manager installs them with the SDK: install the ones for the scans you run, for example `npm install @aws-sdk/client-s3`. Each is loaded only by the scan that needs it, and a scan whose SDK is missing throws an error naming the package.
 
 ## Request and response types
 
@@ -125,7 +125,7 @@ Some HiddenLayer APIs are marked **Beta**: not yet generally available or produc
 
 ## Requirements
 
-Node.js 20 or later, and TypeScript 4.9 or later. The package ships CommonJS and ESM builds.
+Node.js 22 or later, and TypeScript 4.9 or later. The package ships CommonJS and ESM builds.
 
 ## Versioning and changelog
 

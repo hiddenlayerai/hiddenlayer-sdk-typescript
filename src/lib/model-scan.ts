@@ -2,12 +2,13 @@
  * The model scanner: uploads local files and folders, and models fetched from S3, Azure Blob Storage and
  * Hugging Face, to the scan upload API, then waits for or reads the scan report.
  *
- * The storage SDKs are peer dependencies imported by the scan that needs one, so importing the package
- * works without them.
+ * The storage SDKs are optional peer dependencies imported by the scan that needs one, so importing the
+ * package works without them. The exported types describe only what the scans call on those SDKs' objects,
+ * so the package's declarations type-check without them too.
  */
 
-import type { S3Client } from "@aws-sdk/client-s3";
-import type { BlobServiceClient, newPipeline } from "@azure/storage-blob";
+import type { GetObjectCommandOutput } from "@aws-sdk/client-s3";
+import type { newPipeline } from "@azure/storage-blob";
 import type { downloadFile, listFiles } from "@huggingface/hub";
 import * as fs from "fs";
 import { minimatch } from "minimatch";
@@ -21,9 +22,33 @@ const EXCLUDE_FILE_TYPES = ["*.txt", "*.md", "*.lock", ".gitattributes", ".git",
 
 type HubListFilesParams = Parameters<typeof listFiles>[0];
 type HubDownloadFileParams = Parameters<typeof downloadFile>[0];
+type StorageBlobCredential = Parameters<typeof newPipeline>[0];
 
-/** The credential `new BlobServiceClient(accountUrl, credential)` takes; omit it when `accountUrl` carries a SAS token. */
-export type AzureBlobCredential = NonNullable<Parameters<typeof newPipeline>[0]>;
+/** The part of an `S3Client` from `@aws-sdk/client-s3` that `scanS3Model` calls. */
+export interface S3ClientLike {
+    send(command: object): Promise<object>;
+}
+
+/** The part of a `BlobServiceClient` from `@azure/storage-blob` that `scanAzureBlobModel` calls. */
+export interface BlobServiceClientLike {
+    getContainerClient(containerName: string): {
+        getBlobClient(blobName: string): { downloadToFile(filePath: string): Promise<unknown> };
+    };
+}
+
+/**
+ * The credential `new BlobServiceClient(accountUrl, credential)` takes: a `TokenCredential`, such as `DefaultAzureCredential`
+ * from `@azure/identity`, or a `StorageSharedKeyCredential` or `AnonymousCredential`. Omit it when `accountUrl` carries a
+ * SAS token.
+ */
+export type AzureBlobCredential =
+    | {
+          getToken(
+              scopes: string | string[],
+              options?: object,
+          ): Promise<{ token: string; expiresOnTimestamp: number } | null>;
+      }
+    | { create(nextPolicy: object, options: object): object };
 
 async function importPeer<T>(name: string, load: () => Promise<T>): Promise<T> {
     try {
@@ -58,7 +83,7 @@ export interface ScanS3ModelOptions {
     bucket: string;
     key: string;
     modelVersion?: string;
-    s3Client?: S3Client;
+    s3Client?: S3ClientLike;
     waitForResults?: boolean;
     requestSource?: HiddenLayerApi.ScanJobRequestSource;
 }
@@ -69,7 +94,7 @@ export interface ScanAzureBlobModelOptions {
     container: string;
     blob: string;
     modelVersion?: string;
-    blobServiceClient?: BlobServiceClient;
+    blobServiceClient?: BlobServiceClientLike;
     credential?: AzureBlobCredential;
     waitForResults?: boolean;
     requestSource?: HiddenLayerApi.ScanJobRequestSource;
@@ -238,11 +263,14 @@ export class ModelScanner {
         } = options;
 
         const s3 = await importPeer("@aws-sdk/client-s3", () => import("@aws-sdk/client-s3"));
-        const client = s3Client ?? new s3.S3Client();
+        const client: S3ClientLike = s3Client ?? new s3.S3Client();
         const tempPath = PathValidator.createSafeTempPath(key);
 
         try {
-            const response = await client.send(new s3.GetObjectCommand({ Bucket: bucket, Key: key }));
+            // A GetObjectCommand resolves to its output; S3ClientLike can't say so without the SDK's types.
+            const response = (await client.send(
+                new s3.GetObjectCommand({ Bucket: bucket, Key: key }),
+            )) as GetObjectCommandOutput;
             if (!response.Body) {
                 throw new Error("No response body from S3");
             }
@@ -300,10 +328,11 @@ export class ModelScanner {
             requestSource = "API Upload",
         } = options;
 
-        let client = blobServiceClient;
+        let client: BlobServiceClientLike | undefined = blobServiceClient;
         if (client === undefined) {
             const azure = await importPeer("@azure/storage-blob", () => import("@azure/storage-blob"));
-            client = new azure.BlobServiceClient(accountUrl, credential);
+            // AzureBlobCredential matches the SDK's credential classes by shape, so it's wider than they are.
+            client = new azure.BlobServiceClient(accountUrl, credential as StorageBlobCredential);
         }
         const tempPath = PathValidator.createSafeTempPath(blob);
         const blobClient = client.getContainerClient(container).getBlobClient(blob);
@@ -347,14 +376,14 @@ export class ModelScanner {
             requestSource = "API Upload",
         } = options;
 
+        // Before the temp dir, so a missing @huggingface/hub leaves nothing behind.
+        const hub = await importPeer("@huggingface/hub", () => import("@huggingface/hub"));
         const isTempDir = !localDir;
         const finalLocalDir = localDir ?? PathValidator.createSafeTempDir(repoId);
         const finalIgnorePatterns = ignoreFilePatterns
             ? [...EXCLUDE_FILE_TYPES, ...ignoreFilePatterns]
             : EXCLUDE_FILE_TYPES;
         const accessToken = typeof hfToken === "string" && hfToken ? hfToken : undefined;
-
-        const hub = await importPeer("@huggingface/hub", () => import("@huggingface/hub"));
         await fs.promises.mkdir(finalLocalDir, { recursive: true });
 
         try {

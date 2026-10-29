@@ -14,7 +14,9 @@ export {
 } from "./community-scan.js";
 export {
     type AzureBlobCredential,
+    type BlobServiceClientLike,
     ModelScanner,
+    type S3ClientLike,
     type ScanAzureBlobModelOptions,
     type ScanFileOptions,
     type ScanFolderOptions,

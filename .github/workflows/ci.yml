@@ -9,6 +9,9 @@
 #   - Installs are immutable: a PR whose yarn.lock doesn't match package.json
 #     fails here rather than relocking in CI.
 #   - No secret and no write permission: this runs on PRs from anyone.
+#   - test runs on the oldest Node package.json's engines allows, so an API
+#     newer than that fails here. Keep it one job named test: main's ruleset
+#     requires that context, and the hand-off waits for every required one.
 #
 # From hl-sdk-gen's template/; edit it there and copy it into the repo.
 
@@ -74,7 +77,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: "24"
+          node-version: "22"
           package-manager-cache: false
 
       - name: Install dependencies
