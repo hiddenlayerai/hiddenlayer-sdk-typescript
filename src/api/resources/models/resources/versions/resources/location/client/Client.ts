@@ -10,7 +10,7 @@ import * as core from "../../../../../../../../core/index.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace LocationClient {
     export type Options = BaseClientOptions;
@@ -26,10 +26,10 @@ export class LocationClient {
     }
 
     /**
-     * @param {HiddenLayer.models.versions.InternalLocationRequest} request
+     * @param {HiddenLayerApi.models.versions.InternalLocationRequest} request
      * @param {LocationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -39,16 +39,16 @@ export class LocationClient {
      *     })
      */
     public internal(
-        request: HiddenLayer.models.versions.InternalLocationRequest,
+        request: HiddenLayerApi.models.versions.InternalLocationRequest,
         requestOptions?: LocationClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.models.versions.InternalLocationResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.models.versions.InternalLocationResponse> {
         return core.HttpResponsePromise.fromPromise(this.__internal(request, requestOptions));
     }
 
     private async __internal(
-        request: HiddenLayer.models.versions.InternalLocationRequest,
+        request: HiddenLayerApi.models.versions.InternalLocationRequest,
         requestOptions?: LocationClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.models.versions.InternalLocationResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.models.versions.InternalLocationResponse>> {
         const { version_id: versionId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -74,7 +74,7 @@ export class LocationClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.models.versions.InternalLocationResponse,
+                data: _response.body as HiddenLayerApi.models.versions.InternalLocationResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -82,7 +82,7 @@ export class LocationClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

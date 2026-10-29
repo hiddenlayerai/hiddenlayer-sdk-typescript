@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace UsersClient {
     export type Options = BaseClientOptions;
@@ -25,13 +25,13 @@ export class UsersClient {
     /**
      * Returns the list of users belonging to the authenticated user's tenant. Use the `cursor` parameter to navigate through pages of results. Replaces the deprecated `GET /api/v2/users` endpoint.
      *
-     * @param {HiddenLayer.access.ListUsersRequest} request
+     * @param {HiddenLayerApi.access.ListUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -41,13 +41,13 @@ export class UsersClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.access.ListUsersRequest = {},
+        request: HiddenLayerApi.access.ListUsersRequest = {},
         requestOptions?: UsersClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.User, HiddenLayer.access.ListUsersResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.User, HiddenLayerApi.access.ListUsersResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.access.ListUsersRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.access.ListUsersResponse>> => {
+                request: HiddenLayerApi.access.ListUsersRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.access.ListUsersResponse>> => {
                 const { cursor, limit, sort } = request;
                 const _queryParams: Record<string, unknown> = {
                     cursor,
@@ -82,29 +82,29 @@ export class UsersClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.access.ListUsersResponse,
+                        data: _response.body as HiddenLayerApi.access.ListUsersResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 401:
-                            throw new HiddenLayer.UnauthorizedError(
+                            throw new HiddenLayerApi.UnauthorizedError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 500:
-                            throw new HiddenLayer.InternalServerError(
+                            throw new HiddenLayerApi.InternalServerError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -120,7 +120,7 @@ export class UsersClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.User, HiddenLayer.access.ListUsersResponse>({
+        return new core.Page<HiddenLayerApi.User, HiddenLayerApi.access.ListUsersResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>

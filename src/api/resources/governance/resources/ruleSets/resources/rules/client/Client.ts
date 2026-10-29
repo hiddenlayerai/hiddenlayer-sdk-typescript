@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace RulesClient {
     export type Options = BaseClientOptions;
@@ -31,14 +31,14 @@ export class RulesClient {
      * The new rule will be appended to the existing rules in the specified rule set.
      * If the rule set does not exist, a 404 Not Found error is returned.
      *
-     * @param {HiddenLayer.governance.ruleSets.CreateRulesRequest} request
+     * @param {HiddenLayerApi.governance.ruleSets.CreateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -55,16 +55,16 @@ export class RulesClient {
      *     })
      */
     public create(
-        request: HiddenLayer.governance.ruleSets.CreateRulesRequest,
+        request: HiddenLayerApi.governance.ruleSets.CreateRulesRequest,
         requestOptions?: RulesClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.RuleSet> {
+    ): core.HttpResponsePromise<HiddenLayerApi.RuleSet> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.governance.ruleSets.CreateRulesRequest,
+        request: HiddenLayerApi.governance.ruleSets.CreateRulesRequest,
         requestOptions?: RulesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.RuleSet>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.RuleSet>> {
         const { rule_set_id: ruleSetId, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -92,24 +92,27 @@ export class RulesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.RuleSet, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.RuleSet, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -134,14 +137,14 @@ export class RulesClient {
      * Replace an existing rule in a rule set with a new definition. This endpoint allows you to update the compliance criteria and conditions of a rule, preserving
      *  the rule's order in the rule set. If the rule set or the rule does not exist, a 404 Not Found error is returned.
      *
-     * @param {HiddenLayer.governance.ruleSets.UpdateRulesRequest} request
+     * @param {HiddenLayerApi.governance.ruleSets.UpdateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -159,16 +162,16 @@ export class RulesClient {
      *     })
      */
     public update(
-        request: HiddenLayer.governance.ruleSets.UpdateRulesRequest,
+        request: HiddenLayerApi.governance.ruleSets.UpdateRulesRequest,
         requestOptions?: RulesClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.RuleSet> {
+    ): core.HttpResponsePromise<HiddenLayerApi.RuleSet> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.governance.ruleSets.UpdateRulesRequest,
+        request: HiddenLayerApi.governance.ruleSets.UpdateRulesRequest,
         requestOptions?: RulesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.RuleSet>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.RuleSet>> {
         const { rule_set_id: ruleSetId, rule_id: ruleId, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -196,24 +199,27 @@ export class RulesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.RuleSet, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.RuleSet, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -238,13 +244,13 @@ export class RulesClient {
      * Disable a rule in a rule set. This endpoint allows you to remove a rule. It will no longer affect artifact evaluations.
      * If the rule set or the rule does not exist, a 404 Not Found error is returned.
      *
-     * @param {HiddenLayer.governance.ruleSets.DeleteRulesRequest} request
+     * @param {HiddenLayerApi.governance.ruleSets.DeleteRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -255,16 +261,16 @@ export class RulesClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.governance.ruleSets.DeleteRulesRequest,
+        request: HiddenLayerApi.governance.ruleSets.DeleteRulesRequest,
         requestOptions?: RulesClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.RuleSet> {
+    ): core.HttpResponsePromise<HiddenLayerApi.RuleSet> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.governance.ruleSets.DeleteRulesRequest,
+        request: HiddenLayerApi.governance.ruleSets.DeleteRulesRequest,
         requestOptions?: RulesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.RuleSet>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.RuleSet>> {
         const { rule_set_id: ruleSetId, rule_id: ruleId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -289,22 +295,25 @@ export class RulesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.RuleSet, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.RuleSet, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

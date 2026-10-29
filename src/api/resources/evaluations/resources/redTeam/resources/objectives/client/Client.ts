@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace ObjectivesClient {
     export type Options = BaseClientOptions;
@@ -35,13 +35,13 @@ export class ObjectivesClient {
      * `HLO.NN` IDs); subsequent pages contain only the tenant's custom
      * objectives (UUID IDs). The list is cursor-paginated.
      *
-     * @param {HiddenLayer.evaluations.redTeam.ListObjectivesRequest} request
+     * @param {HiddenLayerApi.evaluations.redTeam.ListObjectivesRequest} request
      * @param {ObjectivesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -51,13 +51,13 @@ export class ObjectivesClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.evaluations.redTeam.ListObjectivesRequest = {},
+        request: HiddenLayerApi.evaluations.redTeam.ListObjectivesRequest = {},
         requestOptions?: ObjectivesClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.ApeObjective, HiddenLayer.ObjectivesListResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.ApeObjective, HiddenLayerApi.ObjectivesListResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.evaluations.redTeam.ListObjectivesRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.ObjectivesListResponse>> => {
+                request: HiddenLayerApi.evaluations.redTeam.ListObjectivesRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.ObjectivesListResponse>> => {
                 const { limit, cursor } = request;
                 const _queryParams: Record<string, unknown> = {
                     limit,
@@ -91,29 +91,29 @@ export class ObjectivesClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.ObjectivesListResponse,
+                        data: _response.body as HiddenLayerApi.ObjectivesListResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 401:
-                            throw new HiddenLayer.UnauthorizedError(
+                            throw new HiddenLayerApi.UnauthorizedError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 422:
-                            throw new HiddenLayer.UnprocessableEntityError(
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -134,7 +134,7 @@ export class ObjectivesClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.ApeObjective, HiddenLayer.ObjectivesListResponse>({
+        return new core.Page<HiddenLayerApi.ApeObjective, HiddenLayerApi.ObjectivesListResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -159,14 +159,14 @@ export class ObjectivesClient {
      * a strict character whitelist). A per-tenant cap applies; exceeding it
      * returns 409.
      *
-     * @param {HiddenLayer.evaluations.redTeam.CreateCustomObjectiveRequest} request
+     * @param {HiddenLayerApi.evaluations.redTeam.CreateCustomObjectiveRequest} request
      * @param {ObjectivesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -178,16 +178,16 @@ export class ObjectivesClient {
      *     })
      */
     public create(
-        request: HiddenLayer.evaluations.redTeam.CreateCustomObjectiveRequest,
+        request: HiddenLayerApi.evaluations.redTeam.CreateCustomObjectiveRequest,
         requestOptions?: ObjectivesClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ApeObjective> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ApeObjective> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.evaluations.redTeam.CreateCustomObjectiveRequest,
+        request: HiddenLayerApi.evaluations.redTeam.CreateCustomObjectiveRequest,
         requestOptions?: ObjectivesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ApeObjective>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ApeObjective>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -214,21 +214,21 @@ export class ObjectivesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ApeObjective, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ApeObjective, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -255,13 +255,13 @@ export class ObjectivesClient {
      * Return a single objective by ID. `HLO.NN` IDs return a built-in
      * objective; UUIDs return one of the tenant's custom objectives.
      *
-     * @param {HiddenLayer.evaluations.redTeam.GetObjectivesRequest} request
+     * @param {HiddenLayerApi.evaluations.redTeam.GetObjectivesRequest} request
      * @param {ObjectivesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -271,16 +271,16 @@ export class ObjectivesClient {
      *     })
      */
     public get(
-        request: HiddenLayer.evaluations.redTeam.GetObjectivesRequest,
+        request: HiddenLayerApi.evaluations.redTeam.GetObjectivesRequest,
         requestOptions?: ObjectivesClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ApeObjective> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ApeObjective> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.evaluations.redTeam.GetObjectivesRequest,
+        request: HiddenLayerApi.evaluations.redTeam.GetObjectivesRequest,
         requestOptions?: ObjectivesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ApeObjective>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ApeObjective>> {
         const { objective_id: objectiveId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -305,19 +305,19 @@ export class ObjectivesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ApeObjective, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ApeObjective, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -348,14 +348,14 @@ export class ObjectivesClient {
      * Built-in `HLO.NN` objectives are read-only: a DELETE against one
      * returns 409.
      *
-     * @param {HiddenLayer.evaluations.redTeam.DeleteObjectivesRequest} request
+     * @param {HiddenLayerApi.evaluations.redTeam.DeleteObjectivesRequest} request
      * @param {ObjectivesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -365,14 +365,14 @@ export class ObjectivesClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.evaluations.redTeam.DeleteObjectivesRequest,
+        request: HiddenLayerApi.evaluations.redTeam.DeleteObjectivesRequest,
         requestOptions?: ObjectivesClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.evaluations.redTeam.DeleteObjectivesRequest,
+        request: HiddenLayerApi.evaluations.redTeam.DeleteObjectivesRequest,
         requestOptions?: ObjectivesClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { objective_id: objectiveId } = request;
@@ -405,15 +405,15 @@ export class ObjectivesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -444,15 +444,15 @@ export class ObjectivesClient {
      * 409. Use `severity_mapping` on a config or start request to tune a
      * built-in's effective severity instead.
      *
-     * @param {HiddenLayer.evaluations.redTeam.UpdateCustomObjectiveRequest} request
+     * @param {HiddenLayerApi.evaluations.redTeam.UpdateCustomObjectiveRequest} request
      * @param {ObjectivesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -462,16 +462,16 @@ export class ObjectivesClient {
      *     })
      */
     public update(
-        request: HiddenLayer.evaluations.redTeam.UpdateCustomObjectiveRequest,
+        request: HiddenLayerApi.evaluations.redTeam.UpdateCustomObjectiveRequest,
         requestOptions?: ObjectivesClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ApeObjective> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ApeObjective> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.evaluations.redTeam.UpdateCustomObjectiveRequest,
+        request: HiddenLayerApi.evaluations.redTeam.UpdateCustomObjectiveRequest,
         requestOptions?: ObjectivesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ApeObjective>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ApeObjective>> {
         const { objective_id: objectiveId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -499,23 +499,23 @@ export class ObjectivesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ApeObjective, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ApeObjective, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

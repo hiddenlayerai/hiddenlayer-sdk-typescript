@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace ScansClient {
     export type Options = BaseClientOptions;
@@ -23,12 +23,12 @@ export class ScansClient {
     }
 
     /**
-     * @param {HiddenLayer.supplyChain.GetScansRequest} request
+     * @param {HiddenLayerApi.supplyChain.GetScansRequest} request
      * @param {ScansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnsupportedMediaTypeError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnsupportedMediaTypeError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -38,14 +38,14 @@ export class ScansClient {
      *     })
      */
     public get(
-        request: HiddenLayer.supplyChain.GetScansRequest,
+        request: HiddenLayerApi.supplyChain.GetScansRequest,
         requestOptions?: ScansClient.RequestOptions,
     ): core.HttpResponsePromise<Record<string, unknown> | undefined> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.supplyChain.GetScansRequest,
+        request: HiddenLayerApi.supplyChain.GetScansRequest,
         requestOptions?: ScansClient.RequestOptions,
     ): Promise<core.WithRawResponse<Record<string, unknown> | undefined>> {
         const { scan_id: scanId, Accept: accept } = request;
@@ -79,11 +79,11 @@ export class ScansClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 415:
-                    throw new HiddenLayer.UnsupportedMediaTypeError(
+                    throw new HiddenLayerApi.UnsupportedMediaTypeError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -110,12 +110,12 @@ export class ScansClient {
      * Remediation guidance is generated on-demand with AI assistance and may not be
      * immediately available.
      *
-     * @param {HiddenLayer.supplyChain.GuidanceScansRequest} request
+     * @param {HiddenLayerApi.supplyChain.GuidanceScansRequest} request
      * @param {ScansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -125,16 +125,16 @@ export class ScansClient {
      *     })
      */
     public guidance(
-        request: HiddenLayer.supplyChain.GuidanceScansRequest,
+        request: HiddenLayerApi.supplyChain.GuidanceScansRequest,
         requestOptions?: ScansClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.supplyChain.GuidanceScansResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.supplyChain.GuidanceScansResponse> {
         return core.HttpResponsePromise.fromPromise(this.__guidance(request, requestOptions));
     }
 
     private async __guidance(
-        request: HiddenLayer.supplyChain.GuidanceScansRequest,
+        request: HiddenLayerApi.supplyChain.GuidanceScansRequest,
         requestOptions?: ScansClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.supplyChain.GuidanceScansResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.supplyChain.GuidanceScansResponse>> {
         const { scan_id: scanId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -160,7 +160,7 @@ export class ScansClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.supplyChain.GuidanceScansResponse,
+                data: _response.body as HiddenLayerApi.supplyChain.GuidanceScansResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -168,11 +168,11 @@ export class ScansClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

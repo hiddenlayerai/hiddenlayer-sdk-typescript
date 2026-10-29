@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as HiddenLayer from "../../../index.js";
+import * as HiddenLayerApi from "../../../index.js";
 
 export declare namespace CredentialsClient {
     export type Options = BaseClientOptions;
@@ -26,12 +26,12 @@ export class CredentialsClient {
     /**
      * Lists all API credentials for the requester's tenant. API credentials can be used to authenticate automated processes and integrations with the HiddenLayer API. The list includes both active and inactive credentials, along with their associated metadata. If the `embed` parameter is used with `created_by_user`, the response will also include details about the user who created each credential. The response includes up to 1000 items.
      *
-     * @param {HiddenLayer.ListCredentialsRequest} request
+     * @param {HiddenLayerApi.ListCredentialsRequest} request
      * @param {CredentialsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -39,16 +39,16 @@ export class CredentialsClient {
      *     await client.credentials.list()
      */
     public list(
-        request: HiddenLayer.ListCredentialsRequest = {},
+        request: HiddenLayerApi.ListCredentialsRequest = {},
         requestOptions?: CredentialsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ListCredentialsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ListCredentialsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
-        request: HiddenLayer.ListCredentialsRequest = {},
+        request: HiddenLayerApi.ListCredentialsRequest = {},
         requestOptions?: CredentialsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ListCredentialsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ListCredentialsResponse>> {
         const { embed } = request;
         const _queryParams: Record<string, unknown> = {
             embed,
@@ -80,20 +80,26 @@ export class CredentialsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ListCredentialsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as HiddenLayerApi.ListCredentialsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -115,12 +121,12 @@ export class CredentialsClient {
      * By default, if no permissions are specified, the credential will be granted all available permissions. To restrict the credential to specific permissions, provide a list of permission identifiers (scopes).
      * The available permissions can be found by calling [`GET /api/v2/permissions`](#operation/list_permissions_api_v2_permissions_get).
      *
-     * @param {HiddenLayer.CredentialsCreateRequestV2} request
+     * @param {HiddenLayerApi.CredentialsCreateRequestV2} request
      * @param {CredentialsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -130,16 +136,16 @@ export class CredentialsClient {
      *     })
      */
     public create(
-        request: HiddenLayer.CredentialsCreateRequestV2,
+        request: HiddenLayerApi.CredentialsCreateRequestV2,
         requestOptions?: CredentialsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.CredentialsWithSecret> {
+    ): core.HttpResponsePromise<HiddenLayerApi.CredentialsWithSecret> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.CredentialsCreateRequestV2,
+        request: HiddenLayerApi.CredentialsCreateRequestV2,
         requestOptions?: CredentialsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.CredentialsWithSecret>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.CredentialsWithSecret>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -166,20 +172,23 @@ export class CredentialsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.CredentialsWithSecret, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.CredentialsWithSecret, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -195,11 +204,11 @@ export class CredentialsClient {
     /**
      * Permanently deletes an API credential. Once deleted, the credential can no longer be used to authenticate with the HiddenLayer API.
      *
-     * @param {HiddenLayer.DeleteCredentialsRequest} request
+     * @param {HiddenLayerApi.DeleteCredentialsRequest} request
      * @param {CredentialsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -209,14 +218,14 @@ export class CredentialsClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.DeleteCredentialsRequest,
+        request: HiddenLayerApi.DeleteCredentialsRequest,
         requestOptions?: CredentialsClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.DeleteCredentialsRequest,
+        request: HiddenLayerApi.DeleteCredentialsRequest,
         requestOptions?: CredentialsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { id } = request;
@@ -249,9 +258,12 @@ export class CredentialsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace AssetsClient {
     export type Options = BaseClientOptions;
@@ -27,13 +27,13 @@ export class AssetsClient {
      *
      * Triggers an on-demand retrieval and scan workflow for a discovered AI asset. This endpoint validates the asset exists and has a matching integration, then sends a message to initiate the asset retrieval and scanning process.
      *
-     * @param {HiddenLayer.integrations.ScansAssetsRequest} request
+     * @param {HiddenLayerApi.integrations.ScansAssetsRequest} request
      * @param {AssetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -43,16 +43,16 @@ export class AssetsClient {
      *     })
      */
     public scans(
-        request: HiddenLayer.integrations.ScansAssetsRequest,
+        request: HiddenLayerApi.integrations.ScansAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AssetScanTriggerResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AssetScanTriggerResponse> {
         return core.HttpResponsePromise.fromPromise(this.__scans(request, requestOptions));
     }
 
     private async __scans(
-        request: HiddenLayer.integrations.ScansAssetsRequest,
+        request: HiddenLayerApi.integrations.ScansAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AssetScanTriggerResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AssetScanTriggerResponse>> {
         const { asset_id: assetId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -77,22 +77,28 @@ export class AssetsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.AssetScanTriggerResponse, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as HiddenLayerApi.AssetScanTriggerResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

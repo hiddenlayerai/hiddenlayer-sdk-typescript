@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace CustomTagsClient {
     export type Options = BaseClientOptions;
@@ -31,13 +31,13 @@ export class CustomTagsClient {
      *
      * Assigns a custom tag to an asset. If the tag already exists on the asset, its value is updated.
      *
-     * @param {HiddenLayer.assetInventory.assets.UpdateV1CustomTagsRequest} request
+     * @param {HiddenLayerApi.assetInventory.assets.UpdateV1CustomTagsRequest} request
      * @param {CustomTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -51,16 +51,16 @@ export class CustomTagsClient {
      *     })
      */
     public updateV1(
-        request: HiddenLayer.assetInventory.assets.UpdateV1CustomTagsRequest,
+        request: HiddenLayerApi.assetInventory.assets.UpdateV1CustomTagsRequest,
         requestOptions?: CustomTagsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AiAssetInventoryV1TagValue> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AiAssetInventoryV1TagValue> {
         return core.HttpResponsePromise.fromPromise(this.__updateV1(request, requestOptions));
     }
 
     private async __updateV1(
-        request: HiddenLayer.assetInventory.assets.UpdateV1CustomTagsRequest,
+        request: HiddenLayerApi.assetInventory.assets.UpdateV1CustomTagsRequest,
         requestOptions?: CustomTagsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AiAssetInventoryV1TagValue>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AiAssetInventoryV1TagValue>> {
         const { asset_id: assetId, tag_name: tagName, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -89,7 +89,7 @@ export class CustomTagsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.AiAssetInventoryV1TagValue,
+                data: _response.body as HiddenLayerApi.AiAssetInventoryV1TagValue,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -97,13 +97,13 @@ export class CustomTagsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -129,12 +129,12 @@ export class CustomTagsClient {
      *
      * Removes a custom tag assignment from an asset.
      *
-     * @param {HiddenLayer.assetInventory.assets.DeleteV1CustomTagsRequest} request
+     * @param {HiddenLayerApi.assetInventory.assets.DeleteV1CustomTagsRequest} request
      * @param {CustomTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -145,14 +145,14 @@ export class CustomTagsClient {
      *     })
      */
     public deleteV1(
-        request: HiddenLayer.assetInventory.assets.DeleteV1CustomTagsRequest,
+        request: HiddenLayerApi.assetInventory.assets.DeleteV1CustomTagsRequest,
         requestOptions?: CustomTagsClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__deleteV1(request, requestOptions));
     }
 
     private async __deleteV1(
-        request: HiddenLayer.assetInventory.assets.DeleteV1CustomTagsRequest,
+        request: HiddenLayerApi.assetInventory.assets.DeleteV1CustomTagsRequest,
         requestOptions?: CustomTagsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { asset_id: assetId, tag_name: tagName } = request;
@@ -185,11 +185,11 @@ export class CustomTagsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -212,13 +212,13 @@ export class CustomTagsClient {
      *
      * Assigns a custom tag to an asset. If the tag already exists on the asset, its value is updated.
      *
-     * @param {HiddenLayer.assetInventory.assets.UpdateCustomTagsRequest} request
+     * @param {HiddenLayerApi.assetInventory.assets.UpdateCustomTagsRequest} request
      * @param {CustomTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -232,16 +232,16 @@ export class CustomTagsClient {
      *     })
      */
     public update(
-        request: HiddenLayer.assetInventory.assets.UpdateCustomTagsRequest,
+        request: HiddenLayerApi.assetInventory.assets.UpdateCustomTagsRequest,
         requestOptions?: CustomTagsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.TagValue> {
+    ): core.HttpResponsePromise<HiddenLayerApi.TagValue> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.assetInventory.assets.UpdateCustomTagsRequest,
+        request: HiddenLayerApi.assetInventory.assets.UpdateCustomTagsRequest,
         requestOptions?: CustomTagsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.TagValue>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.TagValue>> {
         const { asset_id: assetId, tag_name: tagName, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -269,19 +269,19 @@ export class CustomTagsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.TagValue, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.TagValue, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -307,12 +307,12 @@ export class CustomTagsClient {
      *
      * Removes a custom tag assignment from an asset.
      *
-     * @param {HiddenLayer.assetInventory.assets.DeleteCustomTagsRequest} request
+     * @param {HiddenLayerApi.assetInventory.assets.DeleteCustomTagsRequest} request
      * @param {CustomTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -323,14 +323,14 @@ export class CustomTagsClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.assetInventory.assets.DeleteCustomTagsRequest,
+        request: HiddenLayerApi.assetInventory.assets.DeleteCustomTagsRequest,
         requestOptions?: CustomTagsClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.assetInventory.assets.DeleteCustomTagsRequest,
+        request: HiddenLayerApi.assetInventory.assets.DeleteCustomTagsRequest,
         requestOptions?: CustomTagsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { asset_id: assetId, tag_name: tagName } = request;
@@ -363,11 +363,11 @@ export class CustomTagsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

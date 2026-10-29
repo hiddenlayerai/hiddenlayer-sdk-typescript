@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace ConfigsClient {
     export type Options = BaseClientOptions;
@@ -35,13 +35,13 @@ export class ConfigsClient {
      * target system prompt, objective IDs, severity mapping, prompt set, project, tuning
      * knobs). Configs are referenced from the start endpoints via `config_id`.
      *
-     * @param {HiddenLayer.evaluations.redTeam.ListConfigsRequest} request
+     * @param {HiddenLayerApi.evaluations.redTeam.ListConfigsRequest} request
      * @param {ConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -51,13 +51,13 @@ export class ConfigsClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.evaluations.redTeam.ListConfigsRequest = {},
+        request: HiddenLayerApi.evaluations.redTeam.ListConfigsRequest = {},
         requestOptions?: ConfigsClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.RedTeamConfigSummary, HiddenLayer.RedTeamConfigsResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.RedTeamConfigSummary, HiddenLayerApi.RedTeamConfigsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.evaluations.redTeam.ListConfigsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.RedTeamConfigsResponse>> => {
+                request: HiddenLayerApi.evaluations.redTeam.ListConfigsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.RedTeamConfigsResponse>> => {
                 const { limit, cursor } = request;
                 const _queryParams: Record<string, unknown> = {
                     limit,
@@ -91,29 +91,29 @@ export class ConfigsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.RedTeamConfigsResponse,
+                        data: _response.body as HiddenLayerApi.RedTeamConfigsResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 401:
-                            throw new HiddenLayer.UnauthorizedError(
+                            throw new HiddenLayerApi.UnauthorizedError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 422:
-                            throw new HiddenLayer.UnprocessableEntityError(
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -134,7 +134,7 @@ export class ConfigsClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.RedTeamConfigSummary, HiddenLayer.RedTeamConfigsResponse>({
+        return new core.Page<HiddenLayerApi.RedTeamConfigSummary, HiddenLayerApi.RedTeamConfigsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -156,15 +156,15 @@ export class ConfigsClient {
      * supplied `hl_project_id` (UUID or alias) names an existing project; an alias
      * is stored as the canonical project UUID.
      *
-     * @param {HiddenLayer.evaluations.redTeam.CreateRedTeamConfigRequest} request
+     * @param {HiddenLayerApi.evaluations.redTeam.CreateRedTeamConfigRequest} request
      * @param {ConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -174,16 +174,16 @@ export class ConfigsClient {
      *     })
      */
     public create(
-        request: HiddenLayer.evaluations.redTeam.CreateRedTeamConfigRequest,
+        request: HiddenLayerApi.evaluations.redTeam.CreateRedTeamConfigRequest,
         requestOptions?: ConfigsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.RedTeamConfig> {
+    ): core.HttpResponsePromise<HiddenLayerApi.RedTeamConfig> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.evaluations.redTeam.CreateRedTeamConfigRequest,
+        request: HiddenLayerApi.evaluations.redTeam.CreateRedTeamConfigRequest,
         requestOptions?: ConfigsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.RedTeamConfig>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.RedTeamConfig>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -210,26 +210,26 @@ export class ConfigsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.RedTeamConfig, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.RedTeamConfig, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -259,13 +259,13 @@ export class ConfigsClient {
      * which show whether the referenced prompt set or project was deleted.
      * `hl_project_status` is `unknown` when the project service is unavailable.
      *
-     * @param {HiddenLayer.evaluations.redTeam.GetConfigsRequest} request
+     * @param {HiddenLayerApi.evaluations.redTeam.GetConfigsRequest} request
      * @param {ConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -275,16 +275,16 @@ export class ConfigsClient {
      *     })
      */
     public get(
-        request: HiddenLayer.evaluations.redTeam.GetConfigsRequest,
+        request: HiddenLayerApi.evaluations.redTeam.GetConfigsRequest,
         requestOptions?: ConfigsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.RedTeamConfig> {
+    ): core.HttpResponsePromise<HiddenLayerApi.RedTeamConfig> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.evaluations.redTeam.GetConfigsRequest,
+        request: HiddenLayerApi.evaluations.redTeam.GetConfigsRequest,
         requestOptions?: ConfigsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.RedTeamConfig>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.RedTeamConfig>> {
         const { config_id: configId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -309,19 +309,19 @@ export class ConfigsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.RedTeamConfig, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.RedTeamConfig, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -349,13 +349,13 @@ export class ConfigsClient {
      * are unaffected because the resolved settings are snapshotted into the result row
      * at start time.
      *
-     * @param {HiddenLayer.evaluations.redTeam.DeleteConfigsRequest} request
+     * @param {HiddenLayerApi.evaluations.redTeam.DeleteConfigsRequest} request
      * @param {ConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -365,14 +365,14 @@ export class ConfigsClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.evaluations.redTeam.DeleteConfigsRequest,
+        request: HiddenLayerApi.evaluations.redTeam.DeleteConfigsRequest,
         requestOptions?: ConfigsClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.evaluations.redTeam.DeleteConfigsRequest,
+        request: HiddenLayerApi.evaluations.redTeam.DeleteConfigsRequest,
         requestOptions?: ConfigsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { config_id: configId } = request;
@@ -405,13 +405,13 @@ export class ConfigsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -447,16 +447,16 @@ export class ConfigsClient {
      * Cross-reference fields (`prompt_set_id`, `hl_project_id`) are re-validated
      * whenever they are present in the request body with a non-empty value.
      *
-     * @param {HiddenLayer.evaluations.redTeam.UpdateRedTeamConfigRequest} request
+     * @param {HiddenLayerApi.evaluations.redTeam.UpdateRedTeamConfigRequest} request
      * @param {ConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -466,16 +466,16 @@ export class ConfigsClient {
      *     })
      */
     public update(
-        request: HiddenLayer.evaluations.redTeam.UpdateRedTeamConfigRequest,
+        request: HiddenLayerApi.evaluations.redTeam.UpdateRedTeamConfigRequest,
         requestOptions?: ConfigsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.RedTeamConfig> {
+    ): core.HttpResponsePromise<HiddenLayerApi.RedTeamConfig> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.evaluations.redTeam.UpdateRedTeamConfigRequest,
+        request: HiddenLayerApi.evaluations.redTeam.UpdateRedTeamConfigRequest,
         requestOptions?: ConfigsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.RedTeamConfig>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.RedTeamConfig>> {
         const { config_id: configId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -503,28 +503,28 @@ export class ConfigsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.RedTeamConfig, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.RedTeamConfig, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

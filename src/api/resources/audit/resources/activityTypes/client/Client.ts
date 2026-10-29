@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace ActivityTypesClient {
     export type Options = BaseClientOptions;
@@ -27,7 +27,7 @@ export class ActivityTypesClient {
      *
      * @param {ActivityTypesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -36,13 +36,13 @@ export class ActivityTypesClient {
      */
     public list(
         requestOptions?: ActivityTypesClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ActivityTypeList> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ActivityTypeList> {
         return core.HttpResponsePromise.fromPromise(this.__list(requestOptions));
     }
 
     private async __list(
         requestOptions?: ActivityTypesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ActivityTypeList>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ActivityTypeList>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -66,13 +66,13 @@ export class ActivityTypesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ActivityTypeList, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ActivityTypeList, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

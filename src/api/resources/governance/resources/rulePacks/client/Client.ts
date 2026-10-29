@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace RulePacksClient {
     export type Options = BaseClientOptions;
@@ -25,13 +25,13 @@ export class RulePacksClient {
     /**
      * [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
      *
-     * @param {HiddenLayer.governance.ListRulePacksRequest} request
+     * @param {HiddenLayerApi.governance.ListRulePacksRequest} request
      * @param {RulePacksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -41,13 +41,13 @@ export class RulePacksClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.governance.ListRulePacksRequest = {},
+        request: HiddenLayerApi.governance.ListRulePacksRequest = {},
         requestOptions?: RulePacksClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.RulePack, HiddenLayer.governance.ListRulePacksResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.RulePack, HiddenLayerApi.governance.ListRulePacksResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.governance.ListRulePacksRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.governance.ListRulePacksResponse>> => {
+                request: HiddenLayerApi.governance.ListRulePacksRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.governance.ListRulePacksResponse>> => {
                 const { type: type_, limit, cursor, sort } = request;
                 const _queryParams: Record<string, unknown> = {
                     type: type_,
@@ -83,29 +83,29 @@ export class RulePacksClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.governance.ListRulePacksResponse,
+                        data: _response.body as HiddenLayerApi.governance.ListRulePacksResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 500:
-                            throw new HiddenLayer.InternalServerError(
+                            throw new HiddenLayerApi.InternalServerError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 503:
-                            throw new HiddenLayer.ServiceUnavailableError(
+                            throw new HiddenLayerApi.ServiceUnavailableError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -126,7 +126,7 @@ export class RulePacksClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.RulePack, HiddenLayer.governance.ListRulePacksResponse>({
+        return new core.Page<HiddenLayerApi.RulePack, HiddenLayerApi.governance.ListRulePacksResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>

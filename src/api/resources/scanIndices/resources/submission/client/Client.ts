@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace SubmissionClient {
     export type Options = BaseClientOptions;
@@ -24,10 +24,10 @@ export class SubmissionClient {
     }
 
     /**
-     * @param {HiddenLayer.scanIndices.ScanSubmission} request
+     * @param {HiddenLayerApi.scanIndices.ScanSubmission} request
      * @param {SubmissionClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -52,14 +52,14 @@ export class SubmissionClient {
      *     })
      */
     public create(
-        request: HiddenLayer.scanIndices.ScanSubmission,
+        request: HiddenLayerApi.scanIndices.ScanSubmission,
         requestOptions?: SubmissionClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.scanIndices.ScanSubmission,
+        request: HiddenLayerApi.scanIndices.ScanSubmission,
         requestOptions?: SubmissionClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
@@ -94,7 +94,7 @@ export class SubmissionClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

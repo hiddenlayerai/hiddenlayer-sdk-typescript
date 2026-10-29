@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace ProjectsClient {
     export type Options = BaseClientOptions;
@@ -24,12 +24,12 @@ export class ProjectsClient {
     }
 
     /**
-     * @param {HiddenLayer.compliance.ListProjectsRequest} request
+     * @param {HiddenLayerApi.compliance.ListProjectsRequest} request
      * @param {ProjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -39,13 +39,13 @@ export class ProjectsClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.compliance.ListProjectsRequest = {},
+        request: HiddenLayerApi.compliance.ListProjectsRequest = {},
         requestOptions?: ProjectsClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.GetProjectItem, HiddenLayer.compliance.ListProjectsResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.GetProjectItem, HiddenLayerApi.compliance.ListProjectsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.compliance.ListProjectsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.compliance.ListProjectsResponse>> => {
+                request: HiddenLayerApi.compliance.ListProjectsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.compliance.ListProjectsResponse>> => {
                 const {
                     name,
                     q,
@@ -96,24 +96,24 @@ export class ProjectsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.compliance.ListProjectsResponse,
+                        data: _response.body as HiddenLayerApi.compliance.ListProjectsResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 500:
-                            throw new HiddenLayer.InternalServerError(
+                            throw new HiddenLayerApi.InternalServerError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 503:
-                            throw new HiddenLayer.ServiceUnavailableError(
+                            throw new HiddenLayerApi.ServiceUnavailableError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -134,7 +134,7 @@ export class ProjectsClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.GetProjectItem, HiddenLayer.compliance.ListProjectsResponse>({
+        return new core.Page<HiddenLayerApi.GetProjectItem, HiddenLayerApi.compliance.ListProjectsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -149,14 +149,14 @@ export class ProjectsClient {
     /**
      * Returns the new project ID; retrieve the project by ID to read its settings.
      *
-     * @param {HiddenLayer.compliance.CreateProjectsRequest} request
+     * @param {HiddenLayerApi.compliance.CreateProjectsRequest} request
      * @param {ProjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -164,16 +164,16 @@ export class ProjectsClient {
      *     await client.compliance.projects.create()
      */
     public create(
-        request: HiddenLayer.compliance.CreateProjectsRequest = {},
+        request: HiddenLayerApi.compliance.CreateProjectsRequest = {},
         requestOptions?: ProjectsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ProjectId> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ProjectId> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.compliance.CreateProjectsRequest = {},
+        request: HiddenLayerApi.compliance.CreateProjectsRequest = {},
         requestOptions?: ProjectsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ProjectId>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ProjectId>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -200,24 +200,27 @@ export class ProjectsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ProjectId, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ProjectId, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -234,13 +237,13 @@ export class ProjectsClient {
     }
 
     /**
-     * @param {HiddenLayer.compliance.GetProjectsRequest} request
+     * @param {HiddenLayerApi.compliance.GetProjectsRequest} request
      * @param {ProjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -250,16 +253,16 @@ export class ProjectsClient {
      *     })
      */
     public get(
-        request: HiddenLayer.compliance.GetProjectsRequest,
+        request: HiddenLayerApi.compliance.GetProjectsRequest,
         requestOptions?: ProjectsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.compliance.GetProjectsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.compliance.GetProjectsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.compliance.GetProjectsRequest,
+        request: HiddenLayerApi.compliance.GetProjectsRequest,
         requestOptions?: ProjectsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.compliance.GetProjectsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.compliance.GetProjectsResponse>> {
         const { id } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -285,7 +288,7 @@ export class ProjectsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.compliance.GetProjectsResponse,
+                data: _response.body as HiddenLayerApi.compliance.GetProjectsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -293,13 +296,16 @@ export class ProjectsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -318,16 +324,16 @@ export class ProjectsClient {
     /**
      * Updates an existing project and returns its ID; retrieve the project by ID to read its settings. A missing project returns 404.
      *
-     * @param {HiddenLayer.compliance.UpdateProjectsRequest} request
+     * @param {HiddenLayerApi.compliance.UpdateProjectsRequest} request
      * @param {ProjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.PreconditionFailedError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.PreconditionFailedError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -338,16 +344,16 @@ export class ProjectsClient {
      *     })
      */
     public update(
-        request: HiddenLayer.compliance.UpdateProjectsRequest,
+        request: HiddenLayerApi.compliance.UpdateProjectsRequest,
         requestOptions?: ProjectsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ProjectId> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ProjectId> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.compliance.UpdateProjectsRequest,
+        request: HiddenLayerApi.compliance.UpdateProjectsRequest,
         requestOptions?: ProjectsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ProjectId>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ProjectId>> {
         const { id, "If-Unmodified-Since": ifUnmodifiedSince, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -376,31 +382,34 @@ export class ProjectsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ProjectId, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ProjectId, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 412:
-                    throw new HiddenLayer.PreconditionFailedError(
+                    throw new HiddenLayerApi.PreconditionFailedError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -417,13 +426,13 @@ export class ProjectsClient {
     }
 
     /**
-     * @param {HiddenLayer.compliance.DeleteProjectsRequest} request
+     * @param {HiddenLayerApi.compliance.DeleteProjectsRequest} request
      * @param {ProjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -433,14 +442,14 @@ export class ProjectsClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.compliance.DeleteProjectsRequest,
+        request: HiddenLayerApi.compliance.DeleteProjectsRequest,
         requestOptions?: ProjectsClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.compliance.DeleteProjectsRequest,
+        request: HiddenLayerApi.compliance.DeleteProjectsRequest,
         requestOptions?: ProjectsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { id } = request;
@@ -473,13 +482,16 @@ export class ProjectsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

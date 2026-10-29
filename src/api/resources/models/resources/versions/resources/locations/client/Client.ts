@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace LocationsClient {
     export type Options = BaseClientOptions;
@@ -27,10 +27,10 @@ export class LocationsClient {
     }
 
     /**
-     * @param {HiddenLayer.models.versions.GetLocationsRequest} request
+     * @param {HiddenLayerApi.models.versions.GetLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -41,16 +41,16 @@ export class LocationsClient {
      *     })
      */
     public get(
-        request: HiddenLayer.models.versions.GetLocationsRequest,
+        request: HiddenLayerApi.models.versions.GetLocationsRequest,
         requestOptions?: LocationsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.models.versions.GetLocationsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.models.versions.GetLocationsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.models.versions.GetLocationsRequest,
+        request: HiddenLayerApi.models.versions.GetLocationsRequest,
         requestOptions?: LocationsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.models.versions.GetLocationsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.models.versions.GetLocationsResponse>> {
         const { version_id: versionId, key } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -76,7 +76,7 @@ export class LocationsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.models.versions.GetLocationsResponse,
+                data: _response.body as HiddenLayerApi.models.versions.GetLocationsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -84,7 +84,7 @@ export class LocationsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -103,11 +103,11 @@ export class LocationsClient {
     }
 
     /**
-     * @param {HiddenLayer.models.versions.UpdateLocationsRequest} request
+     * @param {HiddenLayerApi.models.versions.UpdateLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -119,16 +119,16 @@ export class LocationsClient {
      *     })
      */
     public update(
-        request: HiddenLayer.models.versions.UpdateLocationsRequest,
+        request: HiddenLayerApi.models.versions.UpdateLocationsRequest,
         requestOptions?: LocationsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.models.versions.UpdateLocationsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.models.versions.UpdateLocationsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.models.versions.UpdateLocationsRequest,
+        request: HiddenLayerApi.models.versions.UpdateLocationsRequest,
         requestOptions?: LocationsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.models.versions.UpdateLocationsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.models.versions.UpdateLocationsResponse>> {
         const { version_id: versionId, key, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -157,7 +157,7 @@ export class LocationsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.models.versions.UpdateLocationsResponse,
+                data: _response.body as HiddenLayerApi.models.versions.UpdateLocationsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -165,9 +165,9 @@ export class LocationsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

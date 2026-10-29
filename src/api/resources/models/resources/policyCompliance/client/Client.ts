@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace PolicyComplianceClient {
     export type Options = BaseClientOptions;
@@ -26,11 +26,11 @@ export class PolicyComplianceClient {
     /**
      * Override the policy compliance status for a model. Send {"compliant": true} to mark as compliant, or {"compliant": false} to mark as noncompliant.
      *
-     * @param {HiddenLayer.models.OverridePolicyComplianceRequest} request
+     * @param {HiddenLayerApi.models.OverridePolicyComplianceRequest} request
      * @param {PolicyComplianceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -41,14 +41,14 @@ export class PolicyComplianceClient {
      *     })
      */
     public update(
-        request: HiddenLayer.models.OverridePolicyComplianceRequest,
+        request: HiddenLayerApi.models.OverridePolicyComplianceRequest,
         requestOptions?: PolicyComplianceClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.models.OverridePolicyComplianceRequest,
+        request: HiddenLayerApi.models.OverridePolicyComplianceRequest,
         requestOptions?: PolicyComplianceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { model_id: modelId, ..._body } = request;
@@ -84,9 +84,9 @@ export class PolicyComplianceClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -107,10 +107,10 @@ export class PolicyComplianceClient {
     /**
      * Remove the manual policy compliance override for a model, reverting to the policy-derived compliance status.
      *
-     * @param {HiddenLayer.models.DeletePolicyComplianceRequest} request
+     * @param {HiddenLayerApi.models.DeletePolicyComplianceRequest} request
      * @param {PolicyComplianceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -120,14 +120,14 @@ export class PolicyComplianceClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.models.DeletePolicyComplianceRequest,
+        request: HiddenLayerApi.models.DeletePolicyComplianceRequest,
         requestOptions?: PolicyComplianceClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.models.DeletePolicyComplianceRequest,
+        request: HiddenLayerApi.models.DeletePolicyComplianceRequest,
         requestOptions?: PolicyComplianceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { model_id: modelId } = request;
@@ -160,7 +160,7 @@ export class PolicyComplianceClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace PromptSetsClient {
     export type Options = BaseClientOptions;
@@ -34,9 +34,9 @@ export class PromptSetsClient {
      *
      * @param {PromptSetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -45,13 +45,13 @@ export class PromptSetsClient {
      */
     public list(
         requestOptions?: PromptSetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.PromptSetsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.PromptSetsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(requestOptions));
     }
 
     private async __list(
         requestOptions?: PromptSetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.PromptSetsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.PromptSetsResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -75,17 +75,17 @@ export class PromptSetsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.PromptSetsResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.PromptSetsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -111,14 +111,14 @@ export class PromptSetsClient {
      * background job then tags the prompts, after applying any requested
      * mutations. List the prompt sets to see when the status changes.
      *
-     * @param {HiddenLayer.evaluations.CreatePromptSetRequest} request
+     * @param {HiddenLayerApi.evaluations.CreatePromptSetRequest} request
      * @param {PromptSetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -132,16 +132,16 @@ export class PromptSetsClient {
      *     })
      */
     public create(
-        request: HiddenLayer.evaluations.CreatePromptSetRequest,
+        request: HiddenLayerApi.evaluations.CreatePromptSetRequest,
         requestOptions?: PromptSetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.CreatePromptSetResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.CreatePromptSetResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.evaluations.CreatePromptSetRequest,
+        request: HiddenLayerApi.evaluations.CreatePromptSetRequest,
         requestOptions?: PromptSetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.CreatePromptSetResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.CreatePromptSetResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -168,21 +168,24 @@ export class PromptSetsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.CreatePromptSetResponse, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as HiddenLayerApi.CreatePromptSetResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -210,9 +213,9 @@ export class PromptSetsClient {
      *
      * @param {PromptSetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -221,13 +224,13 @@ export class PromptSetsClient {
      */
     public mutations(
         requestOptions?: PromptSetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AvailableMutationsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AvailableMutationsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__mutations(requestOptions));
     }
 
     private async __mutations(
         requestOptions?: PromptSetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AvailableMutationsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AvailableMutationsResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -252,7 +255,7 @@ export class PromptSetsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.AvailableMutationsResponse,
+                data: _response.body as HiddenLayerApi.AvailableMutationsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -260,11 +263,11 @@ export class PromptSetsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -290,13 +293,13 @@ export class PromptSetsClient {
      *
      * Delete a tenant-specific prompt set.
      *
-     * @param {HiddenLayer.evaluations.DeletePromptSetsRequest} request
+     * @param {HiddenLayerApi.evaluations.DeletePromptSetsRequest} request
      * @param {PromptSetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -306,14 +309,14 @@ export class PromptSetsClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.evaluations.DeletePromptSetsRequest,
+        request: HiddenLayerApi.evaluations.DeletePromptSetsRequest,
         requestOptions?: PromptSetsClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.evaluations.DeletePromptSetsRequest,
+        request: HiddenLayerApi.evaluations.DeletePromptSetsRequest,
         requestOptions?: PromptSetsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { prompt_set_id: promptSetId } = request;
@@ -346,13 +349,13 @@ export class PromptSetsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -381,22 +384,22 @@ export class PromptSetsClient {
      * Exports a built-in or tenant-specific prompt set as CSV with columns:
      * prompt_id, system_prompt, user_prompt, technique_ids.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      */
     public csv(
-        request: HiddenLayer.evaluations.CsvPromptSetsRequest,
+        request: HiddenLayerApi.evaluations.CsvPromptSetsRequest,
         requestOptions?: PromptSetsClient.RequestOptions,
     ): core.HttpResponsePromise<core.BinaryResponse> {
         return core.HttpResponsePromise.fromPromise(this.__csv(request, requestOptions));
     }
 
     private async __csv(
-        request: HiddenLayer.evaluations.CsvPromptSetsRequest,
+        request: HiddenLayerApi.evaluations.CsvPromptSetsRequest,
         requestOptions?: PromptSetsClient.RequestOptions,
     ): Promise<core.WithRawResponse<core.BinaryResponse>> {
         const { prompt_set_id: promptSetId } = request;
@@ -430,13 +433,13 @@ export class PromptSetsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

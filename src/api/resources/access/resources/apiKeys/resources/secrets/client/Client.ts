@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace SecretsClient {
     export type Options = BaseClientOptions;
@@ -31,17 +31,17 @@ export class SecretsClient {
      *
      * Adds a secret to the key. Existing secrets keep working until they are revoked or expire.
      *
-     * @param {HiddenLayer.access.apiKeys.CreateSecretsRequest} request
+     * @param {HiddenLayerApi.access.apiKeys.CreateSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.PreconditionFailedError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.PreconditionFailedError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -53,16 +53,16 @@ export class SecretsClient {
      *     })
      */
     public create(
-        request: HiddenLayer.access.apiKeys.CreateSecretsRequest,
+        request: HiddenLayerApi.access.apiKeys.CreateSecretsRequest,
         requestOptions?: SecretsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.StaticApiKeySecretWithValue> {
+    ): core.HttpResponsePromise<HiddenLayerApi.StaticApiKeySecretWithValue> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.access.apiKeys.CreateSecretsRequest,
+        request: HiddenLayerApi.access.apiKeys.CreateSecretsRequest,
         requestOptions?: SecretsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.StaticApiKeySecretWithValue>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.StaticApiKeySecretWithValue>> {
         const { id, "If-Match": ifMatch, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -92,7 +92,7 @@ export class SecretsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.StaticApiKeySecretWithValue,
+                data: _response.body as HiddenLayerApi.StaticApiKeySecretWithValue,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -100,27 +100,30 @@ export class SecretsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 412:
-                    throw new HiddenLayer.PreconditionFailedError(
+                    throw new HiddenLayerApi.PreconditionFailedError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -143,15 +146,15 @@ export class SecretsClient {
      *
      * Revokes only this secret; the key and its other secret keep working. Revoking a secret that is already revoked or expired, or whose key is revoked, returns `204`, whatever the `If-Match` value.
      *
-     * @param {HiddenLayer.access.apiKeys.DeleteSecretsRequest} request
+     * @param {HiddenLayerApi.access.apiKeys.DeleteSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.PreconditionFailedError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.PreconditionFailedError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -163,14 +166,14 @@ export class SecretsClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.access.apiKeys.DeleteSecretsRequest,
+        request: HiddenLayerApi.access.apiKeys.DeleteSecretsRequest,
         requestOptions?: SecretsClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.access.apiKeys.DeleteSecretsRequest,
+        request: HiddenLayerApi.access.apiKeys.DeleteSecretsRequest,
         requestOptions?: SecretsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { id, secret_id: secretId, "If-Match": ifMatch } = request;
@@ -204,20 +207,23 @@ export class SecretsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 412:
-                    throw new HiddenLayer.PreconditionFailedError(
+                    throw new HiddenLayerApi.PreconditionFailedError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

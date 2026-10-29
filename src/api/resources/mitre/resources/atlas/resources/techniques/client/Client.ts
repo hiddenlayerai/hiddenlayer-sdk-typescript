@@ -10,7 +10,7 @@ import * as core from "../../../../../../../../core/index.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace TechniquesClient {
     export type Options = BaseClientOptions;
@@ -26,12 +26,12 @@ export class TechniquesClient {
     }
 
     /**
-     * @param {HiddenLayer.mitre.atlas.GetTechniquesRequest} request
+     * @param {HiddenLayerApi.mitre.atlas.GetTechniquesRequest} request
      * @param {TechniquesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -41,16 +41,16 @@ export class TechniquesClient {
      *     })
      */
     public get(
-        request: HiddenLayer.mitre.atlas.GetTechniquesRequest,
+        request: HiddenLayerApi.mitre.atlas.GetTechniquesRequest,
         requestOptions?: TechniquesClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.mitre.atlas.GetTechniquesResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.mitre.atlas.GetTechniquesResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.mitre.atlas.GetTechniquesRequest,
+        request: HiddenLayerApi.mitre.atlas.GetTechniquesRequest,
         requestOptions?: TechniquesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.mitre.atlas.GetTechniquesResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.mitre.atlas.GetTechniquesResponse>> {
         const { technique_id: techniqueId, include_sub_techniques: includeSubTechniques } = request;
         const _queryParams: Record<string, unknown> = {
             include_sub_techniques: includeSubTechniques,
@@ -83,7 +83,7 @@ export class TechniquesClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.mitre.atlas.GetTechniquesResponse,
+                data: _response.body as HiddenLayerApi.mitre.atlas.GetTechniquesResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -91,11 +91,11 @@ export class TechniquesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

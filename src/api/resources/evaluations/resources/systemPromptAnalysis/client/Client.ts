@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace SystemPromptAnalysisClient {
     export type Options = BaseClientOptions;
@@ -30,13 +30,13 @@ export class SystemPromptAnalysisClient {
      *
      * Results are ordered by completed_at DESC (newest first).
      *
-     * @param {HiddenLayer.evaluations.ListSystemPromptAnalysisRequest} request
+     * @param {HiddenLayerApi.evaluations.ListSystemPromptAnalysisRequest} request
      * @param {SystemPromptAnalysisClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -44,13 +44,13 @@ export class SystemPromptAnalysisClient {
      *     await client.evaluations.systemPromptAnalysis.list()
      */
     public async list(
-        request: HiddenLayer.evaluations.ListSystemPromptAnalysisRequest = {},
+        request: HiddenLayerApi.evaluations.ListSystemPromptAnalysisRequest = {},
         requestOptions?: SystemPromptAnalysisClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.SystemPromptResultItem, HiddenLayer.SystemPromptListResultsResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.SystemPromptResultItem, HiddenLayerApi.SystemPromptListResultsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.evaluations.ListSystemPromptAnalysisRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.SystemPromptListResultsResponse>> => {
+                request: HiddenLayerApi.evaluations.ListSystemPromptAnalysisRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.SystemPromptListResultsResponse>> => {
                 const {
                     target_model: targetModel,
                     workflow_type: workflowType,
@@ -99,29 +99,29 @@ export class SystemPromptAnalysisClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.SystemPromptListResultsResponse,
+                        data: _response.body as HiddenLayerApi.SystemPromptListResultsResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 401:
-                            throw new HiddenLayer.UnauthorizedError(
+                            throw new HiddenLayerApi.UnauthorizedError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 422:
-                            throw new HiddenLayer.UnprocessableEntityError(
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 500:
-                            throw new HiddenLayer.InternalServerError(
+                            throw new HiddenLayerApi.InternalServerError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -142,7 +142,7 @@ export class SystemPromptAnalysisClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.SystemPromptResultItem, HiddenLayer.SystemPromptListResultsResponse>({
+        return new core.Page<HiddenLayerApi.SystemPromptResultItem, HiddenLayerApi.SystemPromptListResultsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -162,13 +162,13 @@ export class SystemPromptAnalysisClient {
      * This immediately starts the workflow which auto-triggers question generation.
      * Client should poll /status to check progress.
      *
-     * @param {HiddenLayer.evaluations.StartSystemPromptWorkflowBody} request
+     * @param {HiddenLayerApi.evaluations.StartSystemPromptWorkflowBody} request
      * @param {SystemPromptAnalysisClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -179,16 +179,16 @@ export class SystemPromptAnalysisClient {
      *     })
      */
     public create(
-        request: HiddenLayer.evaluations.StartSystemPromptWorkflowBody,
+        request: HiddenLayerApi.evaluations.StartSystemPromptWorkflowBody,
         requestOptions?: SystemPromptAnalysisClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.StartWorkflowResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.StartWorkflowResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.evaluations.StartSystemPromptWorkflowBody,
+        request: HiddenLayerApi.evaluations.StartSystemPromptWorkflowBody,
         requestOptions?: SystemPromptAnalysisClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.StartWorkflowResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.StartWorkflowResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -215,19 +215,19 @@ export class SystemPromptAnalysisClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.StartWorkflowResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.StartWorkflowResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -256,13 +256,13 @@ export class SystemPromptAnalysisClient {
      * This endpoint is designed to be polled by clients to track progress.
      * Returns immediately with current state.
      *
-     * @param {HiddenLayer.evaluations.StatusSystemPromptAnalysisRequest} request
+     * @param {HiddenLayerApi.evaluations.StatusSystemPromptAnalysisRequest} request
      * @param {SystemPromptAnalysisClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -272,16 +272,16 @@ export class SystemPromptAnalysisClient {
      *     })
      */
     public status(
-        request: HiddenLayer.evaluations.StatusSystemPromptAnalysisRequest,
+        request: HiddenLayerApi.evaluations.StatusSystemPromptAnalysisRequest,
         requestOptions?: SystemPromptAnalysisClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AnalysisStatus> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AnalysisStatus> {
         return core.HttpResponsePromise.fromPromise(this.__status(request, requestOptions));
     }
 
     private async __status(
-        request: HiddenLayer.evaluations.StatusSystemPromptAnalysisRequest,
+        request: HiddenLayerApi.evaluations.StatusSystemPromptAnalysisRequest,
         requestOptions?: SystemPromptAnalysisClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AnalysisStatus>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AnalysisStatus>> {
         const { workflow_id: workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -306,19 +306,19 @@ export class SystemPromptAnalysisClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.AnalysisStatus, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.AnalysisStatus, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -344,14 +344,14 @@ export class SystemPromptAnalysisClient {
      *
      * Get the final result of a completed analysis workflow.
      *
-     * @param {HiddenLayer.evaluations.GetSystemPromptAnalysisRequest} request
+     * @param {HiddenLayerApi.evaluations.GetSystemPromptAnalysisRequest} request
      * @param {SystemPromptAnalysisClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -361,16 +361,16 @@ export class SystemPromptAnalysisClient {
      *     })
      */
     public get(
-        request: HiddenLayer.evaluations.GetSystemPromptAnalysisRequest,
+        request: HiddenLayerApi.evaluations.GetSystemPromptAnalysisRequest,
         requestOptions?: SystemPromptAnalysisClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AnalysisResult> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AnalysisResult> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.evaluations.GetSystemPromptAnalysisRequest,
+        request: HiddenLayerApi.evaluations.GetSystemPromptAnalysisRequest,
         requestOptions?: SystemPromptAnalysisClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AnalysisResult>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AnalysisResult>> {
         const { workflow_id: workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -395,21 +395,21 @@ export class SystemPromptAnalysisClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.AnalysisResult, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.AnalysisResult, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -435,13 +435,13 @@ export class SystemPromptAnalysisClient {
      *
      * Delete a system prompt analysis result from storage.
      *
-     * @param {HiddenLayer.evaluations.DeleteSystemPromptAnalysisRequest} request
+     * @param {HiddenLayerApi.evaluations.DeleteSystemPromptAnalysisRequest} request
      * @param {SystemPromptAnalysisClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -451,14 +451,14 @@ export class SystemPromptAnalysisClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.evaluations.DeleteSystemPromptAnalysisRequest,
+        request: HiddenLayerApi.evaluations.DeleteSystemPromptAnalysisRequest,
         requestOptions?: SystemPromptAnalysisClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.evaluations.DeleteSystemPromptAnalysisRequest,
+        request: HiddenLayerApi.evaluations.DeleteSystemPromptAnalysisRequest,
         requestOptions?: SystemPromptAnalysisClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { workflow_id: workflowId } = request;
@@ -491,13 +491,13 @@ export class SystemPromptAnalysisClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -526,14 +526,14 @@ export class SystemPromptAnalysisClient {
      * This endpoint accepts user answers and triggers the compile+validate
      * child workflow. Returns immediately; client should poll /status for results.
      *
-     * @param {HiddenLayer.evaluations.SubmitAnswersBody} request
+     * @param {HiddenLayerApi.evaluations.SubmitAnswersBody} request
      * @param {SystemPromptAnalysisClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -547,16 +547,16 @@ export class SystemPromptAnalysisClient {
      *     })
      */
     public answers(
-        request: HiddenLayer.evaluations.SubmitAnswersBody,
+        request: HiddenLayerApi.evaluations.SubmitAnswersBody,
         requestOptions?: SystemPromptAnalysisClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SubmitAnswersResult> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SubmitAnswersResult> {
         return core.HttpResponsePromise.fromPromise(this.__answers(request, requestOptions));
     }
 
     private async __answers(
-        request: HiddenLayer.evaluations.SubmitAnswersBody,
+        request: HiddenLayerApi.evaluations.SubmitAnswersBody,
         requestOptions?: SystemPromptAnalysisClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SubmitAnswersResult>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SubmitAnswersResult>> {
         const { workflow_id: workflowId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -584,21 +584,21 @@ export class SystemPromptAnalysisClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.SubmitAnswersResult, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.SubmitAnswersResult, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

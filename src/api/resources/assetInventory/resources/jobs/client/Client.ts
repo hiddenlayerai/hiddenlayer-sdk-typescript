@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace JobsClient {
     export type Options = BaseClientOptions;
@@ -31,12 +31,12 @@ export class JobsClient {
      * The request is processed synchronously: the response is the finished `Job`, always in a terminal state (`COMPLETED` or `FAILED`), with `matched_count`, `succeeded_count`, `failed_count`, and per-asset `failures[]` filled in. A filter that matches no assets returns `COMPLETED` with `matched_count: 0`. Jobs are not stored, so there is no job ID to poll — the response is the only report of the outcome.
      * A job matches at most 10,000 assets; a filter that would match more is rejected with `422 Unprocessable Entity`. Narrow the filter and retry.
      *
-     * @param {HiddenLayer.assetInventory.BulkCustomTagJobRequestV2} request
+     * @param {HiddenLayerApi.assetInventory.BulkCustomTagJobRequestV2} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -84,16 +84,16 @@ export class JobsClient {
      *     })
      */
     public customTags(
-        request: HiddenLayer.assetInventory.BulkCustomTagJobRequestV2,
+        request: HiddenLayerApi.assetInventory.BulkCustomTagJobRequestV2,
         requestOptions?: JobsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SyncJob> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SyncJob> {
         return core.HttpResponsePromise.fromPromise(this.__customTags(request, requestOptions));
     }
 
     private async __customTags(
-        request: HiddenLayer.assetInventory.BulkCustomTagJobRequestV2,
+        request: HiddenLayerApi.assetInventory.BulkCustomTagJobRequestV2,
         requestOptions?: JobsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SyncJob>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SyncJob>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -120,17 +120,17 @@ export class JobsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.SyncJob, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.SyncJob, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

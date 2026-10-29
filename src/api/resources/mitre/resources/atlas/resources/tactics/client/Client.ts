@@ -10,7 +10,7 @@ import * as core from "../../../../../../../../core/index.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace TacticsClient {
     export type Options = BaseClientOptions;
@@ -26,12 +26,12 @@ export class TacticsClient {
     }
 
     /**
-     * @param {HiddenLayer.mitre.atlas.GetTacticsRequest} request
+     * @param {HiddenLayerApi.mitre.atlas.GetTacticsRequest} request
      * @param {TacticsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -41,16 +41,16 @@ export class TacticsClient {
      *     })
      */
     public get(
-        request: HiddenLayer.mitre.atlas.GetTacticsRequest,
+        request: HiddenLayerApi.mitre.atlas.GetTacticsRequest,
         requestOptions?: TacticsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.MitreAtlasTacticV1> {
+    ): core.HttpResponsePromise<HiddenLayerApi.MitreAtlasTacticV1> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.mitre.atlas.GetTacticsRequest,
+        request: HiddenLayerApi.mitre.atlas.GetTacticsRequest,
         requestOptions?: TacticsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.MitreAtlasTacticV1>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.MitreAtlasTacticV1>> {
         const { tactic_id: tacticId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -75,17 +75,17 @@ export class TacticsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.MitreAtlasTacticV1, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.MitreAtlasTacticV1, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

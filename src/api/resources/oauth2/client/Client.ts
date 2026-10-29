@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as HiddenLayer from "../../../index.js";
+import * as HiddenLayerApi from "../../../index.js";
 
 export declare namespace Oauth2Client {
     export type Options = BaseClientOptions;
@@ -28,11 +28,11 @@ export class Oauth2Client {
      *
      * Send the token as `Authorization: Bearer <access_token>` on every other request. It expires `expires_in` seconds after it is issued, so request a new one before then.
      *
-     * @param {HiddenLayer.AccessTokenRequest} request
+     * @param {HiddenLayerApi.AccessTokenRequest} request
      * @param {Oauth2Client.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -42,16 +42,16 @@ export class Oauth2Client {
      *     })
      */
     public token(
-        request: HiddenLayer.AccessTokenRequest,
+        request: HiddenLayerApi.AccessTokenRequest,
         requestOptions?: Oauth2Client.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AccessToken> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AccessToken> {
         return core.HttpResponsePromise.fromPromise(this.__token(request, requestOptions));
     }
 
     private async __token(
-        request: HiddenLayer.AccessTokenRequest,
+        request: HiddenLayerApi.AccessTokenRequest,
         requestOptions?: Oauth2Client.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AccessToken>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AccessToken>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -78,15 +78,15 @@ export class Oauth2Client {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.AccessToken, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.AccessToken, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

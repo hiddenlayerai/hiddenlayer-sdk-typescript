@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace TimeseriesScansClient {
     export type Options = BaseClientOptions;
@@ -23,13 +23,13 @@ export class TimeseriesScansClient {
     }
 
     /**
-     * @param {HiddenLayer.metrics.ListV2TimeseriesScansRequest} request
+     * @param {HiddenLayerApi.metrics.ListV2TimeseriesScansRequest} request
      * @param {TimeseriesScansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -40,16 +40,16 @@ export class TimeseriesScansClient {
      *     })
      */
     public listV2(
-        request: HiddenLayer.metrics.ListV2TimeseriesScansRequest,
+        request: HiddenLayerApi.metrics.ListV2TimeseriesScansRequest,
         requestOptions?: TimeseriesScansClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ScanTimeseriesResponseV2> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ScanTimeseriesResponseV2> {
         return core.HttpResponsePromise.fromPromise(this.__listV2(request, requestOptions));
     }
 
     private async __listV2(
-        request: HiddenLayer.metrics.ListV2TimeseriesScansRequest,
+        request: HiddenLayerApi.metrics.ListV2TimeseriesScansRequest,
         requestOptions?: TimeseriesScansClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ScanTimeseriesResponseV2>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ScanTimeseriesResponseV2>> {
         const { start_timestamp: startTimestamp, end_timestamp: endTimestamp, requester_id: requesterId } = request;
         const _queryParams: Record<string, unknown> = {
             start_timestamp: startTimestamp,
@@ -83,22 +83,25 @@ export class TimeseriesScansClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ScanTimeseriesResponseV2, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as HiddenLayerApi.ScanTimeseriesResponseV2,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -120,13 +123,13 @@ export class TimeseriesScansClient {
     }
 
     /**
-     * @param {HiddenLayer.metrics.ListTimeseriesScansRequest} request
+     * @param {HiddenLayerApi.metrics.ListTimeseriesScansRequest} request
      * @param {TimeseriesScansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -137,16 +140,16 @@ export class TimeseriesScansClient {
      *     })
      */
     public list(
-        request: HiddenLayer.metrics.ListTimeseriesScansRequest,
+        request: HiddenLayerApi.metrics.ListTimeseriesScansRequest,
         requestOptions?: TimeseriesScansClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ScanTimeseriesResponseV3> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ScanTimeseriesResponseV3> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
-        request: HiddenLayer.metrics.ListTimeseriesScansRequest,
+        request: HiddenLayerApi.metrics.ListTimeseriesScansRequest,
         requestOptions?: TimeseriesScansClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ScanTimeseriesResponseV3>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ScanTimeseriesResponseV3>> {
         const {
             start_timestamp: startTimestamp,
             end_timestamp: endTimestamp,
@@ -186,22 +189,25 @@ export class TimeseriesScansClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ScanTimeseriesResponseV3, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as HiddenLayerApi.ScanTimeseriesResponseV3,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

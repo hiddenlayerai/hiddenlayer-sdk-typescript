@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as HiddenLayer from "../../../index.js";
+import * as HiddenLayerApi from "../../../index.js";
 
 export declare namespace UsersClient {
     export type Options = BaseClientOptions;
@@ -30,21 +30,23 @@ export class UsersClient {
      *
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
      * @example
      *     await client.users.list()
      */
-    public list(requestOptions?: UsersClient.RequestOptions): core.HttpResponsePromise<HiddenLayer.ListUsersResponse> {
+    public list(
+        requestOptions?: UsersClient.RequestOptions,
+    ): core.HttpResponsePromise<HiddenLayerApi.ListUsersResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(requestOptions));
     }
 
     private async __list(
         requestOptions?: UsersClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ListUsersResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ListUsersResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -68,15 +70,18 @@ export class UsersClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ListUsersResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ListUsersResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -92,12 +97,12 @@ export class UsersClient {
     /**
      * Creates a new user in the tenant. The user's email address must be unique within the tenant.
      *
-     * @param {HiddenLayer.UserRequestBody} request
+     * @param {HiddenLayerApi.UserRequestBody} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -105,16 +110,16 @@ export class UsersClient {
      *     await client.users.create({})
      */
     public create(
-        request: HiddenLayer.UserRequestBody,
+        request: HiddenLayerApi.UserRequestBody,
         requestOptions?: UsersClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.CreateUsersResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.CreateUsersResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.UserRequestBody,
+        request: HiddenLayerApi.UserRequestBody,
         requestOptions?: UsersClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.CreateUsersResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.CreateUsersResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -141,17 +146,20 @@ export class UsersClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.CreateUsersResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.CreateUsersResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -167,12 +175,12 @@ export class UsersClient {
     /**
      * Retrieves details for the specified user.
      *
-     * @param {HiddenLayer.GetUsersRequest} request
+     * @param {HiddenLayerApi.GetUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -182,16 +190,16 @@ export class UsersClient {
      *     })
      */
     public get(
-        request: HiddenLayer.GetUsersRequest,
+        request: HiddenLayerApi.GetUsersRequest,
         requestOptions?: UsersClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.GetUsersResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.GetUsersResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.GetUsersRequest,
+        request: HiddenLayerApi.GetUsersRequest,
         requestOptions?: UsersClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.GetUsersResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.GetUsersResponse>> {
         const { id } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -216,17 +224,20 @@ export class UsersClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.GetUsersResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.GetUsersResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -242,14 +253,14 @@ export class UsersClient {
     /**
      * Updates details for the specified user. The user's email address must remain unique within the tenant.
      *
-     * @param {HiddenLayer.UpdateUsersRequest} request
+     * @param {HiddenLayerApi.UpdateUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -260,16 +271,16 @@ export class UsersClient {
      *     })
      */
     public update(
-        request: HiddenLayer.UpdateUsersRequest,
+        request: HiddenLayerApi.UpdateUsersRequest,
         requestOptions?: UsersClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.User> {
+    ): core.HttpResponsePromise<HiddenLayerApi.User> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.UpdateUsersRequest,
+        request: HiddenLayerApi.UpdateUsersRequest,
         requestOptions?: UsersClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.User>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.User>> {
         const { id, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -297,24 +308,27 @@ export class UsersClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.User, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.User, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -330,13 +344,13 @@ export class UsersClient {
     /**
      * Permanently removes the specified user from the tenant.
      *
-     * @param {HiddenLayer.DeleteUsersRequest} request
+     * @param {HiddenLayerApi.DeleteUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -346,14 +360,14 @@ export class UsersClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.DeleteUsersRequest,
+        request: HiddenLayerApi.DeleteUsersRequest,
         requestOptions?: UsersClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.DeleteUsersRequest,
+        request: HiddenLayerApi.DeleteUsersRequest,
         requestOptions?: UsersClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { id } = request;
@@ -386,13 +400,16 @@ export class UsersClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -410,11 +427,11 @@ export class UsersClient {
      * The user must complete the reset workflow themselves via the link in the email.
      * The `password` field in the response is deprecated and included only for backwards compatibility.
      *
-     * @param {HiddenLayer.ResetUsersRequest} request
+     * @param {HiddenLayerApi.ResetUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -424,16 +441,16 @@ export class UsersClient {
      *     })
      */
     public reset(
-        request: HiddenLayer.ResetUsersRequest,
+        request: HiddenLayerApi.ResetUsersRequest,
         requestOptions?: UsersClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ResetUsersResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ResetUsersResponse> {
         return core.HttpResponsePromise.fromPromise(this.__reset(request, requestOptions));
     }
 
     private async __reset(
-        request: HiddenLayer.ResetUsersRequest,
+        request: HiddenLayerApi.ResetUsersRequest,
         requestOptions?: UsersClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ResetUsersResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ResetUsersResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -460,15 +477,18 @@ export class UsersClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ResetUsersResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ResetUsersResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -486,21 +506,21 @@ export class UsersClient {
      *
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
      * @example
      *     await client.users.me()
      */
-    public me(requestOptions?: UsersClient.RequestOptions): core.HttpResponsePromise<HiddenLayer.MeUsersResponse> {
+    public me(requestOptions?: UsersClient.RequestOptions): core.HttpResponsePromise<HiddenLayerApi.MeUsersResponse> {
         return core.HttpResponsePromise.fromPromise(this.__me(requestOptions));
     }
 
     private async __me(
         requestOptions?: UsersClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.MeUsersResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.MeUsersResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -524,15 +544,18 @@ export class UsersClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.MeUsersResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.MeUsersResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

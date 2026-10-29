@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 import { FileClient } from "../resources/file/client/Client.js";
 
 export declare namespace UploadClient {
@@ -30,11 +30,11 @@ export class UploadClient {
     }
 
     /**
-     * @param {HiddenLayer.scans.MultiFileUploadRequestV3} request
+     * @param {HiddenLayerApi.scans.MultiFileUploadRequestV3} request
      * @param {UploadClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -46,16 +46,16 @@ export class UploadClient {
      *     })
      */
     public start(
-        request: HiddenLayer.scans.MultiFileUploadRequestV3,
+        request: HiddenLayerApi.scans.MultiFileUploadRequestV3,
         requestOptions?: UploadClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.scans.StartUploadResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.scans.StartUploadResponse> {
         return core.HttpResponsePromise.fromPromise(this.__start(request, requestOptions));
     }
 
     private async __start(
-        request: HiddenLayer.scans.MultiFileUploadRequestV3,
+        request: HiddenLayerApi.scans.MultiFileUploadRequestV3,
         requestOptions?: UploadClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.scans.StartUploadResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.scans.StartUploadResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -83,7 +83,7 @@ export class UploadClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.scans.StartUploadResponse,
+                data: _response.body as HiddenLayerApi.scans.StartUploadResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -91,9 +91,9 @@ export class UploadClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -110,11 +110,11 @@ export class UploadClient {
     }
 
     /**
-     * @param {HiddenLayer.scans.CompleteAllUploadRequest} request
+     * @param {HiddenLayerApi.scans.CompleteAllUploadRequest} request
      * @param {UploadClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -124,16 +124,16 @@ export class UploadClient {
      *     })
      */
     public completeAll(
-        request: HiddenLayer.scans.CompleteAllUploadRequest,
+        request: HiddenLayerApi.scans.CompleteAllUploadRequest,
         requestOptions?: UploadClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.scans.CompleteAllUploadResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.scans.CompleteAllUploadResponse> {
         return core.HttpResponsePromise.fromPromise(this.__completeAll(request, requestOptions));
     }
 
     private async __completeAll(
-        request: HiddenLayer.scans.CompleteAllUploadRequest,
+        request: HiddenLayerApi.scans.CompleteAllUploadRequest,
         requestOptions?: UploadClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.scans.CompleteAllUploadResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.scans.CompleteAllUploadResponse>> {
         const { scan_id: scanId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -159,7 +159,7 @@ export class UploadClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.scans.CompleteAllUploadResponse,
+                data: _response.body as HiddenLayerApi.scans.CompleteAllUploadResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -167,9 +167,9 @@ export class UploadClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

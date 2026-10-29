@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace RelationshipsClient {
     export type Options = BaseClientOptions;
@@ -25,11 +25,11 @@ export class RelationshipsClient {
     /**
      * @deprecated
      *
-     * @param {HiddenLayer.assetInventory.GetRelationshipsRequest} request
+     * @param {HiddenLayerApi.assetInventory.GetRelationshipsRequest} request
      * @param {RelationshipsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -39,16 +39,16 @@ export class RelationshipsClient {
      *     })
      */
     public get(
-        request: HiddenLayer.assetInventory.GetRelationshipsRequest,
+        request: HiddenLayerApi.assetInventory.GetRelationshipsRequest,
         requestOptions?: RelationshipsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AiAssetInventoryV1AssetRelationship> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AiAssetInventoryV1AssetRelationship> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.assetInventory.GetRelationshipsRequest,
+        request: HiddenLayerApi.assetInventory.GetRelationshipsRequest,
         requestOptions?: RelationshipsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AiAssetInventoryV1AssetRelationship>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AiAssetInventoryV1AssetRelationship>> {
         const { relationship_id: relationshipId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -74,7 +74,7 @@ export class RelationshipsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.AiAssetInventoryV1AssetRelationship,
+                data: _response.body as HiddenLayerApi.AiAssetInventoryV1AssetRelationship,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -82,9 +82,9 @@ export class RelationshipsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

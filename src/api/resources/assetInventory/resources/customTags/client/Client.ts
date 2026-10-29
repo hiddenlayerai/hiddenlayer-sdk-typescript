@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace CustomTagsClient {
     export type Options = BaseClientOptions;
@@ -28,14 +28,14 @@ export class CustomTagsClient {
      *
      * Updates a tag definition. Only the name can be changed at this time.
      *
-     * @param {HiddenLayer.assetInventory.AiAssetInventoryV1TagDefinitionUpdate} request
+     * @param {HiddenLayerApi.assetInventory.AiAssetInventoryV1TagDefinitionUpdate} request
      * @param {CustomTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -46,16 +46,16 @@ export class CustomTagsClient {
      *     })
      */
     public updateV1(
-        request: HiddenLayer.assetInventory.AiAssetInventoryV1TagDefinitionUpdate,
+        request: HiddenLayerApi.assetInventory.AiAssetInventoryV1TagDefinitionUpdate,
         requestOptions?: CustomTagsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AiAssetInventoryV1TagDefinition> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AiAssetInventoryV1TagDefinition> {
         return core.HttpResponsePromise.fromPromise(this.__updateV1(request, requestOptions));
     }
 
     private async __updateV1(
-        request: HiddenLayer.assetInventory.AiAssetInventoryV1TagDefinitionUpdate,
+        request: HiddenLayerApi.assetInventory.AiAssetInventoryV1TagDefinitionUpdate,
         requestOptions?: CustomTagsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AiAssetInventoryV1TagDefinition>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AiAssetInventoryV1TagDefinition>> {
         const { tag_name: tagName, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -84,7 +84,7 @@ export class CustomTagsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.AiAssetInventoryV1TagDefinition,
+                data: _response.body as HiddenLayerApi.AiAssetInventoryV1TagDefinition,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -92,15 +92,15 @@ export class CustomTagsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -126,11 +126,11 @@ export class CustomTagsClient {
      *
      * Returns a paginated list of values for a given custom tag name.
      *
-     * @param {HiddenLayer.assetInventory.ValuesV1CustomTagsRequest} request
+     * @param {HiddenLayerApi.assetInventory.ValuesV1CustomTagsRequest} request
      * @param {CustomTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -142,13 +142,13 @@ export class CustomTagsClient {
      *     })
      */
     public async valuesV1(
-        request: HiddenLayer.assetInventory.ValuesV1CustomTagsRequest,
+        request: HiddenLayerApi.assetInventory.ValuesV1CustomTagsRequest,
         requestOptions?: CustomTagsClient.RequestOptions,
-    ): Promise<core.Page<string, HiddenLayer.AiAssetInventoryV1TagValueList>> {
+    ): Promise<core.Page<string, HiddenLayerApi.AiAssetInventoryV1TagValueList>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.assetInventory.ValuesV1CustomTagsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.AiAssetInventoryV1TagValueList>> => {
+                request: HiddenLayerApi.assetInventory.ValuesV1CustomTagsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.AiAssetInventoryV1TagValueList>> => {
                 const { tag_name: tagName, sort, q, cursor, page_size: pageSize } = request;
                 const _queryParams: Record<string, unknown> = {
                     sort,
@@ -184,19 +184,19 @@ export class CustomTagsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.AiAssetInventoryV1TagValueList,
+                        data: _response.body as HiddenLayerApi.AiAssetInventoryV1TagValueList,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 401:
-                            throw new HiddenLayer.UnauthorizedError(
+                            throw new HiddenLayerApi.UnauthorizedError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -217,7 +217,7 @@ export class CustomTagsClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<string, HiddenLayer.AiAssetInventoryV1TagValueList>({
+        return new core.Page<string, HiddenLayerApi.AiAssetInventoryV1TagValueList>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -234,14 +234,14 @@ export class CustomTagsClient {
      *
      * Updates a tag definition. Only the name can be changed at this time.
      *
-     * @param {HiddenLayer.assetInventory.TagDefinitionUpdate} request
+     * @param {HiddenLayerApi.assetInventory.TagDefinitionUpdate} request
      * @param {CustomTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -252,16 +252,16 @@ export class CustomTagsClient {
      *     })
      */
     public update(
-        request: HiddenLayer.assetInventory.TagDefinitionUpdate,
+        request: HiddenLayerApi.assetInventory.TagDefinitionUpdate,
         requestOptions?: CustomTagsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.TagDefinition> {
+    ): core.HttpResponsePromise<HiddenLayerApi.TagDefinition> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.assetInventory.TagDefinitionUpdate,
+        request: HiddenLayerApi.assetInventory.TagDefinitionUpdate,
         requestOptions?: CustomTagsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.TagDefinition>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.TagDefinition>> {
         const { tag_name: tagName, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -289,21 +289,21 @@ export class CustomTagsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.TagDefinition, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.TagDefinition, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -329,11 +329,11 @@ export class CustomTagsClient {
      *
      * Returns a cursor-paginated list of values for a given custom tag name.
      *
-     * @param {HiddenLayer.assetInventory.ValuesCustomTagsRequest} request
+     * @param {HiddenLayerApi.assetInventory.ValuesCustomTagsRequest} request
      * @param {CustomTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -345,13 +345,13 @@ export class CustomTagsClient {
      *     })
      */
     public async values(
-        request: HiddenLayer.assetInventory.ValuesCustomTagsRequest,
+        request: HiddenLayerApi.assetInventory.ValuesCustomTagsRequest,
         requestOptions?: CustomTagsClient.RequestOptions,
-    ): Promise<core.Page<string, HiddenLayer.TagValueList>> {
+    ): Promise<core.Page<string, HiddenLayerApi.TagValueList>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.assetInventory.ValuesCustomTagsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.TagValueList>> => {
+                request: HiddenLayerApi.assetInventory.ValuesCustomTagsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.TagValueList>> => {
                 const { tag_name: tagName, sort, q, cursor, page_size: pageSize } = request;
                 const _queryParams: Record<string, unknown> = {
                     sort,
@@ -386,17 +386,17 @@ export class CustomTagsClient {
                     logging: this._options.logging,
                 });
                 if (_response.ok) {
-                    return { data: _response.body as HiddenLayer.TagValueList, rawResponse: _response.rawResponse };
+                    return { data: _response.body as HiddenLayerApi.TagValueList, rawResponse: _response.rawResponse };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 401:
-                            throw new HiddenLayer.UnauthorizedError(
+                            throw new HiddenLayerApi.UnauthorizedError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -417,7 +417,7 @@ export class CustomTagsClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<string, HiddenLayer.TagValueList>({
+        return new core.Page<string, HiddenLayerApi.TagValueList>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as HiddenLayer from "../../../index.js";
+import * as HiddenLayerApi from "../../../index.js";
 
 export declare namespace RuntimeClient {
     export type Options = BaseClientOptions;
@@ -52,14 +52,14 @@ export class RuntimeClient {
      * (provider request/response payloads returned in the same provider format), use
      * the request-evaluations and response-evaluations endpoints instead.
      *
-     * @param {HiddenLayer.InteractionEvaluationRequest} request
+     * @param {HiddenLayerApi.InteractionEvaluationRequest} request
      * @param {RuntimeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -458,16 +458,16 @@ export class RuntimeClient {
      *     })
      */
     public evaluateInteraction(
-        request: HiddenLayer.InteractionEvaluationRequest,
+        request: HiddenLayerApi.InteractionEvaluationRequest,
         requestOptions?: RuntimeClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.InteractionEvaluationResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.InteractionEvaluationResponse> {
         return core.HttpResponsePromise.fromPromise(this.__evaluateInteraction(request, requestOptions));
     }
 
     private async __evaluateInteraction(
-        request: HiddenLayer.InteractionEvaluationRequest,
+        request: HiddenLayerApi.InteractionEvaluationRequest,
         requestOptions?: RuntimeClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.InteractionEvaluationResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.InteractionEvaluationResponse>> {
         const { "HL-Project-Id": hlProjectId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -497,7 +497,7 @@ export class RuntimeClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.InteractionEvaluationResponse,
+                data: _response.body as HiddenLayerApi.InteractionEvaluationResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -505,18 +505,21 @@ export class RuntimeClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -558,7 +561,7 @@ export class RuntimeClient {
      *   parts unchanged.
      * - [OpenAI Decisions](https://developers.openai.com/api/docs/guides/decisions)
      *
-     * @param {HiddenLayer.EvaluateRequestRuntimeRequest} request
+     * @param {HiddenLayerApi.EvaluateRequestRuntimeRequest} request
      * @param {RuntimeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link errors.HiddenLayerError}
@@ -677,16 +680,16 @@ export class RuntimeClient {
      *     })
      */
     public evaluateRequest(
-        request: HiddenLayer.EvaluateRequestRuntimeRequest,
+        request: HiddenLayerApi.EvaluateRequestRuntimeRequest,
         requestOptions?: RuntimeClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ProviderPayload> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ProviderPayload> {
         return core.HttpResponsePromise.fromPromise(this.__evaluateRequest(request, requestOptions));
     }
 
     private async __evaluateRequest(
-        request: HiddenLayer.EvaluateRequestRuntimeRequest,
+        request: HiddenLayerApi.EvaluateRequestRuntimeRequest,
         requestOptions?: RuntimeClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ProviderPayload>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ProviderPayload>> {
         const { "HL-Project-Id": hlProjectId, "HL-Runtime-Session-Id": hlRuntimeSessionId, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -715,7 +718,7 @@ export class RuntimeClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ProviderPayload, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ProviderPayload, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -756,7 +759,7 @@ export class RuntimeClient {
      * A TypeSafe System One or OpenAI Decisions response is never redacted. When blocked, it
      * is replaced by the generic block body, `{"error": "request blocked by policy"}`.
      *
-     * @param {HiddenLayer.EvaluateResponseRuntimeRequest} request
+     * @param {HiddenLayerApi.EvaluateResponseRuntimeRequest} request
      * @param {RuntimeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link errors.HiddenLayerError}
@@ -895,16 +898,16 @@ export class RuntimeClient {
      *     })
      */
     public evaluateResponse(
-        request: HiddenLayer.EvaluateResponseRuntimeRequest,
+        request: HiddenLayerApi.EvaluateResponseRuntimeRequest,
         requestOptions?: RuntimeClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ProviderPayload> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ProviderPayload> {
         return core.HttpResponsePromise.fromPromise(this.__evaluateResponse(request, requestOptions));
     }
 
     private async __evaluateResponse(
-        request: HiddenLayer.EvaluateResponseRuntimeRequest,
+        request: HiddenLayerApi.EvaluateResponseRuntimeRequest,
         requestOptions?: RuntimeClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ProviderPayload>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ProviderPayload>> {
         const { "HL-Project-Id": hlProjectId, "HL-Runtime-Session-Id": hlRuntimeSessionId, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -933,7 +936,7 @@ export class RuntimeClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ProviderPayload, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ProviderPayload, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

@@ -9,7 +9,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace JobsClient {
     export type Options = BaseClientOptions;
@@ -25,11 +25,11 @@ export class JobsClient {
     }
 
     /**
-     * @param {HiddenLayer.scans.ScanJobRequest} request
+     * @param {HiddenLayerApi.scans.ScanJobRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -106,16 +106,16 @@ export class JobsClient {
      *     })
      */
     public request(
-        request: HiddenLayer.scans.ScanJobRequest,
+        request: HiddenLayerApi.scans.ScanJobRequest,
         requestOptions?: JobsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ScanJob> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ScanJob> {
         return core.HttpResponsePromise.fromPromise(this.__request(request, requestOptions));
     }
 
     private async __request(
-        request: HiddenLayer.scans.ScanJobRequest,
+        request: HiddenLayerApi.scans.ScanJobRequest,
         requestOptions?: JobsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ScanJob>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ScanJob>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -142,15 +142,15 @@ export class JobsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ScanJob, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ScanJob, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -167,11 +167,11 @@ export class JobsClient {
     }
 
     /**
-     * @param {HiddenLayer.scans.RetrieveJobsRequest} request
+     * @param {HiddenLayerApi.scans.RetrieveJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -181,16 +181,16 @@ export class JobsClient {
      *     })
      */
     public retrieve(
-        request: HiddenLayer.scans.RetrieveJobsRequest,
+        request: HiddenLayerApi.scans.RetrieveJobsRequest,
         requestOptions?: JobsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ScanReportOfRecordV3> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ScanReportOfRecordV3> {
         return core.HttpResponsePromise.fromPromise(this.__retrieve(request, requestOptions));
     }
 
     private async __retrieve(
-        request: HiddenLayer.scans.RetrieveJobsRequest,
+        request: HiddenLayerApi.scans.RetrieveJobsRequest,
         requestOptions?: JobsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ScanReportOfRecordV3>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ScanReportOfRecordV3>> {
         const { scan_id: scanId, has_detections: hasDetections } = request;
         const _queryParams: Record<string, unknown> = {
             has_detections: hasDetections,
@@ -222,15 +222,15 @@ export class JobsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ScanReportOfRecordV3, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ScanReportOfRecordV3, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -244,11 +244,11 @@ export class JobsClient {
     }
 
     /**
-     * @param {HiddenLayer.scans.ListJobsRequest} request
+     * @param {HiddenLayerApi.scans.ListJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -261,13 +261,13 @@ export class JobsClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.scans.ListJobsRequest = {},
+        request: HiddenLayerApi.scans.ListJobsRequest = {},
         requestOptions?: JobsClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.ScanReportOfRecordV3Summary, HiddenLayer.scans.ListJobsResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.ScanReportOfRecordV3Summary, HiddenLayerApi.scans.ListJobsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.scans.ListJobsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.scans.ListJobsResponse>> => {
+                request: HiddenLayerApi.scans.ListJobsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.scans.ListJobsResponse>> => {
                 const {
                     model_version_ids: modelVersionIds,
                     model_ids: modelIds,
@@ -358,19 +358,22 @@ export class JobsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.scans.ListJobsResponse,
+                        data: _response.body as HiddenLayerApi.scans.ListJobsResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 404:
-                            throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                            throw new HiddenLayerApi.NotFoundError(
+                                _response.error.body as unknown,
+                                _response.rawResponse,
+                            );
                         default:
                             throw new errors.HiddenLayerError({
                                 statusCode: _response.error.statusCode,
@@ -384,7 +387,7 @@ export class JobsClient {
         );
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.ScanReportOfRecordV3Summary, HiddenLayer.scans.ListJobsResponse>({
+        return new core.Page<HiddenLayerApi.ScanReportOfRecordV3Summary, HiddenLayerApi.scans.ListJobsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>

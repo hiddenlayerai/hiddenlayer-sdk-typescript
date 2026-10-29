@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 import { CsvClient } from "../resources/csv/client/Client.js";
 import { SupplyChainClient } from "../resources/supplyChain/client/Client.js";
 
@@ -37,11 +37,11 @@ export class ReportsClient {
     /**
      * Returns a cursor-paginated list of scan reports.
      *
-     * @param {HiddenLayer.scans.ListReportsRequest} request
+     * @param {HiddenLayerApi.scans.ListReportsRequest} request
      * @param {ReportsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -52,13 +52,13 @@ export class ReportsClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.scans.ListReportsRequest = {},
+        request: HiddenLayerApi.scans.ListReportsRequest = {},
         requestOptions?: ReportsClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.ScanReport, HiddenLayer.scans.ListReportsResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.ScanReport, HiddenLayerApi.scans.ListReportsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.scans.ListReportsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.scans.ListReportsResponse>> => {
+                request: HiddenLayerApi.scans.ListReportsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.scans.ListReportsResponse>> => {
                 const { page_size: pageSize, limit, cursor, time } = request;
                 const _queryParams: Record<string, unknown> = {
                     page_size: pageSize,
@@ -94,19 +94,19 @@ export class ReportsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.scans.ListReportsResponse,
+                        data: _response.body as HiddenLayerApi.scans.ListReportsResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 422:
-                            throw new HiddenLayer.UnprocessableEntityError(
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -122,7 +122,7 @@ export class ReportsClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.ScanReport, HiddenLayer.scans.ListReportsResponse>({
+        return new core.Page<HiddenLayerApi.ScanReport, HiddenLayerApi.scans.ListReportsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>

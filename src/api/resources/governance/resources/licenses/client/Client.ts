@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace LicensesClient {
     export type Options = BaseClientOptions;
@@ -28,8 +28,8 @@ export class LicensesClient {
      *
      * @param {LicensesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -38,13 +38,13 @@ export class LicensesClient {
      */
     public list(
         requestOptions?: LicensesClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.governance.ListLicensesResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.governance.ListLicensesResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(requestOptions));
     }
 
     private async __list(
         requestOptions?: LicensesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.governance.ListLicensesResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.governance.ListLicensesResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -69,7 +69,7 @@ export class LicensesClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.governance.ListLicensesResponse,
+                data: _response.body as HiddenLayerApi.governance.ListLicensesResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -77,9 +77,12 @@ export class LicensesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

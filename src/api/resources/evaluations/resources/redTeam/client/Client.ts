@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 import { ConfigsClient } from "../resources/configs/client/Client.js";
 import { ObjectivesClient } from "../resources/objectives/client/Client.js";
 
@@ -42,10 +42,10 @@ export class RedTeamClient {
      *
      * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -54,13 +54,13 @@ export class RedTeamClient {
      */
     public targetModels(
         requestOptions?: RedTeamClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.TargetModelResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.TargetModelResponse> {
         return core.HttpResponsePromise.fromPromise(this.__targetModels(requestOptions));
     }
 
     private async __targetModels(
         requestOptions?: RedTeamClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.TargetModelResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.TargetModelResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -84,19 +84,22 @@ export class RedTeamClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.TargetModelResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.TargetModelResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -125,13 +128,13 @@ export class RedTeamClient {
      * Results are ordered by completed_at DESC (newest first).
      * Returns metadata only - use GET /evaluations/v1/red-team/{workflow_id} for full payload.
      *
-     * @param {HiddenLayer.evaluations.ListRedTeamRequest} request
+     * @param {HiddenLayerApi.evaluations.ListRedTeamRequest} request
      * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -139,13 +142,13 @@ export class RedTeamClient {
      *     await client.evaluations.redTeam.list()
      */
     public async list(
-        request: HiddenLayer.evaluations.ListRedTeamRequest = {},
+        request: HiddenLayerApi.evaluations.ListRedTeamRequest = {},
         requestOptions?: RedTeamClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.RedTeamResultItem, HiddenLayer.RedTeamListResultsResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.RedTeamResultItem, HiddenLayerApi.RedTeamListResultsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.evaluations.ListRedTeamRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.RedTeamListResultsResponse>> => {
+                request: HiddenLayerApi.evaluations.ListRedTeamRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.RedTeamListResultsResponse>> => {
                 const {
                     target_model: targetModel,
                     workflow_type: workflowType,
@@ -196,29 +199,29 @@ export class RedTeamClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.RedTeamListResultsResponse,
+                        data: _response.body as HiddenLayerApi.RedTeamListResultsResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 401:
-                            throw new HiddenLayer.UnauthorizedError(
+                            throw new HiddenLayerApi.UnauthorizedError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 422:
-                            throw new HiddenLayer.UnprocessableEntityError(
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 500:
-                            throw new HiddenLayer.InternalServerError(
+                            throw new HiddenLayerApi.InternalServerError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -239,7 +242,7 @@ export class RedTeamClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.RedTeamResultItem, HiddenLayer.RedTeamListResultsResponse>({
+        return new core.Page<HiddenLayerApi.RedTeamResultItem, HiddenLayerApi.RedTeamListResultsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -257,13 +260,13 @@ export class RedTeamClient {
      * Start a new red team client workflow.
      * Auto-triggers planning phase. Client should then poll /next-action.
      *
-     * @param {HiddenLayer.evaluations.ClientRedTeamBody} request
+     * @param {HiddenLayerApi.evaluations.ClientRedTeamBody} request
      * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -273,16 +276,16 @@ export class RedTeamClient {
      *     })
      */
     public create(
-        request: HiddenLayer.evaluations.ClientRedTeamBody,
+        request: HiddenLayerApi.evaluations.ClientRedTeamBody,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.StartWorkflowResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.StartWorkflowResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.evaluations.ClientRedTeamBody,
+        request: HiddenLayerApi.evaluations.ClientRedTeamBody,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.StartWorkflowResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.StartWorkflowResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -309,19 +312,19 @@ export class RedTeamClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.StartWorkflowResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.StartWorkflowResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -342,13 +345,13 @@ export class RedTeamClient {
      *
      * Get current status of a red team workflow.
      *
-     * @param {HiddenLayer.evaluations.RetrieveStatusRedTeamRequest} request
+     * @param {HiddenLayerApi.evaluations.RetrieveStatusRedTeamRequest} request
      * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -358,16 +361,16 @@ export class RedTeamClient {
      *     })
      */
     public retrieveStatus(
-        request: HiddenLayer.evaluations.RetrieveStatusRedTeamRequest,
+        request: HiddenLayerApi.evaluations.RetrieveStatusRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.WorkflowStatusResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.WorkflowStatusResponse> {
         return core.HttpResponsePromise.fromPromise(this.__retrieveStatus(request, requestOptions));
     }
 
     private async __retrieveStatus(
-        request: HiddenLayer.evaluations.RetrieveStatusRedTeamRequest,
+        request: HiddenLayerApi.evaluations.RetrieveStatusRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.WorkflowStatusResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.WorkflowStatusResponse>> {
         const { workflow_id: workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -392,19 +395,22 @@ export class RedTeamClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.WorkflowStatusResponse, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as HiddenLayerApi.WorkflowStatusResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -436,13 +442,13 @@ export class RedTeamClient {
      * - If processing: Returns processing=true (client continues polling)
      * - If complete: Returns action_type=complete
      *
-     * @param {HiddenLayer.evaluations.RetrieveNextActionRedTeamRequest} request
+     * @param {HiddenLayerApi.evaluations.RetrieveNextActionRedTeamRequest} request
      * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -452,16 +458,16 @@ export class RedTeamClient {
      *     })
      */
     public retrieveNextAction(
-        request: HiddenLayer.evaluations.RetrieveNextActionRedTeamRequest,
+        request: HiddenLayerApi.evaluations.RetrieveNextActionRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.NextActionResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.NextActionResponse> {
         return core.HttpResponsePromise.fromPromise(this.__retrieveNextAction(request, requestOptions));
     }
 
     private async __retrieveNextAction(
-        request: HiddenLayer.evaluations.RetrieveNextActionRedTeamRequest,
+        request: HiddenLayerApi.evaluations.RetrieveNextActionRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.NextActionResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.NextActionResponse>> {
         const { workflow_id: workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -486,19 +492,19 @@ export class RedTeamClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.NextActionResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.NextActionResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -527,14 +533,14 @@ export class RedTeamClient {
      * This triggers the ProcessTargetResponseWorkflow child workflow
      * for the specified session. Returns immediately.
      *
-     * @param {HiddenLayer.evaluations.SubmitTargetResponseBody} request
+     * @param {HiddenLayerApi.evaluations.SubmitTargetResponseBody} request
      * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -546,16 +552,16 @@ export class RedTeamClient {
      *     })
      */
     public submitTargetResponse(
-        request: HiddenLayer.evaluations.SubmitTargetResponseBody,
+        request: HiddenLayerApi.evaluations.SubmitTargetResponseBody,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SubmitTargetResponseResult> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SubmitTargetResponseResult> {
         return core.HttpResponsePromise.fromPromise(this.__submitTargetResponse(request, requestOptions));
     }
 
     private async __submitTargetResponse(
-        request: HiddenLayer.evaluations.SubmitTargetResponseBody,
+        request: HiddenLayerApi.evaluations.SubmitTargetResponseBody,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SubmitTargetResponseResult>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SubmitTargetResponseResult>> {
         const { workflow_id: workflowId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -584,7 +590,7 @@ export class RedTeamClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.SubmitTargetResponseResult,
+                data: _response.body as HiddenLayerApi.SubmitTargetResponseResult,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -592,15 +598,15 @@ export class RedTeamClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -626,13 +632,13 @@ export class RedTeamClient {
      *
      * Get the complete result of a red team workflow.
      *
-     * @param {HiddenLayer.evaluations.RetrieveEvaluationResultsRedTeamRequest} request
+     * @param {HiddenLayerApi.evaluations.RetrieveEvaluationResultsRedTeamRequest} request
      * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -642,16 +648,16 @@ export class RedTeamClient {
      *     })
      */
     public retrieveEvaluationResults(
-        request: HiddenLayer.evaluations.RetrieveEvaluationResultsRedTeamRequest,
+        request: HiddenLayerApi.evaluations.RetrieveEvaluationResultsRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.WorkflowResultResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.WorkflowResultResponse> {
         return core.HttpResponsePromise.fromPromise(this.__retrieveEvaluationResults(request, requestOptions));
     }
 
     private async __retrieveEvaluationResults(
-        request: HiddenLayer.evaluations.RetrieveEvaluationResultsRedTeamRequest,
+        request: HiddenLayerApi.evaluations.RetrieveEvaluationResultsRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.WorkflowResultResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.WorkflowResultResponse>> {
         const { workflow_id: workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -676,19 +682,22 @@ export class RedTeamClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.WorkflowResultResponse, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as HiddenLayerApi.WorkflowResultResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -714,13 +723,13 @@ export class RedTeamClient {
      *
      * Delete a red team workflow result from storage.
      *
-     * @param {HiddenLayer.evaluations.DeleteRedTeamRequest} request
+     * @param {HiddenLayerApi.evaluations.DeleteRedTeamRequest} request
      * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -730,14 +739,14 @@ export class RedTeamClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.evaluations.DeleteRedTeamRequest,
+        request: HiddenLayerApi.evaluations.DeleteRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.evaluations.DeleteRedTeamRequest,
+        request: HiddenLayerApi.evaluations.DeleteRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { workflow_id: workflowId } = request;
@@ -770,13 +779,13 @@ export class RedTeamClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -802,13 +811,13 @@ export class RedTeamClient {
      *
      * Terminate a running workflow job.
      *
-     * @param {HiddenLayer.evaluations.TerminateRedTeamRequest} request
+     * @param {HiddenLayerApi.evaluations.TerminateRedTeamRequest} request
      * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -818,14 +827,14 @@ export class RedTeamClient {
      *     })
      */
     public terminate(
-        request: HiddenLayer.evaluations.TerminateRedTeamRequest,
+        request: HiddenLayerApi.evaluations.TerminateRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__terminate(request, requestOptions));
     }
 
     private async __terminate(
-        request: HiddenLayer.evaluations.TerminateRedTeamRequest,
+        request: HiddenLayerApi.evaluations.TerminateRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { workflow_id: workflowId } = request;
@@ -858,13 +867,13 @@ export class RedTeamClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -890,14 +899,14 @@ export class RedTeamClient {
      *
      * Start a new simulated red team workflow with a built-in target model.
      *
-     * @param {HiddenLayer.evaluations.StartRedTeamBody} request
+     * @param {HiddenLayerApi.evaluations.StartRedTeamBody} request
      * @param {RedTeamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -907,16 +916,16 @@ export class RedTeamClient {
      *     })
      */
     public simulated(
-        request: HiddenLayer.evaluations.StartRedTeamBody,
+        request: HiddenLayerApi.evaluations.StartRedTeamBody,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.StartWorkflowResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.StartWorkflowResponse> {
         return core.HttpResponsePromise.fromPromise(this.__simulated(request, requestOptions));
     }
 
     private async __simulated(
-        request: HiddenLayer.evaluations.StartRedTeamBody,
+        request: HiddenLayerApi.evaluations.StartRedTeamBody,
         requestOptions?: RedTeamClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.StartWorkflowResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.StartWorkflowResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -943,24 +952,24 @@ export class RedTeamClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.StartWorkflowResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.StartWorkflowResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -986,22 +995,22 @@ export class RedTeamClient {
      *
      * Export attacker/target interactions for a red team workflow as CSV (one row per message).
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      */
     public csv(
-        request: HiddenLayer.evaluations.CsvRedTeamRequest,
+        request: HiddenLayerApi.evaluations.CsvRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
     ): core.HttpResponsePromise<core.BinaryResponse> {
         return core.HttpResponsePromise.fromPromise(this.__csv(request, requestOptions));
     }
 
     private async __csv(
-        request: HiddenLayer.evaluations.CsvRedTeamRequest,
+        request: HiddenLayerApi.evaluations.CsvRedTeamRequest,
         requestOptions?: RedTeamClient.RequestOptions,
     ): Promise<core.WithRawResponse<core.BinaryResponse>> {
         const { workflow_id: workflowId } = request;
@@ -1035,13 +1044,13 @@ export class RedTeamClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace FileClient {
     export type Options = BaseClientOptions;
@@ -25,10 +25,10 @@ export class FileClient {
     /**
      * Retrieve detailed file information including all associated instances, repositories, and metadata
      *
-     * @param {HiddenLayer.modelIntel.GetFileRequest} request
+     * @param {HiddenLayerApi.modelIntel.GetFileRequest} request
      * @param {FileClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -39,16 +39,16 @@ export class FileClient {
      *     })
      */
     public get(
-        request: HiddenLayer.modelIntel.GetFileRequest,
+        request: HiddenLayerApi.modelIntel.GetFileRequest,
         requestOptions?: FileClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.modelIntel.GetFileResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.modelIntel.GetFileResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.modelIntel.GetFileRequest,
+        request: HiddenLayerApi.modelIntel.GetFileRequest,
         requestOptions?: FileClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.modelIntel.GetFileResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.modelIntel.GetFileResponse>> {
         const { sha256, page_size: pageSize, cursor } = request;
         const _queryParams: Record<string, unknown> = {
             page_size: pageSize,
@@ -82,7 +82,7 @@ export class FileClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.modelIntel.GetFileResponse,
+                data: _response.body as HiddenLayerApi.modelIntel.GetFileResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -90,7 +90,7 @@ export class FileClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -109,11 +109,11 @@ export class FileClient {
     /**
      * Retrieve file information such as filetype, file size in bytes, and MIME type
      *
-     * @param {HiddenLayer.modelIntel.MetadataFileRequest} request
+     * @param {HiddenLayerApi.modelIntel.MetadataFileRequest} request
      * @param {FileClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -123,16 +123,16 @@ export class FileClient {
      *     })
      */
     public metadata(
-        request: HiddenLayer.modelIntel.MetadataFileRequest,
+        request: HiddenLayerApi.modelIntel.MetadataFileRequest,
         requestOptions?: FileClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.File_> {
+    ): core.HttpResponsePromise<HiddenLayerApi.File_> {
         return core.HttpResponsePromise.fromPromise(this.__metadata(request, requestOptions));
     }
 
     private async __metadata(
-        request: HiddenLayer.modelIntel.MetadataFileRequest,
+        request: HiddenLayerApi.modelIntel.MetadataFileRequest,
         requestOptions?: FileClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.File_>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.File_>> {
         const { sha256 } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -157,15 +157,15 @@ export class FileClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.File_, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.File_, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

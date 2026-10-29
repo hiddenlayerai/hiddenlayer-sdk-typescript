@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace DiscoveredTagsClient {
     export type Options = BaseClientOptions;
@@ -27,11 +27,11 @@ export class DiscoveredTagsClient {
      *
      * Returns a paginated list of values for a given discovered tag name.
      *
-     * @param {HiddenLayer.assetInventory.ValuesV1DiscoveredTagsRequest} request
+     * @param {HiddenLayerApi.assetInventory.ValuesV1DiscoveredTagsRequest} request
      * @param {DiscoveredTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -43,13 +43,13 @@ export class DiscoveredTagsClient {
      *     })
      */
     public async valuesV1(
-        request: HiddenLayer.assetInventory.ValuesV1DiscoveredTagsRequest,
+        request: HiddenLayerApi.assetInventory.ValuesV1DiscoveredTagsRequest,
         requestOptions?: DiscoveredTagsClient.RequestOptions,
-    ): Promise<core.Page<string, HiddenLayer.AiAssetInventoryV1TagValueList>> {
+    ): Promise<core.Page<string, HiddenLayerApi.AiAssetInventoryV1TagValueList>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.assetInventory.ValuesV1DiscoveredTagsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.AiAssetInventoryV1TagValueList>> => {
+                request: HiddenLayerApi.assetInventory.ValuesV1DiscoveredTagsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.AiAssetInventoryV1TagValueList>> => {
                 const { tag_name: tagName, sort, q, cursor, page_size: pageSize } = request;
                 const _queryParams: Record<string, unknown> = {
                     sort,
@@ -85,19 +85,19 @@ export class DiscoveredTagsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.AiAssetInventoryV1TagValueList,
+                        data: _response.body as HiddenLayerApi.AiAssetInventoryV1TagValueList,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 401:
-                            throw new HiddenLayer.UnauthorizedError(
+                            throw new HiddenLayerApi.UnauthorizedError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -118,7 +118,7 @@ export class DiscoveredTagsClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<string, HiddenLayer.AiAssetInventoryV1TagValueList>({
+        return new core.Page<string, HiddenLayerApi.AiAssetInventoryV1TagValueList>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -135,11 +135,11 @@ export class DiscoveredTagsClient {
      *
      * Returns a cursor-paginated list of values for a given discovered tag name.
      *
-     * @param {HiddenLayer.assetInventory.ValuesDiscoveredTagsRequest} request
+     * @param {HiddenLayerApi.assetInventory.ValuesDiscoveredTagsRequest} request
      * @param {DiscoveredTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -151,13 +151,13 @@ export class DiscoveredTagsClient {
      *     })
      */
     public async values(
-        request: HiddenLayer.assetInventory.ValuesDiscoveredTagsRequest,
+        request: HiddenLayerApi.assetInventory.ValuesDiscoveredTagsRequest,
         requestOptions?: DiscoveredTagsClient.RequestOptions,
-    ): Promise<core.Page<string, HiddenLayer.TagValueList>> {
+    ): Promise<core.Page<string, HiddenLayerApi.TagValueList>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.assetInventory.ValuesDiscoveredTagsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.TagValueList>> => {
+                request: HiddenLayerApi.assetInventory.ValuesDiscoveredTagsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.TagValueList>> => {
                 const { tag_name: tagName, sort, q, cursor, page_size: pageSize } = request;
                 const _queryParams: Record<string, unknown> = {
                     sort,
@@ -192,17 +192,17 @@ export class DiscoveredTagsClient {
                     logging: this._options.logging,
                 });
                 if (_response.ok) {
-                    return { data: _response.body as HiddenLayer.TagValueList, rawResponse: _response.rawResponse };
+                    return { data: _response.body as HiddenLayerApi.TagValueList, rawResponse: _response.rawResponse };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 401:
-                            throw new HiddenLayer.UnauthorizedError(
+                            throw new HiddenLayerApi.UnauthorizedError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -223,7 +223,7 @@ export class DiscoveredTagsClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<string, HiddenLayer.TagValueList>({
+        return new core.Page<string, HiddenLayerApi.TagValueList>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>

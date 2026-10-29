@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace SettingsClient {
     export type Options = BaseClientOptions;
@@ -29,12 +29,12 @@ export class SettingsClient {
     /**
      * @deprecated
      *
-     * @param {HiddenLayer.compliance.ruleSets.ListSettingsRequest} request
+     * @param {HiddenLayerApi.compliance.ruleSets.ListSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -42,16 +42,16 @@ export class SettingsClient {
      *     await client.compliance.ruleSets.settings.list()
      */
     public list(
-        request: HiddenLayer.compliance.ruleSets.ListSettingsRequest = {},
+        request: HiddenLayerApi.compliance.ruleSets.ListSettingsRequest = {},
         requestOptions?: SettingsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.compliance.ruleSets.ListSettingsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.compliance.ruleSets.ListSettingsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
-        request: HiddenLayer.compliance.ruleSets.ListSettingsRequest = {},
+        request: HiddenLayerApi.compliance.ruleSets.ListSettingsRequest = {},
         requestOptions?: SettingsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.compliance.ruleSets.ListSettingsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.compliance.ruleSets.ListSettingsResponse>> {
         const { category, overlay } = request;
         const _queryParams: Record<string, unknown> = {
             category,
@@ -85,7 +85,7 @@ export class SettingsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.compliance.ruleSets.ListSettingsResponse,
+                data: _response.body as HiddenLayerApi.compliance.ruleSets.ListSettingsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -93,11 +93,14 @@ export class SettingsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -119,13 +122,13 @@ export class SettingsClient {
     }
 
     /**
-     * @param {HiddenLayer.compliance.ruleSets.CreateSettingsRequest} request
+     * @param {HiddenLayerApi.compliance.ruleSets.CreateSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -139,16 +142,16 @@ export class SettingsClient {
      *     })
      */
     public create(
-        request: HiddenLayer.compliance.ruleSets.CreateSettingsRequest,
+        request: HiddenLayerApi.compliance.ruleSets.CreateSettingsRequest,
         requestOptions?: SettingsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SettingsId> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SettingsId> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.compliance.ruleSets.CreateSettingsRequest,
+        request: HiddenLayerApi.compliance.ruleSets.CreateSettingsRequest,
         requestOptions?: SettingsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SettingsId>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SettingsId>> {
         const { id, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -176,22 +179,25 @@ export class SettingsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.SettingsId, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.SettingsId, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -213,13 +219,13 @@ export class SettingsClient {
     }
 
     /**
-     * @param {HiddenLayer.compliance.ruleSets.GetSettingsRequest} request
+     * @param {HiddenLayerApi.compliance.ruleSets.GetSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -230,16 +236,16 @@ export class SettingsClient {
      *     })
      */
     public get(
-        request: HiddenLayer.compliance.ruleSets.GetSettingsRequest,
+        request: HiddenLayerApi.compliance.ruleSets.GetSettingsRequest,
         requestOptions?: SettingsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SettingsDetailsWithSchema> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SettingsDetailsWithSchema> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.compliance.ruleSets.GetSettingsRequest,
+        request: HiddenLayerApi.compliance.ruleSets.GetSettingsRequest,
         requestOptions?: SettingsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SettingsDetailsWithSchema>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SettingsDetailsWithSchema>> {
         const { id, settings_id: settingsId, overlay } = request;
         const _queryParams: Record<string, unknown> = {
             overlay,
@@ -272,7 +278,7 @@ export class SettingsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.SettingsDetailsWithSchema,
+                data: _response.body as HiddenLayerApi.SettingsDetailsWithSchema,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -280,13 +286,16 @@ export class SettingsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -308,15 +317,15 @@ export class SettingsClient {
     }
 
     /**
-     * @param {HiddenLayer.compliance.ruleSets.UpdateSettingsRequest} request
+     * @param {HiddenLayerApi.compliance.ruleSets.UpdateSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.PreconditionFailedError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.PreconditionFailedError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -333,14 +342,14 @@ export class SettingsClient {
      *     })
      */
     public update(
-        request: HiddenLayer.compliance.ruleSets.UpdateSettingsRequest,
+        request: HiddenLayerApi.compliance.ruleSets.UpdateSettingsRequest,
         requestOptions?: SettingsClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.compliance.ruleSets.UpdateSettingsRequest,
+        request: HiddenLayerApi.compliance.ruleSets.UpdateSettingsRequest,
         requestOptions?: SettingsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { id, settings_id: settingsId, "If-Match": ifMatch, body: _body } = request;
@@ -377,23 +386,26 @@ export class SettingsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 412:
-                    throw new HiddenLayer.PreconditionFailedError(
+                    throw new HiddenLayerApi.PreconditionFailedError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -415,13 +427,13 @@ export class SettingsClient {
     }
 
     /**
-     * @param {HiddenLayer.compliance.ruleSets.DeleteSettingsRequest} request
+     * @param {HiddenLayerApi.compliance.ruleSets.DeleteSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -432,14 +444,14 @@ export class SettingsClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.compliance.ruleSets.DeleteSettingsRequest,
+        request: HiddenLayerApi.compliance.ruleSets.DeleteSettingsRequest,
         requestOptions?: SettingsClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.compliance.ruleSets.DeleteSettingsRequest,
+        request: HiddenLayerApi.compliance.ruleSets.DeleteSettingsRequest,
         requestOptions?: SettingsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { id, settings_id: settingsId } = request;
@@ -472,13 +484,16 @@ export class SettingsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

@@ -7,7 +7,7 @@ import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as HiddenLayer from "../../../index.js";
+import * as HiddenLayerApi from "../../../index.js";
 
 export declare namespace RolesClient {
     export type Options = BaseClientOptions;
@@ -49,20 +49,22 @@ export class RolesClient {
      *
      * @param {RolesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
      * @example
      *     await client.roles.list()
      */
-    public list(requestOptions?: RolesClient.RequestOptions): core.HttpResponsePromise<HiddenLayer.ListRolesResponse> {
+    public list(
+        requestOptions?: RolesClient.RequestOptions,
+    ): core.HttpResponsePromise<HiddenLayerApi.ListRolesResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(requestOptions));
     }
 
     private async __list(
         requestOptions?: RolesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ListRolesResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ListRolesResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -86,13 +88,16 @@ export class RolesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ListRolesResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ListRolesResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

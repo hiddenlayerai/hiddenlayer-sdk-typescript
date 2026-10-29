@@ -10,7 +10,7 @@ import * as core from "../../../../../../../../core/index.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace FileClient {
     export type Options = BaseClientOptions;
@@ -26,11 +26,11 @@ export class FileClient {
     }
 
     /**
-     * @param {HiddenLayer.scans.upload.AddFileRequest} request
+     * @param {HiddenLayerApi.scans.upload.AddFileRequest} request
      * @param {FileClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -42,16 +42,16 @@ export class FileClient {
      *     })
      */
     public add(
-        request: HiddenLayer.scans.upload.AddFileRequest,
+        request: HiddenLayerApi.scans.upload.AddFileRequest,
         requestOptions?: FileClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.scans.upload.AddFileResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.scans.upload.AddFileResponse> {
         return core.HttpResponsePromise.fromPromise(this.__add(request, requestOptions));
     }
 
     private async __add(
-        request: HiddenLayer.scans.upload.AddFileRequest,
+        request: HiddenLayerApi.scans.upload.AddFileRequest,
         requestOptions?: FileClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.scans.upload.AddFileResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.scans.upload.AddFileResponse>> {
         const {
             scan_id: scanId,
             "file-content-length": fileContentLength,
@@ -87,7 +87,7 @@ export class FileClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.scans.upload.AddFileResponse,
+                data: _response.body as HiddenLayerApi.scans.upload.AddFileResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -95,9 +95,9 @@ export class FileClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -119,11 +119,11 @@ export class FileClient {
     }
 
     /**
-     * @param {HiddenLayer.scans.upload.CompleteFileRequest} request
+     * @param {HiddenLayerApi.scans.upload.CompleteFileRequest} request
      * @param {FileClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -134,16 +134,16 @@ export class FileClient {
      *     })
      */
     public complete(
-        request: HiddenLayer.scans.upload.CompleteFileRequest,
+        request: HiddenLayerApi.scans.upload.CompleteFileRequest,
         requestOptions?: FileClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.scans.upload.CompleteFileResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.scans.upload.CompleteFileResponse> {
         return core.HttpResponsePromise.fromPromise(this.__complete(request, requestOptions));
     }
 
     private async __complete(
-        request: HiddenLayer.scans.upload.CompleteFileRequest,
+        request: HiddenLayerApi.scans.upload.CompleteFileRequest,
         requestOptions?: FileClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.scans.upload.CompleteFileResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.scans.upload.CompleteFileResponse>> {
         const { scan_id: scanId, file_id: fileId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -169,7 +169,7 @@ export class FileClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.scans.upload.CompleteFileResponse,
+                data: _response.body as HiddenLayerApi.scans.upload.CompleteFileResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -177,9 +177,9 @@ export class FileClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

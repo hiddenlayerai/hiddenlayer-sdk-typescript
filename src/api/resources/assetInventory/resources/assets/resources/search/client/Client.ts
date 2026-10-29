@@ -10,7 +10,7 @@ import * as core from "../../../../../../../../core/index.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../../../index.js";
 
 export declare namespace SearchClient {
     export type Options = BaseClientOptions;
@@ -28,11 +28,11 @@ export class SearchClient {
     /**
      * @deprecated
      *
-     * @param {HiddenLayer.assetInventory.assets.ListSearchRequest} request
+     * @param {HiddenLayerApi.assetInventory.assets.ListSearchRequest} request
      * @param {SearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -43,13 +43,13 @@ export class SearchClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.assetInventory.assets.ListSearchRequest,
+        request: HiddenLayerApi.assetInventory.assets.ListSearchRequest,
         requestOptions?: SearchClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.SearchResult, HiddenLayer.SearchResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.SearchResult, HiddenLayerApi.SearchResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.assetInventory.assets.ListSearchRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.SearchResponse>> => {
+                request: HiddenLayerApi.assetInventory.assets.ListSearchRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.SearchResponse>> => {
                 const {
                     q,
                     limit,
@@ -118,17 +118,20 @@ export class SearchClient {
                     logging: this._options.logging,
                 });
                 if (_response.ok) {
-                    return { data: _response.body as HiddenLayer.SearchResponse, rawResponse: _response.rawResponse };
+                    return {
+                        data: _response.body as HiddenLayerApi.SearchResponse,
+                        rawResponse: _response.rawResponse,
+                    };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 422:
-                            throw new HiddenLayer.UnprocessableEntityError(
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 500:
-                            throw new HiddenLayer.InternalServerError(
+                            throw new HiddenLayerApi.InternalServerError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -150,7 +153,7 @@ export class SearchClient {
         );
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.SearchResult, HiddenLayer.SearchResponse>({
+        return new core.Page<HiddenLayerApi.SearchResult, HiddenLayerApi.SearchResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -174,11 +177,11 @@ export class SearchClient {
     /**
      * @deprecated
      *
-     * @param {HiddenLayer.assetInventory.assets.SuggestionsSearchRequest} request
+     * @param {HiddenLayerApi.assetInventory.assets.SuggestionsSearchRequest} request
      * @param {SearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -188,16 +191,16 @@ export class SearchClient {
      *     })
      */
     public suggestions(
-        request: HiddenLayer.assetInventory.assets.SuggestionsSearchRequest,
+        request: HiddenLayerApi.assetInventory.assets.SuggestionsSearchRequest,
         requestOptions?: SearchClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SearchSuggestionsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SearchSuggestionsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__suggestions(request, requestOptions));
     }
 
     private async __suggestions(
-        request: HiddenLayer.assetInventory.assets.SuggestionsSearchRequest,
+        request: HiddenLayerApi.assetInventory.assets.SuggestionsSearchRequest,
         requestOptions?: SearchClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SearchSuggestionsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SearchSuggestionsResponse>> {
         const {
             q,
             limit,
@@ -258,7 +261,7 @@ export class SearchClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.SearchSuggestionsResponse,
+                data: _response.body as HiddenLayerApi.SearchSuggestionsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -266,12 +269,15 @@ export class SearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

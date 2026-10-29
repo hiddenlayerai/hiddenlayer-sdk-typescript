@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace ResultsClient {
     export type Options = BaseClientOptions;
@@ -25,12 +25,12 @@ export class ResultsClient {
     /**
      * Returns a cursor-paginated list of file results for a given scan. Results are sorted by compliance status, then highest detection severity, then file path.
      *
-     * @param {HiddenLayer.scans.ListFilesResultsRequest} request
+     * @param {HiddenLayerApi.scans.ListFilesResultsRequest} request
      * @param {ResultsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -42,13 +42,15 @@ export class ResultsClient {
      *     })
      */
     public async listFiles(
-        request: HiddenLayer.scans.ListFilesResultsRequest,
+        request: HiddenLayerApi.scans.ListFilesResultsRequest,
         requestOptions?: ResultsClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.ScanFileResultWithComplianceV3, HiddenLayer.scans.ListFilesResultsResponse>> {
+    ): Promise<
+        core.Page<HiddenLayerApi.ScanFileResultWithComplianceV3, HiddenLayerApi.scans.ListFilesResultsResponse>
+    > {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.scans.ListFilesResultsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.scans.ListFilesResultsResponse>> => {
+                request: HiddenLayerApi.scans.ListFilesResultsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.scans.ListFilesResultsResponse>> => {
                 const { scan_id: scanId, has_detections: hasDetections, page_size: pageSize, cursor, sort } = request;
                 const _queryParams: Record<string, unknown> = {
                     has_detections: hasDetections,
@@ -84,21 +86,24 @@ export class ResultsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.scans.ListFilesResultsResponse,
+                        data: _response.body as HiddenLayerApi.scans.ListFilesResultsResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 404:
-                            throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                            throw new HiddenLayerApi.NotFoundError(
+                                _response.error.body as unknown,
+                                _response.rawResponse,
+                            );
                         case 422:
-                            throw new HiddenLayer.UnprocessableEntityError(
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -119,7 +124,10 @@ export class ResultsClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.ScanFileResultWithComplianceV3, HiddenLayer.scans.ListFilesResultsResponse>({
+        return new core.Page<
+            HiddenLayerApi.ScanFileResultWithComplianceV3,
+            HiddenLayerApi.scans.ListFilesResultsResponse
+        >({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -132,11 +140,11 @@ export class ResultsClient {
     }
 
     /**
-     * @param {HiddenLayer.scans.SarifResultsRequest} request
+     * @param {HiddenLayerApi.scans.SarifResultsRequest} request
      * @param {ResultsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -146,14 +154,14 @@ export class ResultsClient {
      *     })
      */
     public sarif(
-        request: HiddenLayer.scans.SarifResultsRequest,
+        request: HiddenLayerApi.scans.SarifResultsRequest,
         requestOptions?: ResultsClient.RequestOptions,
     ): core.HttpResponsePromise<string> {
         return core.HttpResponsePromise.fromPromise(this.__sarif(request, requestOptions));
     }
 
     private async __sarif(
-        request: HiddenLayer.scans.SarifResultsRequest,
+        request: HiddenLayerApi.scans.SarifResultsRequest,
         requestOptions?: ResultsClient.RequestOptions,
     ): Promise<core.WithRawResponse<string>> {
         const { scan_id: scanId } = request;
@@ -186,9 +194,9 @@ export class ResultsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -209,13 +217,13 @@ export class ResultsClient {
     /**
      * Returns aggregated summary information for a scan without file-level results.
      *
-     * @param {HiddenLayer.scans.RetrieveSummaryResultsRequest} request
+     * @param {HiddenLayerApi.scans.RetrieveSummaryResultsRequest} request
      * @param {ResultsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -225,16 +233,16 @@ export class ResultsClient {
      *     })
      */
     public retrieveSummary(
-        request: HiddenLayer.scans.RetrieveSummaryResultsRequest,
+        request: HiddenLayerApi.scans.RetrieveSummaryResultsRequest,
         requestOptions?: ResultsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ScanReportSummaryResponseV3> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ScanReportSummaryResponseV3> {
         return core.HttpResponsePromise.fromPromise(this.__retrieveSummary(request, requestOptions));
     }
 
     private async __retrieveSummary(
-        request: HiddenLayer.scans.RetrieveSummaryResultsRequest,
+        request: HiddenLayerApi.scans.RetrieveSummaryResultsRequest,
         requestOptions?: ResultsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ScanReportSummaryResponseV3>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ScanReportSummaryResponseV3>> {
         const { scan_id: scanId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -260,7 +268,7 @@ export class ResultsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.ScanReportSummaryResponseV3,
+                data: _response.body as HiddenLayerApi.ScanReportSummaryResponseV3,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -268,13 +276,13 @@ export class ResultsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

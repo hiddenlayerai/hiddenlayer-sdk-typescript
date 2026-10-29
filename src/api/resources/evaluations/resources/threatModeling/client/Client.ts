@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace ThreatModelingClient {
     export type Options = BaseClientOptions;
@@ -30,13 +30,13 @@ export class ThreatModelingClient {
      *
      * Results are ordered by completed_at DESC (newest first).
      *
-     * @param {HiddenLayer.evaluations.ListThreatModelingRequest} request
+     * @param {HiddenLayerApi.evaluations.ListThreatModelingRequest} request
      * @param {ThreatModelingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -44,13 +44,13 @@ export class ThreatModelingClient {
      *     await client.evaluations.threatModeling.list()
      */
     public async list(
-        request: HiddenLayer.evaluations.ListThreatModelingRequest = {},
+        request: HiddenLayerApi.evaluations.ListThreatModelingRequest = {},
         requestOptions?: ThreatModelingClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.ThreatModelingResultItem, HiddenLayer.ThreatModelingListResultsResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.ThreatModelingResultItem, HiddenLayerApi.ThreatModelingListResultsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.evaluations.ListThreatModelingRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.ThreatModelingListResultsResponse>> => {
+                request: HiddenLayerApi.evaluations.ListThreatModelingRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.ThreatModelingListResultsResponse>> => {
                 const {
                     target_model: targetModel,
                     workflow_type: workflowType,
@@ -99,29 +99,29 @@ export class ThreatModelingClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.ThreatModelingListResultsResponse,
+                        data: _response.body as HiddenLayerApi.ThreatModelingListResultsResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 401:
-                            throw new HiddenLayer.UnauthorizedError(
+                            throw new HiddenLayerApi.UnauthorizedError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 422:
-                            throw new HiddenLayer.UnprocessableEntityError(
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 500:
-                            throw new HiddenLayer.InternalServerError(
+                            throw new HiddenLayerApi.InternalServerError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -142,16 +142,18 @@ export class ThreatModelingClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.ThreatModelingResultItem, HiddenLayer.ThreatModelingListResultsResponse>({
-            response: dataWithRawResponse.data,
-            rawResponse: dataWithRawResponse.rawResponse,
-            hasNextPage: (response) =>
-                response?.next != null && !(typeof response?.next === "string" && response?.next === ""),
-            getItems: (response) => response?.items ?? [],
-            loadPage: (response) => {
-                return list(core.setObjectProperty(request, "cursor", response?.next));
+        return new core.Page<HiddenLayerApi.ThreatModelingResultItem, HiddenLayerApi.ThreatModelingListResultsResponse>(
+            {
+                response: dataWithRawResponse.data,
+                rawResponse: dataWithRawResponse.rawResponse,
+                hasNextPage: (response) =>
+                    response?.next != null && !(typeof response?.next === "string" && response?.next === ""),
+                getItems: (response) => response?.items ?? [],
+                loadPage: (response) => {
+                    return list(core.setObjectProperty(request, "cursor", response?.next));
+                },
             },
-        });
+        );
     }
 
     /**
@@ -162,13 +164,13 @@ export class ThreatModelingClient {
      * This immediately starts the workflow which auto-executes both analysis phases.
      * Client should poll /status to check progress.
      *
-     * @param {HiddenLayer.evaluations.StartThreatModelingWorkflowBody} request
+     * @param {HiddenLayerApi.evaluations.StartThreatModelingWorkflowBody} request
      * @param {ThreatModelingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -192,16 +194,16 @@ export class ThreatModelingClient {
      *     })
      */
     public create(
-        request: HiddenLayer.evaluations.StartThreatModelingWorkflowBody,
+        request: HiddenLayerApi.evaluations.StartThreatModelingWorkflowBody,
         requestOptions?: ThreatModelingClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.StartWorkflowResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.StartWorkflowResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.evaluations.StartThreatModelingWorkflowBody,
+        request: HiddenLayerApi.evaluations.StartThreatModelingWorkflowBody,
         requestOptions?: ThreatModelingClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.StartWorkflowResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.StartWorkflowResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -228,19 +230,19 @@ export class ThreatModelingClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.StartWorkflowResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.StartWorkflowResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -267,13 +269,13 @@ export class ThreatModelingClient {
      * Get current status of threat modeling workflow (polling endpoint).
      * Returns immediately with current state.
      *
-     * @param {HiddenLayer.evaluations.StatusThreatModelingRequest} request
+     * @param {HiddenLayerApi.evaluations.StatusThreatModelingRequest} request
      * @param {ThreatModelingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -283,16 +285,16 @@ export class ThreatModelingClient {
      *     })
      */
     public status(
-        request: HiddenLayer.evaluations.StatusThreatModelingRequest,
+        request: HiddenLayerApi.evaluations.StatusThreatModelingRequest,
         requestOptions?: ThreatModelingClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ThreatModelingStatus> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ThreatModelingStatus> {
         return core.HttpResponsePromise.fromPromise(this.__status(request, requestOptions));
     }
 
     private async __status(
-        request: HiddenLayer.evaluations.StatusThreatModelingRequest,
+        request: HiddenLayerApi.evaluations.StatusThreatModelingRequest,
         requestOptions?: ThreatModelingClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ThreatModelingStatus>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ThreatModelingStatus>> {
         const { workflow_id: workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -317,19 +319,19 @@ export class ThreatModelingClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ThreatModelingStatus, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ThreatModelingStatus, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -355,14 +357,14 @@ export class ThreatModelingClient {
      *
      * Get the final result of a completed threat modeling workflow.
      *
-     * @param {HiddenLayer.evaluations.GetThreatModelingRequest} request
+     * @param {HiddenLayerApi.evaluations.GetThreatModelingRequest} request
      * @param {ThreatModelingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -372,16 +374,16 @@ export class ThreatModelingClient {
      *     })
      */
     public get(
-        request: HiddenLayer.evaluations.GetThreatModelingRequest,
+        request: HiddenLayerApi.evaluations.GetThreatModelingRequest,
         requestOptions?: ThreatModelingClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ThreatModelingResult> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ThreatModelingResult> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.evaluations.GetThreatModelingRequest,
+        request: HiddenLayerApi.evaluations.GetThreatModelingRequest,
         requestOptions?: ThreatModelingClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ThreatModelingResult>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ThreatModelingResult>> {
         const { workflow_id: workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -406,21 +408,21 @@ export class ThreatModelingClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ThreatModelingResult, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ThreatModelingResult, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -446,13 +448,13 @@ export class ThreatModelingClient {
      *
      * Delete a threat modeling result from storage.
      *
-     * @param {HiddenLayer.evaluations.DeleteThreatModelingRequest} request
+     * @param {HiddenLayerApi.evaluations.DeleteThreatModelingRequest} request
      * @param {ThreatModelingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -462,14 +464,14 @@ export class ThreatModelingClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.evaluations.DeleteThreatModelingRequest,
+        request: HiddenLayerApi.evaluations.DeleteThreatModelingRequest,
         requestOptions?: ThreatModelingClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.evaluations.DeleteThreatModelingRequest,
+        request: HiddenLayerApi.evaluations.DeleteThreatModelingRequest,
         requestOptions?: ThreatModelingClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { workflow_id: workflowId } = request;
@@ -502,13 +504,13 @@ export class ThreatModelingClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

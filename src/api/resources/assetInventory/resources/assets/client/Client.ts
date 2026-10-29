@@ -8,7 +8,7 @@ import { toJson } from "../../../../../../core/json.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 import { CustomTagsClient } from "../resources/customTags/client/Client.js";
 import { SearchClient } from "../resources/search/client/Client.js";
 
@@ -38,10 +38,10 @@ export class AssetsClient {
     /**
      * @deprecated
      *
-     * @param {HiddenLayer.assetInventory.ListV1AssetsRequest} request
+     * @param {HiddenLayerApi.assetInventory.ListV1AssetsRequest} request
      * @param {AssetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -51,16 +51,16 @@ export class AssetsClient {
      *     })
      */
     public listV1(
-        request: HiddenLayer.assetInventory.ListV1AssetsRequest = {},
+        request: HiddenLayerApi.assetInventory.ListV1AssetsRequest = {},
         requestOptions?: AssetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.assetInventory.ListV1AssetsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.assetInventory.ListV1AssetsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__listV1(request, requestOptions));
     }
 
     private async __listV1(
-        request: HiddenLayer.assetInventory.ListV1AssetsRequest = {},
+        request: HiddenLayerApi.assetInventory.ListV1AssetsRequest = {},
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.assetInventory.ListV1AssetsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.assetInventory.ListV1AssetsResponse>> {
         const {
             provider,
             account_id: accountId,
@@ -122,7 +122,7 @@ export class AssetsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.assetInventory.ListV1AssetsResponse,
+                data: _response.body as HiddenLayerApi.assetInventory.ListV1AssetsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -130,7 +130,7 @@ export class AssetsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -149,10 +149,10 @@ export class AssetsClient {
     /**
      * @deprecated
      *
-     * @param {HiddenLayer.assetInventory.GetV1AssetsRequest} request
+     * @param {HiddenLayerApi.assetInventory.GetV1AssetsRequest} request
      * @param {AssetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -162,16 +162,16 @@ export class AssetsClient {
      *     })
      */
     public getV1(
-        request: HiddenLayer.assetInventory.GetV1AssetsRequest,
+        request: HiddenLayerApi.assetInventory.GetV1AssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AiAsset> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AiAsset> {
         return core.HttpResponsePromise.fromPromise(this.__getV1(request, requestOptions));
     }
 
     private async __getV1(
-        request: HiddenLayer.assetInventory.GetV1AssetsRequest,
+        request: HiddenLayerApi.assetInventory.GetV1AssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AiAsset>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AiAsset>> {
         const { asset_id: assetId, embed } = request;
         const _queryParams: Record<string, unknown> = {
             embed: Array.isArray(embed) ? embed.map((item) => item) : embed != null ? embed : undefined,
@@ -204,13 +204,13 @@ export class AssetsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.AiAsset, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.AiAsset, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -231,11 +231,11 @@ export class AssetsClient {
     /**
      * @deprecated
      *
-     * @param {HiddenLayer.assetInventory.GraphAssetsRequest} request
+     * @param {HiddenLayerApi.assetInventory.GraphAssetsRequest} request
      * @param {AssetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -245,16 +245,16 @@ export class AssetsClient {
      *     })
      */
     public graph(
-        request: HiddenLayer.assetInventory.GraphAssetsRequest,
+        request: HiddenLayerApi.assetInventory.GraphAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AiAssetInventoryV1AssetGraphNode> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AiAssetInventoryV1AssetGraphNode> {
         return core.HttpResponsePromise.fromPromise(this.__graph(request, requestOptions));
     }
 
     private async __graph(
-        request: HiddenLayer.assetInventory.GraphAssetsRequest,
+        request: HiddenLayerApi.assetInventory.GraphAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AiAssetInventoryV1AssetGraphNode>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AiAssetInventoryV1AssetGraphNode>> {
         const { asset_id: assetId, depth } = request;
         const _queryParams: Record<string, unknown> = {
             depth,
@@ -287,7 +287,7 @@ export class AssetsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.AiAssetInventoryV1AssetGraphNode,
+                data: _response.body as HiddenLayerApi.AiAssetInventoryV1AssetGraphNode,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -295,9 +295,9 @@ export class AssetsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -333,13 +333,13 @@ export class AssetsClient {
      */
     public filtersV1(
         requestOptions?: AssetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.assetInventory.FiltersV1AssetsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.assetInventory.FiltersV1AssetsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__filtersV1(requestOptions));
     }
 
     private async __filtersV1(
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.assetInventory.FiltersV1AssetsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.assetInventory.FiltersV1AssetsResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -364,7 +364,7 @@ export class AssetsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.assetInventory.FiltersV1AssetsResponse,
+                data: _response.body as HiddenLayerApi.assetInventory.FiltersV1AssetsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -390,12 +390,12 @@ export class AssetsClient {
      *
      * Returns all custom and discovered tags assigned to the given asset.
      *
-     * @param {HiddenLayer.assetInventory.TagsV1AssetsRequest} request
+     * @param {HiddenLayerApi.assetInventory.TagsV1AssetsRequest} request
      * @param {AssetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -405,16 +405,16 @@ export class AssetsClient {
      *     })
      */
     public tagsV1(
-        request: HiddenLayer.assetInventory.TagsV1AssetsRequest,
+        request: HiddenLayerApi.assetInventory.TagsV1AssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AiAssetInventoryV1AssetTagMap> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AiAssetInventoryV1AssetTagMap> {
         return core.HttpResponsePromise.fromPromise(this.__tagsV1(request, requestOptions));
     }
 
     private async __tagsV1(
-        request: HiddenLayer.assetInventory.TagsV1AssetsRequest,
+        request: HiddenLayerApi.assetInventory.TagsV1AssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AiAssetInventoryV1AssetTagMap>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AiAssetInventoryV1AssetTagMap>> {
         const { asset_id: assetId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -440,7 +440,7 @@ export class AssetsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.AiAssetInventoryV1AssetTagMap,
+                data: _response.body as HiddenLayerApi.AiAssetInventoryV1AssetTagMap,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -448,11 +448,11 @@ export class AssetsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -499,13 +499,13 @@ export class AssetsClient {
      * Entity` with a "query exceeds allowed cost/time limit" message
      * suggesting index-backed sort fields to retry with.
      *
-     * @param {HiddenLayer.assetInventory.ListAssetsRequest} request
+     * @param {HiddenLayerApi.assetInventory.ListAssetsRequest} request
      * @param {AssetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -516,13 +516,13 @@ export class AssetsClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.assetInventory.ListAssetsRequest = {},
+        request: HiddenLayerApi.assetInventory.ListAssetsRequest = {},
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.Asset, HiddenLayer.ListAssetsResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.Asset, HiddenLayerApi.ListAssetsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.assetInventory.ListAssetsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.ListAssetsResponse>> => {
+                request: HiddenLayerApi.assetInventory.ListAssetsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.ListAssetsResponse>> => {
                 const {
                     q,
                     cursor,
@@ -589,29 +589,29 @@ export class AssetsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.ListAssetsResponse,
+                        data: _response.body as HiddenLayerApi.ListAssetsResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 401:
-                            throw new HiddenLayer.UnauthorizedError(
+                            throw new HiddenLayerApi.UnauthorizedError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 403:
-                            throw new HiddenLayer.ForbiddenError(
+                            throw new HiddenLayerApi.ForbiddenError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 422:
-                            throw new HiddenLayer.UnprocessableEntityError(
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 500:
-                            throw new HiddenLayer.InternalServerError(
+                            throw new HiddenLayerApi.InternalServerError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -632,7 +632,7 @@ export class AssetsClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.Asset, HiddenLayer.ListAssetsResponse>({
+        return new core.Page<HiddenLayerApi.Asset, HiddenLayerApi.ListAssetsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -653,13 +653,13 @@ export class AssetsClient {
      * suggestions. Filtering by `project_id` additionally requires the
      * `project:read` scope.
      *
-     * @param {HiddenLayer.assetInventory.SuggestionsAssetsRequest} request
+     * @param {HiddenLayerApi.assetInventory.SuggestionsAssetsRequest} request
      * @param {AssetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -669,16 +669,16 @@ export class AssetsClient {
      *     })
      */
     public suggestions(
-        request: HiddenLayer.assetInventory.SuggestionsAssetsRequest,
+        request: HiddenLayerApi.assetInventory.SuggestionsAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.assetInventory.SuggestionsAssetsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.assetInventory.SuggestionsAssetsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__suggestions(request, requestOptions));
     }
 
     private async __suggestions(
-        request: HiddenLayer.assetInventory.SuggestionsAssetsRequest,
+        request: HiddenLayerApi.assetInventory.SuggestionsAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.assetInventory.SuggestionsAssetsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.assetInventory.SuggestionsAssetsResponse>> {
         const {
             q,
             limit,
@@ -739,7 +739,7 @@ export class AssetsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.assetInventory.SuggestionsAssetsResponse,
+                data: _response.body as HiddenLayerApi.assetInventory.SuggestionsAssetsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -747,16 +747,19 @@ export class AssetsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -815,13 +818,13 @@ export class AssetsClient {
      * "query exceeds allowed cost/time limit" message rather than an
      * unbounded query.
      *
-     * @param {HiddenLayer.assetInventory.FiltersAssetsRequest} request
+     * @param {HiddenLayerApi.assetInventory.FiltersAssetsRequest} request
      * @param {AssetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -829,16 +832,16 @@ export class AssetsClient {
      *     await client.assetInventory.assets.filters()
      */
     public filters(
-        request: HiddenLayer.assetInventory.FiltersAssetsRequest = {},
+        request: HiddenLayerApi.assetInventory.FiltersAssetsRequest = {},
         requestOptions?: AssetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.FilterFacetsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.FilterFacetsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__filters(request, requestOptions));
     }
 
     private async __filters(
-        request: HiddenLayer.assetInventory.FiltersAssetsRequest = {},
+        request: HiddenLayerApi.assetInventory.FiltersAssetsRequest = {},
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.FilterFacetsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.FilterFacetsResponse>> {
         const { annotating_service: annotatingService, project_id: projectId } = request;
         const _queryParams: Record<string, unknown> = {
             annotating_service: annotatingService,
@@ -871,22 +874,25 @@ export class AssetsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.FilterFacetsResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.FilterFacetsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -915,14 +921,14 @@ export class AssetsClient {
      *
      * Embedding `projects` additionally requires the `project:read` scope.
      *
-     * @param {HiddenLayer.assetInventory.GetAssetsRequest} request
+     * @param {HiddenLayerApi.assetInventory.GetAssetsRequest} request
      * @param {AssetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -932,16 +938,16 @@ export class AssetsClient {
      *     })
      */
     public get(
-        request: HiddenLayer.assetInventory.GetAssetsRequest,
+        request: HiddenLayerApi.assetInventory.GetAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.Asset> {
+    ): core.HttpResponsePromise<HiddenLayerApi.Asset> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.assetInventory.GetAssetsRequest,
+        request: HiddenLayerApi.assetInventory.GetAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.Asset>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.Asset>> {
         const { asset_id: assetId, embed } = request;
         const _queryParams: Record<string, unknown> = {
             embed: Array.isArray(embed) ? embed.map((item) => item) : embed != null ? embed : undefined,
@@ -973,24 +979,27 @@ export class AssetsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.Asset, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.Asset, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -1025,14 +1034,14 @@ export class AssetsClient {
      *
      * Requires the `asset:read` scope.
      *
-     * @param {HiddenLayer.assetInventory.DiscoveredGraphAssetsRequest} request
+     * @param {HiddenLayerApi.assetInventory.DiscoveredGraphAssetsRequest} request
      * @param {AssetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -1042,16 +1051,16 @@ export class AssetsClient {
      *     })
      */
     public discoveredGraph(
-        request: HiddenLayer.assetInventory.DiscoveredGraphAssetsRequest,
+        request: HiddenLayerApi.assetInventory.DiscoveredGraphAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AssetGraphNode> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AssetGraphNode> {
         return core.HttpResponsePromise.fromPromise(this.__discoveredGraph(request, requestOptions));
     }
 
     private async __discoveredGraph(
-        request: HiddenLayer.assetInventory.DiscoveredGraphAssetsRequest,
+        request: HiddenLayerApi.assetInventory.DiscoveredGraphAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AssetGraphNode>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AssetGraphNode>> {
         const { asset_id: assetId, depth } = request;
         const _queryParams: Record<string, unknown> = {
             depth,
@@ -1083,24 +1092,27 @@ export class AssetsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.AssetGraphNode, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.AssetGraphNode, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -1123,12 +1135,12 @@ export class AssetsClient {
      *
      * Returns all custom and discovered tags assigned to the given asset.
      *
-     * @param {HiddenLayer.assetInventory.TagsAssetsRequest} request
+     * @param {HiddenLayerApi.assetInventory.TagsAssetsRequest} request
      * @param {AssetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -1138,16 +1150,16 @@ export class AssetsClient {
      *     })
      */
     public tags(
-        request: HiddenLayer.assetInventory.TagsAssetsRequest,
+        request: HiddenLayerApi.assetInventory.TagsAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AssetTagMap> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AssetTagMap> {
         return core.HttpResponsePromise.fromPromise(this.__tags(request, requestOptions));
     }
 
     private async __tags(
-        request: HiddenLayer.assetInventory.TagsAssetsRequest,
+        request: HiddenLayerApi.assetInventory.TagsAssetsRequest,
         requestOptions?: AssetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AssetTagMap>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AssetTagMap>> {
         const { asset_id: assetId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -1172,17 +1184,17 @@ export class AssetsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.AssetTagMap, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.AssetTagMap, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace MetricsClient {
     export type Options = BaseClientOptions;
@@ -27,8 +27,8 @@ export class MetricsClient {
      *
      * @param {MetricsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -37,13 +37,13 @@ export class MetricsClient {
      */
     public providerCountsV1(
         requestOptions?: MetricsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AiAssetInventoryV1ProviderCounts> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AiAssetInventoryV1ProviderCounts> {
         return core.HttpResponsePromise.fromPromise(this.__providerCountsV1(requestOptions));
     }
 
     private async __providerCountsV1(
         requestOptions?: MetricsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AiAssetInventoryV1ProviderCounts>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AiAssetInventoryV1ProviderCounts>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -68,7 +68,7 @@ export class MetricsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.AiAssetInventoryV1ProviderCounts,
+                data: _response.body as HiddenLayerApi.AiAssetInventoryV1ProviderCounts,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -76,12 +76,15 @@ export class MetricsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -104,8 +107,8 @@ export class MetricsClient {
      *
      * @param {MetricsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -114,13 +117,13 @@ export class MetricsClient {
      */
     public regionCountsV1(
         requestOptions?: MetricsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AiAssetInventoryV1RegionCounts> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AiAssetInventoryV1RegionCounts> {
         return core.HttpResponsePromise.fromPromise(this.__regionCountsV1(requestOptions));
     }
 
     private async __regionCountsV1(
         requestOptions?: MetricsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AiAssetInventoryV1RegionCounts>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AiAssetInventoryV1RegionCounts>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -145,7 +148,7 @@ export class MetricsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.AiAssetInventoryV1RegionCounts,
+                data: _response.body as HiddenLayerApi.AiAssetInventoryV1RegionCounts,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -153,12 +156,15 @@ export class MetricsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -181,8 +187,8 @@ export class MetricsClient {
      *
      * @param {MetricsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -191,13 +197,13 @@ export class MetricsClient {
      */
     public assetTypeCountsV1(
         requestOptions?: MetricsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AiAssetInventoryV1AssetTypeCounts> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AiAssetInventoryV1AssetTypeCounts> {
         return core.HttpResponsePromise.fromPromise(this.__assetTypeCountsV1(requestOptions));
     }
 
     private async __assetTypeCountsV1(
         requestOptions?: MetricsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AiAssetInventoryV1AssetTypeCounts>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AiAssetInventoryV1AssetTypeCounts>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -222,7 +228,7 @@ export class MetricsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.AiAssetInventoryV1AssetTypeCounts,
+                data: _response.body as HiddenLayerApi.AiAssetInventoryV1AssetTypeCounts,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -230,12 +236,15 @@ export class MetricsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -263,10 +272,10 @@ export class MetricsClient {
      *
      * @param {MetricsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -275,13 +284,13 @@ export class MetricsClient {
      */
     public providerCounts(
         requestOptions?: MetricsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ProviderCounts> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ProviderCounts> {
         return core.HttpResponsePromise.fromPromise(this.__providerCounts(requestOptions));
     }
 
     private async __providerCounts(
         requestOptions?: MetricsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ProviderCounts>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ProviderCounts>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -305,22 +314,25 @@ export class MetricsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.ProviderCounts, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.ProviderCounts, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -348,10 +360,10 @@ export class MetricsClient {
      *
      * @param {MetricsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -360,13 +372,13 @@ export class MetricsClient {
      */
     public regionCounts(
         requestOptions?: MetricsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.RegionCounts> {
+    ): core.HttpResponsePromise<HiddenLayerApi.RegionCounts> {
         return core.HttpResponsePromise.fromPromise(this.__regionCounts(requestOptions));
     }
 
     private async __regionCounts(
         requestOptions?: MetricsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.RegionCounts>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.RegionCounts>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -390,22 +402,25 @@ export class MetricsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.RegionCounts, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.RegionCounts, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -431,10 +446,10 @@ export class MetricsClient {
      *
      * @param {MetricsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -443,13 +458,13 @@ export class MetricsClient {
      */
     public assetTypeCounts(
         requestOptions?: MetricsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.AssetTypeCounts> {
+    ): core.HttpResponsePromise<HiddenLayerApi.AssetTypeCounts> {
         return core.HttpResponsePromise.fromPromise(this.__assetTypeCounts(requestOptions));
     }
 
     private async __assetTypeCounts(
         requestOptions?: MetricsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.AssetTypeCounts>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.AssetTypeCounts>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -473,22 +488,25 @@ export class MetricsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.AssetTypeCounts, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.AssetTypeCounts, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

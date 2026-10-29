@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace AnnotationsClient {
     export type Options = BaseClientOptions;
@@ -29,14 +29,14 @@ export class AnnotationsClient {
      * `key`. Use this when the producer's identifier is known but the
      * server-generated asset ID is not.
      *
-     * @param {HiddenLayer.assetInventory.GetAnnotationsRequest} request
+     * @param {HiddenLayerApi.assetInventory.GetAnnotationsRequest} request
      * @param {AnnotationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -47,16 +47,16 @@ export class AnnotationsClient {
      *     })
      */
     public get(
-        request: HiddenLayer.assetInventory.GetAnnotationsRequest,
+        request: HiddenLayerApi.assetInventory.GetAnnotationsRequest,
         requestOptions?: AnnotationsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.Asset> {
+    ): core.HttpResponsePromise<HiddenLayerApi.Asset> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.assetInventory.GetAnnotationsRequest,
+        request: HiddenLayerApi.assetInventory.GetAnnotationsRequest,
         requestOptions?: AnnotationsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.Asset>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.Asset>> {
         const { annotating_service: annotatingService, annotating_service_key: annotatingServiceKey, embed } = request;
         const _queryParams: Record<string, unknown> = {
             embed: Array.isArray(embed) ? embed.map((item) => item) : embed != null ? embed : undefined,
@@ -88,24 +88,27 @@ export class AnnotationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.Asset, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.Asset, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

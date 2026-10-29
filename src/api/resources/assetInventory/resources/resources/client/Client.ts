@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace ResourcesClient {
     export type Options = BaseClientOptions;
@@ -25,12 +25,12 @@ export class ResourcesClient {
     /**
      * @deprecated
      *
-     * @param {HiddenLayer.assetInventory.ListResourcesRequest} request
+     * @param {HiddenLayerApi.assetInventory.ListResourcesRequest} request
      * @param {ResourcesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -40,18 +40,18 @@ export class ResourcesClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.assetInventory.ListResourcesRequest = {},
+        request: HiddenLayerApi.assetInventory.ListResourcesRequest = {},
         requestOptions?: ResourcesClient.RequestOptions,
     ): Promise<
         core.Page<
-            HiddenLayer.assetInventory.ListResourcesResponse.Items.Item,
-            HiddenLayer.assetInventory.ListResourcesResponse
+            HiddenLayerApi.assetInventory.ListResourcesResponse.Items.Item,
+            HiddenLayerApi.assetInventory.ListResourcesResponse
         >
     > {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.assetInventory.ListResourcesRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.assetInventory.ListResourcesResponse>> => {
+                request: HiddenLayerApi.assetInventory.ListResourcesRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.assetInventory.ListResourcesResponse>> => {
                 const {
                     page_size: pageSize,
                     cursor,
@@ -96,24 +96,24 @@ export class ResourcesClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.assetInventory.ListResourcesResponse,
+                        data: _response.body as HiddenLayerApi.assetInventory.ListResourcesResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 422:
-                            throw new HiddenLayer.UnprocessableEntityError(
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 500:
-                            throw new HiddenLayer.InternalServerError(
+                            throw new HiddenLayerApi.InternalServerError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -135,8 +135,8 @@ export class ResourcesClient {
         );
         const dataWithRawResponse = await list(request).withRawResponse();
         return new core.Page<
-            HiddenLayer.assetInventory.ListResourcesResponse.Items.Item,
-            HiddenLayer.assetInventory.ListResourcesResponse
+            HiddenLayerApi.assetInventory.ListResourcesResponse.Items.Item,
+            HiddenLayerApi.assetInventory.ListResourcesResponse
         >({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,

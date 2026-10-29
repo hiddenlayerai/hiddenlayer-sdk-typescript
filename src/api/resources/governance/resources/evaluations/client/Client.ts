@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace EvaluationsClient {
     export type Options = BaseClientOptions;
@@ -26,13 +26,13 @@ export class EvaluationsClient {
      * Retrieve the governance evaluation results for multiple artifacts by their unique identifiers.
      * Each artifact will have a corresponding status to indicate whether evaluation results exist for that ID.
      *
-     * @param {HiddenLayer.governance.ListEvaluationsRequest} request
+     * @param {HiddenLayerApi.governance.ListEvaluationsRequest} request
      * @param {EvaluationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -42,16 +42,16 @@ export class EvaluationsClient {
      *     })
      */
     public list(
-        request: HiddenLayer.governance.ListEvaluationsRequest = {},
+        request: HiddenLayerApi.governance.ListEvaluationsRequest = {},
         requestOptions?: EvaluationsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.BulkEvaluationResults> {
+    ): core.HttpResponsePromise<HiddenLayerApi.BulkEvaluationResults> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
-        request: HiddenLayer.governance.ListEvaluationsRequest = {},
+        request: HiddenLayerApi.governance.ListEvaluationsRequest = {},
         requestOptions?: EvaluationsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.BulkEvaluationResults>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.BulkEvaluationResults>> {
         const { artifact_ids: artifactIds } = request;
         const _queryParams: Record<string, unknown> = {
             artifact_ids: artifactIds,
@@ -83,22 +83,25 @@ export class EvaluationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.BulkEvaluationResults, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.BulkEvaluationResults, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -118,13 +121,13 @@ export class EvaluationsClient {
      * Retrieve the governance evaluation results for a specific artifact by its unique identifier.
      * The response includes whether the artifact is compliant with the defined policies and an explanation of the evaluation.
      *
-     * @param {HiddenLayer.governance.GetEvaluationsRequest} request
+     * @param {HiddenLayerApi.governance.GetEvaluationsRequest} request
      * @param {EvaluationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -134,16 +137,16 @@ export class EvaluationsClient {
      *     })
      */
     public get(
-        request: HiddenLayer.governance.GetEvaluationsRequest,
+        request: HiddenLayerApi.governance.GetEvaluationsRequest,
         requestOptions?: EvaluationsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.EvaluationResult> {
+    ): core.HttpResponsePromise<HiddenLayerApi.EvaluationResult> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.governance.GetEvaluationsRequest,
+        request: HiddenLayerApi.governance.GetEvaluationsRequest,
         requestOptions?: EvaluationsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.EvaluationResult>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.EvaluationResult>> {
         const { artifact_id: artifactId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -168,22 +171,25 @@ export class EvaluationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.EvaluationResult, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.EvaluationResult, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

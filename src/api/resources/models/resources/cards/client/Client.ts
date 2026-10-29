@@ -8,7 +8,7 @@ import { toJson } from "../../../../../../core/json.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace CardsClient {
     export type Options = BaseClientOptions;
@@ -26,10 +26,10 @@ export class CardsClient {
     /**
      * @deprecated
      *
-     * @param {HiddenLayer.models.ListV3CardsRequest} request
+     * @param {HiddenLayerApi.models.ListV3CardsRequest} request
      * @param {CardsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -39,13 +39,13 @@ export class CardsClient {
      *     })
      */
     public async listV3(
-        request: HiddenLayer.models.ListV3CardsRequest = {},
+        request: HiddenLayerApi.models.ListV3CardsRequest = {},
         requestOptions?: CardsClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.ModelCardV3, HiddenLayer.ModelCardV3QueryResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.ModelCardV3, HiddenLayerApi.ModelCardV3QueryResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.models.ListV3CardsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.ModelCardV3QueryResponse>> => {
+                request: HiddenLayerApi.models.ListV3CardsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.ModelCardV3QueryResponse>> => {
                 const {
                     model_name: modelName,
                     model_created: modelCreated,
@@ -118,14 +118,14 @@ export class CardsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.ModelCardV3QueryResponse,
+                        data: _response.body as HiddenLayerApi.ModelCardV3QueryResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -142,7 +142,7 @@ export class CardsClient {
         );
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.ModelCardV3, HiddenLayer.ModelCardV3QueryResponse>({
+        return new core.Page<HiddenLayerApi.ModelCardV3, HiddenLayerApi.ModelCardV3QueryResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -173,10 +173,10 @@ export class CardsClient {
      * (`model_id[eq]`, `scan_started_at[gt/gte/lt/lte]`) and sorts
      * (`model_name`, `scan_started_at`).
      *
-     * @param {HiddenLayer.models.ListCardsRequest} request
+     * @param {HiddenLayerApi.models.ListCardsRequest} request
      * @param {CardsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -186,13 +186,13 @@ export class CardsClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.models.ListCardsRequest = {},
+        request: HiddenLayerApi.models.ListCardsRequest = {},
         requestOptions?: CardsClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.ModelCardV4, HiddenLayer.ModelCardV4QueryResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.ModelCardV4, HiddenLayerApi.ModelCardV4QueryResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.models.ListCardsRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.ModelCardV4QueryResponse>> => {
+                request: HiddenLayerApi.models.ListCardsRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.ModelCardV4QueryResponse>> => {
                 const {
                     model_name: modelName,
                     model_created: modelCreated,
@@ -267,14 +267,14 @@ export class CardsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.ModelCardV4QueryResponse,
+                        data: _response.body as HiddenLayerApi.ModelCardV4QueryResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -291,7 +291,7 @@ export class CardsClient {
         );
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.ModelCardV4, HiddenLayer.ModelCardV4QueryResponse>({
+        return new core.Page<HiddenLayerApi.ModelCardV4, HiddenLayerApi.ModelCardV4QueryResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -313,11 +313,11 @@ export class CardsClient {
     }
 
     /**
-     * @param {HiddenLayer.models.SuggestionsCardsRequest} request
+     * @param {HiddenLayerApi.models.SuggestionsCardsRequest} request
      * @param {CardsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -327,16 +327,16 @@ export class CardsClient {
      *     })
      */
     public suggestions(
-        request: HiddenLayer.models.SuggestionsCardsRequest,
+        request: HiddenLayerApi.models.SuggestionsCardsRequest,
         requestOptions?: CardsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.models.SuggestionsCardsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.models.SuggestionsCardsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__suggestions(request, requestOptions));
     }
 
     private async __suggestions(
-        request: HiddenLayer.models.SuggestionsCardsRequest,
+        request: HiddenLayerApi.models.SuggestionsCardsRequest,
         requestOptions?: CardsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.models.SuggestionsCardsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.models.SuggestionsCardsResponse>> {
         const { q, limit } = request;
         const _queryParams: Record<string, unknown> = {
             q,
@@ -370,7 +370,7 @@ export class CardsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.models.SuggestionsCardsResponse,
+                data: _response.body as HiddenLayerApi.models.SuggestionsCardsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -378,9 +378,9 @@ export class CardsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

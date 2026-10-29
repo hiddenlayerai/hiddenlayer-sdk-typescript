@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import type * as HiddenLayer from "../../../index.js";
+import type * as HiddenLayerApi from "../../../index.js";
 
 export declare namespace PromptAnalyzerClient {
     export type Options = BaseClientOptions;
@@ -26,7 +26,7 @@ export class PromptAnalyzerClient {
     /**
      * Analyze LLM Prompt and Response
      *
-     * @param {HiddenLayer.PromptAnalyzerRequest} request
+     * @param {HiddenLayerApi.PromptAnalyzerRequest} request
      * @param {PromptAnalyzerClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link errors.HiddenLayerError}
@@ -41,16 +41,16 @@ export class PromptAnalyzerClient {
      *     })
      */
     public create(
-        request: HiddenLayer.PromptAnalyzerRequest,
+        request: HiddenLayerApi.PromptAnalyzerRequest,
         requestOptions?: PromptAnalyzerClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.HiddenLayerPromptAnalyzerResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.HiddenLayerPromptAnalyzerResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.PromptAnalyzerRequest,
+        request: HiddenLayerApi.PromptAnalyzerRequest,
         requestOptions?: PromptAnalyzerClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.HiddenLayerPromptAnalyzerResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.HiddenLayerPromptAnalyzerResponse>> {
         const { "HL-Project-Id": hlProjectId, "X-Requester-Id": requesterId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -80,7 +80,7 @@ export class PromptAnalyzerClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.HiddenLayerPromptAnalyzerResponse,
+                data: _response.body as HiddenLayerApi.HiddenLayerPromptAnalyzerResponse,
                 rawResponse: _response.rawResponse,
             };
         }

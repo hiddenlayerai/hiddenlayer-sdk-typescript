@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as HiddenLayer from "../../../index.js";
+import * as HiddenLayerApi from "../../../index.js";
 
 export declare namespace SsoIntegrationsClient {
     export type Options = BaseClientOptions;
@@ -28,10 +28,10 @@ export class SsoIntegrationsClient {
      *
      * @param {SsoIntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -40,13 +40,13 @@ export class SsoIntegrationsClient {
      */
     public list(
         requestOptions?: SsoIntegrationsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.ListSsoIntegrationsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.ListSsoIntegrationsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(requestOptions));
     }
 
     private async __list(
         requestOptions?: SsoIntegrationsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.ListSsoIntegrationsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.ListSsoIntegrationsResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -71,7 +71,7 @@ export class SsoIntegrationsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.ListSsoIntegrationsResponse,
+                data: _response.body as HiddenLayerApi.ListSsoIntegrationsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -79,13 +79,16 @@ export class SsoIntegrationsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -103,14 +106,14 @@ export class SsoIntegrationsClient {
      * cannot be enabled until all required information is populated to form a trusted connection between the HiddenLayer
      * and the Identity Provider (IdP).
      *
-     * @param {HiddenLayer.SsoIntegrationsCreateRequest} request
+     * @param {HiddenLayerApi.SsoIntegrationsCreateRequest} request
      * @param {SsoIntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -121,16 +124,16 @@ export class SsoIntegrationsClient {
      *     })
      */
     public create(
-        request: HiddenLayer.SsoIntegrationsCreateRequest,
+        request: HiddenLayerApi.SsoIntegrationsCreateRequest,
         requestOptions?: SsoIntegrationsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SsoIntegrationSamlV2> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SsoIntegrationSamlV2> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.SsoIntegrationsCreateRequest,
+        request: HiddenLayerApi.SsoIntegrationsCreateRequest,
         requestOptions?: SsoIntegrationsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SsoIntegrationSamlV2>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SsoIntegrationSamlV2>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -157,21 +160,24 @@ export class SsoIntegrationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.SsoIntegrationSamlV2, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.SsoIntegrationSamlV2, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -187,13 +193,13 @@ export class SsoIntegrationsClient {
     /**
      * Get SSO Integration
      *
-     * @param {HiddenLayer.GetSsoIntegrationsRequest} request
+     * @param {HiddenLayerApi.GetSsoIntegrationsRequest} request
      * @param {SsoIntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -203,16 +209,16 @@ export class SsoIntegrationsClient {
      *     })
      */
     public get(
-        request: HiddenLayer.GetSsoIntegrationsRequest,
+        request: HiddenLayerApi.GetSsoIntegrationsRequest,
         requestOptions?: SsoIntegrationsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SsoIntegrationSamlV2> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SsoIntegrationSamlV2> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: HiddenLayer.GetSsoIntegrationsRequest,
+        request: HiddenLayerApi.GetSsoIntegrationsRequest,
         requestOptions?: SsoIntegrationsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SsoIntegrationSamlV2>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SsoIntegrationSamlV2>> {
         const { id } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -237,19 +243,22 @@ export class SsoIntegrationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.SsoIntegrationSamlV2, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.SsoIntegrationSamlV2, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -267,14 +276,14 @@ export class SsoIntegrationsClient {
      * cannot be enabled until all required information is populated to form a trusted connection between the HiddenLayer
      * and the Identity Provider (IdP).
      *
-     * @param {HiddenLayer.SsoIntegrationsUpdateRequest} request
+     * @param {HiddenLayerApi.SsoIntegrationsUpdateRequest} request
      * @param {SsoIntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnauthorizedError}
-     * @throws {@link HiddenLayer.ForbiddenError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnauthorizedError}
+     * @throws {@link HiddenLayerApi.ForbiddenError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -284,16 +293,16 @@ export class SsoIntegrationsClient {
      *     })
      */
     public update(
-        request: HiddenLayer.SsoIntegrationsUpdateRequest,
+        request: HiddenLayerApi.SsoIntegrationsUpdateRequest,
         requestOptions?: SsoIntegrationsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SsoIntegrationSamlV2> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SsoIntegrationSamlV2> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.SsoIntegrationsUpdateRequest,
+        request: HiddenLayerApi.SsoIntegrationsUpdateRequest,
         requestOptions?: SsoIntegrationsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SsoIntegrationSamlV2>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SsoIntegrationSamlV2>> {
         const { id, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -321,24 +330,27 @@ export class SsoIntegrationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.SsoIntegrationSamlV2, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.SsoIntegrationSamlV2, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new HiddenLayer.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new HiddenLayer.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

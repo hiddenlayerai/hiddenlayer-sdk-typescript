@@ -7,7 +7,7 @@ import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as HiddenLayer from "../../../index.js";
+import * as HiddenLayerApi from "../../../index.js";
 
 export declare namespace EulaResponsesClient {
     export type Options = BaseClientOptions;
@@ -27,8 +27,8 @@ export class EulaResponsesClient {
      *
      * @param {EulaResponsesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.InternalServerError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -37,13 +37,13 @@ export class EulaResponsesClient {
      */
     public self(
         requestOptions?: EulaResponsesClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SelfEulaResponsesResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SelfEulaResponsesResponse> {
         return core.HttpResponsePromise.fromPromise(this.__self(requestOptions));
     }
 
     private async __self(
         requestOptions?: EulaResponsesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SelfEulaResponsesResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SelfEulaResponsesResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -68,7 +68,7 @@ export class EulaResponsesClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.SelfEulaResponsesResponse,
+                data: _response.body as HiddenLayerApi.SelfEulaResponsesResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -76,9 +76,12 @@ export class EulaResponsesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new HiddenLayer.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.InternalServerError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,

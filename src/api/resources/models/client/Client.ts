@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as HiddenLayer from "../../../index.js";
+import * as HiddenLayerApi from "../../../index.js";
 import { CardsClient } from "../resources/cards/client/Client.js";
 import { PolicyComplianceClient } from "../resources/policyCompliance/client/Client.js";
 import { VersionsClient } from "../resources/versions/client/Client.js";
@@ -42,11 +42,11 @@ export class ModelsClient {
     }
 
     /**
-     * @param {HiddenLayer.RetrieveModelsRequest} request
+     * @param {HiddenLayerApi.RetrieveModelsRequest} request
      * @param {ModelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -56,16 +56,16 @@ export class ModelsClient {
      *     })
      */
     public retrieve(
-        request: HiddenLayer.RetrieveModelsRequest,
+        request: HiddenLayerApi.RetrieveModelsRequest,
         requestOptions?: ModelsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SensorSorModel> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SensorSorModel> {
         return core.HttpResponsePromise.fromPromise(this.__retrieve(request, requestOptions));
     }
 
     private async __retrieve(
-        request: HiddenLayer.RetrieveModelsRequest,
+        request: HiddenLayerApi.RetrieveModelsRequest,
         requestOptions?: ModelsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SensorSorModel>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SensorSorModel>> {
         const { model_id: modelId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -90,15 +90,15 @@ export class ModelsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.SensorSorModel, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.SensorSorModel, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -112,13 +112,13 @@ export class ModelsClient {
     }
 
     /**
-     * @param {HiddenLayer.DeleteModelsRequest} request
+     * @param {HiddenLayerApi.DeleteModelsRequest} request
      * @param {ModelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -128,14 +128,14 @@ export class ModelsClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.DeleteModelsRequest,
+        request: HiddenLayerApi.DeleteModelsRequest,
         requestOptions?: ModelsClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.DeleteModelsRequest,
+        request: HiddenLayerApi.DeleteModelsRequest,
         requestOptions?: ModelsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { model_id: modelId } = request;
@@ -168,13 +168,13 @@ export class ModelsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -193,21 +193,23 @@ export class ModelsClient {
     /**
      * @param {ModelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
      * @example
      *     await client.models.list()
      */
-    public list(requestOptions?: ModelsClient.RequestOptions): core.HttpResponsePromise<HiddenLayer.SensorSorModel[]> {
+    public list(
+        requestOptions?: ModelsClient.RequestOptions,
+    ): core.HttpResponsePromise<HiddenLayerApi.SensorSorModel[]> {
         return core.HttpResponsePromise.fromPromise(this.__list(requestOptions));
     }
 
     private async __list(
         requestOptions?: ModelsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SensorSorModel[]>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SensorSorModel[]>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -231,15 +233,15 @@ export class ModelsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.SensorSorModel[], rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.SensorSorModel[], rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -253,11 +255,11 @@ export class ModelsClient {
     }
 
     /**
-     * @param {HiddenLayer.SensorSorModel[]} request
+     * @param {HiddenLayerApi.SensorSorModel[]} request
      * @param {ModelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -268,16 +270,16 @@ export class ModelsClient {
      *         }])
      */
     public update(
-        request: HiddenLayer.SensorSorModel[],
+        request: HiddenLayerApi.SensorSorModel[],
         requestOptions?: ModelsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.UpdateModelsResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.UpdateModelsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.SensorSorModel[],
+        request: HiddenLayerApi.SensorSorModel[],
         requestOptions?: ModelsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.UpdateModelsResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.UpdateModelsResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -304,15 +306,15 @@ export class ModelsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.UpdateModelsResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.UpdateModelsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

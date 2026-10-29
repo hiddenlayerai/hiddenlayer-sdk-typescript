@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as HiddenLayer from "../../../index.js";
+import * as HiddenLayerApi from "../../../index.js";
 
 export declare namespace SensorsClient {
     export type Options = BaseClientOptions;
@@ -28,12 +28,12 @@ export class SensorsClient {
      *
      * ⚠️ **DEPRECATED**: This endpoint will be removed after April 13, 2026.
      *
-     * @param {HiddenLayer.SensorSorItemCreateRequest} request
+     * @param {HiddenLayerApi.SensorSorItemCreateRequest} request
      * @param {SensorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -43,16 +43,16 @@ export class SensorsClient {
      *     })
      */
     public create(
-        request: HiddenLayer.SensorSorItemCreateRequest,
+        request: HiddenLayerApi.SensorSorItemCreateRequest,
         requestOptions?: SensorsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SensorSorItemResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SensorSorItemResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: HiddenLayer.SensorSorItemCreateRequest,
+        request: HiddenLayerApi.SensorSorItemCreateRequest,
         requestOptions?: SensorsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SensorSorItemResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SensorSorItemResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -79,20 +79,20 @@ export class SensorsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.SensorSorItemResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.SensorSorItemResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -113,11 +113,11 @@ export class SensorsClient {
      *
      * ⚠️ **DEPRECATED**: This endpoint will be removed after April 13, 2026.
      *
-     * @param {HiddenLayer.RetrieveSensorsRequest} request
+     * @param {HiddenLayerApi.RetrieveSensorsRequest} request
      * @param {SensorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -127,16 +127,16 @@ export class SensorsClient {
      *     })
      */
     public retrieve(
-        request: HiddenLayer.RetrieveSensorsRequest,
+        request: HiddenLayerApi.RetrieveSensorsRequest,
         requestOptions?: SensorsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SensorSorItemResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SensorSorItemResponse> {
         return core.HttpResponsePromise.fromPromise(this.__retrieve(request, requestOptions));
     }
 
     private async __retrieve(
-        request: HiddenLayer.RetrieveSensorsRequest,
+        request: HiddenLayerApi.RetrieveSensorsRequest,
         requestOptions?: SensorsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SensorSorItemResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SensorSorItemResponse>> {
         const { sensor_id: sensorId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -161,15 +161,15 @@ export class SensorsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.SensorSorItemResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.SensorSorItemResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.HiddenLayerError({
                         statusCode: _response.error.statusCode,
@@ -187,12 +187,12 @@ export class SensorsClient {
      *
      * ⚠️ **DEPRECATED**: This endpoint will be removed after April 13, 2026.
      *
-     * @param {HiddenLayer.SensorSorItemUpdateRequest} request
+     * @param {HiddenLayerApi.SensorSorItemUpdateRequest} request
      * @param {SensorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -202,16 +202,16 @@ export class SensorsClient {
      *     })
      */
     public update(
-        request: HiddenLayer.SensorSorItemUpdateRequest,
+        request: HiddenLayerApi.SensorSorItemUpdateRequest,
         requestOptions?: SensorsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.SensorSorUpdateResponseModel> {
+    ): core.HttpResponsePromise<HiddenLayerApi.SensorSorUpdateResponseModel> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: HiddenLayer.SensorSorItemUpdateRequest,
+        request: HiddenLayerApi.SensorSorItemUpdateRequest,
         requestOptions?: SensorsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.SensorSorUpdateResponseModel>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.SensorSorUpdateResponseModel>> {
         const { sensor_id: sensorId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -240,7 +240,7 @@ export class SensorsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as HiddenLayer.SensorSorUpdateResponseModel,
+                data: _response.body as HiddenLayerApi.SensorSorUpdateResponseModel,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -248,11 +248,11 @@ export class SensorsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -273,13 +273,13 @@ export class SensorsClient {
      *
      * ⚠️ **DEPRECATED**: This endpoint will be removed after April 13, 2026.
      *
-     * @param {HiddenLayer.DeleteSensorsRequest} request
+     * @param {HiddenLayerApi.DeleteSensorsRequest} request
      * @param {SensorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.NotFoundError}
-     * @throws {@link HiddenLayer.ConflictError}
-     * @throws {@link HiddenLayer.ServiceUnavailableError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ConflictError}
+     * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -289,14 +289,14 @@ export class SensorsClient {
      *     })
      */
     public delete(
-        request: HiddenLayer.DeleteSensorsRequest,
+        request: HiddenLayerApi.DeleteSensorsRequest,
         requestOptions?: SensorsClient.RequestOptions,
     ): core.HttpResponsePromise<void> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: HiddenLayer.DeleteSensorsRequest,
+        request: HiddenLayerApi.DeleteSensorsRequest,
         requestOptions?: SensorsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
         const { sensor_id: sensorId } = request;
@@ -329,13 +329,13 @@ export class SensorsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new HiddenLayer.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new HiddenLayer.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new HiddenLayer.ServiceUnavailableError(
+                    throw new HiddenLayerApi.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -361,10 +361,10 @@ export class SensorsClient {
      *
      * ⚠️ **DEPRECATED**: This endpoint will be removed after April 13, 2026.
      *
-     * @param {HiddenLayer.SensorSorQueryRequest} request
+     * @param {HiddenLayerApi.SensorSorQueryRequest} request
      * @param {SensorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -372,13 +372,13 @@ export class SensorsClient {
      *     await client.sensors.queryLegacy({})
      */
     public async queryLegacy(
-        request: HiddenLayer.SensorSorQueryRequest,
+        request: HiddenLayerApi.SensorSorQueryRequest,
         requestOptions?: SensorsClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.SensorSorItemResponse, HiddenLayer.SensorSorQueryResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.SensorSorItemResponse, HiddenLayerApi.SensorSorQueryResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.SensorSorQueryRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.SensorSorQueryResponse>> => {
+                request: HiddenLayerApi.SensorSorQueryRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.SensorSorQueryResponse>> => {
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
                     _authRequest.headers,
@@ -406,14 +406,14 @@ export class SensorsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.SensorSorQueryResponse,
+                        data: _response.body as HiddenLayerApi.SensorSorQueryResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -430,7 +430,7 @@ export class SensorsClient {
         );
         let _offset = request?.page_number != null ? request?.page_number : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.SensorSorItemResponse, HiddenLayer.SensorSorQueryResponse>({
+        return new core.Page<HiddenLayerApi.SensorSorItemResponse, HiddenLayerApi.SensorSorQueryResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) => (response?.results ?? []).length > 0,
@@ -454,10 +454,10 @@ export class SensorsClient {
      *
      * ⚠️ **DEPRECATED**: This endpoint will be removed after April 13, 2026.
      *
-     * @param {HiddenLayer.SensorSorQueryRequest} request
+     * @param {HiddenLayerApi.SensorSorQueryRequest} request
      * @param {SensorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -465,13 +465,13 @@ export class SensorsClient {
      *     await client.sensors.query({})
      */
     public async query(
-        request: HiddenLayer.SensorSorQueryRequest,
+        request: HiddenLayerApi.SensorSorQueryRequest,
         requestOptions?: SensorsClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.SensorSorItemResponse, HiddenLayer.SensorSorQueryResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.SensorSorItemResponse, HiddenLayerApi.SensorSorQueryResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.SensorSorQueryRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.SensorSorQueryResponse>> => {
+                request: HiddenLayerApi.SensorSorQueryRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.SensorSorQueryResponse>> => {
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
                     _authRequest.headers,
@@ -499,14 +499,14 @@ export class SensorsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.SensorSorQueryResponse,
+                        data: _response.body as HiddenLayerApi.SensorSorQueryResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -528,7 +528,7 @@ export class SensorsClient {
         );
         let _offset = request?.page_number != null ? request?.page_number : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.SensorSorItemResponse, HiddenLayer.SensorSorQueryResponse>({
+        return new core.Page<HiddenLayerApi.SensorSorItemResponse, HiddenLayerApi.SensorSorQueryResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) => (response?.results ?? []).length > 0,

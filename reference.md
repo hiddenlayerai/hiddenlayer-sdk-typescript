@@ -1,6 +1,6 @@
 # Reference
 ## EulaResponses
-<details><summary><code>client.eulaResponses.<a href="/src/api/resources/eulaResponses/client/Client.ts">self</a>() -> HiddenLayer.SelfEulaResponsesResponse</code></summary>
+<details><summary><code>client.eulaResponses.<a href="/src/api/resources/eulaResponses/client/Client.ts">self</a>() -> HiddenLayerApi.SelfEulaResponsesResponse</code></summary>
 <dl>
 <dd>
 
@@ -56,7 +56,7 @@ await client.eulaResponses.self();
 </details>
 
 ## Credentials
-<details><summary><code>client.credentials.<a href="/src/api/resources/credentials/client/Client.ts">list</a>({ ...params }) -> HiddenLayer.ListCredentialsResponse</code></summary>
+<details><summary><code>client.credentials.<a href="/src/api/resources/credentials/client/Client.ts">list</a>({ ...params }) -> HiddenLayerApi.ListCredentialsResponse</code></summary>
 <dl>
 <dd>
 
@@ -99,7 +99,7 @@ await client.credentials.list();
 <dl>
 <dd>
 
-**request:** `HiddenLayer.ListCredentialsRequest` 
+**request:** `HiddenLayerApi.ListCredentialsRequest` 
     
 </dd>
 </dl>
@@ -119,7 +119,7 @@ await client.credentials.list();
 </dl>
 </details>
 
-<details><summary><code>client.credentials.<a href="/src/api/resources/credentials/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.CredentialsWithSecret</code></summary>
+<details><summary><code>client.credentials.<a href="/src/api/resources/credentials/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.CredentialsWithSecret</code></summary>
 <dl>
 <dd>
 
@@ -170,7 +170,7 @@ await client.credentials.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.CredentialsCreateRequestV2` 
+**request:** `HiddenLayerApi.CredentialsCreateRequestV2` 
     
 </dd>
 </dl>
@@ -235,7 +235,7 @@ await client.credentials.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.DeleteCredentialsRequest` 
+**request:** `HiddenLayerApi.DeleteCredentialsRequest` 
     
 </dd>
 </dl>
@@ -256,7 +256,7 @@ await client.credentials.delete({
 </details>
 
 ## Permissions
-<details><summary><code>client.permissions.<a href="/src/api/resources/permissions/client/Client.ts">list</a>() -> HiddenLayer.ListPermissionsResponse</code></summary>
+<details><summary><code>client.permissions.<a href="/src/api/resources/permissions/client/Client.ts">list</a>() -> HiddenLayerApi.ListPermissionsResponse</code></summary>
 <dl>
 <dd>
 
@@ -319,7 +319,7 @@ await client.permissions.list();
 </details>
 
 ## Roles
-<details><summary><code>client.roles.<a href="/src/api/resources/roles/client/Client.ts">list</a>() -> HiddenLayer.ListRolesResponse</code></summary>
+<details><summary><code>client.roles.<a href="/src/api/resources/roles/client/Client.ts">list</a>() -> HiddenLayerApi.ListRolesResponse</code></summary>
 <dl>
 <dd>
 
@@ -397,7 +397,7 @@ await client.roles.list();
 </details>
 
 ## Users
-<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">list</a>() -> HiddenLayer.ListUsersResponse</code></summary>
+<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">list</a>() -> HiddenLayerApi.ListUsersResponse</code></summary>
 <dl>
 <dd>
 
@@ -452,7 +452,7 @@ await client.users.list();
 </dl>
 </details>
 
-<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.CreateUsersResponse</code></summary>
+<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.CreateUsersResponse</code></summary>
 <dl>
 <dd>
 
@@ -495,7 +495,7 @@ await client.users.create({});
 <dl>
 <dd>
 
-**request:** `HiddenLayer.UserRequestBody` 
+**request:** `HiddenLayerApi.UserRequestBody` 
     
 </dd>
 </dl>
@@ -515,7 +515,7 @@ await client.users.create({});
 </dl>
 </details>
 
-<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.GetUsersResponse</code></summary>
+<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.GetUsersResponse</code></summary>
 <dl>
 <dd>
 
@@ -560,7 +560,7 @@ await client.users.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.GetUsersRequest` 
+**request:** `HiddenLayerApi.GetUsersRequest` 
     
 </dd>
 </dl>
@@ -580,7 +580,7 @@ await client.users.get({
 </dl>
 </details>
 
-<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.User</code></summary>
+<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.User</code></summary>
 <dl>
 <dd>
 
@@ -626,7 +626,7 @@ await client.users.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.UpdateUsersRequest` 
+**request:** `HiddenLayerApi.UpdateUsersRequest` 
     
 </dd>
 </dl>
@@ -691,7 +691,7 @@ await client.users.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.DeleteUsersRequest` 
+**request:** `HiddenLayerApi.DeleteUsersRequest` 
     
 </dd>
 </dl>
@@ -711,7 +711,7 @@ await client.users.delete({
 </dl>
 </details>
 
-<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">reset</a>({ ...params }) -> HiddenLayer.ResetUsersResponse</code></summary>
+<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">reset</a>({ ...params }) -> HiddenLayerApi.ResetUsersResponse</code></summary>
 <dl>
 <dd>
 
@@ -758,7 +758,7 @@ await client.users.reset({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.ResetUsersRequest` 
+**request:** `HiddenLayerApi.ResetUsersRequest` 
     
 </dd>
 </dl>
@@ -778,7 +778,7 @@ await client.users.reset({
 </dl>
 </details>
 
-<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">me</a>() -> HiddenLayer.MeUsersResponse</code></summary>
+<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">me</a>() -> HiddenLayerApi.MeUsersResponse</code></summary>
 <dl>
 <dd>
 
@@ -834,7 +834,7 @@ await client.users.me();
 </details>
 
 ## Oauth2
-<details><summary><code>client.oauth2.<a href="/src/api/resources/oauth2/client/Client.ts">token</a>({ ...params }) -> HiddenLayer.AccessToken</code></summary>
+<details><summary><code>client.oauth2.<a href="/src/api/resources/oauth2/client/Client.ts">token</a>({ ...params }) -> HiddenLayerApi.AccessToken</code></summary>
 <dl>
 <dd>
 
@@ -881,7 +881,7 @@ await client.oauth2.token({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.AccessTokenRequest` 
+**request:** `HiddenLayerApi.AccessTokenRequest` 
     
 </dd>
 </dl>
@@ -902,7 +902,7 @@ await client.oauth2.token({
 </details>
 
 ## SsoIntegrations
-<details><summary><code>client.ssoIntegrations.<a href="/src/api/resources/ssoIntegrations/client/Client.ts">list</a>() -> HiddenLayer.ListSsoIntegrationsResponse</code></summary>
+<details><summary><code>client.ssoIntegrations.<a href="/src/api/resources/ssoIntegrations/client/Client.ts">list</a>() -> HiddenLayerApi.ListSsoIntegrationsResponse</code></summary>
 <dl>
 <dd>
 
@@ -957,7 +957,7 @@ await client.ssoIntegrations.list();
 </dl>
 </details>
 
-<details><summary><code>client.ssoIntegrations.<a href="/src/api/resources/ssoIntegrations/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.SsoIntegrationSamlV2</code></summary>
+<details><summary><code>client.ssoIntegrations.<a href="/src/api/resources/ssoIntegrations/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.SsoIntegrationSamlV2</code></summary>
 <dl>
 <dd>
 
@@ -1005,7 +1005,7 @@ await client.ssoIntegrations.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.SsoIntegrationsCreateRequest` 
+**request:** `HiddenLayerApi.SsoIntegrationsCreateRequest` 
     
 </dd>
 </dl>
@@ -1025,7 +1025,7 @@ await client.ssoIntegrations.create({
 </dl>
 </details>
 
-<details><summary><code>client.ssoIntegrations.<a href="/src/api/resources/ssoIntegrations/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.SsoIntegrationSamlV2</code></summary>
+<details><summary><code>client.ssoIntegrations.<a href="/src/api/resources/ssoIntegrations/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.SsoIntegrationSamlV2</code></summary>
 <dl>
 <dd>
 
@@ -1070,7 +1070,7 @@ await client.ssoIntegrations.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.GetSsoIntegrationsRequest` 
+**request:** `HiddenLayerApi.GetSsoIntegrationsRequest` 
     
 </dd>
 </dl>
@@ -1090,7 +1090,7 @@ await client.ssoIntegrations.get({
 </dl>
 </details>
 
-<details><summary><code>client.ssoIntegrations.<a href="/src/api/resources/ssoIntegrations/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.SsoIntegrationSamlV2</code></summary>
+<details><summary><code>client.ssoIntegrations.<a href="/src/api/resources/ssoIntegrations/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.SsoIntegrationSamlV2</code></summary>
 <dl>
 <dd>
 
@@ -1137,7 +1137,7 @@ await client.ssoIntegrations.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.SsoIntegrationsUpdateRequest` 
+**request:** `HiddenLayerApi.SsoIntegrationsUpdateRequest` 
     
 </dd>
 </dl>
@@ -1158,7 +1158,7 @@ await client.ssoIntegrations.update({
 </details>
 
 ## Interactions
-<details><summary><code>client.interactions.<a href="/src/api/resources/interactions/client/Client.ts">analyze</a>({ ...params }) -> HiddenLayer.EnrichedResponse</code></summary>
+<details><summary><code>client.interactions.<a href="/src/api/resources/interactions/client/Client.ts">analyze</a>({ ...params }) -> HiddenLayerApi.EnrichedResponse</code></summary>
 <dl>
 <dd>
 
@@ -1208,7 +1208,7 @@ await client.interactions.analyze({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.InteractionsRequest` 
+**request:** `HiddenLayerApi.InteractionsRequest` 
     
 </dd>
 </dl>
@@ -1229,7 +1229,7 @@ await client.interactions.analyze({
 </details>
 
 ## PromptAnalyzer
-<details><summary><code>client.promptAnalyzer.<a href="/src/api/resources/promptAnalyzer/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.HiddenLayerPromptAnalyzerResponse</code></summary>
+<details><summary><code>client.promptAnalyzer.<a href="/src/api/resources/promptAnalyzer/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.HiddenLayerPromptAnalyzerResponse</code></summary>
 <dl>
 <dd>
 
@@ -1277,7 +1277,7 @@ await client.promptAnalyzer.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.PromptAnalyzerRequest` 
+**request:** `HiddenLayerApi.PromptAnalyzerRequest` 
     
 </dd>
 </dl>
@@ -1298,7 +1298,7 @@ await client.promptAnalyzer.create({
 </details>
 
 ## Runtime
-<details><summary><code>client.runtime.<a href="/src/api/resources/runtime/client/Client.ts">evaluateInteraction</a>({ ...params }) -> HiddenLayer.InteractionEvaluationResponse</code></summary>
+<details><summary><code>client.runtime.<a href="/src/api/resources/runtime/client/Client.ts">evaluateInteraction</a>({ ...params }) -> HiddenLayerApi.InteractionEvaluationResponse</code></summary>
 <dl>
 <dd>
 
@@ -1390,7 +1390,7 @@ await client.runtime.evaluateInteraction({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.InteractionEvaluationRequest` 
+**request:** `HiddenLayerApi.InteractionEvaluationRequest` 
     
 </dd>
 </dl>
@@ -1410,7 +1410,7 @@ await client.runtime.evaluateInteraction({
 </dl>
 </details>
 
-<details><summary><code>client.runtime.<a href="/src/api/resources/runtime/client/Client.ts">evaluateRequest</a>({ ...params }) -> HiddenLayer.ProviderPayload</code></summary>
+<details><summary><code>client.runtime.<a href="/src/api/resources/runtime/client/Client.ts">evaluateRequest</a>({ ...params }) -> HiddenLayerApi.ProviderPayload</code></summary>
 <dl>
 <dd>
 
@@ -1492,7 +1492,7 @@ await client.runtime.evaluateRequest({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.EvaluateRequestRuntimeRequest` 
+**request:** `HiddenLayerApi.EvaluateRequestRuntimeRequest` 
     
 </dd>
 </dl>
@@ -1512,7 +1512,7 @@ await client.runtime.evaluateRequest({
 </dl>
 </details>
 
-<details><summary><code>client.runtime.<a href="/src/api/resources/runtime/client/Client.ts">evaluateResponse</a>({ ...params }) -> HiddenLayer.ProviderPayload</code></summary>
+<details><summary><code>client.runtime.<a href="/src/api/resources/runtime/client/Client.ts">evaluateResponse</a>({ ...params }) -> HiddenLayerApi.ProviderPayload</code></summary>
 <dl>
 <dd>
 
@@ -1598,7 +1598,7 @@ await client.runtime.evaluateResponse({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.EvaluateResponseRuntimeRequest` 
+**request:** `HiddenLayerApi.EvaluateResponseRuntimeRequest` 
     
 </dd>
 </dl>
@@ -1619,7 +1619,7 @@ await client.runtime.evaluateResponse({
 </details>
 
 ## Sensors
-<details><summary><code>client.sensors.<a href="/src/api/resources/sensors/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.SensorSorItemResponse</code></summary>
+<details><summary><code>client.sensors.<a href="/src/api/resources/sensors/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.SensorSorItemResponse</code></summary>
 <dl>
 <dd>
 
@@ -1664,7 +1664,7 @@ await client.sensors.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.SensorSorItemCreateRequest` 
+**request:** `HiddenLayerApi.SensorSorItemCreateRequest` 
     
 </dd>
 </dl>
@@ -1684,7 +1684,7 @@ await client.sensors.create({
 </dl>
 </details>
 
-<details><summary><code>client.sensors.<a href="/src/api/resources/sensors/client/Client.ts">retrieve</a>({ ...params }) -> HiddenLayer.SensorSorItemResponse</code></summary>
+<details><summary><code>client.sensors.<a href="/src/api/resources/sensors/client/Client.ts">retrieve</a>({ ...params }) -> HiddenLayerApi.SensorSorItemResponse</code></summary>
 <dl>
 <dd>
 
@@ -1729,7 +1729,7 @@ await client.sensors.retrieve({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.RetrieveSensorsRequest` 
+**request:** `HiddenLayerApi.RetrieveSensorsRequest` 
     
 </dd>
 </dl>
@@ -1749,7 +1749,7 @@ await client.sensors.retrieve({
 </dl>
 </details>
 
-<details><summary><code>client.sensors.<a href="/src/api/resources/sensors/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.SensorSorUpdateResponseModel</code></summary>
+<details><summary><code>client.sensors.<a href="/src/api/resources/sensors/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.SensorSorUpdateResponseModel</code></summary>
 <dl>
 <dd>
 
@@ -1794,7 +1794,7 @@ await client.sensors.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.SensorSorItemUpdateRequest` 
+**request:** `HiddenLayerApi.SensorSorItemUpdateRequest` 
     
 </dd>
 </dl>
@@ -1859,7 +1859,7 @@ await client.sensors.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.DeleteSensorsRequest` 
+**request:** `HiddenLayerApi.DeleteSensorsRequest` 
     
 </dd>
 </dl>
@@ -1879,7 +1879,7 @@ await client.sensors.delete({
 </dl>
 </details>
 
-<details><summary><code>client.sensors.<a href="/src/api/resources/sensors/client/Client.ts">queryLegacy</a>({ ...params }) -> core.Page&lt;HiddenLayer.SensorSorItemResponse, HiddenLayer.SensorSorQueryResponse&gt;</code></summary>
+<details><summary><code>client.sensors.<a href="/src/api/resources/sensors/client/Client.ts">queryLegacy</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.SensorSorItemResponse, HiddenLayerApi.SensorSorQueryResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -1934,7 +1934,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.SensorSorQueryRequest` 
+**request:** `HiddenLayerApi.SensorSorQueryRequest` 
     
 </dd>
 </dl>
@@ -1954,7 +1954,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.sensors.<a href="/src/api/resources/sensors/client/Client.ts">query</a>({ ...params }) -> core.Page&lt;HiddenLayer.SensorSorItemResponse, HiddenLayer.SensorSorQueryResponse&gt;</code></summary>
+<details><summary><code>client.sensors.<a href="/src/api/resources/sensors/client/Client.ts">query</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.SensorSorItemResponse, HiddenLayerApi.SensorSorQueryResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -2009,7 +2009,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.SensorSorQueryRequest` 
+**request:** `HiddenLayerApi.SensorSorQueryRequest` 
     
 </dd>
 </dl>
@@ -2030,7 +2030,7 @@ const response = page.response;
 </details>
 
 ## Models
-<details><summary><code>client.models.<a href="/src/api/resources/models/client/Client.ts">retrieve</a>({ ...params }) -> HiddenLayer.SensorSorModel</code></summary>
+<details><summary><code>client.models.<a href="/src/api/resources/models/client/Client.ts">retrieve</a>({ ...params }) -> HiddenLayerApi.SensorSorModel</code></summary>
 <dl>
 <dd>
 
@@ -2061,7 +2061,7 @@ await client.models.retrieve({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.RetrieveModelsRequest` 
+**request:** `HiddenLayerApi.RetrieveModelsRequest` 
     
 </dd>
 </dl>
@@ -2112,7 +2112,7 @@ await client.models.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.DeleteModelsRequest` 
+**request:** `HiddenLayerApi.DeleteModelsRequest` 
     
 </dd>
 </dl>
@@ -2132,7 +2132,7 @@ await client.models.delete({
 </dl>
 </details>
 
-<details><summary><code>client.models.<a href="/src/api/resources/models/client/Client.ts">list</a>() -> HiddenLayer.SensorSorModel[]</code></summary>
+<details><summary><code>client.models.<a href="/src/api/resources/models/client/Client.ts">list</a>() -> HiddenLayerApi.SensorSorModel[]</code></summary>
 <dl>
 <dd>
 
@@ -2173,7 +2173,7 @@ await client.models.list();
 </dl>
 </details>
 
-<details><summary><code>client.models.<a href="/src/api/resources/models/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.UpdateModelsResponse</code></summary>
+<details><summary><code>client.models.<a href="/src/api/resources/models/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.UpdateModelsResponse</code></summary>
 <dl>
 <dd>
 
@@ -2205,7 +2205,7 @@ await client.models.update([{
 <dl>
 <dd>
 
-**request:** `HiddenLayer.SensorSorModel[]` 
+**request:** `HiddenLayerApi.SensorSorModel[]` 
     
 </dd>
 </dl>
@@ -2226,7 +2226,7 @@ await client.models.update([{
 </details>
 
 ## Access ApiKeys
-<details><summary><code>client.access.apiKeys.<a href="/src/api/resources/access/resources/apiKeys/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.StaticApiKey, HiddenLayer.ListApiKeysResponse&gt;</code></summary>
+<details><summary><code>client.access.apiKeys.<a href="/src/api/resources/access/resources/apiKeys/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.StaticApiKey, HiddenLayerApi.ListApiKeysResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -2285,7 +2285,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.access.ListApiKeysRequest` 
+**request:** `HiddenLayerApi.access.ListApiKeysRequest` 
     
 </dd>
 </dl>
@@ -2305,7 +2305,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.access.apiKeys.<a href="/src/api/resources/access/resources/apiKeys/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.StaticApiKeyWithValue</code></summary>
+<details><summary><code>client.access.apiKeys.<a href="/src/api/resources/access/resources/apiKeys/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.StaticApiKeyWithValue</code></summary>
 <dl>
 <dd>
 
@@ -2354,7 +2354,7 @@ await client.access.apiKeys.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.access.StaticApiKeyCreateRequest` 
+**request:** `HiddenLayerApi.access.StaticApiKeyCreateRequest` 
     
 </dd>
 </dl>
@@ -2374,7 +2374,7 @@ await client.access.apiKeys.create({
 </dl>
 </details>
 
-<details><summary><code>client.access.apiKeys.<a href="/src/api/resources/access/resources/apiKeys/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.StaticApiKey</code></summary>
+<details><summary><code>client.access.apiKeys.<a href="/src/api/resources/access/resources/apiKeys/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.StaticApiKey</code></summary>
 <dl>
 <dd>
 
@@ -2419,7 +2419,7 @@ await client.access.apiKeys.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.access.GetApiKeysRequest` 
+**request:** `HiddenLayerApi.access.GetApiKeysRequest` 
     
 </dd>
 </dl>
@@ -2487,7 +2487,7 @@ await client.access.apiKeys.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.access.DeleteApiKeysRequest` 
+**request:** `HiddenLayerApi.access.DeleteApiKeysRequest` 
     
 </dd>
 </dl>
@@ -2508,7 +2508,7 @@ await client.access.apiKeys.delete({
 </details>
 
 ## Access Users
-<details><summary><code>client.access.users.<a href="/src/api/resources/access/resources/users/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.User, HiddenLayer.ListUsersResponse&gt;</code></summary>
+<details><summary><code>client.access.users.<a href="/src/api/resources/access/resources/users/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.User, HiddenLayerApi.ListUsersResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -2567,7 +2567,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.access.ListUsersRequest` 
+**request:** `HiddenLayerApi.access.ListUsersRequest` 
     
 </dd>
 </dl>
@@ -2588,7 +2588,7 @@ const response = page.response;
 </details>
 
 ## Access Permissions
-<details><summary><code>client.access.permissions.<a href="/src/api/resources/access/resources/permissions/client/Client.ts">list</a>() -> HiddenLayer.ListPermissionsResponse</code></summary>
+<details><summary><code>client.access.permissions.<a href="/src/api/resources/access/resources/permissions/client/Client.ts">list</a>() -> HiddenLayerApi.ListPermissionsResponse</code></summary>
 <dl>
 <dd>
 
@@ -2654,7 +2654,7 @@ await client.access.permissions.list();
 </details>
 
 ## Access Tokens
-<details><summary><code>client.access.tokens.<a href="/src/api/resources/access/resources/tokens/client/Client.ts">shortLived</a>() -> HiddenLayer.ShortLivedTokenResponse</code></summary>
+<details><summary><code>client.access.tokens.<a href="/src/api/resources/access/resources/tokens/client/Client.ts">shortLived</a>() -> HiddenLayerApi.ShortLivedTokenResponse</code></summary>
 <dl>
 <dd>
 
@@ -2710,7 +2710,7 @@ await client.access.tokens.shortLived();
 </details>
 
 ## Access ApiKeys Secrets
-<details><summary><code>client.access.apiKeys.secrets.<a href="/src/api/resources/access/resources/apiKeys/resources/secrets/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.StaticApiKeySecretWithValue</code></summary>
+<details><summary><code>client.access.apiKeys.secrets.<a href="/src/api/resources/access/resources/apiKeys/resources/secrets/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.StaticApiKeySecretWithValue</code></summary>
 <dl>
 <dd>
 
@@ -2759,7 +2759,7 @@ await client.access.apiKeys.secrets.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.access.apiKeys.CreateSecretsRequest` 
+**request:** `HiddenLayerApi.access.apiKeys.CreateSecretsRequest` 
     
 </dd>
 </dl>
@@ -2828,7 +2828,7 @@ await client.access.apiKeys.secrets.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.access.apiKeys.DeleteSecretsRequest` 
+**request:** `HiddenLayerApi.access.apiKeys.DeleteSecretsRequest` 
     
 </dd>
 </dl>
@@ -2849,7 +2849,7 @@ await client.access.apiKeys.secrets.delete({
 </details>
 
 ## AssetInventory Assets
-<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">listV1</a>({ ...params }) -> HiddenLayer.ListV1AssetsResponse</code></summary>
+<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">listV1</a>({ ...params }) -> HiddenLayerApi.ListV1AssetsResponse</code></summary>
 <dl>
 <dd>
 
@@ -2880,7 +2880,7 @@ await client.assetInventory.assets.listV1({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.ListV1AssetsRequest` 
+**request:** `HiddenLayerApi.assetInventory.ListV1AssetsRequest` 
     
 </dd>
 </dl>
@@ -2900,7 +2900,7 @@ await client.assetInventory.assets.listV1({
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">getV1</a>({ ...params }) -> HiddenLayer.AiAsset</code></summary>
+<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">getV1</a>({ ...params }) -> HiddenLayerApi.AiAsset</code></summary>
 <dl>
 <dd>
 
@@ -2931,7 +2931,7 @@ await client.assetInventory.assets.getV1({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.GetV1AssetsRequest` 
+**request:** `HiddenLayerApi.assetInventory.GetV1AssetsRequest` 
     
 </dd>
 </dl>
@@ -2951,7 +2951,7 @@ await client.assetInventory.assets.getV1({
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">graph</a>({ ...params }) -> HiddenLayer.AiAssetInventoryV1AssetGraphNode</code></summary>
+<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">graph</a>({ ...params }) -> HiddenLayerApi.AiAssetInventoryV1AssetGraphNode</code></summary>
 <dl>
 <dd>
 
@@ -2982,7 +2982,7 @@ await client.assetInventory.assets.graph({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.GraphAssetsRequest` 
+**request:** `HiddenLayerApi.assetInventory.GraphAssetsRequest` 
     
 </dd>
 </dl>
@@ -3002,7 +3002,7 @@ await client.assetInventory.assets.graph({
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">filtersV1</a>() -> HiddenLayer.FiltersV1AssetsResponse</code></summary>
+<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">filtersV1</a>() -> HiddenLayerApi.FiltersV1AssetsResponse</code></summary>
 <dl>
 <dd>
 
@@ -3057,7 +3057,7 @@ await client.assetInventory.assets.filtersV1();
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">tagsV1</a>({ ...params }) -> HiddenLayer.AiAssetInventoryV1AssetTagMap</code></summary>
+<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">tagsV1</a>({ ...params }) -> HiddenLayerApi.AiAssetInventoryV1AssetTagMap</code></summary>
 <dl>
 <dd>
 
@@ -3102,7 +3102,7 @@ await client.assetInventory.assets.tagsV1({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.TagsV1AssetsRequest` 
+**request:** `HiddenLayerApi.assetInventory.TagsV1AssetsRequest` 
     
 </dd>
 </dl>
@@ -3122,7 +3122,7 @@ await client.assetInventory.assets.tagsV1({
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.Asset, HiddenLayer.ListAssetsResponse&gt;</code></summary>
+<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.Asset, HiddenLayerApi.ListAssetsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -3209,7 +3209,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.ListAssetsRequest` 
+**request:** `HiddenLayerApi.assetInventory.ListAssetsRequest` 
     
 </dd>
 </dl>
@@ -3229,7 +3229,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">suggestions</a>({ ...params }) -> HiddenLayer.SuggestionsAssetsResponse</code></summary>
+<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">suggestions</a>({ ...params }) -> HiddenLayerApi.SuggestionsAssetsResponse</code></summary>
 <dl>
 <dd>
 
@@ -3280,7 +3280,7 @@ await client.assetInventory.assets.suggestions({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.SuggestionsAssetsRequest` 
+**request:** `HiddenLayerApi.assetInventory.SuggestionsAssetsRequest` 
     
 </dd>
 </dl>
@@ -3300,7 +3300,7 @@ await client.assetInventory.assets.suggestions({
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">filters</a>({ ...params }) -> HiddenLayer.FilterFacetsResponse</code></summary>
+<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">filters</a>({ ...params }) -> HiddenLayerApi.FilterFacetsResponse</code></summary>
 <dl>
 <dd>
 
@@ -3381,7 +3381,7 @@ await client.assetInventory.assets.filters();
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.FiltersAssetsRequest` 
+**request:** `HiddenLayerApi.assetInventory.FiltersAssetsRequest` 
     
 </dd>
 </dl>
@@ -3401,7 +3401,7 @@ await client.assetInventory.assets.filters();
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.Asset</code></summary>
+<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.Asset</code></summary>
 <dl>
 <dd>
 
@@ -3454,7 +3454,7 @@ await client.assetInventory.assets.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.GetAssetsRequest` 
+**request:** `HiddenLayerApi.assetInventory.GetAssetsRequest` 
     
 </dd>
 </dl>
@@ -3474,7 +3474,7 @@ await client.assetInventory.assets.get({
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">discoveredGraph</a>({ ...params }) -> HiddenLayer.AssetGraphNode</code></summary>
+<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">discoveredGraph</a>({ ...params }) -> HiddenLayerApi.AssetGraphNode</code></summary>
 <dl>
 <dd>
 
@@ -3533,7 +3533,7 @@ await client.assetInventory.assets.discoveredGraph({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.DiscoveredGraphAssetsRequest` 
+**request:** `HiddenLayerApi.assetInventory.DiscoveredGraphAssetsRequest` 
     
 </dd>
 </dl>
@@ -3553,7 +3553,7 @@ await client.assetInventory.assets.discoveredGraph({
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">tags</a>({ ...params }) -> HiddenLayer.AssetTagMap</code></summary>
+<details><summary><code>client.assetInventory.assets.<a href="/src/api/resources/assetInventory/resources/assets/client/Client.ts">tags</a>({ ...params }) -> HiddenLayerApi.AssetTagMap</code></summary>
 <dl>
 <dd>
 
@@ -3600,7 +3600,7 @@ await client.assetInventory.assets.tags({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.TagsAssetsRequest` 
+**request:** `HiddenLayerApi.assetInventory.TagsAssetsRequest` 
     
 </dd>
 </dl>
@@ -3621,7 +3621,7 @@ await client.assetInventory.assets.tags({
 </details>
 
 ## AssetInventory Relationships
-<details><summary><code>client.assetInventory.relationships.<a href="/src/api/resources/assetInventory/resources/relationships/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.AiAssetInventoryV1AssetRelationship</code></summary>
+<details><summary><code>client.assetInventory.relationships.<a href="/src/api/resources/assetInventory/resources/relationships/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.AiAssetInventoryV1AssetRelationship</code></summary>
 <dl>
 <dd>
 
@@ -3652,7 +3652,7 @@ await client.assetInventory.relationships.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.GetRelationshipsRequest` 
+**request:** `HiddenLayerApi.assetInventory.GetRelationshipsRequest` 
     
 </dd>
 </dl>
@@ -3673,7 +3673,7 @@ await client.assetInventory.relationships.get({
 </details>
 
 ## AssetInventory Metrics
-<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">providerCountsV1</a>() -> HiddenLayer.AiAssetInventoryV1ProviderCounts</code></summary>
+<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">providerCountsV1</a>() -> HiddenLayerApi.AiAssetInventoryV1ProviderCounts</code></summary>
 <dl>
 <dd>
 
@@ -3714,7 +3714,7 @@ await client.assetInventory.metrics.providerCountsV1();
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">regionCountsV1</a>() -> HiddenLayer.AiAssetInventoryV1RegionCounts</code></summary>
+<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">regionCountsV1</a>() -> HiddenLayerApi.AiAssetInventoryV1RegionCounts</code></summary>
 <dl>
 <dd>
 
@@ -3755,7 +3755,7 @@ await client.assetInventory.metrics.regionCountsV1();
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">assetTypeCountsV1</a>() -> HiddenLayer.AiAssetInventoryV1AssetTypeCounts</code></summary>
+<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">assetTypeCountsV1</a>() -> HiddenLayerApi.AiAssetInventoryV1AssetTypeCounts</code></summary>
 <dl>
 <dd>
 
@@ -3796,7 +3796,7 @@ await client.assetInventory.metrics.assetTypeCountsV1();
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">providerCounts</a>() -> HiddenLayer.ProviderCounts</code></summary>
+<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">providerCounts</a>() -> HiddenLayerApi.ProviderCounts</code></summary>
 <dl>
 <dd>
 
@@ -3856,7 +3856,7 @@ await client.assetInventory.metrics.providerCounts();
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">regionCounts</a>() -> HiddenLayer.RegionCounts</code></summary>
+<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">regionCounts</a>() -> HiddenLayerApi.RegionCounts</code></summary>
 <dl>
 <dd>
 
@@ -3916,7 +3916,7 @@ await client.assetInventory.metrics.regionCounts();
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">assetTypeCounts</a>() -> HiddenLayer.AssetTypeCounts</code></summary>
+<details><summary><code>client.assetInventory.metrics.<a href="/src/api/resources/assetInventory/resources/metrics/client/Client.ts">assetTypeCounts</a>() -> HiddenLayerApi.AssetTypeCounts</code></summary>
 <dl>
 <dd>
 
@@ -3975,7 +3975,7 @@ await client.assetInventory.metrics.assetTypeCounts();
 </details>
 
 ## AssetInventory Resources
-<details><summary><code>client.assetInventory.resources.<a href="/src/api/resources/assetInventory/resources/resources/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.ListResourcesResponse.Items.Item, HiddenLayer.ListResourcesResponse&gt;</code></summary>
+<details><summary><code>client.assetInventory.resources.<a href="/src/api/resources/assetInventory/resources/resources/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.ListResourcesResponse.Items.Item, HiddenLayerApi.ListResourcesResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -4020,7 +4020,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.ListResourcesRequest` 
+**request:** `HiddenLayerApi.assetInventory.ListResourcesRequest` 
     
 </dd>
 </dl>
@@ -4041,7 +4041,7 @@ const response = page.response;
 </details>
 
 ## AssetInventory Scans
-<details><summary><code>client.assetInventory.scans.<a href="/src/api/resources/assetInventory/resources/scans/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.AssetScan</code></summary>
+<details><summary><code>client.assetInventory.scans.<a href="/src/api/resources/assetInventory/resources/scans/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.AssetScan</code></summary>
 <dl>
 <dd>
 
@@ -4072,7 +4072,7 @@ await client.assetInventory.scans.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.GetScansRequest` 
+**request:** `HiddenLayerApi.assetInventory.GetScansRequest` 
     
 </dd>
 </dl>
@@ -4093,7 +4093,7 @@ await client.assetInventory.scans.get({
 </details>
 
 ## AssetInventory Tags
-<details><summary><code>client.assetInventory.tags.<a href="/src/api/resources/assetInventory/resources/tags/client/Client.ts">listV1</a>({ ...params }) -> core.Page&lt;HiddenLayer.AiAssetInventoryV1TagDefinition, HiddenLayer.AiAssetInventoryV1TagDefinitionList&gt;</code></summary>
+<details><summary><code>client.assetInventory.tags.<a href="/src/api/resources/assetInventory/resources/tags/client/Client.ts">listV1</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.AiAssetInventoryV1TagDefinition, HiddenLayerApi.AiAssetInventoryV1TagDefinitionList&gt;</code></summary>
 <dl>
 <dd>
 
@@ -4154,7 +4154,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.ListV1TagsRequest` 
+**request:** `HiddenLayerApi.assetInventory.ListV1TagsRequest` 
     
 </dd>
 </dl>
@@ -4174,7 +4174,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.tags.<a href="/src/api/resources/assetInventory/resources/tags/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.TagDefinition, HiddenLayer.TagDefinitionList&gt;</code></summary>
+<details><summary><code>client.assetInventory.tags.<a href="/src/api/resources/assetInventory/resources/tags/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.TagDefinition, HiddenLayerApi.TagDefinitionList&gt;</code></summary>
 <dl>
 <dd>
 
@@ -4237,7 +4237,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.ListTagsRequest` 
+**request:** `HiddenLayerApi.assetInventory.ListTagsRequest` 
     
 </dd>
 </dl>
@@ -4258,7 +4258,7 @@ const response = page.response;
 </details>
 
 ## AssetInventory CustomTags
-<details><summary><code>client.assetInventory.customTags.<a href="/src/api/resources/assetInventory/resources/customTags/client/Client.ts">updateV1</a>({ ...params }) -> HiddenLayer.AiAssetInventoryV1TagDefinition</code></summary>
+<details><summary><code>client.assetInventory.customTags.<a href="/src/api/resources/assetInventory/resources/customTags/client/Client.ts">updateV1</a>({ ...params }) -> HiddenLayerApi.AiAssetInventoryV1TagDefinition</code></summary>
 <dl>
 <dd>
 
@@ -4304,7 +4304,7 @@ await client.assetInventory.customTags.updateV1({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.AiAssetInventoryV1TagDefinitionUpdate` 
+**request:** `HiddenLayerApi.assetInventory.AiAssetInventoryV1TagDefinitionUpdate` 
     
 </dd>
 </dl>
@@ -4324,7 +4324,7 @@ await client.assetInventory.customTags.updateV1({
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.customTags.<a href="/src/api/resources/assetInventory/resources/customTags/client/Client.ts">valuesV1</a>({ ...params }) -> core.Page&lt;string, HiddenLayer.AiAssetInventoryV1TagValueList&gt;</code></summary>
+<details><summary><code>client.assetInventory.customTags.<a href="/src/api/resources/assetInventory/resources/customTags/client/Client.ts">valuesV1</a>({ ...params }) -> core.Page&lt;string, HiddenLayerApi.AiAssetInventoryV1TagValueList&gt;</code></summary>
 <dl>
 <dd>
 
@@ -4387,7 +4387,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.ValuesV1CustomTagsRequest` 
+**request:** `HiddenLayerApi.assetInventory.ValuesV1CustomTagsRequest` 
     
 </dd>
 </dl>
@@ -4407,7 +4407,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.customTags.<a href="/src/api/resources/assetInventory/resources/customTags/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.TagDefinition</code></summary>
+<details><summary><code>client.assetInventory.customTags.<a href="/src/api/resources/assetInventory/resources/customTags/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.TagDefinition</code></summary>
 <dl>
 <dd>
 
@@ -4455,7 +4455,7 @@ await client.assetInventory.customTags.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.TagDefinitionUpdate` 
+**request:** `HiddenLayerApi.assetInventory.TagDefinitionUpdate` 
     
 </dd>
 </dl>
@@ -4475,7 +4475,7 @@ await client.assetInventory.customTags.update({
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.customTags.<a href="/src/api/resources/assetInventory/resources/customTags/client/Client.ts">values</a>({ ...params }) -> core.Page&lt;string, HiddenLayer.TagValueList&gt;</code></summary>
+<details><summary><code>client.assetInventory.customTags.<a href="/src/api/resources/assetInventory/resources/customTags/client/Client.ts">values</a>({ ...params }) -> core.Page&lt;string, HiddenLayerApi.TagValueList&gt;</code></summary>
 <dl>
 <dd>
 
@@ -4540,7 +4540,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.ValuesCustomTagsRequest` 
+**request:** `HiddenLayerApi.assetInventory.ValuesCustomTagsRequest` 
     
 </dd>
 </dl>
@@ -4561,7 +4561,7 @@ const response = page.response;
 </details>
 
 ## AssetInventory DiscoveredTags
-<details><summary><code>client.assetInventory.discoveredTags.<a href="/src/api/resources/assetInventory/resources/discoveredTags/client/Client.ts">valuesV1</a>({ ...params }) -> core.Page&lt;string, HiddenLayer.AiAssetInventoryV1TagValueList&gt;</code></summary>
+<details><summary><code>client.assetInventory.discoveredTags.<a href="/src/api/resources/assetInventory/resources/discoveredTags/client/Client.ts">valuesV1</a>({ ...params }) -> core.Page&lt;string, HiddenLayerApi.AiAssetInventoryV1TagValueList&gt;</code></summary>
 <dl>
 <dd>
 
@@ -4624,7 +4624,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.ValuesV1DiscoveredTagsRequest` 
+**request:** `HiddenLayerApi.assetInventory.ValuesV1DiscoveredTagsRequest` 
     
 </dd>
 </dl>
@@ -4644,7 +4644,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.discoveredTags.<a href="/src/api/resources/assetInventory/resources/discoveredTags/client/Client.ts">values</a>({ ...params }) -> core.Page&lt;string, HiddenLayer.TagValueList&gt;</code></summary>
+<details><summary><code>client.assetInventory.discoveredTags.<a href="/src/api/resources/assetInventory/resources/discoveredTags/client/Client.ts">values</a>({ ...params }) -> core.Page&lt;string, HiddenLayerApi.TagValueList&gt;</code></summary>
 <dl>
 <dd>
 
@@ -4709,7 +4709,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.ValuesDiscoveredTagsRequest` 
+**request:** `HiddenLayerApi.assetInventory.ValuesDiscoveredTagsRequest` 
     
 </dd>
 </dl>
@@ -4730,7 +4730,7 @@ const response = page.response;
 </details>
 
 ## AssetInventory Annotations
-<details><summary><code>client.assetInventory.annotations.<a href="/src/api/resources/assetInventory/resources/annotations/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.Asset</code></summary>
+<details><summary><code>client.assetInventory.annotations.<a href="/src/api/resources/assetInventory/resources/annotations/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.Asset</code></summary>
 <dl>
 <dd>
 
@@ -4780,7 +4780,7 @@ await client.assetInventory.annotations.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.GetAnnotationsRequest` 
+**request:** `HiddenLayerApi.assetInventory.GetAnnotationsRequest` 
     
 </dd>
 </dl>
@@ -4801,7 +4801,7 @@ await client.assetInventory.annotations.get({
 </details>
 
 ## AssetInventory Jobs
-<details><summary><code>client.assetInventory.jobs.<a href="/src/api/resources/assetInventory/resources/jobs/client/Client.ts">customTags</a>({ ...params }) -> HiddenLayer.SyncJob</code></summary>
+<details><summary><code>client.assetInventory.jobs.<a href="/src/api/resources/assetInventory/resources/jobs/client/Client.ts">customTags</a>({ ...params }) -> HiddenLayerApi.SyncJob</code></summary>
 <dl>
 <dd>
 
@@ -4876,7 +4876,7 @@ await client.assetInventory.jobs.customTags({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.BulkCustomTagJobRequestV2` 
+**request:** `HiddenLayerApi.assetInventory.BulkCustomTagJobRequestV2` 
     
 </dd>
 </dl>
@@ -4897,7 +4897,7 @@ await client.assetInventory.jobs.customTags({
 </details>
 
 ## AssetInventory Assets Search
-<details><summary><code>client.assetInventory.assets.search.<a href="/src/api/resources/assetInventory/resources/assets/resources/search/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.SearchResult, HiddenLayer.SearchResponse&gt;</code></summary>
+<details><summary><code>client.assetInventory.assets.search.<a href="/src/api/resources/assetInventory/resources/assets/resources/search/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.SearchResult, HiddenLayerApi.SearchResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -4944,7 +4944,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.assets.ListSearchRequest` 
+**request:** `HiddenLayerApi.assetInventory.assets.ListSearchRequest` 
     
 </dd>
 </dl>
@@ -4964,7 +4964,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.search.<a href="/src/api/resources/assetInventory/resources/assets/resources/search/client/Client.ts">suggestions</a>({ ...params }) -> HiddenLayer.SearchSuggestionsResponse</code></summary>
+<details><summary><code>client.assetInventory.assets.search.<a href="/src/api/resources/assetInventory/resources/assets/resources/search/client/Client.ts">suggestions</a>({ ...params }) -> HiddenLayerApi.SearchSuggestionsResponse</code></summary>
 <dl>
 <dd>
 
@@ -4995,7 +4995,7 @@ await client.assetInventory.assets.search.suggestions({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.assets.SuggestionsSearchRequest` 
+**request:** `HiddenLayerApi.assetInventory.assets.SuggestionsSearchRequest` 
     
 </dd>
 </dl>
@@ -5016,7 +5016,7 @@ await client.assetInventory.assets.search.suggestions({
 </details>
 
 ## AssetInventory Assets CustomTags
-<details><summary><code>client.assetInventory.assets.customTags.<a href="/src/api/resources/assetInventory/resources/assets/resources/customTags/client/Client.ts">updateV1</a>({ ...params }) -> HiddenLayer.AiAssetInventoryV1TagValue</code></summary>
+<details><summary><code>client.assetInventory.assets.customTags.<a href="/src/api/resources/assetInventory/resources/assets/resources/customTags/client/Client.ts">updateV1</a>({ ...params }) -> HiddenLayerApi.AiAssetInventoryV1TagValue</code></summary>
 <dl>
 <dd>
 
@@ -5065,7 +5065,7 @@ await client.assetInventory.assets.customTags.updateV1({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.assets.UpdateV1CustomTagsRequest` 
+**request:** `HiddenLayerApi.assetInventory.assets.UpdateV1CustomTagsRequest` 
     
 </dd>
 </dl>
@@ -5131,7 +5131,7 @@ await client.assetInventory.assets.customTags.deleteV1({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.assets.DeleteV1CustomTagsRequest` 
+**request:** `HiddenLayerApi.assetInventory.assets.DeleteV1CustomTagsRequest` 
     
 </dd>
 </dl>
@@ -5151,7 +5151,7 @@ await client.assetInventory.assets.customTags.deleteV1({
 </dl>
 </details>
 
-<details><summary><code>client.assetInventory.assets.customTags.<a href="/src/api/resources/assetInventory/resources/assets/resources/customTags/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.TagValue</code></summary>
+<details><summary><code>client.assetInventory.assets.customTags.<a href="/src/api/resources/assetInventory/resources/assets/resources/customTags/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.TagValue</code></summary>
 <dl>
 <dd>
 
@@ -5202,7 +5202,7 @@ await client.assetInventory.assets.customTags.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.assets.UpdateCustomTagsRequest` 
+**request:** `HiddenLayerApi.assetInventory.assets.UpdateCustomTagsRequest` 
     
 </dd>
 </dl>
@@ -5270,7 +5270,7 @@ await client.assetInventory.assets.customTags.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.assetInventory.assets.DeleteCustomTagsRequest` 
+**request:** `HiddenLayerApi.assetInventory.assets.DeleteCustomTagsRequest` 
     
 </dd>
 </dl>
@@ -5291,7 +5291,7 @@ await client.assetInventory.assets.customTags.delete({
 </details>
 
 ## Audit Entries
-<details><summary><code>client.audit.entries.<a href="/src/api/resources/audit/resources/entries/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.AuditEntry, HiddenLayer.ListEntriesResponse&gt;</code></summary>
+<details><summary><code>client.audit.entries.<a href="/src/api/resources/audit/resources/entries/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.AuditEntry, HiddenLayerApi.ListEntriesResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -5352,7 +5352,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.audit.ListEntriesRequest` 
+**request:** `HiddenLayerApi.audit.ListEntriesRequest` 
     
 </dd>
 </dl>
@@ -5373,7 +5373,7 @@ const response = page.response;
 </details>
 
 ## Audit ActivityTypes
-<details><summary><code>client.audit.activityTypes.<a href="/src/api/resources/audit/resources/activityTypes/client/Client.ts">list</a>() -> HiddenLayer.ActivityTypeList</code></summary>
+<details><summary><code>client.audit.activityTypes.<a href="/src/api/resources/audit/resources/activityTypes/client/Client.ts">list</a>() -> HiddenLayerApi.ActivityTypeList</code></summary>
 <dl>
 <dd>
 
@@ -5429,7 +5429,7 @@ await client.audit.activityTypes.list();
 </details>
 
 ## Compliance Projects
-<details><summary><code>client.compliance.projects.<a href="/src/api/resources/compliance/resources/projects/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.GetProjectItem, HiddenLayer.ListProjectsResponse&gt;</code></summary>
+<details><summary><code>client.compliance.projects.<a href="/src/api/resources/compliance/resources/projects/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.GetProjectItem, HiddenLayerApi.ListProjectsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -5474,7 +5474,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.ListProjectsRequest` 
+**request:** `HiddenLayerApi.compliance.ListProjectsRequest` 
     
 </dd>
 </dl>
@@ -5494,7 +5494,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.compliance.projects.<a href="/src/api/resources/compliance/resources/projects/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.ProjectId</code></summary>
+<details><summary><code>client.compliance.projects.<a href="/src/api/resources/compliance/resources/projects/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.ProjectId</code></summary>
 <dl>
 <dd>
 
@@ -5537,7 +5537,7 @@ await client.compliance.projects.create();
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.CreateProjectsRequest` 
+**request:** `HiddenLayerApi.compliance.CreateProjectsRequest` 
     
 </dd>
 </dl>
@@ -5557,7 +5557,7 @@ await client.compliance.projects.create();
 </dl>
 </details>
 
-<details><summary><code>client.compliance.projects.<a href="/src/api/resources/compliance/resources/projects/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.GetProjectsResponse</code></summary>
+<details><summary><code>client.compliance.projects.<a href="/src/api/resources/compliance/resources/projects/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.GetProjectsResponse</code></summary>
 <dl>
 <dd>
 
@@ -5588,7 +5588,7 @@ await client.compliance.projects.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.GetProjectsRequest` 
+**request:** `HiddenLayerApi.compliance.GetProjectsRequest` 
     
 </dd>
 </dl>
@@ -5608,7 +5608,7 @@ await client.compliance.projects.get({
 </dl>
 </details>
 
-<details><summary><code>client.compliance.projects.<a href="/src/api/resources/compliance/resources/projects/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.ProjectId</code></summary>
+<details><summary><code>client.compliance.projects.<a href="/src/api/resources/compliance/resources/projects/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.ProjectId</code></summary>
 <dl>
 <dd>
 
@@ -5654,7 +5654,7 @@ await client.compliance.projects.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.UpdateProjectsRequest` 
+**request:** `HiddenLayerApi.compliance.UpdateProjectsRequest` 
     
 </dd>
 </dl>
@@ -5705,7 +5705,7 @@ await client.compliance.projects.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.DeleteProjectsRequest` 
+**request:** `HiddenLayerApi.compliance.DeleteProjectsRequest` 
     
 </dd>
 </dl>
@@ -5726,7 +5726,7 @@ await client.compliance.projects.delete({
 </details>
 
 ## Compliance RuleSets
-<details><summary><code>client.compliance.ruleSets.<a href="/src/api/resources/compliance/resources/ruleSets/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.GetRuleSetItem, HiddenLayer.ListRuleSetsResponse&gt;</code></summary>
+<details><summary><code>client.compliance.ruleSets.<a href="/src/api/resources/compliance/resources/ruleSets/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.GetRuleSetItem, HiddenLayerApi.ListRuleSetsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -5773,7 +5773,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.ListRuleSetsRequest` 
+**request:** `HiddenLayerApi.compliance.ListRuleSetsRequest` 
     
 </dd>
 </dl>
@@ -5793,7 +5793,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.compliance.ruleSets.<a href="/src/api/resources/compliance/resources/ruleSets/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.GetRuleSetItem</code></summary>
+<details><summary><code>client.compliance.ruleSets.<a href="/src/api/resources/compliance/resources/ruleSets/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.GetRuleSetItem</code></summary>
 <dl>
 <dd>
 
@@ -5825,7 +5825,7 @@ await client.compliance.ruleSets.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.RuleSetDetails` 
+**request:** `HiddenLayerApi.RuleSetDetails` 
     
 </dd>
 </dl>
@@ -5845,7 +5845,7 @@ await client.compliance.ruleSets.create({
 </dl>
 </details>
 
-<details><summary><code>client.compliance.ruleSets.<a href="/src/api/resources/compliance/resources/ruleSets/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.GetRuleSetItem</code></summary>
+<details><summary><code>client.compliance.ruleSets.<a href="/src/api/resources/compliance/resources/ruleSets/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.GetRuleSetItem</code></summary>
 <dl>
 <dd>
 
@@ -5876,7 +5876,7 @@ await client.compliance.ruleSets.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.GetRuleSetsRequest` 
+**request:** `HiddenLayerApi.compliance.GetRuleSetsRequest` 
     
 </dd>
 </dl>
@@ -5932,7 +5932,7 @@ await client.compliance.ruleSets.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.UpdateRuleSetsRequest` 
+**request:** `HiddenLayerApi.compliance.UpdateRuleSetsRequest` 
     
 </dd>
 </dl>
@@ -5983,7 +5983,7 @@ await client.compliance.ruleSets.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.DeleteRuleSetsRequest` 
+**request:** `HiddenLayerApi.compliance.DeleteRuleSetsRequest` 
     
 </dd>
 </dl>
@@ -6004,7 +6004,7 @@ await client.compliance.ruleSets.delete({
 </details>
 
 ## Compliance RuleSets Settings
-<details><summary><code>client.compliance.ruleSets.settings.<a href="/src/api/resources/compliance/resources/ruleSets/resources/settings/client/Client.ts">list</a>({ ...params }) -> HiddenLayer.ListSettingsResponse</code></summary>
+<details><summary><code>client.compliance.ruleSets.settings.<a href="/src/api/resources/compliance/resources/ruleSets/resources/settings/client/Client.ts">list</a>({ ...params }) -> HiddenLayerApi.ListSettingsResponse</code></summary>
 <dl>
 <dd>
 
@@ -6033,7 +6033,7 @@ await client.compliance.ruleSets.settings.list();
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.ruleSets.ListSettingsRequest` 
+**request:** `HiddenLayerApi.compliance.ruleSets.ListSettingsRequest` 
     
 </dd>
 </dl>
@@ -6053,7 +6053,7 @@ await client.compliance.ruleSets.settings.list();
 </dl>
 </details>
 
-<details><summary><code>client.compliance.ruleSets.settings.<a href="/src/api/resources/compliance/resources/ruleSets/resources/settings/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.SettingsId</code></summary>
+<details><summary><code>client.compliance.ruleSets.settings.<a href="/src/api/resources/compliance/resources/ruleSets/resources/settings/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.SettingsId</code></summary>
 <dl>
 <dd>
 
@@ -6088,7 +6088,7 @@ await client.compliance.ruleSets.settings.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.ruleSets.CreateSettingsRequest` 
+**request:** `HiddenLayerApi.compliance.ruleSets.CreateSettingsRequest` 
     
 </dd>
 </dl>
@@ -6108,7 +6108,7 @@ await client.compliance.ruleSets.settings.create({
 </dl>
 </details>
 
-<details><summary><code>client.compliance.ruleSets.settings.<a href="/src/api/resources/compliance/resources/ruleSets/resources/settings/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.SettingsDetailsWithSchema</code></summary>
+<details><summary><code>client.compliance.ruleSets.settings.<a href="/src/api/resources/compliance/resources/ruleSets/resources/settings/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.SettingsDetailsWithSchema</code></summary>
 <dl>
 <dd>
 
@@ -6140,7 +6140,7 @@ await client.compliance.ruleSets.settings.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.ruleSets.GetSettingsRequest` 
+**request:** `HiddenLayerApi.compliance.ruleSets.GetSettingsRequest` 
     
 </dd>
 </dl>
@@ -6198,7 +6198,7 @@ await client.compliance.ruleSets.settings.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.ruleSets.UpdateSettingsRequest` 
+**request:** `HiddenLayerApi.compliance.ruleSets.UpdateSettingsRequest` 
     
 </dd>
 </dl>
@@ -6250,7 +6250,7 @@ await client.compliance.ruleSets.settings.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.compliance.ruleSets.DeleteSettingsRequest` 
+**request:** `HiddenLayerApi.compliance.ruleSets.DeleteSettingsRequest` 
     
 </dd>
 </dl>
@@ -6271,7 +6271,7 @@ await client.compliance.ruleSets.settings.delete({
 </details>
 
 ## Evaluations RedTeam
-<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">targetModels</a>() -> HiddenLayer.TargetModelResponse</code></summary>
+<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">targetModels</a>() -> HiddenLayerApi.TargetModelResponse</code></summary>
 <dl>
 <dd>
 
@@ -6328,7 +6328,7 @@ await client.evaluations.redTeam.targetModels();
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.RedTeamResultItem, HiddenLayer.RedTeamListResultsResponse&gt;</code></summary>
+<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.RedTeamResultItem, HiddenLayerApi.RedTeamListResultsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -6388,7 +6388,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.ListRedTeamRequest` 
+**request:** `HiddenLayerApi.evaluations.ListRedTeamRequest` 
     
 </dd>
 </dl>
@@ -6408,7 +6408,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.StartWorkflowResponse</code></summary>
+<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.StartWorkflowResponse</code></summary>
 <dl>
 <dd>
 
@@ -6456,7 +6456,7 @@ await client.evaluations.redTeam.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.ClientRedTeamBody` 
+**request:** `HiddenLayerApi.evaluations.ClientRedTeamBody` 
     
 </dd>
 </dl>
@@ -6476,7 +6476,7 @@ await client.evaluations.redTeam.create({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">retrieveStatus</a>({ ...params }) -> HiddenLayer.WorkflowStatusResponse</code></summary>
+<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">retrieveStatus</a>({ ...params }) -> HiddenLayerApi.WorkflowStatusResponse</code></summary>
 <dl>
 <dd>
 
@@ -6523,7 +6523,7 @@ await client.evaluations.redTeam.retrieveStatus({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.RetrieveStatusRedTeamRequest` 
+**request:** `HiddenLayerApi.evaluations.RetrieveStatusRedTeamRequest` 
     
 </dd>
 </dl>
@@ -6543,7 +6543,7 @@ await client.evaluations.redTeam.retrieveStatus({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">retrieveNextAction</a>({ ...params }) -> HiddenLayer.NextActionResponse</code></summary>
+<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">retrieveNextAction</a>({ ...params }) -> HiddenLayerApi.NextActionResponse</code></summary>
 <dl>
 <dd>
 
@@ -6596,7 +6596,7 @@ await client.evaluations.redTeam.retrieveNextAction({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.RetrieveNextActionRedTeamRequest` 
+**request:** `HiddenLayerApi.evaluations.RetrieveNextActionRedTeamRequest` 
     
 </dd>
 </dl>
@@ -6616,7 +6616,7 @@ await client.evaluations.redTeam.retrieveNextAction({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">submitTargetResponse</a>({ ...params }) -> HiddenLayer.SubmitTargetResponseResult</code></summary>
+<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">submitTargetResponse</a>({ ...params }) -> HiddenLayerApi.SubmitTargetResponseResult</code></summary>
 <dl>
 <dd>
 
@@ -6668,7 +6668,7 @@ await client.evaluations.redTeam.submitTargetResponse({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.SubmitTargetResponseBody` 
+**request:** `HiddenLayerApi.evaluations.SubmitTargetResponseBody` 
     
 </dd>
 </dl>
@@ -6688,7 +6688,7 @@ await client.evaluations.redTeam.submitTargetResponse({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">retrieveEvaluationResults</a>({ ...params }) -> HiddenLayer.WorkflowResultResponse</code></summary>
+<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">retrieveEvaluationResults</a>({ ...params }) -> HiddenLayerApi.WorkflowResultResponse</code></summary>
 <dl>
 <dd>
 
@@ -6735,7 +6735,7 @@ await client.evaluations.redTeam.retrieveEvaluationResults({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.RetrieveEvaluationResultsRedTeamRequest` 
+**request:** `HiddenLayerApi.evaluations.RetrieveEvaluationResultsRedTeamRequest` 
     
 </dd>
 </dl>
@@ -6802,7 +6802,7 @@ await client.evaluations.redTeam.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.DeleteRedTeamRequest` 
+**request:** `HiddenLayerApi.evaluations.DeleteRedTeamRequest` 
     
 </dd>
 </dl>
@@ -6869,7 +6869,7 @@ await client.evaluations.redTeam.terminate({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.TerminateRedTeamRequest` 
+**request:** `HiddenLayerApi.evaluations.TerminateRedTeamRequest` 
     
 </dd>
 </dl>
@@ -6889,7 +6889,7 @@ await client.evaluations.redTeam.terminate({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">simulated</a>({ ...params }) -> HiddenLayer.StartWorkflowResponse</code></summary>
+<details><summary><code>client.evaluations.redTeam.<a href="/src/api/resources/evaluations/resources/redTeam/client/Client.ts">simulated</a>({ ...params }) -> HiddenLayerApi.StartWorkflowResponse</code></summary>
 <dl>
 <dd>
 
@@ -6936,7 +6936,7 @@ await client.evaluations.redTeam.simulated({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.StartRedTeamBody` 
+**request:** `HiddenLayerApi.evaluations.StartRedTeamBody` 
     
 </dd>
 </dl>
@@ -7003,7 +7003,7 @@ await client.evaluations.redTeam.csv({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.CsvRedTeamRequest` 
+**request:** `HiddenLayerApi.evaluations.CsvRedTeamRequest` 
     
 </dd>
 </dl>
@@ -7024,7 +7024,7 @@ await client.evaluations.redTeam.csv({
 </details>
 
 ## Evaluations PromptSets
-<details><summary><code>client.evaluations.promptSets.<a href="/src/api/resources/evaluations/resources/promptSets/client/Client.ts">list</a>() -> HiddenLayer.PromptSetsResponse</code></summary>
+<details><summary><code>client.evaluations.promptSets.<a href="/src/api/resources/evaluations/resources/promptSets/client/Client.ts">list</a>() -> HiddenLayerApi.PromptSetsResponse</code></summary>
 <dl>
 <dd>
 
@@ -7085,7 +7085,7 @@ await client.evaluations.promptSets.list();
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.promptSets.<a href="/src/api/resources/evaluations/resources/promptSets/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.CreatePromptSetResponse</code></summary>
+<details><summary><code>client.evaluations.promptSets.<a href="/src/api/resources/evaluations/resources/promptSets/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.CreatePromptSetResponse</code></summary>
 <dl>
 <dd>
 
@@ -7141,7 +7141,7 @@ await client.evaluations.promptSets.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.CreatePromptSetRequest` 
+**request:** `HiddenLayerApi.evaluations.CreatePromptSetRequest` 
     
 </dd>
 </dl>
@@ -7161,7 +7161,7 @@ await client.evaluations.promptSets.create({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.promptSets.<a href="/src/api/resources/evaluations/resources/promptSets/client/Client.ts">mutations</a>() -> HiddenLayer.AvailableMutationsResponse</code></summary>
+<details><summary><code>client.evaluations.promptSets.<a href="/src/api/resources/evaluations/resources/promptSets/client/Client.ts">mutations</a>() -> HiddenLayerApi.AvailableMutationsResponse</code></summary>
 <dl>
 <dd>
 
@@ -7270,7 +7270,7 @@ await client.evaluations.promptSets.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.DeletePromptSetsRequest` 
+**request:** `HiddenLayerApi.evaluations.DeletePromptSetsRequest` 
     
 </dd>
 </dl>
@@ -7340,7 +7340,7 @@ await client.evaluations.promptSets.csv({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.CsvPromptSetsRequest` 
+**request:** `HiddenLayerApi.evaluations.CsvPromptSetsRequest` 
     
 </dd>
 </dl>
@@ -7361,7 +7361,7 @@ await client.evaluations.promptSets.csv({
 </details>
 
 ## Evaluations SystemPromptAnalysis
-<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.SystemPromptResultItem, HiddenLayer.SystemPromptListResultsResponse&gt;</code></summary>
+<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.SystemPromptResultItem, HiddenLayerApi.SystemPromptListResultsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -7420,7 +7420,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.ListSystemPromptAnalysisRequest` 
+**request:** `HiddenLayerApi.evaluations.ListSystemPromptAnalysisRequest` 
     
 </dd>
 </dl>
@@ -7440,7 +7440,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.StartWorkflowResponse</code></summary>
+<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.StartWorkflowResponse</code></summary>
 <dl>
 <dd>
 
@@ -7491,7 +7491,7 @@ await client.evaluations.systemPromptAnalysis.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.StartSystemPromptWorkflowBody` 
+**request:** `HiddenLayerApi.evaluations.StartSystemPromptWorkflowBody` 
     
 </dd>
 </dl>
@@ -7511,7 +7511,7 @@ await client.evaluations.systemPromptAnalysis.create({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">status</a>({ ...params }) -> HiddenLayer.AnalysisStatus</code></summary>
+<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">status</a>({ ...params }) -> HiddenLayerApi.AnalysisStatus</code></summary>
 <dl>
 <dd>
 
@@ -7561,7 +7561,7 @@ await client.evaluations.systemPromptAnalysis.status({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.StatusSystemPromptAnalysisRequest` 
+**request:** `HiddenLayerApi.evaluations.StatusSystemPromptAnalysisRequest` 
     
 </dd>
 </dl>
@@ -7581,7 +7581,7 @@ await client.evaluations.systemPromptAnalysis.status({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.AnalysisResult</code></summary>
+<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.AnalysisResult</code></summary>
 <dl>
 <dd>
 
@@ -7628,7 +7628,7 @@ await client.evaluations.systemPromptAnalysis.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.GetSystemPromptAnalysisRequest` 
+**request:** `HiddenLayerApi.evaluations.GetSystemPromptAnalysisRequest` 
     
 </dd>
 </dl>
@@ -7695,7 +7695,7 @@ await client.evaluations.systemPromptAnalysis.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.DeleteSystemPromptAnalysisRequest` 
+**request:** `HiddenLayerApi.evaluations.DeleteSystemPromptAnalysisRequest` 
     
 </dd>
 </dl>
@@ -7715,7 +7715,7 @@ await client.evaluations.systemPromptAnalysis.delete({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">answers</a>({ ...params }) -> HiddenLayer.SubmitAnswersResult</code></summary>
+<details><summary><code>client.evaluations.systemPromptAnalysis.<a href="/src/api/resources/evaluations/resources/systemPromptAnalysis/client/Client.ts">answers</a>({ ...params }) -> HiddenLayerApi.SubmitAnswersResult</code></summary>
 <dl>
 <dd>
 
@@ -7769,7 +7769,7 @@ await client.evaluations.systemPromptAnalysis.answers({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.SubmitAnswersBody` 
+**request:** `HiddenLayerApi.evaluations.SubmitAnswersBody` 
     
 </dd>
 </dl>
@@ -7790,7 +7790,7 @@ await client.evaluations.systemPromptAnalysis.answers({
 </details>
 
 ## Evaluations ThreatModeling
-<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.ThreatModelingResultItem, HiddenLayer.ThreatModelingListResultsResponse&gt;</code></summary>
+<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.ThreatModelingResultItem, HiddenLayerApi.ThreatModelingListResultsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -7849,7 +7849,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.ListThreatModelingRequest` 
+**request:** `HiddenLayerApi.evaluations.ListThreatModelingRequest` 
     
 </dd>
 </dl>
@@ -7869,7 +7869,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.StartWorkflowResponse</code></summary>
+<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.StartWorkflowResponse</code></summary>
 <dl>
 <dd>
 
@@ -7933,7 +7933,7 @@ await client.evaluations.threatModeling.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.StartThreatModelingWorkflowBody` 
+**request:** `HiddenLayerApi.evaluations.StartThreatModelingWorkflowBody` 
     
 </dd>
 </dl>
@@ -7953,7 +7953,7 @@ await client.evaluations.threatModeling.create({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">status</a>({ ...params }) -> HiddenLayer.ThreatModelingStatus</code></summary>
+<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">status</a>({ ...params }) -> HiddenLayerApi.ThreatModelingStatus</code></summary>
 <dl>
 <dd>
 
@@ -8001,7 +8001,7 @@ await client.evaluations.threatModeling.status({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.StatusThreatModelingRequest` 
+**request:** `HiddenLayerApi.evaluations.StatusThreatModelingRequest` 
     
 </dd>
 </dl>
@@ -8021,7 +8021,7 @@ await client.evaluations.threatModeling.status({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.ThreatModelingResult</code></summary>
+<details><summary><code>client.evaluations.threatModeling.<a href="/src/api/resources/evaluations/resources/threatModeling/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.ThreatModelingResult</code></summary>
 <dl>
 <dd>
 
@@ -8068,7 +8068,7 @@ await client.evaluations.threatModeling.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.GetThreatModelingRequest` 
+**request:** `HiddenLayerApi.evaluations.GetThreatModelingRequest` 
     
 </dd>
 </dl>
@@ -8135,7 +8135,7 @@ await client.evaluations.threatModeling.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.DeleteThreatModelingRequest` 
+**request:** `HiddenLayerApi.evaluations.DeleteThreatModelingRequest` 
     
 </dd>
 </dl>
@@ -8156,7 +8156,7 @@ await client.evaluations.threatModeling.delete({
 </details>
 
 ## Evaluations RedTeam Objectives
-<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.ApeObjective, HiddenLayer.ObjectivesListResponse&gt;</code></summary>
+<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.ApeObjective, HiddenLayerApi.ObjectivesListResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -8221,7 +8221,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.ListObjectivesRequest` 
+**request:** `HiddenLayerApi.evaluations.redTeam.ListObjectivesRequest` 
     
 </dd>
 </dl>
@@ -8241,7 +8241,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.ApeObjective</code></summary>
+<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.ApeObjective</code></summary>
 <dl>
 <dd>
 
@@ -8298,7 +8298,7 @@ await client.evaluations.redTeam.objectives.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.CreateCustomObjectiveRequest` 
+**request:** `HiddenLayerApi.evaluations.redTeam.CreateCustomObjectiveRequest` 
     
 </dd>
 </dl>
@@ -8318,7 +8318,7 @@ await client.evaluations.redTeam.objectives.create({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.ApeObjective</code></summary>
+<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.ApeObjective</code></summary>
 <dl>
 <dd>
 
@@ -8366,7 +8366,7 @@ await client.evaluations.redTeam.objectives.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.GetObjectivesRequest` 
+**request:** `HiddenLayerApi.evaluations.redTeam.GetObjectivesRequest` 
     
 </dd>
 </dl>
@@ -8438,7 +8438,7 @@ await client.evaluations.redTeam.objectives.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.DeleteObjectivesRequest` 
+**request:** `HiddenLayerApi.evaluations.redTeam.DeleteObjectivesRequest` 
     
 </dd>
 </dl>
@@ -8458,7 +8458,7 @@ await client.evaluations.redTeam.objectives.delete({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.ApeObjective</code></summary>
+<details><summary><code>client.evaluations.redTeam.objectives.<a href="/src/api/resources/evaluations/resources/redTeam/resources/objectives/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.ApeObjective</code></summary>
 <dl>
 <dd>
 
@@ -8510,7 +8510,7 @@ await client.evaluations.redTeam.objectives.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.UpdateCustomObjectiveRequest` 
+**request:** `HiddenLayerApi.evaluations.redTeam.UpdateCustomObjectiveRequest` 
     
 </dd>
 </dl>
@@ -8531,7 +8531,7 @@ await client.evaluations.redTeam.objectives.update({
 </details>
 
 ## Evaluations RedTeam Configs
-<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.RedTeamConfigSummary, HiddenLayer.RedTeamConfigsResponse&gt;</code></summary>
+<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.RedTeamConfigSummary, HiddenLayerApi.RedTeamConfigsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -8596,7 +8596,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.ListConfigsRequest` 
+**request:** `HiddenLayerApi.evaluations.redTeam.ListConfigsRequest` 
     
 </dd>
 </dl>
@@ -8616,7 +8616,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.RedTeamConfig</code></summary>
+<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.RedTeamConfig</code></summary>
 <dl>
 <dd>
 
@@ -8668,7 +8668,7 @@ await client.evaluations.redTeam.configs.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.CreateRedTeamConfigRequest` 
+**request:** `HiddenLayerApi.evaluations.redTeam.CreateRedTeamConfigRequest` 
     
 </dd>
 </dl>
@@ -8688,7 +8688,7 @@ await client.evaluations.redTeam.configs.create({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.RedTeamConfig</code></summary>
+<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.RedTeamConfig</code></summary>
 <dl>
 <dd>
 
@@ -8739,7 +8739,7 @@ await client.evaluations.redTeam.configs.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.GetConfigsRequest` 
+**request:** `HiddenLayerApi.evaluations.redTeam.GetConfigsRequest` 
     
 </dd>
 </dl>
@@ -8808,7 +8808,7 @@ await client.evaluations.redTeam.configs.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.DeleteConfigsRequest` 
+**request:** `HiddenLayerApi.evaluations.redTeam.DeleteConfigsRequest` 
     
 </dd>
 </dl>
@@ -8828,7 +8828,7 @@ await client.evaluations.redTeam.configs.delete({
 </dl>
 </details>
 
-<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.RedTeamConfig</code></summary>
+<details><summary><code>client.evaluations.redTeam.configs.<a href="/src/api/resources/evaluations/resources/redTeam/resources/configs/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.RedTeamConfig</code></summary>
 <dl>
 <dd>
 
@@ -8885,7 +8885,7 @@ await client.evaluations.redTeam.configs.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.evaluations.redTeam.UpdateRedTeamConfigRequest` 
+**request:** `HiddenLayerApi.evaluations.redTeam.UpdateRedTeamConfigRequest` 
     
 </dd>
 </dl>
@@ -8906,7 +8906,7 @@ await client.evaluations.redTeam.configs.update({
 </details>
 
 ## Governance Evaluations
-<details><summary><code>client.governance.evaluations.<a href="/src/api/resources/governance/resources/evaluations/client/Client.ts">list</a>({ ...params }) -> HiddenLayer.BulkEvaluationResults</code></summary>
+<details><summary><code>client.governance.evaluations.<a href="/src/api/resources/governance/resources/evaluations/client/Client.ts">list</a>({ ...params }) -> HiddenLayerApi.BulkEvaluationResults</code></summary>
 <dl>
 <dd>
 
@@ -8952,7 +8952,7 @@ await client.governance.evaluations.list({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.ListEvaluationsRequest` 
+**request:** `HiddenLayerApi.governance.ListEvaluationsRequest` 
     
 </dd>
 </dl>
@@ -8972,7 +8972,7 @@ await client.governance.evaluations.list({
 </dl>
 </details>
 
-<details><summary><code>client.governance.evaluations.<a href="/src/api/resources/governance/resources/evaluations/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.EvaluationResult</code></summary>
+<details><summary><code>client.governance.evaluations.<a href="/src/api/resources/governance/resources/evaluations/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.EvaluationResult</code></summary>
 <dl>
 <dd>
 
@@ -9018,7 +9018,7 @@ await client.governance.evaluations.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.GetEvaluationsRequest` 
+**request:** `HiddenLayerApi.governance.GetEvaluationsRequest` 
     
 </dd>
 </dl>
@@ -9039,7 +9039,7 @@ await client.governance.evaluations.get({
 </details>
 
 ## Governance Licenses
-<details><summary><code>client.governance.licenses.<a href="/src/api/resources/governance/resources/licenses/client/Client.ts">list</a>() -> HiddenLayer.ListLicensesResponse</code></summary>
+<details><summary><code>client.governance.licenses.<a href="/src/api/resources/governance/resources/licenses/client/Client.ts">list</a>() -> HiddenLayerApi.ListLicensesResponse</code></summary>
 <dl>
 <dd>
 
@@ -9096,7 +9096,7 @@ await client.governance.licenses.list();
 </details>
 
 ## Governance RuleSets
-<details><summary><code>client.governance.ruleSets.<a href="/src/api/resources/governance/resources/ruleSets/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.RuleSet, HiddenLayer.ListRuleSetsResponse&gt;</code></summary>
+<details><summary><code>client.governance.ruleSets.<a href="/src/api/resources/governance/resources/ruleSets/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.RuleSet, HiddenLayerApi.ListRuleSetsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -9157,7 +9157,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.ListRuleSetsRequest` 
+**request:** `HiddenLayerApi.governance.ListRuleSetsRequest` 
     
 </dd>
 </dl>
@@ -9177,7 +9177,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.governance.ruleSets.<a href="/src/api/resources/governance/resources/ruleSets/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.RuleSet</code></summary>
+<details><summary><code>client.governance.ruleSets.<a href="/src/api/resources/governance/resources/ruleSets/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.RuleSet</code></summary>
 <dl>
 <dd>
 
@@ -9240,7 +9240,7 @@ await client.governance.ruleSets.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.CreateRuleSetsRequest` 
+**request:** `HiddenLayerApi.governance.CreateRuleSetsRequest` 
     
 </dd>
 </dl>
@@ -9260,7 +9260,7 @@ await client.governance.ruleSets.create({
 </dl>
 </details>
 
-<details><summary><code>client.governance.ruleSets.<a href="/src/api/resources/governance/resources/ruleSets/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.RuleSet</code></summary>
+<details><summary><code>client.governance.ruleSets.<a href="/src/api/resources/governance/resources/ruleSets/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.RuleSet</code></summary>
 <dl>
 <dd>
 
@@ -9307,7 +9307,7 @@ await client.governance.ruleSets.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.GetRuleSetsRequest` 
+**request:** `HiddenLayerApi.governance.GetRuleSetsRequest` 
     
 </dd>
 </dl>
@@ -9374,7 +9374,7 @@ await client.governance.ruleSets.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.DeleteRuleSetsRequest` 
+**request:** `HiddenLayerApi.governance.DeleteRuleSetsRequest` 
     
 </dd>
 </dl>
@@ -9395,7 +9395,7 @@ await client.governance.ruleSets.delete({
 </details>
 
 ## Governance PolicyPacks
-<details><summary><code>client.governance.policyPacks.<a href="/src/api/resources/governance/resources/policyPacks/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.PolicyPackSummary, HiddenLayer.ListPolicyPacksResponse&gt;</code></summary>
+<details><summary><code>client.governance.policyPacks.<a href="/src/api/resources/governance/resources/policyPacks/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.PolicyPackSummary, HiddenLayerApi.ListPolicyPacksResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -9456,7 +9456,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.ListPolicyPacksRequest` 
+**request:** `HiddenLayerApi.governance.ListPolicyPacksRequest` 
     
 </dd>
 </dl>
@@ -9476,7 +9476,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.governance.policyPacks.<a href="/src/api/resources/governance/resources/policyPacks/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.PolicyPack</code></summary>
+<details><summary><code>client.governance.policyPacks.<a href="/src/api/resources/governance/resources/policyPacks/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.PolicyPack</code></summary>
 <dl>
 <dd>
 
@@ -9529,7 +9529,7 @@ await client.governance.policyPacks.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.PolicyPackWriteRequest` 
+**request:** `HiddenLayerApi.PolicyPackWriteRequest` 
     
 </dd>
 </dl>
@@ -9549,7 +9549,7 @@ await client.governance.policyPacks.create({
 </dl>
 </details>
 
-<details><summary><code>client.governance.policyPacks.<a href="/src/api/resources/governance/resources/policyPacks/client/Client.ts">recommendations</a>({ ...params }) -> HiddenLayer.PolicyPackRecommendation</code></summary>
+<details><summary><code>client.governance.policyPacks.<a href="/src/api/resources/governance/resources/policyPacks/client/Client.ts">recommendations</a>({ ...params }) -> HiddenLayerApi.PolicyPackRecommendation</code></summary>
 <dl>
 <dd>
 
@@ -9596,7 +9596,7 @@ await client.governance.policyPacks.recommendations({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.PolicyPackRecommendationRequest` 
+**request:** `HiddenLayerApi.governance.PolicyPackRecommendationRequest` 
     
 </dd>
 </dl>
@@ -9616,7 +9616,7 @@ await client.governance.policyPacks.recommendations({
 </dl>
 </details>
 
-<details><summary><code>client.governance.policyPacks.<a href="/src/api/resources/governance/resources/policyPacks/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.PolicyPack</code></summary>
+<details><summary><code>client.governance.policyPacks.<a href="/src/api/resources/governance/resources/policyPacks/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.PolicyPack</code></summary>
 <dl>
 <dd>
 
@@ -9661,7 +9661,7 @@ await client.governance.policyPacks.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.GetPolicyPacksRequest` 
+**request:** `HiddenLayerApi.governance.GetPolicyPacksRequest` 
     
 </dd>
 </dl>
@@ -9681,7 +9681,7 @@ await client.governance.policyPacks.get({
 </dl>
 </details>
 
-<details><summary><code>client.governance.policyPacks.<a href="/src/api/resources/governance/resources/policyPacks/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.PolicyPack</code></summary>
+<details><summary><code>client.governance.policyPacks.<a href="/src/api/resources/governance/resources/policyPacks/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.PolicyPack</code></summary>
 <dl>
 <dd>
 
@@ -9739,7 +9739,7 @@ await client.governance.policyPacks.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.UpdatePolicyPacksRequest` 
+**request:** `HiddenLayerApi.governance.UpdatePolicyPacksRequest` 
     
 </dd>
 </dl>
@@ -9807,7 +9807,7 @@ await client.governance.policyPacks.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.DeletePolicyPacksRequest` 
+**request:** `HiddenLayerApi.governance.DeletePolicyPacksRequest` 
     
 </dd>
 </dl>
@@ -9828,7 +9828,7 @@ await client.governance.policyPacks.delete({
 </details>
 
 ## Governance RulePacks
-<details><summary><code>client.governance.rulePacks.<a href="/src/api/resources/governance/resources/rulePacks/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.RulePack, HiddenLayer.ListRulePacksResponse&gt;</code></summary>
+<details><summary><code>client.governance.rulePacks.<a href="/src/api/resources/governance/resources/rulePacks/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.RulePack, HiddenLayerApi.ListRulePacksResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -9887,7 +9887,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.ListRulePacksRequest` 
+**request:** `HiddenLayerApi.governance.ListRulePacksRequest` 
     
 </dd>
 </dl>
@@ -9908,7 +9908,7 @@ const response = page.response;
 </details>
 
 ## Governance RuleSets Rules
-<details><summary><code>client.governance.ruleSets.rules.<a href="/src/api/resources/governance/resources/ruleSets/resources/rules/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.RuleSet</code></summary>
+<details><summary><code>client.governance.ruleSets.rules.<a href="/src/api/resources/governance/resources/ruleSets/resources/rules/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.RuleSet</code></summary>
 <dl>
 <dd>
 
@@ -9962,7 +9962,7 @@ await client.governance.ruleSets.rules.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.ruleSets.CreateRulesRequest` 
+**request:** `HiddenLayerApi.governance.ruleSets.CreateRulesRequest` 
     
 </dd>
 </dl>
@@ -9982,7 +9982,7 @@ await client.governance.ruleSets.rules.create({
 </dl>
 </details>
 
-<details><summary><code>client.governance.ruleSets.rules.<a href="/src/api/resources/governance/resources/ruleSets/resources/rules/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.RuleSet</code></summary>
+<details><summary><code>client.governance.ruleSets.rules.<a href="/src/api/resources/governance/resources/ruleSets/resources/rules/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.RuleSet</code></summary>
 <dl>
 <dd>
 
@@ -10036,7 +10036,7 @@ await client.governance.ruleSets.rules.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.ruleSets.UpdateRulesRequest` 
+**request:** `HiddenLayerApi.governance.ruleSets.UpdateRulesRequest` 
     
 </dd>
 </dl>
@@ -10056,7 +10056,7 @@ await client.governance.ruleSets.rules.update({
 </dl>
 </details>
 
-<details><summary><code>client.governance.ruleSets.rules.<a href="/src/api/resources/governance/resources/ruleSets/resources/rules/client/Client.ts">delete</a>({ ...params }) -> HiddenLayer.RuleSet</code></summary>
+<details><summary><code>client.governance.ruleSets.rules.<a href="/src/api/resources/governance/resources/ruleSets/resources/rules/client/Client.ts">delete</a>({ ...params }) -> HiddenLayerApi.RuleSet</code></summary>
 <dl>
 <dd>
 
@@ -10103,7 +10103,7 @@ await client.governance.ruleSets.rules.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.governance.ruleSets.DeleteRulesRequest` 
+**request:** `HiddenLayerApi.governance.ruleSets.DeleteRulesRequest` 
     
 </dd>
 </dl>
@@ -10124,7 +10124,7 @@ await client.governance.ruleSets.rules.delete({
 </details>
 
 ## Integrations Assets
-<details><summary><code>client.integrations.assets.<a href="/src/api/resources/integrations/resources/assets/client/Client.ts">scans</a>({ ...params }) -> HiddenLayer.AssetScanTriggerResponse</code></summary>
+<details><summary><code>client.integrations.assets.<a href="/src/api/resources/integrations/resources/assets/client/Client.ts">scans</a>({ ...params }) -> HiddenLayerApi.AssetScanTriggerResponse</code></summary>
 <dl>
 <dd>
 
@@ -10169,7 +10169,7 @@ await client.integrations.assets.scans({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.integrations.ScansAssetsRequest` 
+**request:** `HiddenLayerApi.integrations.ScansAssetsRequest` 
     
 </dd>
 </dl>
@@ -10190,7 +10190,7 @@ await client.integrations.assets.scans({
 </details>
 
 ## Metrics TimeseriesInferences
-<details><summary><code>client.metrics.timeseriesInferences.<a href="/src/api/resources/metrics/resources/timeseriesInferences/client/Client.ts">listV2</a>({ ...params }) -> HiddenLayer.InferenceTimeseriesResponseV2</code></summary>
+<details><summary><code>client.metrics.timeseriesInferences.<a href="/src/api/resources/metrics/resources/timeseriesInferences/client/Client.ts">listV2</a>({ ...params }) -> HiddenLayerApi.InferenceTimeseriesResponseV2</code></summary>
 <dl>
 <dd>
 
@@ -10222,7 +10222,7 @@ await client.metrics.timeseriesInferences.listV2({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.metrics.ListV2TimeseriesInferencesRequest` 
+**request:** `HiddenLayerApi.metrics.ListV2TimeseriesInferencesRequest` 
     
 </dd>
 </dl>
@@ -10242,7 +10242,7 @@ await client.metrics.timeseriesInferences.listV2({
 </dl>
 </details>
 
-<details><summary><code>client.metrics.timeseriesInferences.<a href="/src/api/resources/metrics/resources/timeseriesInferences/client/Client.ts">list</a>({ ...params }) -> HiddenLayer.InferenceTimeseriesResponseV3</code></summary>
+<details><summary><code>client.metrics.timeseriesInferences.<a href="/src/api/resources/metrics/resources/timeseriesInferences/client/Client.ts">list</a>({ ...params }) -> HiddenLayerApi.InferenceTimeseriesResponseV3</code></summary>
 <dl>
 <dd>
 
@@ -10274,7 +10274,7 @@ await client.metrics.timeseriesInferences.list({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.metrics.ListTimeseriesInferencesRequest` 
+**request:** `HiddenLayerApi.metrics.ListTimeseriesInferencesRequest` 
     
 </dd>
 </dl>
@@ -10295,7 +10295,7 @@ await client.metrics.timeseriesInferences.list({
 </details>
 
 ## Metrics TimeseriesIncidents
-<details><summary><code>client.metrics.timeseriesIncidents.<a href="/src/api/resources/metrics/resources/timeseriesIncidents/client/Client.ts">listV2</a>({ ...params }) -> HiddenLayer.IncidentTimeseriesResponseV2</code></summary>
+<details><summary><code>client.metrics.timeseriesIncidents.<a href="/src/api/resources/metrics/resources/timeseriesIncidents/client/Client.ts">listV2</a>({ ...params }) -> HiddenLayerApi.IncidentTimeseriesResponseV2</code></summary>
 <dl>
 <dd>
 
@@ -10327,7 +10327,7 @@ await client.metrics.timeseriesIncidents.listV2({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.metrics.ListV2TimeseriesIncidentsRequest` 
+**request:** `HiddenLayerApi.metrics.ListV2TimeseriesIncidentsRequest` 
     
 </dd>
 </dl>
@@ -10347,7 +10347,7 @@ await client.metrics.timeseriesIncidents.listV2({
 </dl>
 </details>
 
-<details><summary><code>client.metrics.timeseriesIncidents.<a href="/src/api/resources/metrics/resources/timeseriesIncidents/client/Client.ts">list</a>({ ...params }) -> HiddenLayer.IncidentTimeseriesResponseV3</code></summary>
+<details><summary><code>client.metrics.timeseriesIncidents.<a href="/src/api/resources/metrics/resources/timeseriesIncidents/client/Client.ts">list</a>({ ...params }) -> HiddenLayerApi.IncidentTimeseriesResponseV3</code></summary>
 <dl>
 <dd>
 
@@ -10379,7 +10379,7 @@ await client.metrics.timeseriesIncidents.list({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.metrics.ListTimeseriesIncidentsRequest` 
+**request:** `HiddenLayerApi.metrics.ListTimeseriesIncidentsRequest` 
     
 </dd>
 </dl>
@@ -10400,7 +10400,7 @@ await client.metrics.timeseriesIncidents.list({
 </details>
 
 ## Metrics TimeseriesConvictions
-<details><summary><code>client.metrics.timeseriesConvictions.<a href="/src/api/resources/metrics/resources/timeseriesConvictions/client/Client.ts">listV2</a>({ ...params }) -> HiddenLayer.ConvictionTimeseriesResponseV2</code></summary>
+<details><summary><code>client.metrics.timeseriesConvictions.<a href="/src/api/resources/metrics/resources/timeseriesConvictions/client/Client.ts">listV2</a>({ ...params }) -> HiddenLayerApi.ConvictionTimeseriesResponseV2</code></summary>
 <dl>
 <dd>
 
@@ -10432,7 +10432,7 @@ await client.metrics.timeseriesConvictions.listV2({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.metrics.ListV2TimeseriesConvictionsRequest` 
+**request:** `HiddenLayerApi.metrics.ListV2TimeseriesConvictionsRequest` 
     
 </dd>
 </dl>
@@ -10452,7 +10452,7 @@ await client.metrics.timeseriesConvictions.listV2({
 </dl>
 </details>
 
-<details><summary><code>client.metrics.timeseriesConvictions.<a href="/src/api/resources/metrics/resources/timeseriesConvictions/client/Client.ts">list</a>({ ...params }) -> HiddenLayer.ConvictionTimeseriesResponseV3</code></summary>
+<details><summary><code>client.metrics.timeseriesConvictions.<a href="/src/api/resources/metrics/resources/timeseriesConvictions/client/Client.ts">list</a>({ ...params }) -> HiddenLayerApi.ConvictionTimeseriesResponseV3</code></summary>
 <dl>
 <dd>
 
@@ -10484,7 +10484,7 @@ await client.metrics.timeseriesConvictions.list({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.metrics.ListTimeseriesConvictionsRequest` 
+**request:** `HiddenLayerApi.metrics.ListTimeseriesConvictionsRequest` 
     
 </dd>
 </dl>
@@ -10505,7 +10505,7 @@ await client.metrics.timeseriesConvictions.list({
 </details>
 
 ## Metrics TimeseriesScans
-<details><summary><code>client.metrics.timeseriesScans.<a href="/src/api/resources/metrics/resources/timeseriesScans/client/Client.ts">listV2</a>({ ...params }) -> HiddenLayer.ScanTimeseriesResponseV2</code></summary>
+<details><summary><code>client.metrics.timeseriesScans.<a href="/src/api/resources/metrics/resources/timeseriesScans/client/Client.ts">listV2</a>({ ...params }) -> HiddenLayerApi.ScanTimeseriesResponseV2</code></summary>
 <dl>
 <dd>
 
@@ -10537,7 +10537,7 @@ await client.metrics.timeseriesScans.listV2({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.metrics.ListV2TimeseriesScansRequest` 
+**request:** `HiddenLayerApi.metrics.ListV2TimeseriesScansRequest` 
     
 </dd>
 </dl>
@@ -10557,7 +10557,7 @@ await client.metrics.timeseriesScans.listV2({
 </dl>
 </details>
 
-<details><summary><code>client.metrics.timeseriesScans.<a href="/src/api/resources/metrics/resources/timeseriesScans/client/Client.ts">list</a>({ ...params }) -> HiddenLayer.ScanTimeseriesResponseV3</code></summary>
+<details><summary><code>client.metrics.timeseriesScans.<a href="/src/api/resources/metrics/resources/timeseriesScans/client/Client.ts">list</a>({ ...params }) -> HiddenLayerApi.ScanTimeseriesResponseV3</code></summary>
 <dl>
 <dd>
 
@@ -10589,7 +10589,7 @@ await client.metrics.timeseriesScans.list({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.metrics.ListTimeseriesScansRequest` 
+**request:** `HiddenLayerApi.metrics.ListTimeseriesScansRequest` 
     
 </dd>
 </dl>
@@ -10610,7 +10610,7 @@ await client.metrics.timeseriesScans.list({
 </details>
 
 ## Mitre Atlas Tactics
-<details><summary><code>client.mitre.atlas.tactics.<a href="/src/api/resources/mitre/resources/atlas/resources/tactics/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.MitreAtlasTacticV1</code></summary>
+<details><summary><code>client.mitre.atlas.tactics.<a href="/src/api/resources/mitre/resources/atlas/resources/tactics/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.MitreAtlasTacticV1</code></summary>
 <dl>
 <dd>
 
@@ -10641,7 +10641,7 @@ await client.mitre.atlas.tactics.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.mitre.atlas.GetTacticsRequest` 
+**request:** `HiddenLayerApi.mitre.atlas.GetTacticsRequest` 
     
 </dd>
 </dl>
@@ -10662,7 +10662,7 @@ await client.mitre.atlas.tactics.get({
 </details>
 
 ## Mitre Atlas Techniques
-<details><summary><code>client.mitre.atlas.techniques.<a href="/src/api/resources/mitre/resources/atlas/resources/techniques/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.GetTechniquesResponse</code></summary>
+<details><summary><code>client.mitre.atlas.techniques.<a href="/src/api/resources/mitre/resources/atlas/resources/techniques/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.GetTechniquesResponse</code></summary>
 <dl>
 <dd>
 
@@ -10693,7 +10693,7 @@ await client.mitre.atlas.techniques.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.mitre.atlas.GetTechniquesRequest` 
+**request:** `HiddenLayerApi.mitre.atlas.GetTechniquesRequest` 
     
 </dd>
 </dl>
@@ -10714,7 +10714,7 @@ await client.mitre.atlas.techniques.get({
 </details>
 
 ## ModelIntel File
-<details><summary><code>client.modelIntel.file.<a href="/src/api/resources/modelIntel/resources/file/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.GetFileResponse</code></summary>
+<details><summary><code>client.modelIntel.file.<a href="/src/api/resources/modelIntel/resources/file/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.GetFileResponse</code></summary>
 <dl>
 <dd>
 
@@ -10760,7 +10760,7 @@ await client.modelIntel.file.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.modelIntel.GetFileRequest` 
+**request:** `HiddenLayerApi.modelIntel.GetFileRequest` 
     
 </dd>
 </dl>
@@ -10780,7 +10780,7 @@ await client.modelIntel.file.get({
 </dl>
 </details>
 
-<details><summary><code>client.modelIntel.file.<a href="/src/api/resources/modelIntel/resources/file/client/Client.ts">metadata</a>({ ...params }) -> HiddenLayer.File_</code></summary>
+<details><summary><code>client.modelIntel.file.<a href="/src/api/resources/modelIntel/resources/file/client/Client.ts">metadata</a>({ ...params }) -> HiddenLayerApi.File_</code></summary>
 <dl>
 <dd>
 
@@ -10825,7 +10825,7 @@ await client.modelIntel.file.metadata({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.modelIntel.MetadataFileRequest` 
+**request:** `HiddenLayerApi.modelIntel.MetadataFileRequest` 
     
 </dd>
 </dl>
@@ -10846,7 +10846,7 @@ await client.modelIntel.file.metadata({
 </details>
 
 ## Models Cards
-<details><summary><code>client.models.cards.<a href="/src/api/resources/models/resources/cards/client/Client.ts">listV3</a>({ ...params }) -> core.Page&lt;HiddenLayer.ModelCardV3, HiddenLayer.ModelCardV3QueryResponse&gt;</code></summary>
+<details><summary><code>client.models.cards.<a href="/src/api/resources/models/resources/cards/client/Client.ts">listV3</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.ModelCardV3, HiddenLayerApi.ModelCardV3QueryResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -10891,7 +10891,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.models.ListV3CardsRequest` 
+**request:** `HiddenLayerApi.models.ListV3CardsRequest` 
     
 </dd>
 </dl>
@@ -10911,7 +10911,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.models.cards.<a href="/src/api/resources/models/resources/cards/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.ModelCardV4, HiddenLayer.ModelCardV4QueryResponse&gt;</code></summary>
+<details><summary><code>client.models.cards.<a href="/src/api/resources/models/resources/cards/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.ModelCardV4, HiddenLayerApi.ModelCardV4QueryResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -10975,7 +10975,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.models.ListCardsRequest` 
+**request:** `HiddenLayerApi.models.ListCardsRequest` 
     
 </dd>
 </dl>
@@ -10995,7 +10995,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.models.cards.<a href="/src/api/resources/models/resources/cards/client/Client.ts">suggestions</a>({ ...params }) -> HiddenLayer.SuggestionsCardsResponse</code></summary>
+<details><summary><code>client.models.cards.<a href="/src/api/resources/models/resources/cards/client/Client.ts">suggestions</a>({ ...params }) -> HiddenLayerApi.SuggestionsCardsResponse</code></summary>
 <dl>
 <dd>
 
@@ -11026,7 +11026,7 @@ await client.models.cards.suggestions({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.models.SuggestionsCardsRequest` 
+**request:** `HiddenLayerApi.models.SuggestionsCardsRequest` 
     
 </dd>
 </dl>
@@ -11093,7 +11093,7 @@ await client.models.policyCompliance.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.models.OverridePolicyComplianceRequest` 
+**request:** `HiddenLayerApi.models.OverridePolicyComplianceRequest` 
     
 </dd>
 </dl>
@@ -11158,7 +11158,7 @@ await client.models.policyCompliance.delete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.models.DeletePolicyComplianceRequest` 
+**request:** `HiddenLayerApi.models.DeletePolicyComplianceRequest` 
     
 </dd>
 </dl>
@@ -11179,7 +11179,7 @@ await client.models.policyCompliance.delete({
 </details>
 
 ## Models Versions Location
-<details><summary><code>client.models.versions.location.<a href="/src/api/resources/models/resources/versions/resources/location/client/Client.ts">internal</a>({ ...params }) -> HiddenLayer.InternalLocationResponse</code></summary>
+<details><summary><code>client.models.versions.location.<a href="/src/api/resources/models/resources/versions/resources/location/client/Client.ts">internal</a>({ ...params }) -> HiddenLayerApi.InternalLocationResponse</code></summary>
 <dl>
 <dd>
 
@@ -11210,7 +11210,7 @@ await client.models.versions.location.internal({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.models.versions.InternalLocationRequest` 
+**request:** `HiddenLayerApi.models.versions.InternalLocationRequest` 
     
 </dd>
 </dl>
@@ -11231,7 +11231,7 @@ await client.models.versions.location.internal({
 </details>
 
 ## Models Versions Locations
-<details><summary><code>client.models.versions.locations.<a href="/src/api/resources/models/resources/versions/resources/locations/client/Client.ts">get</a>({ ...params }) -> HiddenLayer.GetLocationsResponse</code></summary>
+<details><summary><code>client.models.versions.locations.<a href="/src/api/resources/models/resources/versions/resources/locations/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.GetLocationsResponse</code></summary>
 <dl>
 <dd>
 
@@ -11263,7 +11263,7 @@ await client.models.versions.locations.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.models.versions.GetLocationsRequest` 
+**request:** `HiddenLayerApi.models.versions.GetLocationsRequest` 
     
 </dd>
 </dl>
@@ -11283,7 +11283,7 @@ await client.models.versions.locations.get({
 </dl>
 </details>
 
-<details><summary><code>client.models.versions.locations.<a href="/src/api/resources/models/resources/versions/resources/locations/client/Client.ts">update</a>({ ...params }) -> HiddenLayer.UpdateLocationsResponse</code></summary>
+<details><summary><code>client.models.versions.locations.<a href="/src/api/resources/models/resources/versions/resources/locations/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.UpdateLocationsResponse</code></summary>
 <dl>
 <dd>
 
@@ -11316,7 +11316,7 @@ await client.models.versions.locations.update({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.models.versions.UpdateLocationsRequest` 
+**request:** `HiddenLayerApi.models.versions.UpdateLocationsRequest` 
     
 </dd>
 </dl>
@@ -11383,7 +11383,7 @@ await client.scanIndices.submission.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scanIndices.ScanSubmission` 
+**request:** `HiddenLayerApi.scanIndices.ScanSubmission` 
     
 </dd>
 </dl>
@@ -11404,7 +11404,7 @@ await client.scanIndices.submission.create({
 </details>
 
 ## Scans Jobs
-<details><summary><code>client.scans.jobs.<a href="/src/api/resources/scans/resources/jobs/client/Client.ts">request</a>({ ...params }) -> HiddenLayer.ScanJob</code></summary>
+<details><summary><code>client.scans.jobs.<a href="/src/api/resources/scans/resources/jobs/client/Client.ts">request</a>({ ...params }) -> HiddenLayerApi.ScanJob</code></summary>
 <dl>
 <dd>
 
@@ -11442,7 +11442,7 @@ await client.scans.jobs.request({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.ScanJobRequest` 
+**request:** `HiddenLayerApi.scans.ScanJobRequest` 
     
 </dd>
 </dl>
@@ -11462,7 +11462,7 @@ await client.scans.jobs.request({
 </dl>
 </details>
 
-<details><summary><code>client.scans.jobs.<a href="/src/api/resources/scans/resources/jobs/client/Client.ts">retrieve</a>({ ...params }) -> HiddenLayer.ScanReportOfRecordV3</code></summary>
+<details><summary><code>client.scans.jobs.<a href="/src/api/resources/scans/resources/jobs/client/Client.ts">retrieve</a>({ ...params }) -> HiddenLayerApi.ScanReportOfRecordV3</code></summary>
 <dl>
 <dd>
 
@@ -11493,7 +11493,7 @@ await client.scans.jobs.retrieve({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.RetrieveJobsRequest` 
+**request:** `HiddenLayerApi.scans.RetrieveJobsRequest` 
     
 </dd>
 </dl>
@@ -11513,7 +11513,7 @@ await client.scans.jobs.retrieve({
 </dl>
 </details>
 
-<details><summary><code>client.scans.jobs.<a href="/src/api/resources/scans/resources/jobs/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.ScanReportOfRecordV3Summary, HiddenLayer.ListJobsResponse&gt;</code></summary>
+<details><summary><code>client.scans.jobs.<a href="/src/api/resources/scans/resources/jobs/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.ScanReportOfRecordV3Summary, HiddenLayerApi.ListJobsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -11564,7 +11564,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.ListJobsRequest` 
+**request:** `HiddenLayerApi.scans.ListJobsRequest` 
     
 </dd>
 </dl>
@@ -11585,7 +11585,7 @@ const response = page.response;
 </details>
 
 ## Scans Upload
-<details><summary><code>client.scans.upload.<a href="/src/api/resources/scans/resources/upload/client/Client.ts">start</a>({ ...params }) -> HiddenLayer.StartUploadResponse</code></summary>
+<details><summary><code>client.scans.upload.<a href="/src/api/resources/scans/resources/upload/client/Client.ts">start</a>({ ...params }) -> HiddenLayerApi.StartUploadResponse</code></summary>
 <dl>
 <dd>
 
@@ -11618,7 +11618,7 @@ await client.scans.upload.start({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.MultiFileUploadRequestV3` 
+**request:** `HiddenLayerApi.scans.MultiFileUploadRequestV3` 
     
 </dd>
 </dl>
@@ -11638,7 +11638,7 @@ await client.scans.upload.start({
 </dl>
 </details>
 
-<details><summary><code>client.scans.upload.<a href="/src/api/resources/scans/resources/upload/client/Client.ts">completeAll</a>({ ...params }) -> HiddenLayer.CompleteAllUploadResponse</code></summary>
+<details><summary><code>client.scans.upload.<a href="/src/api/resources/scans/resources/upload/client/Client.ts">completeAll</a>({ ...params }) -> HiddenLayerApi.CompleteAllUploadResponse</code></summary>
 <dl>
 <dd>
 
@@ -11669,7 +11669,7 @@ await client.scans.upload.completeAll({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.CompleteAllUploadRequest` 
+**request:** `HiddenLayerApi.scans.CompleteAllUploadRequest` 
     
 </dd>
 </dl>
@@ -11690,7 +11690,7 @@ await client.scans.upload.completeAll({
 </details>
 
 ## Scans Results
-<details><summary><code>client.scans.results.<a href="/src/api/resources/scans/resources/results/client/Client.ts">listFiles</a>({ ...params }) -> core.Page&lt;HiddenLayer.ScanFileResultWithComplianceV3, HiddenLayer.ListFilesResultsResponse&gt;</code></summary>
+<details><summary><code>client.scans.results.<a href="/src/api/resources/scans/resources/results/client/Client.ts">listFiles</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.ScanFileResultWithComplianceV3, HiddenLayerApi.ListFilesResultsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -11753,7 +11753,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.ListFilesResultsRequest` 
+**request:** `HiddenLayerApi.scans.ListFilesResultsRequest` 
     
 </dd>
 </dl>
@@ -11804,7 +11804,7 @@ await client.scans.results.sarif({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.SarifResultsRequest` 
+**request:** `HiddenLayerApi.scans.SarifResultsRequest` 
     
 </dd>
 </dl>
@@ -11824,7 +11824,7 @@ await client.scans.results.sarif({
 </dl>
 </details>
 
-<details><summary><code>client.scans.results.<a href="/src/api/resources/scans/resources/results/client/Client.ts">retrieveSummary</a>({ ...params }) -> HiddenLayer.ScanReportSummaryResponseV3</code></summary>
+<details><summary><code>client.scans.results.<a href="/src/api/resources/scans/resources/results/client/Client.ts">retrieveSummary</a>({ ...params }) -> HiddenLayerApi.ScanReportSummaryResponseV3</code></summary>
 <dl>
 <dd>
 
@@ -11869,7 +11869,7 @@ await client.scans.results.retrieveSummary({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.RetrieveSummaryResultsRequest` 
+**request:** `HiddenLayerApi.scans.RetrieveSummaryResultsRequest` 
     
 </dd>
 </dl>
@@ -11890,7 +11890,7 @@ await client.scans.results.retrieveSummary({
 </details>
 
 ## Scans Reports
-<details><summary><code>client.scans.reports.<a href="/src/api/resources/scans/resources/reports/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayer.ScanReport, HiddenLayer.ListReportsResponse&gt;</code></summary>
+<details><summary><code>client.scans.reports.<a href="/src/api/resources/scans/resources/reports/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.ScanReport, HiddenLayerApi.ListReportsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -11951,7 +11951,7 @@ const response = page.response;
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.ListReportsRequest` 
+**request:** `HiddenLayerApi.scans.ListReportsRequest` 
     
 </dd>
 </dl>
@@ -11972,7 +11972,7 @@ const response = page.response;
 </details>
 
 ## Scans Reports Csv
-<details><summary><code>client.scans.reports.csv.<a href="/src/api/resources/scans/resources/reports/resources/csv/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.CreateCsvResponse</code></summary>
+<details><summary><code>client.scans.reports.csv.<a href="/src/api/resources/scans/resources/reports/resources/csv/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.CreateCsvResponse</code></summary>
 <dl>
 <dd>
 
@@ -12028,7 +12028,7 @@ await client.scans.reports.csv.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.reports.CreateCsvRequest` 
+**request:** `HiddenLayerApi.scans.reports.CreateCsvRequest` 
     
 </dd>
 </dl>
@@ -12093,7 +12093,7 @@ await client.scans.reports.csv.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.reports.GetCsvRequest` 
+**request:** `HiddenLayerApi.scans.reports.GetCsvRequest` 
     
 </dd>
 </dl>
@@ -12114,7 +12114,7 @@ await client.scans.reports.csv.get({
 </details>
 
 ## Scans Reports SupplyChain Csv
-<details><summary><code>client.scans.reports.supplyChain.csv.<a href="/src/api/resources/scans/resources/reports/resources/supplyChain/resources/csv/client/Client.ts">create</a>({ ...params }) -> HiddenLayer.CreateCsvResponse</code></summary>
+<details><summary><code>client.scans.reports.supplyChain.csv.<a href="/src/api/resources/scans/resources/reports/resources/supplyChain/resources/csv/client/Client.ts">create</a>({ ...params }) -> HiddenLayerApi.CreateCsvResponse</code></summary>
 <dl>
 <dd>
 
@@ -12175,7 +12175,7 @@ await client.scans.reports.supplyChain.csv.create({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.reports.supplyChain.CreateCsvRequest` 
+**request:** `HiddenLayerApi.scans.reports.supplyChain.CreateCsvRequest` 
     
 </dd>
 </dl>
@@ -12242,7 +12242,7 @@ await client.scans.reports.supplyChain.csv.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.reports.supplyChain.GetCsvRequest` 
+**request:** `HiddenLayerApi.scans.reports.supplyChain.GetCsvRequest` 
     
 </dd>
 </dl>
@@ -12263,7 +12263,7 @@ await client.scans.reports.supplyChain.csv.get({
 </details>
 
 ## Scans Upload File
-<details><summary><code>client.scans.upload.file.<a href="/src/api/resources/scans/resources/upload/resources/file/client/Client.ts">add</a>({ ...params }) -> HiddenLayer.AddFileResponse</code></summary>
+<details><summary><code>client.scans.upload.file.<a href="/src/api/resources/scans/resources/upload/resources/file/client/Client.ts">add</a>({ ...params }) -> HiddenLayerApi.AddFileResponse</code></summary>
 <dl>
 <dd>
 
@@ -12296,7 +12296,7 @@ await client.scans.upload.file.add({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.upload.AddFileRequest` 
+**request:** `HiddenLayerApi.scans.upload.AddFileRequest` 
     
 </dd>
 </dl>
@@ -12316,7 +12316,7 @@ await client.scans.upload.file.add({
 </dl>
 </details>
 
-<details><summary><code>client.scans.upload.file.<a href="/src/api/resources/scans/resources/upload/resources/file/client/Client.ts">complete</a>({ ...params }) -> HiddenLayer.CompleteFileResponse</code></summary>
+<details><summary><code>client.scans.upload.file.<a href="/src/api/resources/scans/resources/upload/resources/file/client/Client.ts">complete</a>({ ...params }) -> HiddenLayerApi.CompleteFileResponse</code></summary>
 <dl>
 <dd>
 
@@ -12348,7 +12348,7 @@ await client.scans.upload.file.complete({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.scans.upload.CompleteFileRequest` 
+**request:** `HiddenLayerApi.scans.upload.CompleteFileRequest` 
     
 </dd>
 </dl>
@@ -12400,7 +12400,7 @@ await client.supplyChain.scans.get({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.supplyChain.GetScansRequest` 
+**request:** `HiddenLayerApi.supplyChain.GetScansRequest` 
     
 </dd>
 </dl>
@@ -12420,7 +12420,7 @@ await client.supplyChain.scans.get({
 </dl>
 </details>
 
-<details><summary><code>client.supplyChain.scans.<a href="/src/api/resources/supplyChain/resources/scans/client/Client.ts">guidance</a>({ ...params }) -> HiddenLayer.GuidanceScansResponse</code></summary>
+<details><summary><code>client.supplyChain.scans.<a href="/src/api/resources/supplyChain/resources/scans/client/Client.ts">guidance</a>({ ...params }) -> HiddenLayerApi.GuidanceScansResponse</code></summary>
 <dl>
 <dd>
 
@@ -12468,7 +12468,7 @@ await client.supplyChain.scans.guidance({
 <dl>
 <dd>
 
-**request:** `HiddenLayer.supplyChain.GuidanceScansRequest` 
+**request:** `HiddenLayerApi.supplyChain.GuidanceScansRequest` 
     
 </dd>
 </dl>

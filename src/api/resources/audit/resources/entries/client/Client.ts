@@ -7,7 +7,7 @@ import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as HiddenLayer from "../../../../../index.js";
+import * as HiddenLayerApi from "../../../../../index.js";
 
 export declare namespace EntriesClient {
     export type Options = BaseClientOptions;
@@ -25,11 +25,11 @@ export class EntriesClient {
     /**
      * Returns audit log entries for the tenant, sorted by time with the most recent first. Results can be filtered by time range, actor, role, action, and resource type, or searched by free text.
      *
-     * @param {HiddenLayer.audit.ListEntriesRequest} request
+     * @param {HiddenLayerApi.audit.ListEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.BadRequestError}
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -40,13 +40,13 @@ export class EntriesClient {
      *     })
      */
     public async list(
-        request: HiddenLayer.audit.ListEntriesRequest = {},
+        request: HiddenLayerApi.audit.ListEntriesRequest = {},
         requestOptions?: EntriesClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayer.AuditEntry, HiddenLayer.audit.ListEntriesResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.AuditEntry, HiddenLayerApi.audit.ListEntriesResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
-                request: HiddenLayer.audit.ListEntriesRequest,
-            ): Promise<core.WithRawResponse<HiddenLayer.audit.ListEntriesResponse>> => {
+                request: HiddenLayerApi.audit.ListEntriesRequest,
+            ): Promise<core.WithRawResponse<HiddenLayerApi.audit.ListEntriesResponse>> => {
                 const {
                     start_time: startTime,
                     end_time: endTime,
@@ -97,19 +97,19 @@ export class EntriesClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as HiddenLayer.audit.ListEntriesResponse,
+                        data: _response.body as HiddenLayerApi.audit.ListEntriesResponse,
                         rawResponse: _response.rawResponse,
                     };
                 }
                 if (_response.error.reason === "status-code") {
                     switch (_response.error.statusCode) {
                         case 400:
-                            throw new HiddenLayer.BadRequestError(
+                            throw new HiddenLayerApi.BadRequestError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
                         case 422:
-                            throw new HiddenLayer.UnprocessableEntityError(
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
@@ -126,7 +126,7 @@ export class EntriesClient {
         );
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayer.AuditEntry, HiddenLayer.audit.ListEntriesResponse>({
+        return new core.Page<HiddenLayerApi.AuditEntry, HiddenLayerApi.audit.ListEntriesResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as HiddenLayer from "../../../index.js";
+import * as HiddenLayerApi from "../../../index.js";
 
 export declare namespace InteractionsClient {
     export type Options = BaseClientOptions;
@@ -26,10 +26,10 @@ export class InteractionsClient {
     /**
      * Performs a detailed security analysis of the input and/or output of LLM interactions.
      *
-     * @param {HiddenLayer.InteractionsRequest} request
+     * @param {HiddenLayerApi.InteractionsRequest} request
      * @param {InteractionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link HiddenLayer.UnprocessableEntityError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
@@ -44,16 +44,16 @@ export class InteractionsClient {
      *     })
      */
     public analyze(
-        request: HiddenLayer.InteractionsRequest,
+        request: HiddenLayerApi.InteractionsRequest,
         requestOptions?: InteractionsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayer.EnrichedResponse> {
+    ): core.HttpResponsePromise<HiddenLayerApi.EnrichedResponse> {
         return core.HttpResponsePromise.fromPromise(this.__analyze(request, requestOptions));
     }
 
     private async __analyze(
-        request: HiddenLayer.InteractionsRequest,
+        request: HiddenLayerApi.InteractionsRequest,
         requestOptions?: InteractionsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayer.EnrichedResponse>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.EnrichedResponse>> {
         const { "HL-Project-Id": hlProjectId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -82,13 +82,13 @@ export class InteractionsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayer.EnrichedResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.EnrichedResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 422:
-                    throw new HiddenLayer.UnprocessableEntityError(
+                    throw new HiddenLayerApi.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
