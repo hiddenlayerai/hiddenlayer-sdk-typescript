@@ -11719,7 +11719,8 @@ Returns a cursor-paginated list of file results for a given scan. Results are so
 ```typescript
 const pageableResponse = await client.scans.results.listFiles({
     scan_id: "00000000-0000-0000-0000-000000000000",
-    page_size: 50
+    page_size: 50,
+    sort: "-compliance_verdict,+severity_order"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -11728,7 +11729,8 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.scans.results.listFiles({
     scan_id: "00000000-0000-0000-0000-000000000000",
-    page_size: 50
+    page_size: 50,
+    sort: "-compliance_verdict,+severity_order"
 });
 while (page.hasNextPage()) {
     page = await page.getNextPage();

@@ -4,7 +4,8 @@
  * @example
  *     {
  *         scan_id: "00000000-0000-0000-0000-000000000000",
- *         page_size: 50
+ *         page_size: 50,
+ *         sort: "-compliance_verdict,+severity_order"
  *     }
  */
 export interface ListFilesResultsRequest {
@@ -16,4 +17,12 @@ export interface ListFilesResultsRequest {
     page_size?: number;
     /** Cursor for pagination, used to navigate through pages of results */
     cursor?: string;
+    /**
+     * Comma-separated sort fields, each ascending (`+`) or descending (`-` or no prefix). Ties are broken by file path.
+     * - `compliance_verdict`: by policy verdict, alphabetically. Ascending puts files without a verdict first, then `COMPLIANT`, then `NONCOMPLIANT`; descending puts `NONCOMPLIANT` first.
+     * - `severity_order`: by the file's highest detection severity, as a rank. Ascending puts critical first.
+     * - `file_path`: by file path.
+     * An unknown sort field returns 422.
+     */
+    sort?: string;
 }

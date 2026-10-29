@@ -30,13 +30,15 @@ export class ResultsClient {
      *
      * @throws {@link HiddenLayer.BadRequestError}
      * @throws {@link HiddenLayer.NotFoundError}
+     * @throws {@link HiddenLayer.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
      * @example
      *     await client.scans.results.listFiles({
      *         scan_id: "00000000-0000-0000-0000-000000000000",
-     *         page_size: 50
+     *         page_size: 50,
+     *         sort: "-compliance_verdict,+severity_order"
      *     })
      */
     public async listFiles(
@@ -47,11 +49,12 @@ export class ResultsClient {
             async (
                 request: HiddenLayer.scans.ListFilesResultsRequest,
             ): Promise<core.WithRawResponse<HiddenLayer.scans.ListFilesResultsResponse>> => {
-                const { scan_id: scanId, has_detections: hasDetections, page_size: pageSize, cursor } = request;
+                const { scan_id: scanId, has_detections: hasDetections, page_size: pageSize, cursor, sort } = request;
                 const _queryParams: Record<string, unknown> = {
                     has_detections: hasDetections,
                     page_size: pageSize,
                     cursor,
+                    sort,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -94,6 +97,11 @@ export class ResultsClient {
                             );
                         case 404:
                             throw new HiddenLayer.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                        case 422:
+                            throw new HiddenLayer.UnprocessableEntityError(
+                                _response.error.body as unknown,
+                                _response.rawResponse,
+                            );
                         default:
                             throw new errors.HiddenLayerError({
                                 statusCode: _response.error.statusCode,

@@ -76,6 +76,7 @@ describe("ResultsClient", () => {
         const page = await client.scans.results.listFiles({
             scan_id: "00000000-0000-0000-0000-000000000000",
             page_size: 50,
+            sort: "-compliance_verdict,+severity_order",
         });
 
         expect(expected.items).toEqual(page.data);
@@ -124,6 +125,27 @@ describe("ResultsClient", () => {
                 scan_id: "scan_id",
             });
         }).rejects.toThrow(HiddenLayer.NotFoundError);
+    });
+
+    test("list_files (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .get("/scan/v3/results/scan_id/files")
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.scans.results.listFiles({
+                scan_id: "scan_id",
+            });
+        }).rejects.toThrow(HiddenLayer.UnprocessableEntityError);
     });
 
     test("sarif (1)", async () => {
