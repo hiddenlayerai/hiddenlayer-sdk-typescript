@@ -10,7 +10,7 @@
             "name": "@hiddenlayerai/hiddenlayer-sdk"
         }
     },
-    "originGitCommit": "44d56b68158c993cbb3658edc10fd709e0702fb4",
+    "originGitCommit": "0afe027073e5dae68868ed4ea679a97ad1866331",
     "originGitCommitIsDirty": true,
     "invokedBy": "ci",
     "requestedVersion": "3.6.0",
