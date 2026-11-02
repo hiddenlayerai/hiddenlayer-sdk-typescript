@@ -1,7 +1,7 @@
 # Hiddenlayer TypeScript Library
 
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fhiddenlayerai%2Fhiddenlayer-sdk-typescript)
-[![npm shield](https://img.shields.io/npm/v/)](https://www.npmjs.com/package/)
+[![npm shield](https://img.shields.io/npm/v/@hiddenlayerai/hiddenlayer-sdk)](https://www.npmjs.com/package/@hiddenlayerai/hiddenlayer-sdk)
 
 The Hiddenlayer TypeScript library provides convenient access to the Hiddenlayer APIs from TypeScript.
 
@@ -45,7 +45,7 @@ Some HiddenLayer APIs are marked as **Beta**, meaning they are not yet generally
 ## Installation
 
 ```sh
-npm i -s 
+npm i -s @hiddenlayerai/hiddenlayer-sdk
 ```
 
 ## Reference
@@ -57,7 +57,7 @@ A full reference for this library is available [here](https://github.com/hiddenl
 Instantiate and use the client with the following:
 
 ```typescript
-import { HiddenLayerClient } from "";
+import { HiddenLayerClient } from "@hiddenlayerai/hiddenlayer-sdk";
 
 const client = new HiddenLayerClient({ token: "YOUR_TOKEN" });
 await client.credentials.create({
@@ -427,7 +427,7 @@ If you are interested in other runtime environments, please open or upvote an is
 This SDK allows you to configure different environments for API requests.
 
 ```typescript
-import { HiddenLayerClient, HiddenLayerApiEnvironment } from "HiddenLayerApi";
+import { HiddenLayerClient, HiddenLayerApiEnvironment } from "@hiddenlayerai/hiddenlayer-sdk";
 
 const client = new HiddenLayerClient({
     environment: HiddenLayerApiEnvironment.ProdUs,
@@ -440,7 +440,7 @@ The SDK exports all request and response types as TypeScript interfaces. Simply 
 following namespace:
 
 ```typescript
-import { HiddenLayerApi } from "HiddenLayerApi";
+import { HiddenLayerApi } from "@hiddenlayerai/hiddenlayer-sdk";
 
 const request: HiddenLayerApi.ListCredentialsRequest = {
     ...
@@ -453,7 +453,7 @@ When the API returns a non-success status code (4xx or 5xx response), a subclass
 will be thrown.
 
 ```typescript
-import { HiddenLayerError } from "HiddenLayerApi";
+import { HiddenLayerError } from "@hiddenlayerai/hiddenlayer-sdk";
 
 try {
     await client.credentials.create(...);
@@ -861,7 +861,7 @@ const text = new TextDecoder().decode(bytes);
 List endpoints are paginated. The SDK provides an iterator so that you can simply loop over the items:
 
 ```typescript
-import { HiddenLayerApi, HiddenLayerClient } from "";
+import { HiddenLayerApi, HiddenLayerClient } from "@hiddenlayerai/hiddenlayer-sdk";
 
 const client = new HiddenLayerClient({ token: "YOUR_TOKEN" });
 const pageableResponse = await client.sensors.queryLegacy({});
@@ -886,7 +886,7 @@ const response = page.response;
 This SDK supports direct imports of subpackage clients, which allows JavaScript bundlers to tree-shake and include only the imported subpackage code. This results in much smaller bundle sizes.
 
 ```typescript
-import { EulaResponsesClient } from 'HiddenLayerApi/eulaResponses';
+import { EulaResponsesClient } from '@hiddenlayerai/hiddenlayer-sdk/eulaResponses';
 
 const client = new EulaResponsesClient({...});
 ```
@@ -896,7 +896,7 @@ const client = new EulaResponsesClient({...});
 If you would like to send additional headers as part of the request, use the `headers` request option.
 
 ```typescript
-import { HiddenLayerClient } from "HiddenLayerApi";
+import { HiddenLayerClient } from "@hiddenlayerai/hiddenlayer-sdk";
 
 const client = new HiddenLayerClient({
     ...
@@ -991,7 +991,7 @@ console.log(rawResponse.headers['X-My-Header']);
 The SDK supports logging. You can configure the logger by passing in a `logging` object to the client options.
 
 ```typescript
-import { HiddenLayerClient, logging } from "HiddenLayerApi";
+import { HiddenLayerClient, logging } from "@hiddenlayerai/hiddenlayer-sdk";
 
 const client = new HiddenLayerClient({
     ...
