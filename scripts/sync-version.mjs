@@ -5,7 +5,7 @@
 // publish and release jobs rebuild the version commit that way without
 // running any dependency's code.
 //
-// Usage: node scripts/sync-version.mjs <python|java|typescript|go> [version]
+// Usage: node scripts/sync-version.mjs <python|python-internal|java|typescript|go> [version]
 //
 // From hl-sdk-gen's template/; edit it there and copy it into every SDK repo.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -23,6 +23,10 @@ export const TARGETS = {
   python: [
     { file: "pyproject.toml", pattern: /^version = "([^"]+)"$/m },
     { file: "src/hiddenlayer/core/client_wrapper.py", pattern: /"X-Fern-SDK-Version": "([^"]+)"/ },
+  ],
+  "python-internal": [
+    { file: "pyproject.toml", pattern: /^version = "([^"]+)"$/m },
+    { file: "src/hiddenlayer_internal/core/client_wrapper.py", pattern: /"X-Fern-SDK-Version": "([^"]+)"/ },
   ],
   java: [
     // Fern writes no version into build.gradle without an output block, so the repo owns gradle.properties.
