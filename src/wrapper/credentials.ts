@@ -28,9 +28,13 @@ export class ClientCredentials {
 
     constructor(clientId: string, clientSecret: string, options: Omit<BaseClientOptions, "token" | "auth">) {
         const authorization = core.BasicAuth.toAuthorizationHeader({ username: clientId, password: clientSecret });
-        const headers: Record<string, string> = authorization === undefined ? {} : { Authorization: authorization };
-        // The token endpoint takes the client's own credentials as Basic auth, not a bearer token.
-        this.oauth2 = new Oauth2Client({ ...options, token: "", auth: async () => ({ headers }) });
+        // The token endpoint takes the client's own credentials as Basic auth, not a bearer token. Empty credentials
+        // fail the request rather than the constructor, as a client with no credentials at all does.
+        this.oauth2 = new Oauth2Client({
+            ...options,
+            token: "",
+            auth: async () => ({ headers: { Authorization: authorization ?? missingCredentials() } }),
+        });
     }
 
     public async accessToken(): Promise<string> {

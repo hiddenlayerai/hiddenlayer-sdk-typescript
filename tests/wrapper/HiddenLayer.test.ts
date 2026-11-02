@@ -394,6 +394,17 @@ describe("HiddenLayer", () => {
             await expect(retrieveSummary(client)).rejects.toThrow(/HIDDENLAYER_TOKEN/);
             expect(requests).toHaveLength(0);
         });
+
+        it("constructs with an empty clientId and clientSecret, then rejects requests without calling the token endpoint", async () => {
+            const { fetch, requests } = recordingFetch();
+            const client = new HiddenLayer({ clientId: "", clientSecret: "", fetch });
+
+            const result = retrieveSummary(client);
+
+            await expect(result).rejects.toBeInstanceOf(HiddenLayerError);
+            await expect(result).rejects.toThrow(/HIDDENLAYER_TOKEN/);
+            expect(requests).toHaveLength(0);
+        });
     });
 
     describe("environment", () => {
