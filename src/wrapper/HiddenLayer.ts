@@ -37,8 +37,37 @@ export declare namespace HiddenLayer {
     export type RequestOptions = HiddenLayerClient.RequestOptions;
 }
 
+/** 3.x options 4.0 doesn't read, and what replaces each: a 3.x options object would otherwise fall back to defaults. */
+const REMOVED_OPTIONS: ReadonlyMap<string, string> = new Map([
+    ["bearerToken", "token"],
+    ["clientID", "clientId"],
+    ["baseURL", "baseUrl"],
+    ["timeout", "timeoutInSeconds"],
+    ["defaultHeaders", "headers"],
+    ["defaultQuery", "queryParams on each request"],
+    ["fetchOptions", "a fetch function that applies them"],
+    ["logLevel", "logging.level"],
+    ["logger", "logging.logger"],
+]);
+
+const MIGRATION_GUIDE =
+    "https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/blob/main/docs/BREAKING_CHANGES_v4.0.0.md";
+
+function rejectRemovedOptions(options: object): void {
+    const values: Record<string, unknown> = { ...options };
+    const removed = Object.keys(values).filter((name) => REMOVED_OPTIONS.has(name) && values[name] != null);
+    if (removed.length > 0) {
+        const replacements = removed.map((name) => `${name} is now ${REMOVED_OPTIONS.get(name)}`).join("; ");
+        throw new TypeError(`HiddenLayer doesn't take these 3.x options: ${replacements}. See ${MIGRATION_GUIDE}`);
+    }
+}
+
 function isEnvironmentName(environment: string): environment is HiddenLayer.EnvironmentName {
     return Object.keys(HiddenLayerEnvironmentName).includes(environment);
+}
+
+function regionUrl(environment: string): string {
+    return isEnvironmentName(environment) ? HiddenLayerEnvironmentName[environment] : environment;
 }
 
 function resolveEnvironment(
@@ -47,9 +76,10 @@ function resolveEnvironment(
     if (environment === undefined) {
         return HiddenLayerEnvironment.ProdUs;
     }
-    return typeof environment === "string" && isEnvironmentName(environment)
-        ? HiddenLayerEnvironmentName[environment]
-        : environment;
+    if (typeof environment === "string") {
+        return regionUrl(environment);
+    }
+    return async () => regionUrl(await core.Supplier.get(environment));
 }
 
 function tokenSupplier(options: HiddenLayer.Options, connection: HiddenLayerClient.Options): core.Supplier<string> {
@@ -85,6 +115,7 @@ export class HiddenLayer extends HiddenLayerClient {
     #communityScanner: CommunityScanner | undefined;
 
     constructor(options: HiddenLayer.Options = {}) {
+        rejectRemovedOptions(options);
         const { token: _token, clientId: _clientId, clientSecret: _clientSecret, ...rest } = options;
         const environment = resolveEnvironment(options.environment);
         const baseUrl =

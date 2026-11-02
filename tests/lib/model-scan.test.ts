@@ -5,6 +5,7 @@ import * as os from "os";
 import * as path from "path";
 import { afterEach, beforeEach, describe, expect, it, type Mock, type MockInstance, vi } from "vitest";
 import type * as HiddenLayerApi from "../../src/api/index.js";
+import { HiddenLayerError } from "../../src/errors/index.js";
 import { ModelScanner } from "../../src/lib/model-scan.js";
 import { HiddenLayer } from "../../src/wrapper/HiddenLayer.js";
 import { fakePage, fileResult, partialSummary, scanSummary } from "./fixtures.js";
@@ -284,7 +285,8 @@ describe("ModelScanner", () => {
             mockRetrieveSummary.mockResolvedValue(partialSummary({ status: "done" }));
         });
 
-        it("scanS3Model uses S3 client to download and then scans", async () => {
+        /** An S3 object whose body pipes into a write stream that finishes at once. */
+        function s3Object(): { Body: unknown } {
             const writeStream = {
                 on: vi.fn((event: string, cb: () => void) => {
                     if (event === "finish") setImmediate(cb);
@@ -292,20 +294,67 @@ describe("ModelScanner", () => {
                 }),
             };
             mockedFs.createWriteStream.mockReturnValue(writeStream);
-            const send = vi.fn(async () => ({ Body: { on: vi.fn(), pipe: vi.fn((ws: unknown) => ws) } }));
-            const mockS3Client = { send } as unknown as S3Client;
+            return { Body: { on: vi.fn(), pipe: vi.fn((ws: unknown) => ws) } };
+        }
 
-            await expect(
-                scanner.scanS3Model({
-                    modelName: "s3-model",
-                    bucket: "test-bucket",
-                    key: "test.pkl",
-                    s3Client: mockS3Client,
-                    waitForResults: false,
-                }),
-            ).resolves.toBeDefined();
+        function scanFromS3(send: () => Promise<unknown>): Promise<unknown> {
+            return scanner.scanS3Model({
+                modelName: "s3-model",
+                bucket: "test-bucket",
+                key: "test.pkl",
+                s3Client: { send } as unknown as S3Client,
+                waitForResults: false,
+            });
+        }
+
+        function scanFromAzure(downloadToFile: (path: string) => Promise<unknown>): Promise<unknown> {
+            const blobServiceClient = {
+                getContainerClient: () => ({ getBlobClient: () => ({ downloadToFile }) }),
+            } as unknown as BlobServiceClient;
+            return scanner.scanAzureBlobModel({
+                modelName: "azure-model",
+                accountUrl: "https://test.blob.core.windows.net",
+                container: "test-container",
+                blob: "test.pkl",
+                blobServiceClient,
+                waitForResults: false,
+            });
+        }
+
+        it("scanS3Model uses S3 client to download and then scans", async () => {
+            const send = vi.fn(async () => s3Object());
+
+            await expect(scanFromS3(send)).resolves.toBeDefined();
 
             expect(send).toHaveBeenCalled();
+        });
+
+        it.each([
+            { source: "S3", scan: () => scanFromS3(async () => s3Object()) },
+            { source: "Azure Blob Storage", scan: () => scanFromAzure(async () => undefined) },
+        ])("passes an API error from the $source scan through unchanged", async ({ scan }) => {
+            const apiError = new HiddenLayerError({ message: "Unauthorized", statusCode: 401 });
+            mockStart.mockRejectedValue(apiError);
+
+            await expect(scan()).rejects.toBe(apiError);
+        });
+
+        it.each([
+            {
+                source: "S3",
+                scan: () => scanFromS3(() => Promise.reject(new Error("AccessDenied"))),
+                message: "Couldn't download model s3://test-bucket/test.pkl: AccessDenied",
+            },
+            {
+                source: "Azure Blob Storage",
+                scan: () => scanFromAzure(() => Promise.reject(new Error("AuthorizationFailure"))),
+                message:
+                    "Couldn't download model https://test.blob.core.windows.net, test-container, test.pkl: AuthorizationFailure",
+            },
+        ])("names the model when the $source download fails", async ({ scan, message }) => {
+            await expect(scan()).rejects.toThrow(message);
+
+            expect(mockStart).not.toHaveBeenCalled();
         });
 
         it("scanAzureBlobModel uses BlobServiceClient to download and then scans", async () => {

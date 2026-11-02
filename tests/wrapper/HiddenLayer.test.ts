@@ -31,10 +31,15 @@ interface RecordedRequest {
 
 /**
  * A fetch that records every request and answers 200 with JSON: an access token for `/oauth2/token`
- * (`access-token-1`, `access-token-2`, ...) and `{}` for anything else.
+ * (`access-token-1`, `access-token-2`, ...) and `{}` for anything else. The first `failedTokenRequests`
+ * token requests get a 503 instead.
  */
-function recordingFetch(tokenExpiresIn = 3600): { fetch: typeof fetch; requests: RecordedRequest[] } {
+function recordingFetch(
+    tokenExpiresIn = 3600,
+    failedTokenRequests = 0,
+): { fetch: typeof fetch; requests: RecordedRequest[] } {
     const requests: RecordedRequest[] = [];
+    let tokenRequests = 0;
     let tokensIssued = 0;
     const fetchFn = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
         const url = new URL(input instanceof Request ? input.url : input.toString());
@@ -45,6 +50,9 @@ function recordingFetch(tokenExpiresIn = 3600): { fetch: typeof fetch; requests:
             body: init?.body == null ? undefined : String(init.body),
         });
         if (url.pathname.endsWith("/oauth2/token")) {
+            if (tokenRequests++ < failedTokenRequests) {
+                return Response.json({ error: "temporarily_unavailable" }, { status: 503 });
+            }
             tokensIssued++;
             return Response.json({
                 access_token: `access-token-${tokensIssued}`,
@@ -63,6 +71,15 @@ function retrieveSummary(client: HiddenLayer): Promise<unknown> {
 
 function basic(id: string, secret: string): string {
     return `Basic ${Buffer.from(`${id}:${secret}`).toString("base64")}`;
+}
+
+function isTokenRequest(request: RecordedRequest): boolean {
+    return request.url.pathname === "/oauth2/token";
+}
+
+/** Options as a JavaScript caller passes them, unchecked against `HiddenLayer.Options`. */
+function untypedOptions(options: Record<string, unknown>): HiddenLayer.Options {
+    return options as HiddenLayer.Options;
 }
 
 beforeEach(() => {
@@ -184,6 +201,38 @@ describe("HiddenLayer", () => {
             );
         });
 
+        it("fails every request waiting on a failed token exchange without exchanging again", async () => {
+            const { fetch, requests } = recordingFetch(3600, 1);
+            const client = new HiddenLayer({ clientId: "id", clientSecret: "secret", maxRetries: 0, fetch });
+
+            const errors = await Promise.all(
+                [retrieveSummary(client), retrieveSummary(client), retrieveSummary(client)].map((request) =>
+                    request.then(
+                        () => undefined,
+                        (error: unknown) => error,
+                    ),
+                ),
+            );
+
+            for (const error of errors) {
+                expect(error).toBeInstanceOf(HiddenLayerError);
+                expect(error).toHaveProperty("statusCode", 503);
+            }
+            expect(requests.filter(isTokenRequest)).toHaveLength(1);
+            expect(requests.filter((r) => !isTokenRequest(r))).toHaveLength(0);
+        });
+
+        it("exchanges again on the next request after a failed exchange", async () => {
+            const { fetch, requests } = recordingFetch(3600, 1);
+            const client = new HiddenLayer({ clientId: "id", clientSecret: "secret", maxRetries: 0, fetch });
+
+            await expect(retrieveSummary(client)).rejects.toBeInstanceOf(HiddenLayerError);
+            await retrieveSummary(client);
+
+            expect(requests.filter(isTokenRequest)).toHaveLength(2);
+            expect(requests[requests.length - 1].headers.get("Authorization")).toBe("Bearer access-token-1");
+        });
+
         it("fetches a new access token 30 seconds before the current one expires", async () => {
             vi.useFakeTimers({ toFake: ["Date"] });
             const start = new Date("2026-01-01T00:00:00Z").getTime();
@@ -277,6 +326,46 @@ describe("HiddenLayer", () => {
         });
     });
 
+    describe("3.x options", () => {
+        const renamed = [
+            { name: "bearerToken", replacement: "token" },
+            { name: "clientID", replacement: "clientId" },
+            { name: "baseURL", replacement: "baseUrl" },
+            { name: "timeout", replacement: "timeoutInSeconds" },
+            { name: "defaultHeaders", replacement: "headers" },
+            { name: "logger", replacement: "logging.logger" },
+        ];
+
+        it.each(renamed)("rejects $name, naming $replacement", ({ name, replacement }) => {
+            const options = untypedOptions({ token: "test-token", [name]: "3.x value" });
+
+            expect(() => new HiddenLayer(options)).toThrow(TypeError);
+            expect(() => new HiddenLayer(options)).toThrow(`${name} is now ${replacement}`);
+        });
+
+        it("names every 3.x option it was given before any request is sent", () => {
+            vi.stubEnv("HIDDENLAYER_CLIENT_ID", "env-id");
+            const { fetch, requests } = recordingFetch();
+            const options = untypedOptions({
+                baseURL: "https://hl.internal",
+                clientID: "id",
+                clientSecret: "s",
+                fetch,
+            });
+
+            expect(() => new HiddenLayer(options)).toThrow("baseURL is now baseUrl; clientID is now clientId");
+            expect(requests).toHaveLength(0);
+        });
+
+        it("accepts a 3.x option that is unset", async () => {
+            const { fetch, requests } = recordingFetch();
+
+            await retrieveSummary(new HiddenLayer(untypedOptions({ token: "test-token", baseURL: undefined, fetch })));
+
+            expect(requests[0].url.origin).toBe("https://api.us.hiddenlayer.ai");
+        });
+    });
+
     describe("without credentials", () => {
         it("constructs, then rejects requests with an error naming HIDDENLAYER_TOKEN", async () => {
             const { fetch, requests } = recordingFetch();
@@ -348,6 +437,27 @@ describe("HiddenLayer", () => {
 
             expect(requests[0].url.href).toBe("https://api.us.hiddenlayer.ai/scan/v3/results/s/summary");
             expect(requests[0].headers.get("Authorization")).toBe("Bearer test-token");
+        });
+
+        it("selects a region by the name a function returns, for the token exchange too", async () => {
+            const { fetch, requests } = recordingFetch();
+            const client = new HiddenLayer({
+                clientId: "id",
+                clientSecret: "secret",
+                environment: () => "prod-eu",
+                fetch,
+            });
+
+            await retrieveSummary(client);
+
+            expect(requests.map((r) => r.url.href)).toEqual([
+                "https://api.eu.hiddenlayer.ai/oauth2/token",
+                "https://api.eu.hiddenlayer.ai/scan/v3/results/s/summary",
+            ]);
+        });
+
+        it("uses a URL an async function returns as the base URL", async () => {
+            expect(await originOf({ environment: async () => "https://hl.internal" })).toBe("https://hl.internal");
         });
 
         it("treats an inherited property name as a URL, not a region", async () => {

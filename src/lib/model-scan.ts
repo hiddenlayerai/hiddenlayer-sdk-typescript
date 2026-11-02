@@ -267,20 +267,22 @@ export class ModelScanner {
         const tempPath = PathValidator.createSafeTempPath(key);
 
         try {
-            // A GetObjectCommand resolves to its output; S3ClientLike can't say so without the SDK's types.
-            const response = (await client.send(
-                new s3.GetObjectCommand({ Bucket: bucket, Key: key }),
-            )) as GetObjectCommandOutput;
-            if (!response.Body) {
-                throw new Error("No response body from S3");
-            }
-            // In Node the body is a Readable; the SDK types it as a union with the browser stream types.
-            const stream = response.Body as NodeJS.ReadableStream;
-            const writeStream = fs.createWriteStream(tempPath);
-            await new Promise<void>((resolve, reject) => {
-                // pipe() doesn't forward the source's errors, so a failed download would otherwise never settle.
-                stream.on("error", reject);
-                stream.pipe(writeStream).on("finish", () => resolve()).on("error", reject);
+            await downloadModel(`s3://${bucket}/${key}`, async () => {
+                // A GetObjectCommand resolves to its output; S3ClientLike can't say so without the SDK's types.
+                const response = (await client.send(
+                    new s3.GetObjectCommand({ Bucket: bucket, Key: key }),
+                )) as GetObjectCommandOutput;
+                if (!response.Body) {
+                    throw new Error("No response body from S3");
+                }
+                // In Node the body is a Readable; the SDK types it as a union with the browser stream types.
+                const stream = response.Body as NodeJS.ReadableStream;
+                const writeStream = fs.createWriteStream(tempPath);
+                await new Promise<void>((resolve, reject) => {
+                    // pipe() doesn't forward the source's errors, so a failed download would otherwise never settle.
+                    stream.on("error", reject);
+                    stream.pipe(writeStream).on("finish", () => resolve()).on("error", reject);
+                });
             });
 
             return await this.scanFile({
@@ -291,8 +293,6 @@ export class ModelScanner {
                 requestSource,
                 origin: "S3",
             });
-        } catch (e) {
-            throw new Error(`Couldn't download model s3://${bucket}/${key}: ${errorMessage(e)}`);
         } finally {
             cleanupTempFile(tempPath);
         }
@@ -338,7 +338,7 @@ export class ModelScanner {
         const blobClient = client.getContainerClient(container).getBlobClient(blob);
 
         try {
-            await blobClient.downloadToFile(tempPath);
+            await downloadModel(`${accountUrl}, ${container}, ${blob}`, () => blobClient.downloadToFile(tempPath));
 
             return await this.scanFile({
                 modelPath: tempPath,
@@ -348,8 +348,6 @@ export class ModelScanner {
                 requestSource,
                 origin: "Azure Blob Storage",
             });
-        } catch (e) {
-            throw new Error(`Couldn't download model ${accountUrl}, ${container}, ${blob}: ${errorMessage(e)}`);
         } finally {
             cleanupTempFile(tempPath);
         }
@@ -401,12 +399,12 @@ export class ModelScanner {
                     continue;
                 }
 
+                const outPath = PathValidator.validateFilePath(entry.path, finalLocalDir);
                 const dlParams: HubDownloadFileParams = { repo: repoId, path: entry.path };
                 if (revision) dlParams.revision = revision;
                 if (accessToken) dlParams.accessToken = accessToken;
                 const res = await hub.downloadFile(dlParams);
                 if (!res) continue;
-                const outPath = PathValidator.validateFilePath(entry.path, finalLocalDir);
                 await fs.promises.mkdir(path.dirname(outPath), { recursive: true });
                 await fs.promises.writeFile(outPath, Buffer.from(await res.arrayBuffer()));
             }
@@ -503,6 +501,15 @@ export class ModelScanner {
 
 function errorMessage(error: unknown): string {
     return error instanceof Error ? error.message : String(error);
+}
+
+/** Names the model in a failed download's error, leaving the scan's own errors, such as API errors, untouched. */
+async function downloadModel(location: string, download: () => Promise<unknown>): Promise<void> {
+    try {
+        await download();
+    } catch (e) {
+        throw new Error(`Couldn't download model ${location}: ${errorMessage(e)}`);
+    }
 }
 
 function cleanupTempFile(filePath: string): void {

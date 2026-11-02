@@ -56,7 +56,7 @@ The deep imports under `/resources/...`, `/core/...` and `/lib/...` are gone. Im
 | `bearerToken` | `token`, a string or a function returning one |
 | `clientID` | `clientId` |
 | `clientSecret` | `clientSecret` |
-| `environment: 'prod-us' \| 'prod-eu'` | unchanged; `HiddenLayerEnvironment.ProdUs` or `.ProdEu`, or any URL, also works |
+| `environment: 'prod-us' \| 'prod-eu'` | unchanged; `HiddenLayerEnvironment.ProdUs` or `.ProdEu`, any URL, or a function returning any of these also works |
 | `baseURL` | `baseUrl` |
 | `timeout` (milliseconds) | `timeoutInSeconds` |
 | `maxRetries` | unchanged |
@@ -73,6 +73,8 @@ const client = new HiddenLayer({ clientID: "...", clientSecret: "...", environme
 // v4.0.0
 const client = new HiddenLayer({ clientId: "...", clientSecret: "...", environment: "prod-eu", timeoutInSeconds: 30 });
 ```
+
+The constructor throws a `TypeError` for any v3.x-only option that is set, naming what replaces it, so a v3.x options object passed from JavaScript fails instead of falling back to the defaults.
 
 A `baseUrl` given in the options wins over `environment`. v3.x threw when both were set; v4.0.0 uses `baseUrl`. `HIDDENLAYER_BASE_URL` is used only when neither option is given.
 
@@ -209,7 +211,8 @@ const { data, rawResponse } = await client.sensors.retrieve({ sensor_id: id }).w
 - `requestSource` takes `HiddenLayerApi.ScanJobRequestSource`, the same strings plus `"AI Asset Discovery"`.
 - `scanAzureBlobModel`'s `credential` is typed as `AzureBlobCredential`, which a `TokenCredential`, `StorageSharedKeyCredential` or `AnonymousCredential` satisfies (v3.x: `any`).
 - `s3Client` and `blobServiceClient` are typed as `S3ClientLike` and `BlobServiceClientLike`, the methods the scans call, which an `S3Client` and a `BlobServiceClient` satisfy (v3.x: those classes). None of the scanners' types needs a storage SDK installed.
-- `scanHuggingFaceModel` rejects a repository file whose path would land outside `localDir`, and removes the temporary directory it created when a download fails.
+- `scanS3Model` and `scanAzureBlobModel` wrap only a failed download in `Couldn't download model ...`. An error from the scan that follows, such as a `HiddenLayerError` with `statusCode` 401, is thrown as it is; v3.x wrapped it too, so it read as a download failure.
+- `scanHuggingFaceModel` rejects a repository file whose path would land outside `localDir` before downloading it, and removes the temporary directory it created when a download fails.
 - `getScanResults(client, scanId)` and `waitForScanResults(client, scanId)` take a `HiddenLayer` or `HiddenLayerClient`.
 - `@aws-sdk/client-s3`, `@azure/storage-blob` and `@huggingface/hub` stay peer dependencies, at the same ranges, but are optional: npm and pnpm no longer install them with the SDK, so install the ones for the scans you run. Each is loaded only by the scan that needs it. Importing the package no longer fails when one is missing; that scan fails with an error naming the package to install.
 
@@ -228,6 +231,7 @@ Calling a beta endpoint still logs one `console.warn` per endpoint per process. 
 - `toFile` and `Uploadable`: the API has no file-upload parameters; the model scanner uploads files itself.
 - `APIPromise` and `PagePromise`: methods return `HttpResponsePromise` and `Promise<Page>`.
 - `client.withOptions()`, `defaultQuery`, `fetchOptions`, `HIDDENLAYER_LOG` and `HIDDENLAYER_CUSTOM_HEADERS`, covered above.
+- `BETA_ENDPOINTS`, which v3.x exported only from the `/lib` deep import. v4.0.0 doesn't export the list of beta endpoints.
 
 ## New APIs
 

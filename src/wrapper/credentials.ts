@@ -23,30 +23,33 @@ interface CachedToken {
  */
 export class ClientCredentials {
     private readonly oauth2: Oauth2Client;
+    private cached: CachedToken | undefined;
     private pending: Promise<CachedToken> | undefined;
 
     constructor(clientId: string, clientSecret: string, options: Omit<BaseClientOptions, "token" | "auth">) {
-        const basic = core.base64Encode(`${clientId}:${clientSecret}`);
+        const authorization = core.BasicAuth.toAuthorizationHeader({ username: clientId, password: clientSecret });
+        const headers: Record<string, string> = authorization === undefined ? {} : { Authorization: authorization };
         // The token endpoint takes the client's own credentials as Basic auth, not a bearer token.
-        this.oauth2 = new Oauth2Client({
-            ...options,
-            token: "",
-            auth: async () => ({ headers: { Authorization: `Basic ${basic}` } }),
-        });
+        this.oauth2 = new Oauth2Client({ ...options, token: "", auth: async () => ({ headers }) });
     }
 
     public async accessToken(): Promise<string> {
-        // Chained synchronously, so concurrent callers queue behind one exchange instead of each starting their own.
-        this.pending = this.freshToken(this.pending);
-        return (await this.pending).accessToken;
-    }
-
-    private async freshToken(previous: Promise<CachedToken> | undefined): Promise<CachedToken> {
-        const cached = await previous?.catch(() => undefined);
-        if (cached !== undefined && cached.refreshAt > Date.now()) {
-            return cached;
+        if (this.cached !== undefined && this.cached.refreshAt > Date.now()) {
+            return this.cached.accessToken;
         }
-        return this.exchange();
+        // Callers that arrive during an exchange share its outcome, so a failing token endpoint fails them all at once.
+        this.pending ??= this.exchange().then(
+            (token) => {
+                this.cached = token;
+                this.pending = undefined;
+                return token;
+            },
+            (error: unknown) => {
+                this.pending = undefined;
+                throw error;
+            },
+        );
+        return (await this.pending).accessToken;
     }
 
     private async exchange(): Promise<CachedToken> {

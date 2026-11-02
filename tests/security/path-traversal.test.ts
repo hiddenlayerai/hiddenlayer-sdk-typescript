@@ -1,7 +1,7 @@
 // Security tests for path traversal mitigation and temp cleanup
 import type { S3Client } from "@aws-sdk/client-s3";
 import type { BlobServiceClient } from "@azure/storage-blob";
-import { listFiles } from "@huggingface/hub";
+import { downloadFile, listFiles } from "@huggingface/hub";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -152,7 +152,7 @@ describe("Path traversal and temp handling", () => {
     });
 
     describe("scanHuggingFaceModel path validation and cleanup", () => {
-        it("rejects a repo file path that escapes the download dir and still removes the temp dir", async () => {
+        it("rejects a repo file path that escapes the download dir before downloading it, and removes the temp dir", async () => {
             mockedListFiles.mockImplementation(async function* () {
                 yield { type: "file", size: 1, path: "../../evil.bin", oid: "oid" };
             });
@@ -164,6 +164,7 @@ describe("Path traversal and temp handling", () => {
 
             const tempDir = mockedFs.mkdir.mock.calls[0][0];
             expect(tempDir.startsWith(os.tmpdir())).toBe(true);
+            expect(downloadFile).not.toHaveBeenCalled();
             expect(mockedFs.writeFile).not.toHaveBeenCalled();
             expect(mockedFs.rmSync).toHaveBeenCalledWith(tempDir, { recursive: true, force: true });
         });
