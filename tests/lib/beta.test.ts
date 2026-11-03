@@ -1,109 +1,171 @@
-import { warnBeta, checkBetaEndpoint, _resetWarnedForTesting } from '@hiddenlayerai/hiddenlayer-sdk/lib/beta';
+import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from "vitest";
+import { _resetWarnedForTesting, checkBetaEndpoint, warnBeta, withBetaWarnings } from "../../src/lib/beta.js";
+
+// A fixed registry: the real one is regenerated with the API, and an endpoint going GA mustn't fail a Fern PR.
+vi.mock("../../src/beta-endpoints.js", () => ({
+    BETA_ENDPOINTS: [
+        { method: "POST", path_pattern: "/evaluations/v1/red-team" },
+        { method: "GET", path_pattern: "/evaluations/v1/red-team" },
+        { method: "GET", path_pattern: "/evaluations/v1/red-team/{workflow_id}" },
+        { method: "GET", path_pattern: "/evaluations/v1/red-team/{workflow_id}/status" },
+        { method: "GET", path_pattern: "/supply-chain/v3/scans/{scan_id}/guidance" },
+    ],
+}));
 
 const betaMessage = (name: string) =>
-  `[BETA] ${name}: This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.`;
+    `[BETA] ${name}: This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.`;
 
-describe('warnBeta', () => {
-  let warnSpy: jest.SpyInstance;
+let warnSpy: MockInstance<typeof console.warn>;
 
-  beforeEach(() => {
-    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    warnSpy.mockRestore();
-  });
-
-  test('emits a warning on first call', () => {
-    warnBeta('Foo.firstCall');
-    expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy).toHaveBeenCalledWith(
-      '[BETA] Foo.firstCall: This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.',
-    );
-  });
-
-  test('does not emit duplicate warnings for the same method', () => {
-    warnBeta('Bar.dedup');
-    warnBeta('Bar.dedup');
-    warnBeta('Bar.dedup');
-    expect(warnSpy).toHaveBeenCalledTimes(1);
-  });
-
-  test('emits separate warnings for different methods', () => {
-    warnBeta('Baz.alpha');
-    warnBeta('Baz.bravo');
-    expect(warnSpy).toHaveBeenCalledTimes(2);
-    expect(warnSpy).toHaveBeenNthCalledWith(
-      1,
-      '[BETA] Baz.alpha: This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.',
-    );
-    expect(warnSpy).toHaveBeenNthCalledWith(
-      2,
-      '[BETA] Baz.bravo: This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.',
-    );
-  });
+beforeEach(() => {
+    warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    _resetWarnedForTesting();
 });
 
-describe('checkBetaEndpoint', () => {
-  let warnSpy: jest.SpyInstance;
+afterEach(() => {
+    vi.restoreAllMocks();
+});
 
-  beforeEach(() => {
-    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    _resetWarnedForTesting();
-  });
+describe("warnBeta", () => {
+    it("emits a warning on first call", () => {
+        warnBeta("POST /foo/first-call");
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+        expect(warnSpy).toHaveBeenCalledWith(
+            "[BETA] POST /foo/first-call: This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.",
+        );
+    });
 
-  afterEach(() => {
-    warnSpy.mockRestore();
-  });
+    it("does not emit duplicate warnings for the same endpoint", () => {
+        warnBeta("GET /bar/dedup");
+        warnBeta("GET /bar/dedup");
+        warnBeta("GET /bar/dedup");
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+    });
 
-  test('emits a warning for a static beta path', () => {
-    checkBetaEndpoint('/detection/v2/request-evaluations');
-    expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy).toHaveBeenCalledWith(betaMessage('Runtime.evaluateRequest'));
-  });
+    it("emits separate warnings for different endpoints", () => {
+        warnBeta("GET /baz/alpha");
+        warnBeta("GET /baz/bravo");
+        expect(warnSpy).toHaveBeenCalledTimes(2);
+        expect(warnSpy).toHaveBeenNthCalledWith(1, betaMessage("GET /baz/alpha"));
+        expect(warnSpy).toHaveBeenNthCalledWith(2, betaMessage("GET /baz/bravo"));
+    });
+});
 
-  test('emits a warning for a dynamic beta path with a substituted parameter', () => {
-    checkBetaEndpoint('/evaluations/v1/red-team/abc123/status');
-    expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy).toHaveBeenCalledWith(betaMessage('RedTeam.retrieveStatus'));
-  });
+describe("checkBetaEndpoint", () => {
+    it("emits a warning for a static beta path", () => {
+        checkBetaEndpoint("/evaluations/v1/red-team", "POST");
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+        expect(warnSpy).toHaveBeenCalledWith(betaMessage("POST /evaluations/v1/red-team"));
+    });
 
-  test('emits a warning for a dynamic beta path on a single-parameter endpoint', () => {
-    checkBetaEndpoint('/evaluations/v1/red-team/abc123');
-    expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy).toHaveBeenCalledWith(betaMessage('RedTeam.retrieveEvaluationResults'));
-  });
+    it("emits a warning for a dynamic beta path with a substituted parameter", () => {
+        checkBetaEndpoint("/evaluations/v1/red-team/abc123/status", "GET");
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+        expect(warnSpy).toHaveBeenCalledWith(betaMessage("GET /evaluations/v1/red-team/{workflow_id}/status"));
+    });
 
-  test('ignores a trailing query string when matching', () => {
-    checkBetaEndpoint('/detection/v2/request-evaluations?foo=bar');
-    expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy).toHaveBeenCalledWith(betaMessage('Runtime.evaluateRequest'));
-  });
+    it("emits a warning for a dynamic beta path on a single-parameter endpoint", () => {
+        checkBetaEndpoint("/evaluations/v1/red-team/abc123", "GET");
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+        expect(warnSpy).toHaveBeenCalledWith(betaMessage("GET /evaluations/v1/red-team/{workflow_id}"));
+    });
 
-  test('does not emit a warning for a non-beta path', () => {
-    checkBetaEndpoint('/models/v2/list');
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-  });
+    it("ignores a trailing query string when matching", () => {
+        checkBetaEndpoint("/evaluations/v1/red-team?foo=bar", "POST");
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+        expect(warnSpy).toHaveBeenCalledWith(betaMessage("POST /evaluations/v1/red-team"));
+    });
 
-  test('does not emit a warning when a literal segment differs', () => {
-    checkBetaEndpoint('/evaluations/v1/red-team/abc123/not-a-real-action');
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-  });
+    it("matches the method case-insensitively", () => {
+        checkBetaEndpoint("/supply-chain/v3/scans/abc123/guidance", "get");
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+        expect(warnSpy).toHaveBeenCalledWith(betaMessage("GET /supply-chain/v3/scans/{scan_id}/guidance"));
+    });
 
-  test('does not emit a warning when segment counts differ', () => {
-    checkBetaEndpoint('/evaluations/v1/red-team/abc123/status/extra');
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-  });
+    it("matches any method when none is given", () => {
+        checkBetaEndpoint("/supply-chain/v3/scans/abc123/guidance");
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+        expect(warnSpy).toHaveBeenCalledWith(betaMessage("GET /supply-chain/v3/scans/{scan_id}/guidance"));
+    });
 
-  test('does not emit a warning for undefined path', () => {
-    checkBetaEndpoint(undefined);
-    expect(warnSpy).toHaveBeenCalledTimes(0);
-  });
+    it("does not emit a warning when only another method on the path is beta", () => {
+        checkBetaEndpoint("/supply-chain/v3/scans/abc123/guidance", "POST");
+        expect(warnSpy).toHaveBeenCalledTimes(0);
+    });
 
-  test('deduplicates warnings through warnBeta mechanism', () => {
-    checkBetaEndpoint('/evaluations/v1/red-team/abc123/status');
-    checkBetaEndpoint('/evaluations/v1/red-team/def456/status');
-    checkBetaEndpoint('/evaluations/v1/red-team/ghi789/status');
-    expect(warnSpy).toHaveBeenCalledTimes(1);
-  });
+    it("does not emit a warning for a non-beta path", () => {
+        checkBetaEndpoint("/scan/v3/results/abc123/summary", "GET");
+        expect(warnSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it("does not emit a warning when a literal segment differs", () => {
+        checkBetaEndpoint("/evaluations/v1/red-team/abc123/not-a-real-action", "GET");
+        expect(warnSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it("does not emit a warning when segment counts differ", () => {
+        checkBetaEndpoint("/evaluations/v1/red-team/abc123/status/extra", "GET");
+        expect(warnSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it("does not emit a warning for undefined path", () => {
+        checkBetaEndpoint(undefined);
+        expect(warnSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it("deduplicates warnings through warnBeta mechanism", () => {
+        checkBetaEndpoint("/evaluations/v1/red-team/abc123/status", "GET");
+        checkBetaEndpoint("/evaluations/v1/red-team/def456/status", "GET");
+        checkBetaEndpoint("/evaluations/v1/red-team/ghi789/status", "GET");
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe("withBetaWarnings", () => {
+    const ok = () => Promise.resolve(new Response("{}", { status: 200 }));
+
+    it("passes the request through to the wrapped fetch", async () => {
+        const fetchFn = vi.fn(ok);
+        const response = new Response("{}", { status: 200 });
+        fetchFn.mockResolvedValueOnce(response);
+        const wrapped = withBetaWarnings(fetchFn, async () => "https://api.example");
+        const init = { method: "GET" };
+
+        await expect(wrapped("https://api.example/scan/v3/results/abc/summary", init)).resolves.toBe(response);
+
+        expect(fetchFn).toHaveBeenCalledWith("https://api.example/scan/v3/results/abc/summary", init);
+        expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it("warns for a beta endpoint, taking the method from init", async () => {
+        const wrapped = withBetaWarnings(vi.fn(ok), async () => "https://api.example");
+
+        await wrapped("https://api.example/evaluations/v1/red-team", { method: "POST" });
+
+        expect(warnSpy).toHaveBeenCalledWith(betaMessage("POST /evaluations/v1/red-team"));
+    });
+
+    it("takes the method from a Request when init has none", async () => {
+        const wrapped = withBetaWarnings(vi.fn(ok), async () => "https://api.example");
+
+        await wrapped(new Request("https://api.example/evaluations/v1/red-team", { method: "POST" }));
+
+        expect(warnSpy).toHaveBeenCalledWith(betaMessage("POST /evaluations/v1/red-team"));
+    });
+
+    it("defaults the method to GET", async () => {
+        const wrapped = withBetaWarnings(vi.fn(ok), async () => "https://api.example");
+
+        await wrapped("https://api.example/evaluations/v1/red-team");
+
+        expect(warnSpy).toHaveBeenCalledWith(betaMessage("GET /evaluations/v1/red-team"));
+    });
+
+    it("matches the path below a base URL that has a path prefix", async () => {
+        const wrapped = withBetaWarnings(vi.fn(ok), async () => "https://proxy.example/hl/");
+
+        await wrapped("https://proxy.example/hl/evaluations/v1/red-team/wf-1/status", { method: "GET" });
+
+        expect(warnSpy).toHaveBeenCalledWith(betaMessage("GET /evaluations/v1/red-team/{workflow_id}/status"));
+    });
 });
