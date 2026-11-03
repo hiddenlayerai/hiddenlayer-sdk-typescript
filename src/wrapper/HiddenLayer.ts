@@ -4,10 +4,7 @@ import { HiddenLayerEnvironment } from "../environments.js";
 import { withBetaWarnings } from "../lib/beta.js";
 import { CommunityScanner } from "../lib/community-scan.js";
 import { ModelScanner } from "../lib/model-scan.js";
-import { SDK_VERSION } from "../version.js";
 import { ClientCredentials, missingCredentials, readEnv } from "./credentials.js";
-
-const PACKAGE_NAME = "@hiddenlayerai/hiddenlayer-sdk";
 
 /** The HiddenLayer regions, by the names the `environment` option takes. */
 export const HiddenLayerEnvironmentName: Readonly<Record<"prod-us" | "prod-eu", HiddenLayerEnvironment>> = {
@@ -120,13 +117,7 @@ export class HiddenLayer extends HiddenLayerClient {
         const environment = resolveEnvironment(options.environment);
         const baseUrl =
             options.baseUrl ?? (options.environment === undefined ? readEnv("HIDDENLAYER_BASE_URL") : undefined);
-        // Fern names the SDK from npm publishing details this repo's generation has none of, so its own are empty.
-        const headers = {
-            "X-Fern-SDK-Name": PACKAGE_NAME,
-            "User-Agent": `${PACKAGE_NAME}/${SDK_VERSION}`,
-            ...rest.headers,
-        };
-        const connection: HiddenLayerClient.Options = { ...rest, environment, baseUrl, headers, token: "" };
+        const connection: HiddenLayerClient.Options = { ...rest, environment, baseUrl, token: "" };
         // Looked up per request, as Fern's own fetcher does, so a fetch installed after construction is used.
         const fetchFn: typeof fetch = (input, init) => (options.fetch ?? globalThis.fetch)(input, init);
         super({
