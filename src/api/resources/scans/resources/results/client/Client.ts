@@ -30,13 +30,15 @@ export class ResultsClient {
      *
      * @throws {@link HiddenLayerApi.BadRequestError}
      * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link errors.HiddenLayerError}
      * @throws {@link errors.HiddenLayerTimeoutError}
      *
      * @example
      *     await client.scans.results.listFiles({
      *         scan_id: "00000000-0000-0000-0000-000000000000",
-     *         page_size: 50
+     *         page_size: 50,
+     *         sort: "-compliance_verdict,+severity_order"
      *     })
      */
     public async listFiles(
@@ -49,11 +51,12 @@ export class ResultsClient {
             async (
                 request: HiddenLayerApi.scans.ListFilesResultsRequest,
             ): Promise<core.WithRawResponse<HiddenLayerApi.scans.ListFilesResultsResponse>> => {
-                const { scan_id: scanId, has_detections: hasDetections, page_size: pageSize, cursor } = request;
+                const { scan_id: scanId, has_detections: hasDetections, page_size: pageSize, cursor, sort } = request;
                 const _queryParams: Record<string, unknown> = {
                     has_detections: hasDetections,
                     page_size: pageSize,
                     cursor,
+                    sort,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -96,6 +99,11 @@ export class ResultsClient {
                             );
                         case 404:
                             throw new HiddenLayerApi.NotFoundError(
+                                _response.error.body as unknown,
+                                _response.rawResponse,
+                            );
+                        case 422:
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
