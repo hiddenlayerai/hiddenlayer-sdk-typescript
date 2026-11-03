@@ -472,6 +472,28 @@
       },
       "default": "./dist/cjs/api/resources/evaluations/resources/promptSets/exports.js"
     },
+    "./evaluations/systemPromptAnalysis": {
+      "import": {
+        "types": "./dist/esm/api/resources/evaluations/resources/systemPromptAnalysis/exports.d.mts",
+        "default": "./dist/esm/api/resources/evaluations/resources/systemPromptAnalysis/exports.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/api/resources/evaluations/resources/systemPromptAnalysis/exports.d.ts",
+        "default": "./dist/cjs/api/resources/evaluations/resources/systemPromptAnalysis/exports.js"
+      },
+      "default": "./dist/cjs/api/resources/evaluations/resources/systemPromptAnalysis/exports.js"
+    },
+    "./evaluations/threatModeling": {
+      "import": {
+        "types": "./dist/esm/api/resources/evaluations/resources/threatModeling/exports.d.mts",
+        "default": "./dist/esm/api/resources/evaluations/resources/threatModeling/exports.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/api/resources/evaluations/resources/threatModeling/exports.d.ts",
+        "default": "./dist/cjs/api/resources/evaluations/resources/threatModeling/exports.js"
+      },
+      "default": "./dist/cjs/api/resources/evaluations/resources/threatModeling/exports.js"
+    },
     "./evaluations/redTeam/objectives": {
       "import": {
         "types": "./dist/esm/api/resources/evaluations/resources/redTeam/resources/objectives/exports.d.mts",

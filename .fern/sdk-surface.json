@@ -1,5 +1,5 @@
 {
-  "fern_cli": "5.131.1",
+  "fern_cli": "5.170.3",
   "generator": "fernapi/fern-typescript-sdk",
   "generator_version": "3.107.7",
   "surface": {
@@ -6135,6 +6135,377 @@
       },
       {
         "method": "GET",
+        "path": "/evaluations/v1/system-prompt-analysis",
+        "operation_id": "evaluations_v1_system_prompt_analysis_list",
+        "group": [
+          "evaluations",
+          "system_prompt_analysis"
+        ],
+        "name": "list",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer(int32)"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer(int32)"
+          },
+          {
+            "name": "start_time_from",
+            "in": "query",
+            "required": false,
+            "type": "string(date-time)"
+          },
+          {
+            "name": "start_time_to",
+            "in": "query",
+            "required": false,
+            "type": "string(date-time)"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "target_model",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "workflow_type",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "pagination": {
+          "kind": "cursor",
+          "request": {
+            "cursor": "cursor"
+          },
+          "response": {
+            "items": "items",
+            "next": "next"
+          }
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "POST",
+        "path": "/evaluations/v1/system-prompt-analysis",
+        "operation_id": "evaluations_v1_system_prompt_analysis_start",
+        "group": [
+          "evaluations",
+          "system_prompt_analysis"
+        ],
+        "name": "create",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "num_questions",
+            "in": "body",
+            "required": false,
+            "type": "integer(int32)"
+          },
+          {
+            "name": "system_prompt",
+            "in": "body",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "request_body": {
+          "type": "StartSystemPromptWorkflowBody",
+          "required": true
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v1/system-prompt-analysis/{workflow_id}/status",
+        "operation_id": "evaluations_v1_system_prompt_analysis_status_get",
+        "group": [
+          "evaluations",
+          "system_prompt_analysis"
+        ],
+        "name": "status",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v1/system-prompt-analysis/{workflow_id}",
+        "operation_id": "evaluations_v1_system_prompt_analysis_result_get",
+        "group": [
+          "evaluations",
+          "system_prompt_analysis"
+        ],
+        "name": "get",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "DELETE",
+        "path": "/evaluations/v1/system-prompt-analysis/{workflow_id}",
+        "operation_id": "evaluations_v1_system_prompt_analysis_delete",
+        "group": [
+          "evaluations",
+          "system_prompt_analysis"
+        ],
+        "name": "delete",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "POST",
+        "path": "/evaluations/v1/system-prompt-analysis/{workflow_id}/answers",
+        "operation_id": "evaluations_v1_system_prompt_analysis_answers_submit",
+        "group": [
+          "evaluations",
+          "system_prompt_analysis"
+        ],
+        "name": "answers",
+        "parameters": [
+          {
+            "name": "answers",
+            "in": "body",
+            "required": true,
+            "type": "array<QuestionAnswer>"
+          },
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "request_body": {
+          "type": "SubmitAnswersBody",
+          "required": true
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v1/threat-modeling",
+        "operation_id": "evaluations_v1_threat_modeling_list",
+        "group": [
+          "evaluations",
+          "threat_modeling"
+        ],
+        "name": "list",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer(int32)"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer(int32)"
+          },
+          {
+            "name": "start_time_from",
+            "in": "query",
+            "required": false,
+            "type": "string(date-time)"
+          },
+          {
+            "name": "start_time_to",
+            "in": "query",
+            "required": false,
+            "type": "string(date-time)"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "target_model",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "workflow_type",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "pagination": {
+          "kind": "cursor",
+          "request": {
+            "cursor": "cursor"
+          },
+          "response": {
+            "items": "items",
+            "next": "next"
+          }
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "POST",
+        "path": "/evaluations/v1/threat-modeling",
+        "operation_id": "evaluations_v1_threat_modeling_start",
+        "group": [
+          "evaluations",
+          "threat_modeling"
+        ],
+        "name": "create",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "systems",
+            "in": "body",
+            "required": true,
+            "type": "array<ThreatModelingSystem>"
+          }
+        ],
+        "request_body": {
+          "type": "StartThreatModelingWorkflowBody",
+          "required": true
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v1/threat-modeling/{workflow_id}/status",
+        "operation_id": "evaluations_v1_threat_modeling_status_get",
+        "group": [
+          "evaluations",
+          "threat_modeling"
+        ],
+        "name": "status",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v1/threat-modeling/{workflow_id}",
+        "operation_id": "evaluations_v1_threat_modeling_result_get",
+        "group": [
+          "evaluations",
+          "threat_modeling"
+        ],
+        "name": "get",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "DELETE",
+        "path": "/evaluations/v1/threat-modeling/{workflow_id}",
+        "operation_id": "evaluations_v1_threat_modeling_delete",
+        "group": [
+          "evaluations",
+          "threat_modeling"
+        ],
+        "name": "delete",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
         "path": "/model-intel/v1/file/{sha256}",
         "operation_id": "get_file",
         "group": [
@@ -6519,6 +6890,12 @@
             "in": "query",
             "required": false,
             "type": "integer"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "pagination": {
@@ -7112,6 +7489,9 @@
         "name": "ActorType",
         "values": [
           "USER",
+          "CLIENT_CREDENTIAL",
+          "STATIC_API_KEY",
+          "SYSTEM",
           "API_KEY"
         ],
         "members": {},
@@ -7509,6 +7889,21 @@
         ]
       },
       {
+        "name": "StrideCategory",
+        "values": [
+          "SPOOFING",
+          "TAMPERING",
+          "REPUDIATION",
+          "INFORMATION DISCLOSURE",
+          "DENIAL OF SERVICE",
+          "ELEVATION OF PRIVILEGE"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/StrideCategory"
+        ]
+      },
+      {
         "name": "PolicyPackDeploymentStage",
         "values": [
           "PRODUCTION",
@@ -7553,6 +7948,7 @@
         ]
       },
       {
+        "name": "ImpactLevel",
         "values": [
           "HIGH",
           "MEDIUM",
@@ -7560,6 +7956,7 @@
         ],
         "members": {},
         "locations": [
+          "/components/schemas/ImpactLevel",
           "/components/schemas/SearchResult/allOf/1/properties/match_confidence"
         ]
       },
@@ -7889,15 +8286,6 @@
       },
       {
         "values": [
-          "custom-tags"
-        ],
-        "members": {},
-        "locations": [
-          "/paths/~1asset-inventory~1v2~1jobs~1custom-tags/post/responses/200/content/application~1json/schema/allOf/1/properties/type"
-        ]
-      },
-      {
-        "values": [
           "decision_answer"
         ],
         "members": {},
@@ -8134,6 +8522,11 @@
     "beta_components": [
       "/components/headers/NoStore",
       "/components/headers/StaticApiKeyETag",
+      "/components/parameters/AnnotatingServiceFilter",
+      "/components/parameters/AssetSearchQuery",
+      "/components/parameters/AssetSort",
+      "/components/parameters/AssetTypeFilter",
+      "/components/parameters/AttributesFilter",
       "/components/parameters/DetectionRuleIdQuery",
       "/components/parameters/ModelID",
       "/components/parameters/ModelName",
@@ -8141,7 +8534,9 @@
       "/components/parameters/PolicyPackIsEnabledQuery",
       "/components/parameters/PolicyPackSearchQuery",
       "/components/parameters/PolicyPackTypeQuery",
+      "/components/parameters/PolicyStatusFilter",
       "/components/parameters/ProjectIDFilter",
+      "/components/parameters/RelatedToFilter",
       "/components/parameters/RulePackTypeQuery",
       "/components/parameters/ScanStartedAt",
       "/components/parameters/StaticApiKeyIfMatch",
@@ -8155,6 +8550,8 @@
       "/components/responses/StaticApiKeyForbidden",
       "/components/responses/ValidationErrorResponseProblemDetailsV2",
       "/components/schemas/APEObjective",
+      "/components/schemas/AnalysisResult",
+      "/components/schemas/AnalysisStatus",
       "/components/schemas/Annotation",
       "/components/schemas/Asset",
       "/components/schemas/AssetFilterV2",
@@ -8183,6 +8580,7 @@
       "/components/schemas/FilterFacetsResponse",
       "/components/schemas/GeographicRegionCount",
       "/components/schemas/HLProjectReferenceStatus",
+      "/components/schemas/ImpactLevel",
       "/components/schemas/ListAssetsResponse",
       "/components/schemas/MutationType",
       "/components/schemas/NextActionResponse",
@@ -8207,6 +8605,7 @@
       "/components/schemas/PromptSetSummary",
       "/components/schemas/PromptSetsResponse",
       "/components/schemas/ProviderCounts",
+      "/components/schemas/QuestionAnswer",
       "/components/schemas/RedTeamConfig",
       "/components/schemas/RedTeamConfigSummary",
       "/components/schemas/RedTeamConfigsResponse",
@@ -8224,6 +8623,8 @@
       "/components/schemas/SemanticType",
       "/components/schemas/SeverityMapping",
       "/components/schemas/StartRedTeamBody",
+      "/components/schemas/StartSystemPromptWorkflowBody",
+      "/components/schemas/StartThreatModelingWorkflowBody",
       "/components/schemas/StartWorkflowResponse",
       "/components/schemas/StaticApiKey",
       "/components/schemas/StaticApiKeyCreateRequest",
@@ -8235,9 +8636,14 @@
       "/components/schemas/StaticApiKeySecretWithValue",
       "/components/schemas/StaticApiKeyValue",
       "/components/schemas/StaticApiKeyWithValue",
+      "/components/schemas/StrideCategory",
+      "/components/schemas/SubmitAnswersBody",
+      "/components/schemas/SubmitAnswersResult",
       "/components/schemas/SubmitTargetResponseBody",
       "/components/schemas/SubmitTargetResponseResult",
       "/components/schemas/SyncJob",
+      "/components/schemas/SystemPromptListResultsResponse",
+      "/components/schemas/SystemPromptResultItem",
       "/components/schemas/TagDefinition",
       "/components/schemas/TagDefinitionList",
       "/components/schemas/TagDefinitionUpdate",
@@ -8245,6 +8651,13 @@
       "/components/schemas/TagValueList",
       "/components/schemas/TargetModel",
       "/components/schemas/TargetModelResponse",
+      "/components/schemas/ThreatModelingListResultsResponse",
+      "/components/schemas/ThreatModelingReport",
+      "/components/schemas/ThreatModelingResult",
+      "/components/schemas/ThreatModelingResultItem",
+      "/components/schemas/ThreatModelingStatus",
+      "/components/schemas/ThreatModelingSystem",
+      "/components/schemas/ThreatModelingSystemThreat",
       "/components/schemas/UpdateCustomObjectiveRequest",
       "/components/schemas/UpdateRedTeamConfigRequest",
       "/components/schemas/WorkflowResultResponse",

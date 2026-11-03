@@ -25,7 +25,30 @@ describe("JobsClient", () => {
                 "data-classification": "confidential",
             },
         };
-        const rawResponseBody = { type: "custom-tags" };
+        const rawResponseBody = {
+            status: "COMPLETED",
+            job_id: "job_id",
+            type: "type",
+            created_at: "2024-01-15T09:30:00Z",
+            created_by: "created_by",
+            started_at: "2024-01-15T09:30:00Z",
+            completed_at: "2024-01-15T09:30:00Z",
+            matched_count: 1,
+            succeeded_count: 1,
+            failed_count: 1,
+            failures: [
+                {
+                    resource_type: "resource_type",
+                    resource_id: "resource_id",
+                    error: {
+                        type: "https://example.net/validation-error",
+                        title: "Your request is not valid",
+                        errors: [{}],
+                        status: 1,
+                    },
+                },
+            ],
+        };
 
         server
             .mockEndpoint()
@@ -79,7 +102,30 @@ describe("JobsClient", () => {
             action: "DELETE",
             body: ["legacy-cost-center", "temp-owner"],
         };
-        const rawResponseBody = { type: "custom-tags" };
+        const rawResponseBody = {
+            status: "COMPLETED",
+            job_id: "job_id",
+            type: "type",
+            created_at: "2024-01-15T09:30:00Z",
+            created_by: "created_by",
+            started_at: "2024-01-15T09:30:00Z",
+            completed_at: "2024-01-15T09:30:00Z",
+            matched_count: 1,
+            succeeded_count: 1,
+            failed_count: 1,
+            failures: [
+                {
+                    resource_type: "resource_type",
+                    resource_id: "resource_id",
+                    error: {
+                        type: "https://example.net/validation-error",
+                        title: "Your request is not valid",
+                        errors: [{}],
+                        status: 1,
+                    },
+                },
+            ],
+        };
 
         server
             .mockEndpoint()

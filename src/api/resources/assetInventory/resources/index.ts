@@ -10,7 +10,6 @@ export * from "./discoveredTags/client/requests/index.js";
 export * as discoveredTags from "./discoveredTags/index.js";
 export * from "./jobs/client/requests/index.js";
 export * as jobs from "./jobs/index.js";
-export * from "./jobs/types/index.js";
 export * as metrics from "./metrics/index.js";
 export * from "./relationships/client/requests/index.js";
 export * as relationships from "./relationships/index.js";
