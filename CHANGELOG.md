@@ -1,6 +1,32 @@
 # Changelog
 
 
+## 4.0.0
+
+### Major Changes
+
+- [#364](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/pull/364) [`bcd5115`](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/bcd5115c2f5bb5802ba307b03f7e58db8c0b45d3) Thanks [@hl-dbohling](https://github.com/hl-dbohling)! - Generate the SDK with Fern. The package name, the `HiddenLayer` client, its environment variables and the model and community scanners stay; Node.js 22 is now the minimum, the scanners' storage SDKs become optional peer dependencies, path parameters move into each method's request object, request and response types move to the `HiddenLayerApi` namespace, client options and errors are renamed, `scans.jobs.list` and `sensors.query` return pages, and every public API in the specification is now covered. [docs/BREAKING_CHANGES_v4.0.0.md](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/blob/main/docs/BREAKING_CHANGES_v4.0.0.md) lists every change.
+
+- [#365](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/pull/365) [`64997ac`](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/64997ac167599f09dad9ecdcc6bc6b549cafe78a) Thanks [@hiddenlayer-opensource-exporter](https://github.com/apps/hiddenlayer-opensource-exporter)! - Generated from the API specification
+  
+  - added: client.evaluations.system_prompt_analysis.list (beta)
+  - added: client.evaluations.system_prompt_analysis.create (beta)
+  - added: client.evaluations.system_prompt_analysis.status (beta)
+  - added: client.evaluations.system_prompt_analysis.get (beta)
+  - added: client.evaluations.system_prompt_analysis.delete (beta)
+  - added: client.evaluations.system_prompt_analysis.answers (beta)
+  - added: client.evaluations.threat_modeling.list (beta)
+  - added: client.evaluations.threat_modeling.create (beta)
+  - added: client.evaluations.threat_modeling.status (beta)
+  - added: client.evaluations.threat_modeling.get (beta)
+  - added: client.evaluations.threat_modeling.delete (beta)
+  - added: client.scans.results.list_files query parameter sort
+  - added: enum type ActorType member CLIENT_CREDENTIAL
+  - added: enum type ActorType member STATIC_API_KEY
+  - added: enum type ActorType member SYSTEM
+  - changed: SearchResult.match_confidence enum type unnamed → ImpactLevel
+  - Fern CLI: 5.131.1 → 5.170.3
+
 ## 3.6.0 (2026-09-08)
 
 [Full diff](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/compare/v3.5.0...v3.6.0)
