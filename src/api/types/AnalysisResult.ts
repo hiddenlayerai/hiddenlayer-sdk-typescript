@@ -20,4 +20,9 @@ export interface AnalysisResult {
     is_valid: boolean;
     /** Validation error messages */
     validation_errors: string[];
+    /**
+     * HiddenLayer project UUID the analysis was started under. Omitted
+     * when the analysis has no project.
+     */
+    hl_project_id?: string | undefined;
 }

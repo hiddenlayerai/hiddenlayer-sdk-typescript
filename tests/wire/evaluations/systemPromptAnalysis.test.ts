@@ -21,6 +21,7 @@ describe("SystemPromptAnalysisClient", () => {
                     name: "name",
                     started_at: "2024-01-15T09:30:00Z",
                     completed_at: "2024-01-15T09:30:00Z",
+                    hl_project_id: "hl_project_id",
                 },
             ],
         };
@@ -358,6 +359,7 @@ describe("SystemPromptAnalysisClient", () => {
             compiled_system_prompt: "compiled_system_prompt",
             is_valid: true,
             validation_errors: ["validation_errors"],
+            hl_project_id: "hl_project_id",
         };
 
         server

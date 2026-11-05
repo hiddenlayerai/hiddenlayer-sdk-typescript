@@ -14,4 +14,9 @@ export interface SystemPromptResultItem {
     started_at: string;
     /** When the workflow completed */
     completed_at: string;
+    /**
+     * HiddenLayer project UUID the analysis was started under. Omitted
+     * when the analysis has no project.
+     */
+    hl_project_id?: string | undefined;
 }
