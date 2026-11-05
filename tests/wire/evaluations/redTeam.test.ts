@@ -117,8 +117,10 @@ describe("RedTeamClient", () => {
                     name: "name",
                     target_model: "target_model",
                     objective_ids: ["objective_ids"],
+                    objectives: [{ objective_id: "objective_id", objective_name: "objective_name" }],
                     started_at: "2024-01-15T09:30:00Z",
                     completed_at: "2024-01-15T09:30:00Z",
+                    request_source: "CONSOLE",
                     attack_success_rate: 1.1,
                     highest_severity: "CRITICAL",
                     hl_project_id: "hl_project_id",
@@ -719,10 +721,79 @@ describe("RedTeamClient", () => {
                 name: "name",
                 target_context: "target_context",
                 evaluation_report: "evaluation_report",
-                settings: { key: "value" },
-                attacker_results: { key: "value" },
+                request_source: "CONSOLE",
+                settings: { runtime_security_mode: "v1" },
+                attacker_results: [
+                    { session_id: "session_id", objective_complete: true, error: true, error_message: null },
+                ],
                 usage: { key: "value" },
-                report: { key: "value" },
+                report: {
+                    summary: {
+                        attempts_total: 1,
+                        success_total: 1,
+                        error_total: 1,
+                        total_sessions: 1,
+                        sessions_with_any_success: 1,
+                        objectives_tested: 1,
+                    },
+                    by_objective: { key: { attempts: 1, success: 1, errors: 1 } },
+                    by_technique: { key: { attempts: 1, success: 1, errors: 1 } },
+                    tags_by_role: { key: { key: 1 } },
+                    frameworks: { key: { key: 1 } },
+                    framework_coverage: {
+                        mapping_version: "mapping_version",
+                        sessions_not_mapped: 1,
+                        frameworks: [
+                            {
+                                framework: "framework",
+                                version: "version",
+                                items: [
+                                    {
+                                        id: "id",
+                                        name: "name",
+                                        state: "failed",
+                                        sessions_failed: 1,
+                                        sessions_passed: 1,
+                                        sessions_not_evaluated: 1,
+                                    },
+                                ],
+                                every_session: [{ id: "id", name: "name" }],
+                            },
+                        ],
+                    },
+                    runtime_security: {
+                        user: {
+                            actions: { key: 1 },
+                            detections: { key: 1 },
+                            not_evaluated: { key: 1 },
+                            not_checked: 1,
+                        },
+                        assistant: {
+                            actions: { key: 1 },
+                            detections: { key: 1 },
+                            not_evaluated: { key: 1 },
+                            not_checked: 1,
+                        },
+                    },
+                    run: {
+                        run_status: "COMPLETED",
+                        sessions_planned: 1,
+                        sessions_measured: 1,
+                        measured_ratio: 1.1,
+                        min_measured_ratio: 1.1,
+                    },
+                },
+                analysis: {
+                    message: "message",
+                    insights: [
+                        {
+                            title: "title",
+                            what_was_learned_or_achieved: "what_was_learned_or_achieved",
+                            why_it_matters: "why_it_matters",
+                        },
+                    ],
+                    rules: [{ expression_name: "expression_name", new_expression: "new_expression" }],
+                },
             },
         };
 

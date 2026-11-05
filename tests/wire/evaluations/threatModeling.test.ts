@@ -21,6 +21,7 @@ describe("ThreatModelingClient", () => {
                     name: "name",
                     started_at: "2024-01-15T09:30:00Z",
                     completed_at: "2024-01-15T09:30:00Z",
+                    request_source: "CONSOLE",
                 },
             ],
         };

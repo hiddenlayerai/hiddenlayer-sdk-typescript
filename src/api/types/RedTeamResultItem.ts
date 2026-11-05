@@ -16,10 +16,14 @@ export interface RedTeamResultItem {
     target_model: string;
     /** Objective IDs evaluated */
     objective_ids: string[];
+    /** Objectives evaluated, in `objective_ids` order. Null when `objective_ids` is empty. */
+    objectives?: (HiddenLayerApi.RedTeamObjectiveSummary[] | null) | undefined;
     /** When the workflow started */
     started_at: string;
     /** When the workflow completed */
     completed_at: string;
+    /** Where the request that started the evaluation came from. */
+    request_source?: HiddenLayerApi.EvaluationRequestSource | undefined;
     /** Attack success rate as a percentage (0 to 100) */
     attack_success_rate?: number | undefined;
     /** Highest objective severity in the completed red team report */
