@@ -130,7 +130,7 @@ describe("ApiKeysClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { name: "ci-pipeline" };
+        const rawRequestBody = { name: "ci-pipeline", permissions: ["model:read", "model:write"] };
         const rawResponseBody = {
             id: "id",
             name: "ci-pipeline",
@@ -158,6 +158,7 @@ describe("ApiKeysClient", () => {
 
         const response = await client.access.apiKeys.create({
             name: "ci-pipeline",
+            permissions: ["model:read", "model:write"],
         });
         expect(response).toEqual(rawResponseBody);
     });
@@ -165,7 +166,7 @@ describe("ApiKeysClient", () => {
     test("create (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { name: "x" };
+        const rawRequestBody = { name: "x", permissions: ["permissions", "permissions"] };
         const rawResponseBody = { key: "value" };
 
         server
@@ -180,6 +181,7 @@ describe("ApiKeysClient", () => {
         await expect(async () => {
             return await client.access.apiKeys.create({
                 name: "x",
+                permissions: ["permissions", "permissions"],
             });
         }).rejects.toThrow(HiddenLayerApi.BadRequestError);
     });
@@ -187,7 +189,7 @@ describe("ApiKeysClient", () => {
     test("create (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { name: "x" };
+        const rawRequestBody = { name: "x", permissions: ["permissions", "permissions"] };
         const rawResponseBody = { key: "value" };
 
         server
@@ -202,6 +204,7 @@ describe("ApiKeysClient", () => {
         await expect(async () => {
             return await client.access.apiKeys.create({
                 name: "x",
+                permissions: ["permissions", "permissions"],
             });
         }).rejects.toThrow(HiddenLayerApi.UnauthorizedError);
     });
@@ -209,7 +212,7 @@ describe("ApiKeysClient", () => {
     test("create (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { name: "x" };
+        const rawRequestBody = { name: "x", permissions: ["permissions", "permissions"] };
         const rawResponseBody = { key: "value" };
 
         server
@@ -224,6 +227,7 @@ describe("ApiKeysClient", () => {
         await expect(async () => {
             return await client.access.apiKeys.create({
                 name: "x",
+                permissions: ["permissions", "permissions"],
             });
         }).rejects.toThrow(HiddenLayerApi.ForbiddenError);
     });
@@ -231,7 +235,7 @@ describe("ApiKeysClient", () => {
     test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { name: "x" };
+        const rawRequestBody = { name: "x", permissions: ["permissions", "permissions"] };
         const rawResponseBody = { key: "value" };
 
         server
@@ -246,6 +250,7 @@ describe("ApiKeysClient", () => {
         await expect(async () => {
             return await client.access.apiKeys.create({
                 name: "x",
+                permissions: ["permissions", "permissions"],
             });
         }).rejects.toThrow(HiddenLayerApi.ConflictError);
     });
@@ -253,7 +258,7 @@ describe("ApiKeysClient", () => {
     test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { name: "x" };
+        const rawRequestBody = { name: "x", permissions: ["permissions", "permissions"] };
         const rawResponseBody = { key: "value" };
 
         server
@@ -268,6 +273,7 @@ describe("ApiKeysClient", () => {
         await expect(async () => {
             return await client.access.apiKeys.create({
                 name: "x",
+                permissions: ["permissions", "permissions"],
             });
         }).rejects.toThrow(HiddenLayerApi.UnprocessableEntityError);
     });
@@ -275,7 +281,7 @@ describe("ApiKeysClient", () => {
     test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { name: "x" };
+        const rawRequestBody = { name: "x", permissions: ["permissions", "permissions"] };
         const rawResponseBody = { key: "value" };
 
         server
@@ -290,6 +296,7 @@ describe("ApiKeysClient", () => {
         await expect(async () => {
             return await client.access.apiKeys.create({
                 name: "x",
+                permissions: ["permissions", "permissions"],
             });
         }).rejects.toThrow(HiddenLayerApi.InternalServerError);
     });

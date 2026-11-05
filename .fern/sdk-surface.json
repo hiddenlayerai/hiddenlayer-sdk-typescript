@@ -155,7 +155,7 @@
           {
             "name": "permissions",
             "in": "body",
-            "required": false,
+            "required": true,
             "type": "StaticApiKeyPermissions"
           }
         ],
