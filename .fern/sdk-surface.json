@@ -6162,6 +6162,12 @@
             "type": "integer(int32)"
           },
           {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
             "name": "start_time_from",
             "in": "query",
             "required": false,
@@ -6216,6 +6222,12 @@
         ],
         "name": "create",
         "parameters": [
+          {
+            "name": "hl_project_id",
+            "in": "body",
+            "required": false,
+            "type": "string"
+          },
           {
             "name": "name",
             "in": "body",

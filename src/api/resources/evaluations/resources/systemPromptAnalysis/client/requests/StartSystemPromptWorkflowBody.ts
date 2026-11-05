@@ -14,4 +14,10 @@ export interface StartSystemPromptWorkflowBody {
     system_prompt: string;
     /** Number of questions to generate */
     num_questions?: number;
+    /**
+     * HiddenLayer project UUID or alias to start the analysis under. The
+     * analysis stores the project's UUID. A project that does not exist
+     * for the tenant returns 422.
+     */
+    hl_project_id?: string;
 }
