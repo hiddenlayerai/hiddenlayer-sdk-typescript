@@ -2337,7 +2337,8 @@ A tenant can have at most 100 keys that are neither revoked nor retired, includi
 
 ```typescript
 await client.access.apiKeys.create({
-    name: "ci-pipeline"
+    name: "ci-pipeline",
+    permissions: ["model:read", "model:write"]
 });
 
 ```

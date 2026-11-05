@@ -5,11 +5,12 @@ import type * as HiddenLayerApi from "../../../../../../index.js";
 /**
  * @example
  *     {
- *         name: "ci-pipeline"
+ *         name: "ci-pipeline",
+ *         permissions: ["model:read", "model:write"]
  *     }
  */
 export interface StaticApiKeyCreateRequest extends HiddenLayerApi.StaticApiKeySecretCreateRequest {
     name: HiddenLayerApi.StaticApiKeyName;
-    /** Each permission must be one the caller holds, outside the `credential` area: a key can never hold `credential:*` permissions. If omitted, the key gets every such permission, which may be none. */
-    permissions?: HiddenLayerApi.StaticApiKeyPermissions;
+    /** Each permission must be one the caller holds, outside the `credential` area: a key can never hold `credential:*` permissions. */
+    permissions: HiddenLayerApi.StaticApiKeyPermissions;
 }

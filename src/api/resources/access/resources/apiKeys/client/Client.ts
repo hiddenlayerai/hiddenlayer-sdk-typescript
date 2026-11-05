@@ -159,7 +159,8 @@ export class ApiKeysClient {
      *
      * @example
      *     await client.access.apiKeys.create({
-     *         name: "ci-pipeline"
+     *         name: "ci-pipeline",
+     *         permissions: ["model:read", "model:write"]
      *     })
      */
     public create(
