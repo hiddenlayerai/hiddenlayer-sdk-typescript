@@ -7498,6 +7498,18 @@
         ]
       },
       {
+        "name": "EvaluationRequestSource",
+        "values": [
+          "CONSOLE",
+          "SDK",
+          "API"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/EvaluationRequestSource"
+        ]
+      },
+      {
         "name": "ActorType",
         "values": [
           "USER",
@@ -7776,6 +7788,16 @@
         "members": {},
         "locations": [
           "/components/schemas/AssetScan/properties/status"
+        ]
+      },
+      {
+        "values": [
+          "COMPLETED",
+          "FAILED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamRunOutcome/properties/run_status"
         ]
       },
       {
@@ -8358,6 +8380,29 @@
       },
       {
         "values": [
+          "evaluated",
+          "not_evaluated"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamRuntimeSecurityOutcome/properties/status"
+        ]
+      },
+      {
+        "name": "RedTeamFrameworkState",
+        "values": [
+          "failed",
+          "passed",
+          "not_evaluated",
+          "not_tested"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamFrameworkState"
+        ]
+      },
+      {
+        "values": [
           "failed"
         ],
         "members": {},
@@ -8442,6 +8487,17 @@
         ]
       },
       {
+        "values": [
+          "table",
+          "objective_mapping",
+          "judge"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamFrameworkEntry/properties/source"
+        ]
+      },
+      {
         "name": "AttackMonitoringThreatLevel",
         "values": [
           "safe",
@@ -8453,6 +8509,16 @@
         "locations": [
           "/components/schemas/ModelCardBaseResponse/properties/attack_monitoring_threat_level",
           "/components/schemas/ModelCardBaseResponse/properties/model_scan_threat_level"
+        ]
+      },
+      {
+        "values": [
+          "tested",
+          "observed"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamFrameworkEntry/properties/basis"
         ]
       },
       {
@@ -8529,6 +8595,16 @@
         "locations": [
           "/components/schemas/ToolUsePart/properties/type"
         ]
+      },
+      {
+        "values": [
+          "v1",
+          "v2"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamResultSettings/properties/runtime_security_mode"
+        ]
       }
     ],
     "beta_components": [
@@ -8587,6 +8663,7 @@
       "/components/schemas/CreateRedTeamConfigRequest",
       "/components/schemas/DetectConfig",
       "/components/schemas/EncodingType",
+      "/components/schemas/EvaluationRequestSource",
       "/components/schemas/FailedJob",
       "/components/schemas/FilterFacet",
       "/components/schemas/FilterFacetsResponse",
@@ -8618,12 +8695,43 @@
       "/components/schemas/PromptSetsResponse",
       "/components/schemas/ProviderCounts",
       "/components/schemas/QuestionAnswer",
+      "/components/schemas/RedTeamAnalysis",
+      "/components/schemas/RedTeamAnalysisEvidence",
+      "/components/schemas/RedTeamAnalysisExposedItem",
+      "/components/schemas/RedTeamAnalysisInsight",
+      "/components/schemas/RedTeamAttackerSessionResult",
       "/components/schemas/RedTeamConfig",
       "/components/schemas/RedTeamConfigSummary",
       "/components/schemas/RedTeamConfigsResponse",
+      "/components/schemas/RedTeamFrameworkCoverage",
+      "/components/schemas/RedTeamFrameworkCoverageFramework",
+      "/components/schemas/RedTeamFrameworkCoverageItem",
+      "/components/schemas/RedTeamFrameworkEntry",
+      "/components/schemas/RedTeamFrameworkMethodNote",
+      "/components/schemas/RedTeamFrameworkNote",
+      "/components/schemas/RedTeamFrameworkState",
+      "/components/schemas/RedTeamFrameworkTag",
       "/components/schemas/RedTeamListResultsResponse",
+      "/components/schemas/RedTeamMessage",
+      "/components/schemas/RedTeamMessageAnalysis",
+      "/components/schemas/RedTeamMessageOutcomeCounts",
+      "/components/schemas/RedTeamObjectiveBreakdown",
+      "/components/schemas/RedTeamObjectiveSummary",
+      "/components/schemas/RedTeamObjectiveVerdict",
+      "/components/schemas/RedTeamReport",
+      "/components/schemas/RedTeamReportSummary",
       "/components/schemas/RedTeamResultItem",
       "/components/schemas/RedTeamResultPayload",
+      "/components/schemas/RedTeamResultSettings",
+      "/components/schemas/RedTeamRunOutcome",
+      "/components/schemas/RedTeamRuntimeSecurityCounts",
+      "/components/schemas/RedTeamRuntimeSecurityDetection",
+      "/components/schemas/RedTeamRuntimeSecurityOutcome",
+      "/components/schemas/RedTeamRuntimeSessionRecord",
+      "/components/schemas/RedTeamSessionExecutionDetails",
+      "/components/schemas/RedTeamTechnique",
+      "/components/schemas/RedTeamTechniqueBreakdown",
+      "/components/schemas/RedTeamTurnNotEvaluated",
       "/components/schemas/RedactConditionConfig",
       "/components/schemas/RedactConfig",
       "/components/schemas/RegionCounts",
@@ -8653,6 +8761,7 @@
       "/components/schemas/SubmitAnswersResult",
       "/components/schemas/SubmitTargetResponseBody",
       "/components/schemas/SubmitTargetResponseResult",
+      "/components/schemas/SuggestedRule",
       "/components/schemas/SyncJob",
       "/components/schemas/SystemPromptListResultsResponse",
       "/components/schemas/SystemPromptResultItem",
