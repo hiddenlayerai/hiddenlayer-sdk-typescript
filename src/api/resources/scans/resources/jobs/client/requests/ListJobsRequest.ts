@@ -20,7 +20,7 @@ export interface ListJobsRequest {
     start_time?: string;
     /** End Time */
     end_time?: string;
-    /** Severities */
+    /** Comma-separated severities. A scan matches when its highest detection severity is a listed severity. Advisories don't count. */
     severity?: HiddenLayerApi.ListJobsRequestSeverity;
     /** Statuses */
     status?: string | string[];
