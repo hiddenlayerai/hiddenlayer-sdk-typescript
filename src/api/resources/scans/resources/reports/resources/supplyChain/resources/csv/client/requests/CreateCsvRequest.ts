@@ -28,7 +28,7 @@ export interface CreateCsvRequest {
     start_time?: string;
     /** Filter scans with start time less than or equal to this value */
     end_time?: string;
-    /** Filter by severity levels (comma-separated) */
+    /** Comma-separated severities. A scan matches when its highest detection severity is a listed severity. Advisories don't count. */
     severity?: HiddenLayerApi.CreateCsvRequestSeverity;
     /** Filter by scan status (comma-separated) */
     status?: string | string[];
