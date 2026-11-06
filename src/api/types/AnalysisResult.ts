@@ -10,16 +10,16 @@ export interface AnalysisResult {
     name: string;
     /** The original system prompt */
     original_system_prompt: string;
-    /** Generated questions */
-    questions: string[];
-    /** Question-answer pairs */
-    question_answers: HiddenLayerApi.QuestionAnswer[];
+    /** Generated questions. Null when none were generated. */
+    questions: string[] | null;
+    /** Question-answer pairs. Null when no answers were stored. */
+    question_answers: HiddenLayerApi.QuestionAnswer[] | null;
     /** The compiled system prompt */
     compiled_system_prompt: string;
     /** Whether validation passed */
     is_valid: boolean;
-    /** Validation error messages */
-    validation_errors: string[];
+    /** Validation error messages. Null when validation found no errors. */
+    validation_errors: string[] | null;
     /**
      * HiddenLayer project UUID the analysis was started under. Omitted
      * when the analysis has no project.
