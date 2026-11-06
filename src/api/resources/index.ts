@@ -35,6 +35,7 @@ export * from "./ssoIntegrations/client/requests/index.js";
 export * as ssoIntegrations from "./ssoIntegrations/index.js";
 export * from "./ssoIntegrations/types/index.js";
 export * as supplyChain from "./supplyChain/index.js";
+export * as triage from "./triage/index.js";
 export * from "./users/client/requests/index.js";
 export * as users from "./users/index.js";
 export * from "./users/types/index.js";
