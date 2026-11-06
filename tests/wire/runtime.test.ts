@@ -134,7 +134,7 @@ describe("RuntimeClient", () => {
                     {
                         rule_id: "550e8400-e29b-41d4-a716-446655440000",
                         rule_name: "prompt_injection",
-                        risk_level: "LOW",
+                        risk_level: "CRITICAL",
                     },
                 ],
                 effective_interaction: {
@@ -387,7 +387,7 @@ describe("RuntimeClient", () => {
                     {
                         rule_id: "550e8400-e29b-41d4-a716-446655440000",
                         rule_name: "prompt_injection",
-                        risk_level: "LOW",
+                        risk_level: "CRITICAL",
                     },
                 ],
                 effective_interaction: {
@@ -654,7 +654,7 @@ describe("RuntimeClient", () => {
                     {
                         rule_id: "550e8400-e29b-41d4-a716-446655440000",
                         rule_name: "prompt_injection",
-                        risk_level: "LOW",
+                        risk_level: "CRITICAL",
                     },
                 ],
                 effective_interaction: {
@@ -944,7 +944,7 @@ describe("RuntimeClient", () => {
                     {
                         rule_id: "550e8400-e29b-41d4-a716-446655440000",
                         rule_name: "prompt_injection",
-                        risk_level: "LOW",
+                        risk_level: "CRITICAL",
                     },
                 ],
                 effective_interaction: {
@@ -1213,7 +1213,7 @@ describe("RuntimeClient", () => {
                     {
                         rule_id: "550e8400-e29b-41d4-a716-446655440000",
                         rule_name: "prompt_injection",
-                        risk_level: "LOW",
+                        risk_level: "CRITICAL",
                     },
                 ],
                 effective_interaction: {
@@ -1468,7 +1468,7 @@ describe("RuntimeClient", () => {
                     {
                         rule_id: "550e8400-e29b-41d4-a716-446655440000",
                         rule_name: "prompt_injection",
-                        risk_level: "LOW",
+                        risk_level: "CRITICAL",
                     },
                 ],
                 effective_interaction: {
@@ -1696,7 +1696,7 @@ describe("RuntimeClient", () => {
                     {
                         rule_id: "550e8400-e29b-41d4-a716-446655440000",
                         rule_name: "prompt_injection",
-                        risk_level: "LOW",
+                        risk_level: "CRITICAL",
                     },
                 ],
                 effective_interaction: {
@@ -1956,7 +1956,7 @@ describe("RuntimeClient", () => {
                     {
                         rule_id: "550e8400-e29b-41d4-a716-446655440000",
                         rule_name: "prompt_injection",
-                        risk_level: "LOW",
+                        risk_level: "CRITICAL",
                     },
                 ],
                 effective_interaction: {
@@ -2236,7 +2236,7 @@ describe("RuntimeClient", () => {
                     {
                         rule_id: "550e8400-e29b-41d4-a716-446655440000",
                         rule_name: "prompt_injection",
-                        risk_level: "LOW",
+                        risk_level: "CRITICAL",
                     },
                 ],
                 effective_interaction: {
@@ -2476,7 +2476,7 @@ describe("RuntimeClient", () => {
                     {
                         rule_id: "550e8400-e29b-41d4-a716-446655440000",
                         rule_name: "prompt_injection",
-                        risk_level: "LOW",
+                        risk_level: "CRITICAL",
                     },
                 ],
                 effective_interaction: {

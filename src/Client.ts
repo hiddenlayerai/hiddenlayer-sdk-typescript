@@ -24,6 +24,7 @@ import { ScansClient } from "./api/resources/scans/client/Client.js";
 import { SensorsClient } from "./api/resources/sensors/client/Client.js";
 import { SsoIntegrationsClient } from "./api/resources/ssoIntegrations/client/Client.js";
 import { SupplyChainClient } from "./api/resources/supplyChain/client/Client.js";
+import { TriageClient } from "./api/resources/triage/client/Client.js";
 import { UsersClient } from "./api/resources/users/client/Client.js";
 import type { BaseClientOptions, BaseRequestOptions } from "./BaseClient.js";
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "./BaseClient.js";
@@ -62,6 +63,7 @@ export class HiddenLayerClient {
     protected _scanIndices: ScanIndicesClient | undefined;
     protected _scans: ScansClient | undefined;
     protected _supplyChain: SupplyChainClient | undefined;
+    protected _triage: TriageClient | undefined;
 
     constructor(options: HiddenLayerClient.Options) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -165,6 +167,10 @@ export class HiddenLayerClient {
 
     public get supplyChain(): SupplyChainClient {
         return (this._supplyChain ??= new SupplyChainClient(this._options));
+    }
+
+    public get triage(): TriageClient {
+        return (this._triage ??= new TriageClient(this._options));
     }
 
     /**

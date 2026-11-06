@@ -12487,3 +12487,514 @@ await client.supplyChain.scans.guidance({
 </dl>
 </details>
 
+## Triage Issues
+<details><summary><code>client.triage.issues.<a href="/src/api/resources/triage/resources/issues/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.TriageIssue, HiddenLayerApi.TriageIssueList&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Lists the tenant's triage issues in the requested sort order. Pass the response's `next` back as `cursor` to read the following page; there is no offset. The cursor is a keyset position, so issues inserted or deleted elsewhere in the list do not shift the page boundary and do not cause a skip or a repeat. It is not stable against updates to the column being sorted on: an issue whose severity, status, or `updated_at` changes while a traversal is in progress moves relative to the cursor, and can be skipped or returned on more than one page. Callers that need exact handling should de-duplicate on issue `id` and treat a full traversal as approximate.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const pageableResponse = await client.triage.issues.list({
+    sort: "+severity",
+    limit: 50
+});
+for await (const item of pageableResponse) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+let page = await client.triage.issues.list({
+    sort: "+severity",
+    limit: 50
+});
+while (page.hasNextPage()) {
+    page = await page.getNextPage();
+}
+
+// You can also access the underlying response
+const response = page.response;
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayerApi.triage.ListIssuesRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `IssuesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.triage.issues.<a href="/src/api/resources/triage/resources/issues/client/Client.ts">get</a>({ ...params }) -> HiddenLayerApi.TriageIssueDetail</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Returns one issue with its full note history and `alert_spread`, the range of the alerts correlated into it. Read this before changing an issue: its `status` decides whether a `PATCH` is a change, a no-op or a reopen.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.triage.issues.get({
+    issue_id: "TRI-1042"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayerApi.triage.GetIssuesRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `IssuesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.triage.issues.<a href="/src/api/resources/triage/resources/issues/client/Client.ts">update</a>({ ...params }) -> HiddenLayerApi.TriageIssueDetail</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Changes an issue's status, severity, or both. This is how an issue
+moves through triage: escalate it as a true positive, mark it a false
+positive, close it, or reopen it. There is no separate verdict field;
+`ESCALATED` is the true-positive outcome.
+
+**Transitions.** Any status can move to any other status. A change is
+rejected, and nothing is written, in exactly two cases:
+- **422**: the status changes to `ESCALATED` or `FALSE_POSITIVE` and
+  the request carries no `note` explaining why.
+- **409**: the change reopens the issue, moving it from `CLOSED` or
+  `FALSE_POSITIVE` to `NEW`, `INVESTIGATING` or `ESCALATED`, while
+  another of the tenant's open issues holds the same correlation key.
+
+The note check runs first, so a reopen straight to `ESCALATED`
+without a note gets 422 even when it would also conflict.
+
+**Retries are safe.** A field whose value already matches the issue
+is not a change. When neither status nor severity changes, the
+request writes nothing (no change note, no caller `note`, no
+`updated_at` bump) and returns 200 with the issue as it stands.
+Neither rule above applies to such a request, so re-sending an
+escalation after a timeout returns 200, not 422 or 409. A `note` sent
+without a change is dropped: add standalone notes with
+`POST /triage/v1/issues/{issue_id}/notes`.
+
+**What a change records.** The new values, a system note naming the
+change (for example `Changed status to "ESCALATED".`) and the caller's
+`note`, if any, are applied in one transaction, all attributed to the
+caller: either all of them are written or none are. The caller's note
+is recorded just after the system note, so it comes first in the
+newest-first `notes`.
+
+**Severity.** Setting severity pins it. Later correlated alerts no
+longer raise it automatically, as they do for an issue whose severity
+was never set by hand.
+
+**Body.** `application/merge-patch+json` and `application/json` are
+accepted with the same meaning; any other media type gets 415. A
+field that is absent or `null` is left as it is; neither field can be
+cleared.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.triage.issues.update({
+    issue_id: "TRI-1042",
+    body: {
+        status: "FALSE_POSITIVE"
+    }
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayerApi.triage.UpdateIssuesRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `IssuesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.triage.issues.<a href="/src/api/resources/triage/resources/issues/client/Client.ts">notes</a>({ ...params }) -> HiddenLayerApi.TriageNote</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Appends a note to an issue without changing its status or severity. Works on an issue in any status, including `CLOSED` and `FALSE_POSITIVE`. Notes are immutable and attributed to the caller. Unlike `PATCH`, this is not retry-safe: each successful call adds a note, so a retried request can record the same text twice. To record the reason for an escalation or a false-positive verdict, send it as `note` on the `PATCH` that makes the change instead.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.triage.issues.notes({
+    issue_id: "TRI-1042",
+    text: "Asked the app owner whether this project is the red-team sandbox; holding until they reply."
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayerApi.triage.NotesIssuesRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `IssuesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.triage.issues.<a href="/src/api/resources/triage/resources/issues/client/Client.ts">sourceEvents</a>({ ...params }) -> core.Page&lt;HiddenLayerApi.TriageSourceEvent, HiddenLayerApi.TriageSourceEventList&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Every alert the issue aggregates, most recently correlated first,
+including the alert the issue was created from.
+
+- **Count** — equals the issue's `duplicate_count`.
+- **Spread** — an issue groups alerts sharing a capability, a detection
+  category and an affected asset, so these can span many sessions or
+  scans. This list, not the issue's first alert, is where the spread
+  shows.
+- **Scope** — this issue only, not its correlation key. A key can pass
+  to a new issue once the first is closed; alerts correlated into that
+  earlier issue are not returned.
+- **Ordering** — correlation time descending, fixed; there is no
+  `sort`.
+- **Paging** — lenient: an unrecognised or stale `cursor` restarts
+  from the first page, and `limit` is clamped to 1–100, so neither
+  produces a 400. De-duplicate on the alert id across pages.
+
+"Source event" and "alert" name the same thing: a single detection
+raised by a platform capability.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const pageableResponse = await client.triage.issues.sourceEvents({
+    issue_id: "TRI-1042",
+    limit: 50
+});
+for await (const item of pageableResponse) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+let page = await client.triage.issues.sourceEvents({
+    issue_id: "TRI-1042",
+    limit: 50
+});
+while (page.hasNextPage()) {
+    page = await page.getNextPage();
+}
+
+// You can also access the underlying response
+const response = page.response;
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `HiddenLayerApi.triage.SourceEventsIssuesRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `IssuesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Triage Reports
+<details><summary><code>client.triage.reports.<a href="/src/api/resources/triage/resources/reports/client/Client.ts">list</a>() -> HiddenLayerApi.TriageReport</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+[BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
+
+Returns a summary of triage outcomes for the tenant: alert volume,
+issues resolved without escalation, escalations by severity, weekly
+outcome trends, and the most recent escalations. "Resolved" counts
+both closed statuses, `CLOSED` and `FALSE_POSITIVE`, for issues that
+were not escalated; it does not distinguish who resolved them.
+
+- **Reporting window**: the current ISO week plus the three ISO weeks
+  before it. It opens at 00:00 UTC on the Monday of that oldest week
+  and runs to the time of the request, so it spans between 21 and 28
+  days depending on which weekday the request is made — not a rolling
+  28-day window.
+- **Windowed**: `totals.ingested`, `totals.resolved_by_soc`,
+  `totals.median_minutes_to_triage` and `outcomes_by_week`.
+  `totals.escalated`, `escalations_by_severity` and
+  `recent_escalations` are not windowed and cover the tenant's issues
+  across all time.
+- **State-based versus transition-based**: `totals.escalated`,
+  `escalations_by_severity` and `recent_escalations` are state-based —
+  they count issues whose status is `ESCALATED` when the report is
+  read, so an issue escalated and later closed drops out of them.
+  `outcomes_by_week[].escalated` and `outcomes_by_week[].resolved` are
+  transition-based — they count status changes recorded during a week
+  and are not re-evaluated against the issue's current status.
+  `totals.resolved_by_soc` mixes both: it needs the transition in the
+  window and a closed status at read time.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.triage.reports.list();
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**requestOptions:** `ReportsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+

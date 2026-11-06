@@ -5010,6 +5010,219 @@
       },
       {
         "method": "GET",
+        "path": "/triage/v1/issues",
+        "operation_id": "triage_api_v1_issues_get",
+        "group": [
+          "triage",
+          "issues"
+        ],
+        "name": "list",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "Limit"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "severity",
+            "in": "query",
+            "required": false,
+            "type": "array<TriageSeverity>"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "array<TriageStatus>"
+          }
+        ],
+        "pagination": {
+          "kind": "cursor",
+          "request": {
+            "cursor": "cursor"
+          },
+          "response": {
+            "items": "items",
+            "next": "next"
+          }
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/triage/v1/issues/{issue_id}",
+        "operation_id": "triage_api_v1_issue_get",
+        "group": [
+          "triage",
+          "issues"
+        ],
+        "name": "get",
+        "parameters": [
+          {
+            "name": "issue_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "PATCH",
+        "path": "/triage/v1/issues/{issue_id}",
+        "operation_id": "triage_api_v1_issue_patch",
+        "group": [
+          "triage",
+          "issues"
+        ],
+        "name": "update",
+        "parameters": [
+          {
+            "name": "note",
+            "in": "body",
+            "required": false,
+            "type": "TriageNoteText"
+          },
+          {
+            "name": "severity",
+            "in": "body",
+            "required": false,
+            "type": "TriageSeverity"
+          },
+          {
+            "name": "status",
+            "in": "body",
+            "required": false,
+            "type": "TriageStatus"
+          },
+          {
+            "name": "issue_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "request_body": {
+          "type": "TriageIssuePatch",
+          "required": true
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "POST",
+        "path": "/triage/v1/issues/{issue_id}/notes",
+        "operation_id": "triage_api_v1_issue_notes_post",
+        "group": [
+          "triage",
+          "issues"
+        ],
+        "name": "notes",
+        "parameters": [
+          {
+            "name": "text",
+            "in": "body",
+            "required": true,
+            "type": "TriageNoteText"
+          },
+          {
+            "name": "issue_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "request_body": {
+          "type": "object",
+          "required": true
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/triage/v1/issues/{issue_id}/source-events",
+        "operation_id": "triage_api_v1_issue_source_events_get",
+        "group": [
+          "triage",
+          "issues"
+        ],
+        "name": "source_events",
+        "parameters": [
+          {
+            "name": "issue_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "Limit"
+          }
+        ],
+        "pagination": {
+          "kind": "cursor",
+          "request": {
+            "cursor": "cursor"
+          },
+          "response": {
+            "items": "items",
+            "next": "next"
+          }
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/triage/v1/reports",
+        "operation_id": "triage_api_v1_reports_get",
+        "group": [
+          "triage",
+          "reports"
+        ],
+        "name": "list",
+        "parameters": [],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
         "path": "/evaluations/v1/red-team/objectives",
         "operation_id": "evaluations_v1_objectives_list",
         "group": [
@@ -7758,6 +7971,20 @@
         ]
       },
       {
+        "name": "TriageStatus",
+        "values": [
+          "NEW",
+          "INVESTIGATING",
+          "ESCALATED",
+          "CLOSED",
+          "FALSE_POSITIVE"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/TriageStatus"
+        ]
+      },
+      {
         "name": "SemanticType",
         "values": [
           "KROP",
@@ -7859,15 +8086,17 @@
         ]
       },
       {
+        "name": "TriageSeverity",
         "values": [
-          "LOW",
-          "MEDIUM",
+          "CRITICAL",
           "HIGH",
-          "CRITICAL"
+          "MEDIUM",
+          "LOW"
         ],
         "members": {},
         "locations": [
-          "/components/schemas/InteractionEvaluationDetection/properties/risk_level"
+          "/components/schemas/InteractionEvaluationDetection/properties/risk_level",
+          "/components/schemas/TriageSeverity"
         ]
       },
       {
@@ -8047,6 +8276,7 @@
         "members": {},
         "locations": [
           "/components/schemas/HLResource/properties/resource_type",
+          "/components/schemas/TriageModelScanReference/properties/type",
           "/paths/~1asset-inventory~1v1~1assets/get/parameters/hl_resource_type/schema/properties/in/items",
           "/paths/~1asset-inventory~1v1~1assets~1search/get/parameters/hl_resource_type/schema/properties/in/items",
           "/paths/~1asset-inventory~1v1~1resources/get/parameters/type/schema/properties/eq",
@@ -8070,6 +8300,26 @@
         ]
       },
       {
+        "name": "TriageSource",
+        "values": [
+          "RUNTIME",
+          "SUPPLY_CHAIN"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/TriageSource"
+        ]
+      },
+      {
+        "values": [
+          "RUNTIME_SESSION"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/TriageRuntimeSessionReference/properties/type"
+        ]
+      },
+      {
         "values": [
           "SAFE",
           "UNSAFE",
@@ -8089,6 +8339,15 @@
         "members": {},
         "locations": [
           "/components/schemas/ScanReport/properties/scan_result/oneOf/Scan Safety Verdict"
+        ]
+      },
+      {
+        "values": [
+          "UNLINKED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/TriageUnlinkedReference/properties/type"
         ]
       },
       {
@@ -8215,6 +8474,19 @@
         "locations": [
           "/components/schemas/ScanHeaderV3/properties/status",
           "/components/schemas/ScanJob/properties/status"
+        ]
+      },
+      {
+        "name": "TriageNoteAuthorType",
+        "values": [
+          "user",
+          "static_api_key",
+          "client_credential",
+          "system"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/TriageNoteAuthorType"
         ]
       },
       {
@@ -8608,6 +8880,14 @@
       }
     ],
     "beta_components": [
+      "/components/examples/IssueEscalated",
+      "/components/examples/IssueEscalatedUnchanged",
+      "/components/examples/IssueMarkedFalsePositive",
+      "/components/examples/PatchEscalate",
+      "/components/examples/PatchMarkFalsePositive",
+      "/components/examples/PatchReopen",
+      "/components/examples/PatchRetryNoOp",
+      "/components/examples/PatchStartInvestigating",
       "/components/headers/NoStore",
       "/components/headers/StaticApiKeyETag",
       "/components/parameters/AnnotatingServiceFilter",
@@ -8616,6 +8896,7 @@
       "/components/parameters/AssetTypeFilter",
       "/components/parameters/AttributesFilter",
       "/components/parameters/DetectionRuleIdQuery",
+      "/components/parameters/IssueID",
       "/components/parameters/ModelID",
       "/components/parameters/ModelName",
       "/components/parameters/PolicyPackId",
@@ -8779,6 +9060,27 @@
       "/components/schemas/ThreatModelingStatus",
       "/components/schemas/ThreatModelingSystem",
       "/components/schemas/ThreatModelingSystemThreat",
+      "/components/schemas/TriageAlertSpread",
+      "/components/schemas/TriageIssue",
+      "/components/schemas/TriageIssueDetail",
+      "/components/schemas/TriageIssueList",
+      "/components/schemas/TriageIssuePatch",
+      "/components/schemas/TriageModelScanReference",
+      "/components/schemas/TriageNote",
+      "/components/schemas/TriageNoteAuthorType",
+      "/components/schemas/TriageNoteText",
+      "/components/schemas/TriageOutcomesWeek",
+      "/components/schemas/TriageReport",
+      "/components/schemas/TriageReportTotals",
+      "/components/schemas/TriageRuntimeSessionReference",
+      "/components/schemas/TriageSeverity",
+      "/components/schemas/TriageSeverityCount",
+      "/components/schemas/TriageSource",
+      "/components/schemas/TriageSourceEvent",
+      "/components/schemas/TriageSourceEventList",
+      "/components/schemas/TriageSourceReference",
+      "/components/schemas/TriageStatus",
+      "/components/schemas/TriageUnlinkedReference",
       "/components/schemas/UpdateCustomObjectiveRequest",
       "/components/schemas/UpdateRedTeamConfigRequest",
       "/components/schemas/WorkflowResultResponse",

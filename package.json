@@ -934,6 +934,39 @@
       },
       "default": "./dist/cjs/api/resources/supplyChain/resources/scans/exports.js"
     },
+    "./triage": {
+      "import": {
+        "types": "./dist/esm/api/resources/triage/exports.d.mts",
+        "default": "./dist/esm/api/resources/triage/exports.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/api/resources/triage/exports.d.ts",
+        "default": "./dist/cjs/api/resources/triage/exports.js"
+      },
+      "default": "./dist/cjs/api/resources/triage/exports.js"
+    },
+    "./triage/issues": {
+      "import": {
+        "types": "./dist/esm/api/resources/triage/resources/issues/exports.d.mts",
+        "default": "./dist/esm/api/resources/triage/resources/issues/exports.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/api/resources/triage/resources/issues/exports.d.ts",
+        "default": "./dist/cjs/api/resources/triage/resources/issues/exports.js"
+      },
+      "default": "./dist/cjs/api/resources/triage/resources/issues/exports.js"
+    },
+    "./triage/reports": {
+      "import": {
+        "types": "./dist/esm/api/resources/triage/resources/reports/exports.d.mts",
+        "default": "./dist/esm/api/resources/triage/resources/reports/exports.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/api/resources/triage/resources/reports/exports.d.ts",
+        "default": "./dist/cjs/api/resources/triage/resources/reports/exports.js"
+      },
+      "default": "./dist/cjs/api/resources/triage/resources/reports/exports.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
