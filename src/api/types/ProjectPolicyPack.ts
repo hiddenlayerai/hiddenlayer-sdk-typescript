@@ -11,6 +11,8 @@ export interface ProjectPolicyPack {
     description?: string | undefined;
     /** PROFILE and APPLICATION packs are HiddenLayer-authored; APPLICATION packs are tuned to an application type; CUSTOM packs are tenant-authored */
     type: HiddenLayerApi.PolicyPackType;
+    /** True when the policy pack is provided by HiddenLayer to all tenants. When true, pack is read-only. */
+    is_built_in: boolean;
     /** Number of detection rules the pack blocks on */
     block_rule_count: number;
     /** Number of detection rules the pack detects on without blocking */

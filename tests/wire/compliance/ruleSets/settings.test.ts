@@ -721,6 +721,28 @@ describe("SettingsClient", () => {
             .mockEndpoint()
             .delete("/compliance/v1/rule-sets/id/settings/settings_id")
             .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.compliance.ruleSets.settings.delete({
+                id: "id",
+                settings_id: "settings_id",
+            });
+        }).rejects.toThrow(HiddenLayerApi.ConflictError);
+    });
+
+    test("delete (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .delete("/compliance/v1/rule-sets/id/settings/settings_id")
+            .respondWith()
             .statusCode(500)
             .jsonBody(rawResponseBody)
             .build();
@@ -733,7 +755,7 @@ describe("SettingsClient", () => {
         }).rejects.toThrow(HiddenLayerApi.InternalServerError);
     });
 
-    test("delete (5)", async () => {
+    test("delete (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 

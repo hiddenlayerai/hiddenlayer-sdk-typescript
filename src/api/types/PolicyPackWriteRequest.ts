@@ -11,7 +11,7 @@ export interface PolicyPackWriteRequest {
     /** Rules to add individually, in display order; a rule's action here overrides its rule pack's */
     individual_rules?: HiddenLayerApi.PolicyPackRuleAssignment[] | undefined;
     redact?: HiddenLayerApi.RedactConfig | undefined;
-    /** Settings categories to apply, identified by settings_id, using the existing ruleset settings payload format */
+    /** Settings categories to apply, identified by settings_id, using the existing ruleset settings payload format. The array must have one `aidr-genai` entry. */
     settings: PolicyPackWriteRequest.Settings.Item[];
 }
 

@@ -432,6 +432,7 @@ export class SettingsClient {
      *
      * @throws {@link HiddenLayerApi.BadRequestError}
      * @throws {@link HiddenLayerApi.NotFoundError}
+     * @throws {@link HiddenLayerApi.ConflictError}
      * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
@@ -487,6 +488,8 @@ export class SettingsClient {
                     throw new HiddenLayerApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new HiddenLayerApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new HiddenLayerApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new HiddenLayerApi.InternalServerError(
                         _response.error.body as unknown,
