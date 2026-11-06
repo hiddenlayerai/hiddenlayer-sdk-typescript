@@ -9491,7 +9491,7 @@ const response = page.response;
 
 [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
 
-The pack must assign at least one detection rule through `rule_pack_ids` or `individual_rules`; otherwise returns 422.
+Creates a custom policy pack from the rule packs, individual rules, redaction configuration, and settings in the request.
 </dd>
 </dl>
 </dd>
@@ -9697,8 +9697,6 @@ await client.governance.policyPacks.get({
 [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
 
 Replaces the entire pack, including `settings`; omitted optional fields are cleared.
-- **403** when the pack is HiddenLayer-authored; only custom packs can be modified.
-- **422** when the pack would assign no detection rules.
 </dd>
 </dl>
 </dd>

@@ -3,7 +3,10 @@
 import type * as HiddenLayerApi from "../index.js";
 
 export interface PolicyPack extends HiddenLayerApi.PolicyPackSummary {
-    /** Settings categories in the same format returned by the ruleset settings endpoints */
+    /**
+     * The settings categories that are stored for the ruleset of the pack. The array always has one `aidr-genai` entry.
+     * When `is_built_in` is true, these are uneditable. Custom entities included under `personally_identifiable_information` are detected only, not redacted.
+     */
     settings: HiddenLayerApi.SettingsDetailsWithSchema[];
     /** Every detection rule referenced in `block` and `detect` */
     detection_rules?: HiddenLayerApi.RulePackDetectionRule[] | undefined;

@@ -8,15 +8,17 @@ export interface PolicyPackSummary {
     name: string;
     description?: string | undefined;
     type?: HiddenLayerApi.PolicyPackType | undefined;
+    /** True when the policy pack is provided by HiddenLayer to all tenants. When true, pack is read-only. */
+    is_built_in?: boolean | undefined;
     /** Number of detection rules in `block` */
     block_rule_count?: number | undefined;
     /** Number of detection rules in `detect` */
     detect_rule_count?: number | undefined;
-    /** Number of entity types in `redact` */
+    /** Number of entity types that are redacted. */
     redact_entity_type_count?: number | undefined;
     /** Rule packs selected for this policy pack */
     rule_pack_ids: string[];
-    /** Rules added individually, in display order. For the built-in Default pack, which wraps the tenant's existing policy, this lists that policy's current rules. */
+    /** Rules added individually, in order. */
     individual_rules: HiddenLayerApi.PolicyPackRuleAssignment[];
     /** Effective rules that block, from `individual_rules` and the selected rule packs */
     block?: HiddenLayerApi.BlockConfig | undefined;
