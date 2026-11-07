@@ -1,5 +1,5 @@
 {
-  "fern_cli": "5.170.3",
+  "fern_cli": "5.191.2",
   "generator": "fernapi/fern-typescript-sdk",
   "generator_version": "3.107.7",
   "surface": {

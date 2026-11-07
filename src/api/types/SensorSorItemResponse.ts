@@ -8,6 +8,6 @@ export interface SensorSorItemResponse {
     created_at: string;
     version?: number | undefined;
     active: boolean;
-    tags: Record<string, unknown>;
+    tags: Record<string, unknown> | null;
     adhoc?: boolean | undefined;
 }
