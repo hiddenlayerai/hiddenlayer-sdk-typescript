@@ -10,6 +10,7 @@ describe("AnnotationsClient", () => {
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
         const rawResponseBody = {
+            name: "example-model",
             id: "id",
             asset_type: "MODEL",
             policy_status: "COMPLIANT",
