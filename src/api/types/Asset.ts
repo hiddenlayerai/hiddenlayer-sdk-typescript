@@ -7,6 +7,15 @@ import type * as HiddenLayerApi from "../index.js";
  */
 export interface Asset {
     /**
+     * Display name computed on asset responses from the first non-empty
+     * string in this precedence order: the supply-chain annotation's
+     * `attributes.model_card.name`, the discovery annotation's
+     * `attributes.name`, then the workstation-discovery annotation's
+     * `attributes.name`. Missing, null, and non-string values are skipped.
+     * Omitted when no annotation supplies a name.
+     */
+    name?: string | undefined;
+    /**
      * Server-generated UUID for the asset. Assigned at creation time
      * and stable for the lifetime of the asset.
      */
