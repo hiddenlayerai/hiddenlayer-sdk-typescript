@@ -4,4 +4,6 @@
  * A pass-through payload in the native format of the LLM provider. Any valid provider
  * request or response payload is accepted as-is and returned in the same format.
  */
-export type ProviderPayload = Record<string, unknown>;
+export type ProviderPayload = {
+    [key: string]: unknown;
+};

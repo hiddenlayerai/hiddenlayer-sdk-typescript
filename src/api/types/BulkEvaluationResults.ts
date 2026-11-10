@@ -5,4 +5,6 @@ import type * as HiddenLayerApi from "../index.js";
 /**
  * A map of artifact UUIDs to evaluation result responses
  */
-export type BulkEvaluationResults = Record<string, HiddenLayerApi.EvaluationResult>;
+export type BulkEvaluationResults = {
+    [key: string]: HiddenLayerApi.EvaluationResult;
+};

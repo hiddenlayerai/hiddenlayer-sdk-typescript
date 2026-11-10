@@ -191,9 +191,10 @@ export class JobsClient {
         request: HiddenLayerApi.scans.RetrieveJobsRequest,
         requestOptions?: JobsClient.RequestOptions,
     ): Promise<core.WithRawResponse<HiddenLayerApi.ScanReportOfRecordV3>> {
-        const { scan_id: scanId, has_detections: hasDetections } = request;
+        const { scan_id: scanId, has_detections: hasDetections, include_threat_types: includeThreatTypes } = request;
         const _queryParams: Record<string, unknown> = {
             has_detections: hasDetections,
+            include_threat_types: includeThreatTypes,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -269,11 +270,14 @@ export class JobsClient {
                 request: HiddenLayerApi.scans.ListJobsRequest,
             ): Promise<core.WithRawResponse<HiddenLayerApi.scans.ListJobsResponse>> => {
                 const {
+                    include_threat_types: includeThreatTypes,
                     model_version_ids: modelVersionIds,
                     model_ids: modelIds,
                     start_time: startTime,
                     end_time: endTime,
                     severity,
+                    threat_type: threatType,
+                    finding_severity: findingSeverity,
                     status,
                     request_source: requestSource,
                     region,
@@ -290,6 +294,7 @@ export class JobsClient {
                     deep_scan: deepScan,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
+                    include_threat_types: includeThreatTypes,
                     model_version_ids: modelVersionIds,
                     model_ids: modelIds,
                     start_time: startTime != null ? startTime : undefined,
@@ -300,6 +305,16 @@ export class JobsClient {
                           ? typeof severity === "string"
                               ? severity
                               : toJson(severity)
+                          : undefined,
+                    threat_type: Array.isArray(threatType)
+                        ? threatType.map((item) => item)
+                        : threatType != null
+                          ? threatType
+                          : undefined,
+                    finding_severity: Array.isArray(findingSeverity)
+                        ? findingSeverity.map((item) => item)
+                        : findingSeverity != null
+                          ? findingSeverity
                           : undefined,
                     status,
                     request_source: Array.isArray(requestSource)
@@ -345,6 +360,8 @@ export class JobsClient {
                         .add("model_version_ids", _queryParams.model_version_ids, { style: "comma" })
                         .add("model_ids", _queryParams.model_ids, { style: "comma" })
                         .add("severity", _queryParams.severity, { style: "comma" })
+                        .add("threat_type", _queryParams.threat_type, { style: "comma" })
+                        .add("finding_severity", _queryParams.finding_severity, { style: "comma" })
                         .add("status", _queryParams.status, { style: "comma" })
                         .add("request_source", _queryParams.request_source, { style: "comma" })
                         .add("compliance_status", _queryParams.compliance_status, { style: "comma" })

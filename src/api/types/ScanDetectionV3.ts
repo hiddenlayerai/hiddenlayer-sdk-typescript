@@ -7,7 +7,7 @@ export interface ScanDetectionV3 {
     detection_id: string;
     /** unique identifier for the rule that sourced the detection */
     rule_id: string;
-    /** detection risk */
+    /** Legacy risk classification. Use threat_type instead. */
     risk: ScanDetectionV3.Risk;
     /** Vulnerability category for the detection */
     category: string;
@@ -18,9 +18,13 @@ export interface ScanDetectionV3 {
     /** detection impact */
     impact: string;
     severity: HiddenLayerApi.ScanDetectionSeverity;
+    threat_type?: HiddenLayerApi.ScanThreatType | undefined;
     rule_details?: ScanDetectionV3.RuleDetails.Item[] | undefined;
     mitre_atlas: ScanDetectionV3.MitreAtlas.Item[];
+    /** Legacy OWASP identifiers. Use owasp_issues for identifiers and reference links. */
     owasp: string[];
+    owasp_issues?: HiddenLayerApi.ScanOwaspIssues | undefined;
+    evidence?: HiddenLayerApi.ScanFindingEvidence | undefined;
     cve: string[];
     cwe: string;
     /** CWE URL for the detection */
@@ -32,7 +36,7 @@ export interface ScanDetectionV3 {
 }
 
 export namespace ScanDetectionV3 {
-    /** detection risk */
+    /** Legacy risk classification. Use threat_type instead. */
     export const Risk = {
         Malicious: "MALICIOUS",
         Suspicious: "SUSPICIOUS",

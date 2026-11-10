@@ -6,12 +6,62 @@ import type * as HiddenLayerApi from "../../../../../../index.js";
  * @example
  *     {
  *         body: {
- *             display_name: "display_name",
+ *             display_name: "License policy",
  *             rules: [{
+ *                     display_name: "Allow MIT licensed models",
  *                     is_compliant_when_conditions_met: true,
  *                     conditions: [{
- *                             field: "field",
- *                             condition_operator: "equals"
+ *                             field: "license",
+ *                             condition_operator: "equals",
+ *                             field_value: "mit"
+ *                         }]
+ *                 }]
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         body: {
+ *             display_name: "Severity policy",
+ *             rules: [{
+ *                     display_name: "Flag detections at any severity",
+ *                     is_compliant_when_conditions_met: false,
+ *                     conditions: [{
+ *                             field: "severity",
+ *                             condition_operator: "any_of",
+ *                             field_values: ["low", "medium", "high", "critical"]
+ *                         }]
+ *                 }]
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         body: {
+ *             display_name: "Threat type policy",
+ *             rules: [{
+ *                     display_name: "Flag all threat types",
+ *                     is_compliant_when_conditions_met: false,
+ *                     conditions: [{
+ *                             field: "threat_type",
+ *                             condition_operator: "any_of",
+ *                             field_values: ["malicious", "suspicious", "vulnerable", "advisory", "unclassified"]
+ *                         }]
+ *                 }]
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         body: {
+ *             display_name: "Threat type exclusion policy",
+ *             rules: [{
+ *                     display_name: "Allow other threat types",
+ *                     is_compliant_when_conditions_met: true,
+ *                     conditions: [{
+ *                             field: "threat_type",
+ *                             condition_operator: "none_of",
+ *                             field_values: ["malicious", "suspicious"]
  *                         }]
  *                 }]
  *         }

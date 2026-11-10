@@ -1,7 +1,7 @@
 {
   "fern_cli": "5.191.2",
   "generator": "fernapi/fern-typescript-sdk",
-  "generator_version": "3.107.7",
+  "generator_version": "3.108.15",
   "surface": {
     "operations": [
       {
@@ -3543,7 +3543,7 @@
           }
         ],
         "beta": false,
-        "deprecated": false,
+        "deprecated": true,
         "ignore": false
       },
       {
@@ -3638,7 +3638,7 @@
           "required": true
         },
         "beta": false,
-        "deprecated": false,
+        "deprecated": true,
         "ignore": false
       },
       {
@@ -3718,7 +3718,7 @@
           "required": true
         },
         "beta": false,
-        "deprecated": false,
+        "deprecated": true,
         "ignore": false
       },
       {
@@ -3746,7 +3746,7 @@
           }
         ],
         "beta": false,
-        "deprecated": false,
+        "deprecated": true,
         "ignore": false
       },
       {
@@ -7028,6 +7028,12 @@
             "in": "path",
             "required": true,
             "type": "string(uuid)"
+          },
+          {
+            "name": "include_threat_types",
+            "in": "query",
+            "required": false,
+            "type": "IncludeThreatTypes"
           }
         ],
         "beta": false,
@@ -7076,6 +7082,12 @@
             "in": "query",
             "required": false,
             "type": "boolean"
+          },
+          {
+            "name": "include_threat_types",
+            "in": "query",
+            "required": false,
+            "type": "IncludeThreatTypes"
           }
         ],
         "beta": false,
@@ -7109,6 +7121,12 @@
             "in": "query",
             "required": false,
             "type": "boolean"
+          },
+          {
+            "name": "include_threat_types",
+            "in": "query",
+            "required": false,
+            "type": "IncludeThreatTypes"
           },
           {
             "name": "page_size",
@@ -7152,6 +7170,12 @@
             "in": "path",
             "required": true,
             "type": "string(uuid)"
+          },
+          {
+            "name": "include_threat_types",
+            "in": "query",
+            "required": false,
+            "type": "IncludeThreatTypes"
           }
         ],
         "beta": false,
@@ -7173,6 +7197,12 @@
             "in": "path",
             "required": true,
             "type": "string(uuid)"
+          },
+          {
+            "name": "include_threat_types",
+            "in": "query",
+            "required": false,
+            "type": "IncludeThreatTypes"
           }
         ],
         "beta": false,
@@ -7212,6 +7242,18 @@
             "in": "query",
             "required": false,
             "type": "string(date-time)"
+          },
+          {
+            "name": "finding_severity",
+            "in": "query",
+            "required": false,
+            "type": "array<enum>"
+          },
+          {
+            "name": "include_threat_types",
+            "in": "query",
+            "required": false,
+            "type": "IncludeThreatTypes"
           },
           {
             "name": "latest_per_model_version_only",
@@ -7302,6 +7344,12 @@
             "in": "query",
             "required": false,
             "type": "array<string>"
+          },
+          {
+            "name": "threat_type",
+            "in": "query",
+            "required": false,
+            "type": "array<ScanTopThreatType>"
           }
         ],
         "pagination": {
@@ -7448,6 +7496,18 @@
             "type": "string(date-time)"
           },
           {
+            "name": "finding_severity",
+            "in": "query",
+            "required": false,
+            "type": "array<enum>"
+          },
+          {
+            "name": "include_threat_types",
+            "in": "query",
+            "required": false,
+            "type": "IncludeThreatTypes"
+          },
+          {
             "name": "latest_per_model_version_only",
             "in": "query",
             "required": false,
@@ -7536,6 +7596,12 @@
             "in": "query",
             "required": false,
             "type": "array<string>"
+          },
+          {
+            "name": "threat_type",
+            "in": "query",
+            "required": false,
+            "type": "array<ScanTopThreatType>"
           }
         ],
         "beta": false,
@@ -8363,6 +8429,48 @@
         ]
       },
       {
+        "name": "ScanTopThreatType",
+        "values": [
+          "malicious",
+          "suspicious",
+          "vulnerable",
+          "advisory",
+          "unclassified",
+          "none"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/ScanTopThreatType"
+        ]
+      },
+      {
+        "name": "ConditionThreatType",
+        "values": [
+          "malicious",
+          "suspicious",
+          "vulnerable",
+          "advisory",
+          "unclassified"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/ConditionThreatType"
+        ]
+      },
+      {
+        "name": "ScanThreatType",
+        "values": [
+          "malicious",
+          "suspicious",
+          "vulnerable",
+          "advisory"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/ScanThreatType"
+        ]
+      },
+      {
         "values": [
           "aidr-genai",
           "model-scanner",
@@ -8434,6 +8542,28 @@
         "members": {},
         "locations": [
           "/components/schemas/ContentKind"
+        ]
+      },
+      {
+        "name": "ScanFindingArgumentType",
+        "values": [
+          "string",
+          "int",
+          "float",
+          "bool",
+          "none",
+          "bytes",
+          "object",
+          "tuple",
+          "list",
+          "dict",
+          "set",
+          "odict",
+          "unknown"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/ScanFindingArgumentType"
         ]
       },
       {
@@ -8576,6 +8706,19 @@
         "members": {},
         "locations": [
           "/components/schemas/ScanHighestDetectionSeverityWithSafe"
+        ]
+      },
+      {
+        "values": [
+          "critical",
+          "high",
+          "medium",
+          "low",
+          "safe"
+        ],
+        "members": {},
+        "locations": [
+          "/components/parameters/FindingSeverity/schema/items"
         ]
       },
       {

@@ -48,7 +48,10 @@ export class ScansClient {
         request: HiddenLayerApi.supplyChain.GetScansRequest,
         requestOptions?: ScansClient.RequestOptions,
     ): Promise<core.WithRawResponse<Record<string, unknown> | undefined>> {
-        const { scan_id: scanId, Accept: accept } = request;
+        const { scan_id: scanId, include_threat_types: includeThreatTypes, Accept: accept } = request;
+        const _queryParams: Record<string, unknown> = {
+            include_threat_types: includeThreatTypes,
+        };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -65,7 +68,11 @@ export class ScansClient {
             ),
             method: "GET",
             headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

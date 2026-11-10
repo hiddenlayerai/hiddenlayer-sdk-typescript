@@ -3,5 +3,5 @@
 import type * as HiddenLayerApi from "../../../../../index.js";
 
 export interface ListRuleSetsResponse extends HiddenLayerApi.Cursors {
-    items?: HiddenLayerApi.RuleSet[] | undefined;
+    items?: HiddenLayerApi.RuleSetResponse[] | undefined;
 }

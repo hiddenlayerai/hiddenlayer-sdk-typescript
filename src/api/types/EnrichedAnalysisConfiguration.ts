@@ -3,4 +3,6 @@
 /**
  * The configuration settings used for the analyzer.
  */
-export type EnrichedAnalysisConfiguration = Record<string, unknown>;
+export type EnrichedAnalysisConfiguration = {
+    [key: string]: unknown;
+};

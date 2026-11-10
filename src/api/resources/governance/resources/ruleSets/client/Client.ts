@@ -51,7 +51,7 @@ export class RuleSetsClient {
     public async list(
         request: HiddenLayerApi.governance.ListRuleSetsRequest = {},
         requestOptions?: RuleSetsClient.RequestOptions,
-    ): Promise<core.Page<HiddenLayerApi.RuleSet, HiddenLayerApi.governance.ListRuleSetsResponse>> {
+    ): Promise<core.Page<HiddenLayerApi.RuleSetResponse, HiddenLayerApi.governance.ListRuleSetsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
                 request: HiddenLayerApi.governance.ListRuleSetsRequest,
@@ -128,7 +128,7 @@ export class RuleSetsClient {
             },
         );
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<HiddenLayerApi.RuleSet, HiddenLayerApi.governance.ListRuleSetsResponse>({
+        return new core.Page<HiddenLayerApi.RuleSetResponse, HiddenLayerApi.governance.ListRuleSetsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) =>
@@ -166,12 +166,62 @@ export class RuleSetsClient {
      * @example
      *     await client.governance.ruleSets.create({
      *         body: {
-     *             display_name: "display_name",
+     *             display_name: "License policy",
      *             rules: [{
+     *                     display_name: "Allow MIT licensed models",
      *                     is_compliant_when_conditions_met: true,
      *                     conditions: [{
-     *                             field: "field",
-     *                             condition_operator: "equals"
+     *                             field: "license",
+     *                             condition_operator: "equals",
+     *                             field_value: "mit"
+     *                         }]
+     *                 }]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.governance.ruleSets.create({
+     *         body: {
+     *             display_name: "Severity policy",
+     *             rules: [{
+     *                     display_name: "Flag detections at any severity",
+     *                     is_compliant_when_conditions_met: false,
+     *                     conditions: [{
+     *                             field: "severity",
+     *                             condition_operator: "any_of",
+     *                             field_values: ["low", "medium", "high", "critical"]
+     *                         }]
+     *                 }]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.governance.ruleSets.create({
+     *         body: {
+     *             display_name: "Threat type policy",
+     *             rules: [{
+     *                     display_name: "Flag all threat types",
+     *                     is_compliant_when_conditions_met: false,
+     *                     conditions: [{
+     *                             field: "threat_type",
+     *                             condition_operator: "any_of",
+     *                             field_values: ["malicious", "suspicious", "vulnerable", "advisory", "unclassified"]
+     *                         }]
+     *                 }]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.governance.ruleSets.create({
+     *         body: {
+     *             display_name: "Threat type exclusion policy",
+     *             rules: [{
+     *                     display_name: "Allow other threat types",
+     *                     is_compliant_when_conditions_met: true,
+     *                     conditions: [{
+     *                             field: "threat_type",
+     *                             condition_operator: "none_of",
+     *                             field_values: ["malicious", "suspicious"]
      *                         }]
      *                 }]
      *         }
@@ -180,14 +230,14 @@ export class RuleSetsClient {
     public create(
         request: HiddenLayerApi.governance.CreateRuleSetsRequest,
         requestOptions?: RuleSetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayerApi.RuleSet> {
+    ): core.HttpResponsePromise<HiddenLayerApi.RuleSetResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: HiddenLayerApi.governance.CreateRuleSetsRequest,
         requestOptions?: RuleSetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayerApi.RuleSet>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.RuleSetResponse>> {
         const { replace_active_policy: replaceActivePolicy, body: _body } = request;
         const _queryParams: Record<string, unknown> = {
             replace_active_policy: replaceActivePolicy,
@@ -222,7 +272,7 @@ export class RuleSetsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayerApi.RuleSet, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.RuleSetResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -259,7 +309,16 @@ export class RuleSetsClient {
     }
 
     /**
-     * Retrieve a specific rule set by its unique identifier. This endpoint returns the details of the rule set, including its rules and compliance criteria.
+     * @deprecated
+     *
+     * For active policy views, use [Retrieve rule sets](#operation/get_governance_rule_sets)
+     * (`GET /governance/v1/rule-sets`) and select the required rule set from the paginated results.
+     * Use `include_disabled=true` when disabled rules are needed. This parameter includes disabled
+     * rules within returned rule sets; it does not guarantee access to disabled or historical rule sets.
+     * Contact support before migrating workflows that require historical rule-set retrieval.
+     *
+     * Retrieve a specific rule set by its unique identifier. This endpoint returns
+     * the details of the rule set, including its rules and compliance criteria.
      * The response includes the rule set's ID, display name, and the list of rules it contains.
      * If the rule set does not exist, a 404 Not Found error is returned.
      *
@@ -281,14 +340,14 @@ export class RuleSetsClient {
     public get(
         request: HiddenLayerApi.governance.GetRuleSetsRequest,
         requestOptions?: RuleSetsClient.RequestOptions,
-    ): core.HttpResponsePromise<HiddenLayerApi.RuleSet> {
+    ): core.HttpResponsePromise<HiddenLayerApi.RuleSetResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
         request: HiddenLayerApi.governance.GetRuleSetsRequest,
         requestOptions?: RuleSetsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<HiddenLayerApi.RuleSet>> {
+    ): Promise<core.WithRawResponse<HiddenLayerApi.RuleSetResponse>> {
         const { rule_set_id: ruleSetId, include_disabled: includeDisabled } = request;
         const _queryParams: Record<string, unknown> = {
             include_disabled: includeDisabled,
@@ -320,7 +379,7 @@ export class RuleSetsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as HiddenLayerApi.RuleSet, rawResponse: _response.rawResponse };
+            return { data: _response.body as HiddenLayerApi.RuleSetResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
