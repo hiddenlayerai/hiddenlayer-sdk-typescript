@@ -12,14 +12,15 @@ export interface ScanReportSummaryV3 {
 export namespace ScanReportSummaryV3 {
     export interface Summary {
         severity?: HiddenLayerApi.ScanHighestDetectionSeverityWithSafe | undefined;
+        /** Highest severity among detections only, excluding advisories. */
         highest_severity?: HiddenLayerApi.ScanHighestDetectionSeverity | undefined;
-        /** total number of detections found */
+        /** Total detections, excluding advisories. Counts findings rather than distinct files. */
         detection_count?: number | undefined;
-        /** total number of advisories found */
+        /** Total advisories, excluding detections. */
         advisory_count?: number | undefined;
-        /** total number of files scanned */
+        /** Total file results counted by the scan, including failed files and unknown file types; not a count of successfully analyzed files. */
         file_count?: number | undefined;
-        /** number of files that contain detections */
+        /** Number of files containing detections; files with only advisories do not contribute. */
         files_with_detections_count?: number | undefined;
         /** list of unique detection categories found */
         detection_categories?: string[] | undefined;
@@ -31,6 +32,12 @@ export namespace ScanReportSummaryV3 {
         unknown_files?: number | undefined;
         /** deduped list of MITRE Atlas tactic/technique pairs across all detections in the scan */
         mitre_atlas?: Summary.MitreAtlas.Item[] | undefined;
+        /** The scan's top threat type. Absent while the scan has no findings and has not completed. */
+        top_threat_type?: HiddenLayerApi.ScanTopThreatType | undefined;
+        /** Findings in the scan, detections and advisories together. Absent until the scan completes, and for scans completed before threat types. */
+        findings_count?: number | undefined;
+        /** The scan's findings by threat type, keyed by malicious, suspicious, vulnerable, advisory or unclassified. Absent until the scan completes, for scans completed before threat types, and for scans without findings. */
+        threat_types?: Record<string, HiddenLayerApi.ScanThreatTypeSummary> | undefined;
     }
 
     export namespace Summary {

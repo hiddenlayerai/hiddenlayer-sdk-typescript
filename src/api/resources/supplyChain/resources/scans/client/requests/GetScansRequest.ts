@@ -11,5 +11,7 @@ import type * as HiddenLayerApi from "../../../../../../index.js";
 export interface GetScansRequest {
     /** A Model Scan ID */
     scan_id: string;
+    /** With true, returns the AIBOM that keeps threat types and rates advisories with their own severity, or the usual AIBOM for a scan saved without one. Without it, the AIBOM leaves threat types out and rates advisories `info`, as it did before threat types. Ignored when threat types are disabled. Any value other than true or false returns 400. */
+    include_threat_types?: HiddenLayerApi.IncludeThreatTypes;
     Accept?: HiddenLayerApi.supplyChain.GetScansRequestAccept;
 }

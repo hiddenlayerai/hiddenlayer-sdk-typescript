@@ -12,6 +12,8 @@ import type * as HiddenLayerApi from "../../../../../../index.js";
  *     }
  */
 export interface ListJobsRequest {
+    /** With true, the response keeps findings' threat types and advisories' severities, each file's `top_threat_type` and `top_severity` on the files endpoint, and each scan's `top_threat_type`, `findings_count` and `threat_types`, SARIF reports advisories that have a threat type, and the supply chain CSV export fills its `threat_type` column. Without it, they are left out, as they were before threat types. Ignored when threat types are disabled. Filters and sorts on threat types work without it. Any value other than true or false returns 400. Even with true, findings from scanners that predate threat types may have no `threat_type`. */
+    include_threat_types?: HiddenLayerApi.IncludeThreatTypes;
     /** Model Version IDs */
     model_version_ids?: string | string[];
     /** Model ID */
@@ -22,6 +24,24 @@ export interface ListJobsRequest {
     end_time?: string;
     /** Comma-separated severities. A scan matches when its highest detection severity is a listed severity. Advisories don't count. */
     severity?: HiddenLayerApi.ListJobsRequestSeverity;
+    /**
+     * Comma-separated threat types. Returns 400 for an unknown value, when threat types are disabled, or with `severity`.
+     * A scan matches when it has a finding of a listed type. `none` matches a done scan with no findings.
+     * `unclassified` matches a scan with at least one detection that has no threat type, whatever its top threat type.
+     * `finding_severity` pairs with this filter: a scan matches when a listed threat type's highest severity is a listed severity.
+     * `sort` also accepts `threat_type`, which orders scans by top threat type. Descending puts them in the order that ranks the top threat type: malicious, suspicious, unclassified, vulnerable, advisory, none.
+     * `sort` also accepts `top_severity`, which orders scans by the highest severity across all findings. Sorting by `severity` uses the scan's highest detection severity.
+     */
+    threat_type?: HiddenLayerApi.ScanTopThreatType | HiddenLayerApi.ScanTopThreatType[];
+    /**
+     * Comma-separated severities: critical, high, medium, low, safe. Returns 400 for any other value, when threat types are disabled, or with `severity`.
+     * Alone it matches when any of the scan's threat types has a listed highest severity.
+     * Paired with `threat_type`, a scan matches when a listed threat type's highest severity is a listed severity.
+     * `safe` means findings without a severity. Alone it matches scans whose findings all lack one, and scans with no findings and a `safe` severity. Paired with `threat_type`, it matches a listed type whose findings all lack one.
+     */
+    finding_severity?:
+        | HiddenLayerApi.scans.ListJobsRequestFindingSeverityItem
+        | HiddenLayerApi.scans.ListJobsRequestFindingSeverityItem[];
     /** Statuses */
     status?: string | string[];
     /** Filter by request source using a comma-separated list */

@@ -6,4 +6,6 @@
  * contributes upper-case keys (`MODEL`, `ENDPOINT`, `AGENT`, …); the on-device
  * scanner contributes lower-case ones (`skill`, `workstation`).
  */
-export type AssetTypeCounts = Record<string, number>;
+export type AssetTypeCounts = {
+    [key: string]: number;
+};

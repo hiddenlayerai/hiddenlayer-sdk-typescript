@@ -8,6 +8,7 @@ export interface ScanRulesetComplianceV3 {
 
 export namespace ScanRulesetComplianceV3 {
     export interface Compliance {
+        /** Policy evaluation outcome, separate from scan severity and threat classification. An absent compliance result does not imply COMPLIANT. */
         status?: HiddenLayerApi.PolicyStatus | undefined;
         /** The datetime when the rule set was evaluated against the scan result */
         evaluated_at?: string | undefined;

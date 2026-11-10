@@ -70,12 +70,15 @@ export class CsvClient {
         requestOptions?: CsvClient.RequestOptions,
     ): Promise<core.WithRawResponse<HiddenLayerApi.scans.reports.supplyChain.CreateCsvResponse>> {
         const {
+            include_threat_types: includeThreatTypes,
             column_list: columnList,
             model_version_ids: modelVersionIds,
             model_ids: modelIds,
             start_time: startTime,
             end_time: endTime,
             severity,
+            threat_type: threatType,
+            finding_severity: findingSeverity,
             status,
             compliance_status: complianceStatus,
             request_source: requestSource,
@@ -91,6 +94,7 @@ export class CsvClient {
             sort,
         } = request;
         const _queryParams: Record<string, unknown> = {
+            include_threat_types: includeThreatTypes,
             column_list: columnList,
             model_version_ids: modelVersionIds,
             model_ids: modelIds,
@@ -102,6 +106,16 @@ export class CsvClient {
                   ? typeof severity === "string"
                       ? severity
                       : toJson(severity)
+                  : undefined,
+            threat_type: Array.isArray(threatType)
+                ? threatType.map((item) => item)
+                : threatType != null
+                  ? threatType
+                  : undefined,
+            finding_severity: Array.isArray(findingSeverity)
+                ? findingSeverity.map((item) => item)
+                : findingSeverity != null
+                  ? findingSeverity
                   : undefined,
             status,
             compliance_status: Array.isArray(complianceStatus)
@@ -146,6 +160,8 @@ export class CsvClient {
                 .add("model_version_ids", _queryParams.model_version_ids, { style: "comma" })
                 .add("model_ids", _queryParams.model_ids, { style: "comma" })
                 .add("severity", _queryParams.severity, { style: "comma" })
+                .add("threat_type", _queryParams.threat_type, { style: "comma" })
+                .add("finding_severity", _queryParams.finding_severity, { style: "comma" })
                 .add("status", _queryParams.status, { style: "comma" })
                 .add("compliance_status", _queryParams.compliance_status, { style: "comma" })
                 .add("request_source", _queryParams.request_source, { style: "comma" })

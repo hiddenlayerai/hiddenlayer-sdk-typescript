@@ -4,6 +4,8 @@ import type * as HiddenLayerApi from "../index.js";
 
 export interface ScanFileResultWithComplianceV3 extends HiddenLayerApi.ScanFileResultV3 {
     compliance?: ScanFileResultWithComplianceV3.Compliance | undefined;
+    /** The highest severity across the file's detections and advisories. Absent when no finding has a severity. The scan files endpoint groups files by threat level with `sort=top_severity_order`, as `ScanFileThreatLevelCountsV3` describes. */
+    top_severity?: HiddenLayerApi.ScanDetectionSeverity | undefined;
 }
 
 export namespace ScanFileResultWithComplianceV3 {

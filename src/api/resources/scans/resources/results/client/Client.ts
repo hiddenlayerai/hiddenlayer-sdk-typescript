@@ -51,8 +51,16 @@ export class ResultsClient {
             async (
                 request: HiddenLayerApi.scans.ListFilesResultsRequest,
             ): Promise<core.WithRawResponse<HiddenLayerApi.scans.ListFilesResultsResponse>> => {
-                const { scan_id: scanId, has_detections: hasDetections, page_size: pageSize, cursor, sort } = request;
+                const {
+                    scan_id: scanId,
+                    include_threat_types: includeThreatTypes,
+                    has_detections: hasDetections,
+                    page_size: pageSize,
+                    cursor,
+                    sort,
+                } = request;
                 const _queryParams: Record<string, unknown> = {
+                    include_threat_types: includeThreatTypes,
                     has_detections: hasDetections,
                     page_size: pageSize,
                     cursor,
@@ -164,7 +172,10 @@ export class ResultsClient {
         request: HiddenLayerApi.scans.SarifResultsRequest,
         requestOptions?: ResultsClient.RequestOptions,
     ): Promise<core.WithRawResponse<string>> {
-        const { scan_id: scanId } = request;
+        const { scan_id: scanId, include_threat_types: includeThreatTypes } = request;
+        const _queryParams: Record<string, unknown> = {
+            include_threat_types: includeThreatTypes,
+        };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -180,7 +191,11 @@ export class ResultsClient {
             ),
             method: "GET",
             headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -243,7 +258,10 @@ export class ResultsClient {
         request: HiddenLayerApi.scans.RetrieveSummaryResultsRequest,
         requestOptions?: ResultsClient.RequestOptions,
     ): Promise<core.WithRawResponse<HiddenLayerApi.ScanReportSummaryResponseV3>> {
-        const { scan_id: scanId } = request;
+        const { scan_id: scanId, include_threat_types: includeThreatTypes } = request;
+        const _queryParams: Record<string, unknown> = {
+            include_threat_types: includeThreatTypes,
+        };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -259,7 +277,11 @@ export class ResultsClient {
             ),
             method: "GET",
             headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

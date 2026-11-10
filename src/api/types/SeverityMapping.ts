@@ -9,4 +9,6 @@ import type * as HiddenLayerApi from "../index.js";
  * Keys must be objective IDs known to this service; unknown keys are rejected
  * at validation time. Limited to 256 entries.
  */
-export type SeverityMapping = Record<string, HiddenLayerApi.HighestSeverity>;
+export type SeverityMapping = {
+    [key: string]: HiddenLayerApi.HighestSeverity;
+};

@@ -22,6 +22,7 @@ describe("RuleSetsClient", () => {
                         {
                             is_compliant_when_conditions_met: true,
                             conditions: [{ field: "field", condition_operator: "equals" }],
+                            is_disabled: true,
                         },
                     ],
                     previous_rule_set_id: "previous_rule_set_id",
@@ -109,11 +110,12 @@ describe("RuleSetsClient", () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
-            display_name: "display_name",
+            display_name: "License policy",
             rules: [
                 {
+                    display_name: "Allow MIT licensed models",
                     is_compliant_when_conditions_met: true,
-                    conditions: [{ field: "field", condition_operator: "equals" }],
+                    conditions: [{ field: "license", condition_operator: "equals", field_value: "mit" }],
                 },
             ],
         };
@@ -146,14 +148,16 @@ describe("RuleSetsClient", () => {
 
         const response = await client.governance.ruleSets.create({
             body: {
-                display_name: "display_name",
+                display_name: "License policy",
                 rules: [
                     {
+                        display_name: "Allow MIT licensed models",
                         is_compliant_when_conditions_met: true,
                         conditions: [
                             {
-                                field: "field",
+                                field: "license",
                                 condition_operator: "equals",
+                                field_value: "mit",
                             },
                         ],
                     },
@@ -164,6 +168,207 @@ describe("RuleSetsClient", () => {
     });
 
     test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            display_name: "Severity policy",
+            rules: [
+                {
+                    display_name: "Flag detections at any severity",
+                    is_compliant_when_conditions_met: false,
+                    conditions: [
+                        {
+                            field: "severity",
+                            condition_operator: "any_of",
+                            field_values: ["low", "medium", "high", "critical"],
+                        },
+                    ],
+                },
+            ],
+        };
+        const rawResponseBody = {
+            id: "id",
+            display_name: "display_name",
+            rules: [
+                {
+                    id: "id",
+                    previous_rule_id: "previous_rule_id",
+                    display_name: "display_name",
+                    notes: "notes",
+                    is_compliant_when_conditions_met: true,
+                    created_at: "2024-01-15T09:30:00Z",
+                    conditions: [{ field: "field", condition_operator: "equals" }],
+                    is_disabled: true,
+                },
+            ],
+            previous_rule_set_id: "previous_rule_set_id",
+        };
+
+        server
+            .mockEndpoint()
+            .post("/governance/v1/rule-sets")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.governance.ruleSets.create({
+            body: {
+                display_name: "Severity policy",
+                rules: [
+                    {
+                        display_name: "Flag detections at any severity",
+                        is_compliant_when_conditions_met: false,
+                        conditions: [
+                            {
+                                field: "severity",
+                                condition_operator: "any_of",
+                                field_values: ["low", "medium", "high", "critical"],
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            display_name: "Threat type policy",
+            rules: [
+                {
+                    display_name: "Flag all threat types",
+                    is_compliant_when_conditions_met: false,
+                    conditions: [
+                        {
+                            field: "threat_type",
+                            condition_operator: "any_of",
+                            field_values: ["malicious", "suspicious", "vulnerable", "advisory", "unclassified"],
+                        },
+                    ],
+                },
+            ],
+        };
+        const rawResponseBody = {
+            id: "id",
+            display_name: "display_name",
+            rules: [
+                {
+                    id: "id",
+                    previous_rule_id: "previous_rule_id",
+                    display_name: "display_name",
+                    notes: "notes",
+                    is_compliant_when_conditions_met: true,
+                    created_at: "2024-01-15T09:30:00Z",
+                    conditions: [{ field: "field", condition_operator: "equals" }],
+                    is_disabled: true,
+                },
+            ],
+            previous_rule_set_id: "previous_rule_set_id",
+        };
+
+        server
+            .mockEndpoint()
+            .post("/governance/v1/rule-sets")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.governance.ruleSets.create({
+            body: {
+                display_name: "Threat type policy",
+                rules: [
+                    {
+                        display_name: "Flag all threat types",
+                        is_compliant_when_conditions_met: false,
+                        conditions: [
+                            {
+                                field: "threat_type",
+                                condition_operator: "any_of",
+                                field_values: ["malicious", "suspicious", "vulnerable", "advisory", "unclassified"],
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("create (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            display_name: "Threat type exclusion policy",
+            rules: [
+                {
+                    display_name: "Allow other threat types",
+                    is_compliant_when_conditions_met: true,
+                    conditions: [
+                        {
+                            field: "threat_type",
+                            condition_operator: "none_of",
+                            field_values: ["malicious", "suspicious"],
+                        },
+                    ],
+                },
+            ],
+        };
+        const rawResponseBody = {
+            id: "id",
+            display_name: "display_name",
+            rules: [
+                {
+                    id: "id",
+                    previous_rule_id: "previous_rule_id",
+                    display_name: "display_name",
+                    notes: "notes",
+                    is_compliant_when_conditions_met: true,
+                    created_at: "2024-01-15T09:30:00Z",
+                    conditions: [{ field: "field", condition_operator: "equals" }],
+                    is_disabled: true,
+                },
+            ],
+            previous_rule_set_id: "previous_rule_set_id",
+        };
+
+        server
+            .mockEndpoint()
+            .post("/governance/v1/rule-sets")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.governance.ruleSets.create({
+            body: {
+                display_name: "Threat type exclusion policy",
+                rules: [
+                    {
+                        display_name: "Allow other threat types",
+                        is_compliant_when_conditions_met: true,
+                        conditions: [
+                            {
+                                field: "threat_type",
+                                condition_operator: "none_of",
+                                field_values: ["malicious", "suspicious"],
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -233,7 +438,7 @@ describe("RuleSetsClient", () => {
         }).rejects.toThrow(HiddenLayerApi.BadRequestError);
     });
 
-    test("create (3)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -303,7 +508,7 @@ describe("RuleSetsClient", () => {
         }).rejects.toThrow(HiddenLayerApi.ConflictError);
     });
 
-    test("create (4)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -373,7 +578,7 @@ describe("RuleSetsClient", () => {
         }).rejects.toThrow(HiddenLayerApi.UnprocessableEntityError);
     });
 
-    test("create (5)", async () => {
+    test("create (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -443,7 +648,7 @@ describe("RuleSetsClient", () => {
         }).rejects.toThrow(HiddenLayerApi.InternalServerError);
     });
 
-    test("create (6)", async () => {
+    test("create (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {

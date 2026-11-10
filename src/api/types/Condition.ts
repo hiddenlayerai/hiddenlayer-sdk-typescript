@@ -3,7 +3,7 @@
 export interface Condition {
     /** Field to evaluate in the rule */
     field: string;
-    /** Operator to apply for the condition. `equals`/`not_equals` compare against `field_value`. `any_of`/`none_of` compare against `field_values`: `any_of` matches when the field's value equals any entry in the list, `none_of` matches when it equals none of them. For fields that can hold several values for one artifact (`license` and `category`), `none_of` matches only when none of the values is in `field_values`; every other operator matches when at least one of the values satisfies it. */
+    /** Operator to apply for the condition. `equals`/`not_equals` compare against `field_value`. `any_of`/`none_of` compare against `field_values`: `any_of` matches when the field's value equals any entry in the list, `none_of` matches when it equals none of them. For fields that can hold several values for one artifact (`license`, `category`, and `threat_type`), `none_of` matches only when none of the values is in `field_values`; every other operator matches when at least one of the values satisfies it. */
     condition_operator: Condition.ConditionOperator;
     /** Value to compare against the field. Used by equals/not_equals only. For the `license` field it must be an `id` from `GET /governance/v1/licenses`, or the request fails with 422. */
     field_value?: string | undefined;
@@ -12,7 +12,7 @@ export interface Condition {
 }
 
 export namespace Condition {
-    /** Operator to apply for the condition. `equals`/`not_equals` compare against `field_value`. `any_of`/`none_of` compare against `field_values`: `any_of` matches when the field's value equals any entry in the list, `none_of` matches when it equals none of them. For fields that can hold several values for one artifact (`license` and `category`), `none_of` matches only when none of the values is in `field_values`; every other operator matches when at least one of the values satisfies it. */
+    /** Operator to apply for the condition. `equals`/`not_equals` compare against `field_value`. `any_of`/`none_of` compare against `field_values`: `any_of` matches when the field's value equals any entry in the list, `none_of` matches when it equals none of them. For fields that can hold several values for one artifact (`license`, `category`, and `threat_type`), `none_of` matches only when none of the values is in `field_values`; every other operator matches when at least one of the values satisfies it. */
     export const ConditionOperator = {
         Equals: "equals",
         NotEquals: "not_equals",

@@ -443,6 +443,9 @@ describe("JobsClient", () => {
                 files_failed_to_scan: 1,
                 unknown_files: 1,
                 mitre_atlas: [{ technique: "AML.T0003.45", tactic: "AML.TA0001" }],
+                top_threat_type: "malicious",
+                findings_count: 1,
+                threat_types: { key: { count: 1, mitre_atlas: [{ technique: "AML.T0003.45", tactic: "AML.TA0001" }] } },
             },
             intelligence: {
                 geographic_footprint: ["US", "GB"],
