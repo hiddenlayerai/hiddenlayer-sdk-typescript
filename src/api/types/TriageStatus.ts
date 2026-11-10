@@ -18,17 +18,21 @@
  * A change is rejected in exactly two cases:
  * - Moving to `ESCALATED` or `FALSE_POSITIVE` without a `note` in the
  *   same request returns 422.
- * - Reopening, moving from a closed status to an open one, returns 409
- *   while another open issue of the tenant holds the same correlation
- *   key.
+ * - Moving from `ESCALATED`, `CLOSED` or `FALSE_POSITIVE` back to `NEW`
+ *   or `INVESTIGATING` returns 409 while another `NEW` or
+ *   `INVESTIGATING` issue of the tenant holds the same correlation key.
  *
  * Setting the status an issue already has is a no-op, not a change, so
  * neither rule applies to it.
  *
- * While an issue is open, new alerts sharing its source, detection
- * category and asset are correlated into it. Once it is closed, the
- * next such alert opens a new issue; that new issue is what a later
- * reopen conflicts with.
+ * While an issue is `NEW` or `INVESTIGATING`, new alerts sharing its
+ * source, detection category and asset are correlated into it. Once it
+ * is escalated or closed it takes no new alerts: the next such alert
+ * opens a new issue, and later alerts are correlated into that one
+ * while it is `NEW` or `INVESTIGATING`. An escalation therefore covers
+ * only the alerts it was made on. Moving the earlier issue back to
+ * `NEW` or `INVESTIGATING` conflicts (409) only while some other issue
+ * with the same correlation key is `NEW` or `INVESTIGATING`.
  *
  * Sorting ranks statuses in the order listed here (`NEW` first,
  * `FALSE_POSITIVE` last).
