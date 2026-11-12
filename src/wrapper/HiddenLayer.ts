@@ -4,7 +4,7 @@ import { HiddenLayerEnvironment } from "../environments.js";
 import { withBetaWarnings } from "../lib/beta.js";
 import { CommunityScanner } from "../lib/community-scan.js";
 import { ModelScanner } from "../lib/model-scan.js";
-import { missingCredentials, readEnv } from "./credentials.js";
+import { missingCredentials, nonEmpty, readEnv } from "./credentials.js";
 
 /** The HiddenLayer regions, by the names the `environment` option takes. */
 export const HiddenLayerEnvironmentName: Readonly<Record<"prod-us" | "prod-eu", HiddenLayerEnvironment>> = {
@@ -80,15 +80,38 @@ function resolveEnvironment(
 }
 
 /** A token, or the client ID and secret the generated client exchanges for one at `/oauth2/token`. */
-type Credentials = { token: core.Supplier<string> } | { clientId: string; clientSecret: string };
+type Credentials =
+    | { token: core.Supplier<string> }
+    | { clientId: core.Supplier<string>; clientSecret: core.Supplier<string> };
 
-function credentials(options: HiddenLayer.Options): Credentials {
-    if (options.token !== undefined) {
-        return { token: options.token };
+/** Credentials as the generated client's `auth` option takes them, in an object. */
+type AuthCredentials = {
+    token?: core.Supplier<string>;
+    clientId?: core.Supplier<string>;
+    clientSecret?: core.Supplier<string>;
+};
+
+/** The credentials in an `auth` object, or undefined when `auth` is `false`, a function or an `AuthProvider`. */
+function authCredentials(auth: HiddenLayer.Options["auth"]): AuthCredentials | undefined {
+    if (auth === undefined || auth === false || typeof auth === "function" || core.isAuthProvider(auth)) {
+        return undefined;
     }
-    // An empty clientId or clientSecret counts as not passed.
-    const passedId = options.clientId || undefined;
-    const passedSecret = options.clientSecret || undefined;
+    return auth;
+}
+
+/** A passed credential, with a blank string counted as not passed. */
+function passed(value: core.Supplier<string> | undefined): core.Supplier<string> | undefined {
+    return typeof value === "string" ? nonEmpty(value) : value;
+}
+
+/** Top-level options win over an `auth` object's, and either wins over the environment. */
+function credentials(options: HiddenLayer.Options, fromAuth: AuthCredentials): Credentials {
+    const token = options.token ?? fromAuth.token;
+    if (token !== undefined) {
+        return { token };
+    }
+    const passedId = passed(options.clientId) ?? passed(fromAuth.clientId);
+    const passedSecret = passed(options.clientSecret) ?? passed(fromAuth.clientSecret);
     const clientId = passedId ?? readEnv("HIDDENLAYER_CLIENT_ID");
     const clientSecret = passedSecret ?? readEnv("HIDDENLAYER_CLIENT_SECRET");
     const hasClientCredentials = clientId !== undefined && clientSecret !== undefined;
@@ -123,11 +146,14 @@ export class HiddenLayer extends HiddenLayerClient {
             options.baseUrl ?? (options.environment === undefined ? readEnv("HIDDENLAYER_BASE_URL") : undefined);
         // Looked up per request, as Fern's own fetcher does, so a fetch installed after construction is used.
         const fetchFn: typeof fetch = (input, init) => (options.fetch ?? globalThis.fetch)(input, init);
+        const fromAuth = authCredentials(options.auth);
         super({
             ...rest,
+            // credentials() reads an auth object, so the generated client sees only the credentials it chose.
+            auth: fromAuth === undefined ? options.auth : undefined,
             environment,
             baseUrl,
-            ...credentials(options),
+            ...credentials(options, fromAuth ?? {}),
             fetch: withBetaWarnings(
                 fetchFn,
                 async () => (await core.Supplier.get(baseUrl)) ?? (await core.Supplier.get(environment)),

@@ -176,6 +176,51 @@ describe("HiddenLayer", () => {
             expect(requests[1].headers.get("Authorization")).toBe("Bearer access-token-1");
         });
 
+        it("sends the client ID and secret without surrounding whitespace", async () => {
+            const { fetch, requests } = recordingFetch();
+            const client = new HiddenLayer({ clientId: " id ", clientSecret: "\tsecret\n", fetch });
+
+            await retrieveSummary(client);
+
+            expect(formFields(requests[0])).toMatchObject({ client_id: "id", client_secret: "secret" });
+        });
+
+        it("exchanges client credentials passed in an auth object", async () => {
+            const { fetch, requests } = recordingFetch();
+            const client = new HiddenLayer({ auth: { clientId: "id", clientSecret: "secret" }, fetch });
+
+            await retrieveSummary(client);
+
+            expect(requests.map((r) => r.url.pathname)).toEqual(["/oauth2/token", "/scan/v3/results/s/summary"]);
+            expect(formFields(requests[0])).toMatchObject({ client_id: "id", client_secret: "secret" });
+            expect(requests[1].headers.get("Authorization")).toBe("Bearer access-token-1");
+        });
+
+        it("prefers client credentials in an auth object over HIDDENLAYER_TOKEN", async () => {
+            vi.stubEnv("HIDDENLAYER_TOKEN", "env-token");
+            const { fetch, requests } = recordingFetch();
+            const client = new HiddenLayer({ auth: { clientId: "id", clientSecret: "secret" }, fetch });
+
+            await retrieveSummary(client);
+
+            expect(requests.map((r) => r.url.pathname)).toEqual(["/oauth2/token", "/scan/v3/results/s/summary"]);
+            expect(requests[1].headers.get("Authorization")).toBe("Bearer access-token-1");
+        });
+
+        it("prefers top-level client credentials over those in an auth object", async () => {
+            const { fetch, requests } = recordingFetch();
+            const client = new HiddenLayer({
+                clientId: "id",
+                clientSecret: "secret",
+                auth: { clientId: "auth-id", clientSecret: "auth-secret" },
+                fetch,
+            });
+
+            await retrieveSummary(client);
+
+            expect(formFields(requests[0])).toMatchObject({ client_id: "id", client_secret: "secret" });
+        });
+
         it("reuses the access token until it nears expiry", async () => {
             const { fetch, requests } = recordingFetch();
             const client = new HiddenLayer({ clientId: "id", clientSecret: "secret", fetch });
@@ -389,11 +434,14 @@ describe("HiddenLayer", () => {
             expect(requests).toHaveLength(0);
         });
 
-        it("falls back to HIDDENLAYER_TOKEN when clientId and clientSecret are empty", async () => {
+        it.each([
+            { name: "empty", blank: "" },
+            { name: "whitespace-only", blank: "  " },
+        ])("falls back to HIDDENLAYER_TOKEN when clientId and clientSecret are $name", async ({ blank }) => {
             vi.stubEnv("HIDDENLAYER_TOKEN", "env-token");
             const { fetch, requests } = recordingFetch();
 
-            await retrieveSummary(new HiddenLayer({ clientId: "", clientSecret: "", fetch }));
+            await retrieveSummary(new HiddenLayer({ clientId: blank, clientSecret: blank, fetch }));
 
             expect(requests).toHaveLength(1);
             expect(requests[0].headers.get("Authorization")).toBe("Bearer env-token");
