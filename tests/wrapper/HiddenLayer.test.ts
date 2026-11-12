@@ -69,8 +69,8 @@ function retrieveSummary(client: HiddenLayer): Promise<unknown> {
     return client.scans.results.retrieveSummary({ scan_id: "s" });
 }
 
-function basic(id: string, secret: string): string {
-    return `Basic ${Buffer.from(`${id}:${secret}`).toString("base64")}`;
+function formFields(request: RecordedRequest): Record<string, string> {
+    return Object.fromEntries(new URLSearchParams(request.body));
 }
 
 function isTokenRequest(request: RecordedRequest): boolean {
@@ -152,9 +152,11 @@ describe("HiddenLayer", () => {
             const [tokenRequest, apiRequest] = requests;
             expect(tokenRequest.method).toBe("POST");
             expect(tokenRequest.url.href).toBe("https://api.us.hiddenlayer.ai/oauth2/token");
-            expect(tokenRequest.headers.get("Authorization")).toBe(basic("id", "secret"));
+            expect(tokenRequest.headers.get("Authorization")).toBeNull();
             expect(tokenRequest.headers.get("Content-Type")).toContain("application/x-www-form-urlencoded");
-            expect(Object.fromEntries(new URLSearchParams(tokenRequest.body))).toEqual({
+            expect(formFields(tokenRequest)).toEqual({
+                client_id: "id",
+                client_secret: "secret",
                 grant_type: "client_credentials",
             });
             expect(apiRequest.url.pathname).toBe("/scan/v3/results/s/summary");
@@ -170,7 +172,7 @@ describe("HiddenLayer", () => {
             await retrieveSummary(client);
 
             expect(requests[0].url.pathname).toBe("/oauth2/token");
-            expect(requests[0].headers.get("Authorization")).toBe(basic("env-id", "env-secret"));
+            expect(formFields(requests[0])).toMatchObject({ client_id: "env-id", client_secret: "env-secret" });
             expect(requests[1].headers.get("Authorization")).toBe("Bearer access-token-1");
         });
 
@@ -233,23 +235,22 @@ describe("HiddenLayer", () => {
             expect(requests[requests.length - 1].headers.get("Authorization")).toBe("Bearer access-token-1");
         });
 
-        it("fetches a new access token 30 seconds before the current one expires", async () => {
+        it("fetches a new access token shortly before the current one expires", async () => {
             vi.useFakeTimers({ toFake: ["Date"] });
             const start = new Date("2026-01-01T00:00:00Z").getTime();
             vi.setSystemTime(start);
-            const { fetch, requests } = recordingFetch(60);
+            const { fetch, requests } = recordingFetch(3600);
             const client = new HiddenLayer({ clientId: "id", clientSecret: "secret", fetch });
-            const tokenRequests = () => requests.filter((r) => r.url.pathname === "/oauth2/token").length;
 
             await retrieveSummary(client);
-            vi.setSystemTime(start + 29_000);
+            vi.setSystemTime(start + 30 * 60_000);
             await retrieveSummary(client);
-            expect(tokenRequests()).toBe(1);
+            expect(requests.filter(isTokenRequest)).toHaveLength(1);
 
-            vi.setSystemTime(start + 31_000);
+            vi.setSystemTime(start + 3600_000 - 30_000);
             await retrieveSummary(client);
 
-            expect(tokenRequests()).toBe(2);
+            expect(requests.filter(isTokenRequest)).toHaveLength(2);
             expect(requests[requests.length - 1].headers.get("Authorization")).toBe("Bearer access-token-2");
         });
 
@@ -284,24 +285,6 @@ describe("HiddenLayer", () => {
 
             expect(requests).toHaveLength(1);
             expect(requests[0].headers.get("Authorization")).toBe("Bearer env-token");
-        });
-
-        it("refreshes a token whose lifetime is under a minute halfway through it", async () => {
-            vi.useFakeTimers({ toFake: ["Date"] });
-            const start = new Date("2026-01-01T00:00:00Z").getTime();
-            vi.setSystemTime(start);
-            const { fetch, requests } = recordingFetch(20);
-            const client = new HiddenLayer({ clientId: "id", clientSecret: "secret", fetch });
-            const tokenRequests = () => requests.filter((r) => r.url.pathname === "/oauth2/token").length;
-
-            await retrieveSummary(client);
-            vi.setSystemTime(start + 9_000);
-            await retrieveSummary(client);
-            expect(tokenRequests()).toBe(1);
-
-            vi.setSystemTime(start + 11_000);
-            await retrieveSummary(client);
-            expect(tokenRequests()).toBe(2);
         });
     });
 
@@ -404,6 +387,16 @@ describe("HiddenLayer", () => {
             await expect(result).rejects.toBeInstanceOf(HiddenLayerError);
             await expect(result).rejects.toThrow(/HIDDENLAYER_TOKEN/);
             expect(requests).toHaveLength(0);
+        });
+
+        it("falls back to HIDDENLAYER_TOKEN when clientId and clientSecret are empty", async () => {
+            vi.stubEnv("HIDDENLAYER_TOKEN", "env-token");
+            const { fetch, requests } = recordingFetch();
+
+            await retrieveSummary(new HiddenLayer({ clientId: "", clientSecret: "", fetch }));
+
+            expect(requests).toHaveLength(1);
+            expect(requests[0].headers.get("Authorization")).toBe("Bearer env-token");
         });
     });
 

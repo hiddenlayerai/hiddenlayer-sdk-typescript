@@ -4,7 +4,7 @@ import { HiddenLayerEnvironment } from "../environments.js";
 import { withBetaWarnings } from "../lib/beta.js";
 import { CommunityScanner } from "../lib/community-scan.js";
 import { ModelScanner } from "../lib/model-scan.js";
-import { ClientCredentials, missingCredentials, readEnv } from "./credentials.js";
+import { missingCredentials, readEnv } from "./credentials.js";
 
 /** The HiddenLayer regions, by the names the `environment` option takes. */
 export const HiddenLayerEnvironmentName: Readonly<Record<"prod-us" | "prod-eu", HiddenLayerEnvironment>> = {
@@ -79,28 +79,32 @@ function resolveEnvironment(
     return async () => regionUrl(await core.Supplier.get(environment));
 }
 
-function tokenSupplier(options: HiddenLayer.Options, connection: HiddenLayerClient.Options): core.Supplier<string> {
+/** A token, or the client ID and secret the generated client exchanges for one at `/oauth2/token`. */
+type Credentials = { token: core.Supplier<string> } | { clientId: string; clientSecret: string };
+
+function credentials(options: HiddenLayer.Options): Credentials {
     if (options.token !== undefined) {
-        return options.token;
+        return { token: options.token };
     }
-    const clientId = options.clientId ?? readEnv("HIDDENLAYER_CLIENT_ID");
-    const clientSecret = options.clientSecret ?? readEnv("HIDDENLAYER_CLIENT_SECRET");
-    const exchange = (id: string, secret: string): core.Supplier<string> => {
-        const credentials = new ClientCredentials(id, secret, connection);
-        return () => credentials.accessToken();
-    };
-    const isClientPassed = options.clientId !== undefined || options.clientSecret !== undefined;
-    if (isClientPassed && clientId !== undefined && clientSecret !== undefined) {
-        return exchange(clientId, clientSecret);
+    // An empty clientId or clientSecret counts as not passed.
+    const passedId = options.clientId || undefined;
+    const passedSecret = options.clientSecret || undefined;
+    const clientId = passedId ?? readEnv("HIDDENLAYER_CLIENT_ID");
+    const clientSecret = passedSecret ?? readEnv("HIDDENLAYER_CLIENT_SECRET");
+    const hasClientCredentials = clientId !== undefined && clientSecret !== undefined;
+    const isClientPassed = passedId !== undefined || passedSecret !== undefined;
+    if (hasClientCredentials && isClientPassed) {
+        return { clientId, clientSecret };
     }
     const envToken = readEnv("HIDDENLAYER_TOKEN");
     if (envToken !== undefined) {
-        return envToken;
+        return { token: envToken };
     }
-    if (clientId !== undefined && clientSecret !== undefined) {
-        return exchange(clientId, clientSecret);
+    if (hasClientCredentials) {
+        return { clientId, clientSecret };
     }
-    return missingCredentials;
+    // Missing credentials fail each request rather than the constructor, as they did in 4.0.
+    return { token: missingCredentials };
 }
 
 /**
@@ -117,12 +121,13 @@ export class HiddenLayer extends HiddenLayerClient {
         const environment = resolveEnvironment(options.environment);
         const baseUrl =
             options.baseUrl ?? (options.environment === undefined ? readEnv("HIDDENLAYER_BASE_URL") : undefined);
-        const connection: HiddenLayerClient.Options = { ...rest, environment, baseUrl, token: "" };
         // Looked up per request, as Fern's own fetcher does, so a fetch installed after construction is used.
         const fetchFn: typeof fetch = (input, init) => (options.fetch ?? globalThis.fetch)(input, init);
         super({
-            ...connection,
-            token: tokenSupplier(options, connection),
+            ...rest,
+            environment,
+            baseUrl,
+            ...credentials(options),
             fetch: withBetaWarnings(
                 fetchFn,
                 async () => (await core.Supplier.get(baseUrl)) ?? (await core.Supplier.get(environment)),
