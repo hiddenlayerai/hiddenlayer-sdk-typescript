@@ -3,6 +3,10 @@
 export interface AccessTokenRequest {
     /** The OAuth2 grant type. Only `client_credentials` is supported. */
     grant_type: AccessTokenRequest.GrantType;
+    /** The Client ID, when it isn't sent as the HTTP Basic username. */
+    client_id?: string | undefined;
+    /** The Client Secret, when it isn't sent as the HTTP Basic password. */
+    client_secret?: string | undefined;
 }
 
 export namespace AccessTokenRequest {

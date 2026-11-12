@@ -596,6 +596,18 @@
         "name": "token",
         "parameters": [
           {
+            "name": "client_id",
+            "in": "body",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "client_secret",
+            "in": "body",
+            "required": false,
+            "type": "string(password)"
+          },
+          {
             "name": "grant_type",
             "in": "body",
             "required": true,

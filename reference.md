@@ -846,7 +846,7 @@ await client.users.me();
 <dl>
 <dd>
 
-Exchanges the Client ID and Client Secret of an [API credential](#operation/create_credentials_api_v2_credentials_post) for an access token, using the OAuth2 client credentials grant. Send the Client ID and Client Secret as the HTTP Basic username and password.
+Exchanges the Client ID and Client Secret of an [API credential](#operation/create_credentials_api_v2_credentials_post) for an access token, using the OAuth2 client credentials grant. Send the Client ID and Client Secret either as the HTTP Basic username and password, or as the `client_id` and `client_secret` form fields.
 
 Send the token as `Authorization: Bearer <access_token>` on every other request. It expires `expires_in` seconds after it is issued, so request a new one before then.
 </dd>
