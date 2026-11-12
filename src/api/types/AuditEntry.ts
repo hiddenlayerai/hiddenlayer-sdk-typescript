@@ -12,6 +12,7 @@ export interface AuditEntry extends HiddenLayerApi.AuditEntryBase {
      * - `CLIENT_CREDENTIAL` and `API_KEY`: the API credential's `client_id`.
      * - `STATIC_API_KEY`: the Static API Key's `id`, not a secret's `id`.
      * - `SYSTEM`: an ID that HiddenLayer assigns to the process.
+     * - `THIRD_PARTY_TOKEN`: the third-party token link's `id`.
      */
     actor_id: string;
     /** Name of the actor */

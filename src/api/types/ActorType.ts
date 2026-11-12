@@ -6,5 +6,6 @@ export const ActorType = {
     StaticApiKey: "STATIC_API_KEY",
     System: "SYSTEM",
     ApiKey: "API_KEY",
+    ThirdPartyToken: "THIRD_PARTY_TOKEN",
 } as const;
 export type ActorType = (typeof ActorType)[keyof typeof ActorType];
