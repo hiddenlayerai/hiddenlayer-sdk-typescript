@@ -19,7 +19,7 @@ export declare namespace PromptAnalyzerClient {
 export class PromptAnalyzerClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<PromptAnalyzerClient.Options>;
 
-    constructor(options: PromptAnalyzerClient.Options) {
+    constructor(options: PromptAnalyzerClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

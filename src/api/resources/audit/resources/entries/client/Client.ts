@@ -18,7 +18,7 @@ export declare namespace EntriesClient {
 export class EntriesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<EntriesClient.Options>;
 
-    constructor(options: EntriesClient.Options) {
+    constructor(options: EntriesClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

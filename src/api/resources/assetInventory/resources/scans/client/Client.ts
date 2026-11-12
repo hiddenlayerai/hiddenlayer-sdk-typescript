@@ -18,7 +18,7 @@ export declare namespace ScansClient {
 export class ScansClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ScansClient.Options>;
 
-    constructor(options: ScansClient.Options) {
+    constructor(options: ScansClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

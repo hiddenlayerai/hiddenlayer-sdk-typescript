@@ -18,7 +18,7 @@ export declare namespace ReportsClient {
 export class ReportsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ReportsClient.Options>;
 
-    constructor(options: ReportsClient.Options) {
+    constructor(options: ReportsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

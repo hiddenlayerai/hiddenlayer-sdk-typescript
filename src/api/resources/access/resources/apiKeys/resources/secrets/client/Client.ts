@@ -22,7 +22,7 @@ export declare namespace SecretsClient {
 export class SecretsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<SecretsClient.Options>;
 
-    constructor(options: SecretsClient.Options) {
+    constructor(options: SecretsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

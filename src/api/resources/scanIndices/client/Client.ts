@@ -12,7 +12,7 @@ export class ScanIndicesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ScanIndicesClient.Options>;
     protected _submission: SubmissionClient | undefined;
 
-    constructor(options: ScanIndicesClient.Options) {
+    constructor(options: ScanIndicesClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

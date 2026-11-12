@@ -18,7 +18,7 @@ export class ScansClient {
     protected _results: ResultsClient | undefined;
     protected _reports: ReportsClient | undefined;
 
-    constructor(options: ScansClient.Options) {
+    constructor(options: ScansClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

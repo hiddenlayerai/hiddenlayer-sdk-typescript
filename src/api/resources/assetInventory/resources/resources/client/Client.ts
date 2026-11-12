@@ -18,7 +18,7 @@ export declare namespace ResourcesClient {
 export class ResourcesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ResourcesClient.Options>;
 
-    constructor(options: ResourcesClient.Options) {
+    constructor(options: ResourcesClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

@@ -21,7 +21,7 @@ export declare namespace LocationClient {
 export class LocationClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<LocationClient.Options>;
 
-    constructor(options: LocationClient.Options) {
+    constructor(options: LocationClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

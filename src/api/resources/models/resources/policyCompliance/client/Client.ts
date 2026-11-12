@@ -19,7 +19,7 @@ export declare namespace PolicyComplianceClient {
 export class PolicyComplianceClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<PolicyComplianceClient.Options>;
 
-    constructor(options: PolicyComplianceClient.Options) {
+    constructor(options: PolicyComplianceClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

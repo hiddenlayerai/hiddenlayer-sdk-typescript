@@ -225,7 +225,6 @@ export * from "./NextActionResponse.js";
 export * from "./NullablePolicyStatus.js";
 export * from "./NumpyFileAttributes.js";
 export * from "./OAuth2Error.js";
-export * from "./OauthScope.js";
 export * from "./ObjectivesListResponse.js";
 export * from "./Offset.js";
 export * from "./Org.js";

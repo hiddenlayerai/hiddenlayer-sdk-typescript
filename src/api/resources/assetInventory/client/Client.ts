@@ -30,7 +30,7 @@ export class AssetInventoryClient {
     protected _annotations: AnnotationsClient | undefined;
     protected _jobs: JobsClient | undefined;
 
-    constructor(options: AssetInventoryClient.Options) {
+    constructor(options: AssetInventoryClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

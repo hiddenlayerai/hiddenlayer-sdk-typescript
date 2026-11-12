@@ -14,7 +14,7 @@ export class TriageClient {
     protected _issues: IssuesClient | undefined;
     protected _reports: ReportsClient | undefined;
 
-    constructor(options: TriageClient.Options) {
+    constructor(options: TriageClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

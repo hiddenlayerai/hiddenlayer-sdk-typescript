@@ -18,7 +18,7 @@ export class MetricsClient {
     protected _timeseriesConvictions: TimeseriesConvictionsClient | undefined;
     protected _timeseriesScans: TimeseriesScansClient | undefined;
 
-    constructor(options: MetricsClient.Options) {
+    constructor(options: MetricsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

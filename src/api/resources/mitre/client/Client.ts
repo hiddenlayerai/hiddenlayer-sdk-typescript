@@ -12,7 +12,7 @@ export class MitreClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<MitreClient.Options>;
     protected _atlas: AtlasClient | undefined;
 
-    constructor(options: MitreClient.Options) {
+    constructor(options: MitreClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

@@ -19,7 +19,7 @@ export declare namespace InteractionsClient {
 export class InteractionsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<InteractionsClient.Options>;
 
-    constructor(options: InteractionsClient.Options) {
+    constructor(options: InteractionsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

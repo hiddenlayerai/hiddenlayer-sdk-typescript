@@ -18,7 +18,7 @@ export declare namespace LicensesClient {
 export class LicensesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<LicensesClient.Options>;
 
-    constructor(options: LicensesClient.Options) {
+    constructor(options: LicensesClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

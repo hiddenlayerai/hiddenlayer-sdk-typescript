@@ -12,7 +12,7 @@ export class IntegrationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<IntegrationsClient.Options>;
     protected _assets: AssetsClient | undefined;
 
-    constructor(options: IntegrationsClient.Options) {
+    constructor(options: IntegrationsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

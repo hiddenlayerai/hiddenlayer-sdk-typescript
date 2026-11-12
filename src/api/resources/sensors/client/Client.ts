@@ -19,7 +19,7 @@ export declare namespace SensorsClient {
 export class SensorsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<SensorsClient.Options>;
 
-    constructor(options: SensorsClient.Options) {
+    constructor(options: SensorsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

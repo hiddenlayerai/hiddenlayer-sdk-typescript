@@ -19,7 +19,7 @@ export declare namespace PolicyPacksClient {
 export class PolicyPacksClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<PolicyPacksClient.Options>;
 
-    constructor(options: PolicyPacksClient.Options) {
+    constructor(options: PolicyPacksClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

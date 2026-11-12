@@ -21,7 +21,7 @@ export declare namespace FileClient {
 export class FileClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<FileClient.Options>;
 
-    constructor(options: FileClient.Options) {
+    constructor(options: FileClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

@@ -22,7 +22,7 @@ export class ReportsClient {
     protected _csv: CsvClient | undefined;
     protected _supplyChain: SupplyChainClient | undefined;
 
-    constructor(options: ReportsClient.Options) {
+    constructor(options: ReportsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

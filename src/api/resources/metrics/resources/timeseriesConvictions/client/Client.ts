@@ -18,7 +18,7 @@ export declare namespace TimeseriesConvictionsClient {
 export class TimeseriesConvictionsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<TimeseriesConvictionsClient.Options>;
 
-    constructor(options: TimeseriesConvictionsClient.Options) {
+    constructor(options: TimeseriesConvictionsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

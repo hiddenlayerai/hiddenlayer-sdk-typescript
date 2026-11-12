@@ -14,7 +14,7 @@ export class AtlasClient {
     protected _tactics: TacticsClient | undefined;
     protected _techniques: TechniquesClient | undefined;
 
-    constructor(options: AtlasClient.Options) {
+    constructor(options: AtlasClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

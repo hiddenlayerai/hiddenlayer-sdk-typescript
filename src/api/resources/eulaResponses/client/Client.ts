@@ -18,7 +18,7 @@ export declare namespace EulaResponsesClient {
 export class EulaResponsesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<EulaResponsesClient.Options>;
 
-    constructor(options: EulaResponsesClient.Options) {
+    constructor(options: EulaResponsesClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

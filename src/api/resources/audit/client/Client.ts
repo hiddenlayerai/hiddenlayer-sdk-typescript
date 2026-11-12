@@ -14,7 +14,7 @@ export class AuditClient {
     protected _entries: EntriesClient | undefined;
     protected _activityTypes: ActivityTypesClient | undefined;
 
-    constructor(options: AuditClient.Options) {
+    constructor(options: AuditClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

@@ -22,7 +22,7 @@ export declare namespace LocationsClient {
 export class LocationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<LocationsClient.Options>;
 
-    constructor(options: LocationsClient.Options) {
+    constructor(options: LocationsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

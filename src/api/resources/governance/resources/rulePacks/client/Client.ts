@@ -18,7 +18,7 @@ export declare namespace RulePacksClient {
 export class RulePacksClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<RulePacksClient.Options>;
 
-    constructor(options: RulePacksClient.Options) {
+    constructor(options: RulePacksClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

@@ -22,7 +22,7 @@ export declare namespace CustomTagsClient {
 export class CustomTagsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<CustomTagsClient.Options>;
 
-    constructor(options: CustomTagsClient.Options) {
+    constructor(options: CustomTagsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

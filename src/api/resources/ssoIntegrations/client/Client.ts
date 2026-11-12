@@ -19,7 +19,7 @@ export declare namespace SsoIntegrationsClient {
 export class SsoIntegrationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<SsoIntegrationsClient.Options>;
 
-    constructor(options: SsoIntegrationsClient.Options) {
+    constructor(options: SsoIntegrationsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

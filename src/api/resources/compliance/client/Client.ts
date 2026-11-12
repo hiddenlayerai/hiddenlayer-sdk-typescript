@@ -14,7 +14,7 @@ export class ComplianceClient {
     protected _projects: ProjectsClient | undefined;
     protected _ruleSets: RuleSetsClient | undefined;
 
-    constructor(options: ComplianceClient.Options) {
+    constructor(options: ComplianceClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

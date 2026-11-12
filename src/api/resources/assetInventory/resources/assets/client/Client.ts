@@ -23,7 +23,7 @@ export class AssetsClient {
     protected _search: SearchClient | undefined;
     protected _customTags: CustomTagsClient | undefined;
 
-    constructor(options: AssetsClient.Options) {
+    constructor(options: AssetsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
