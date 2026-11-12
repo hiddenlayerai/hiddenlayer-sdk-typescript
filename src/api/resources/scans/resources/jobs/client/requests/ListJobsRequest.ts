@@ -52,7 +52,11 @@ export interface ListJobsRequest {
     provider?: string | string[];
     limit?: number;
     offset?: number;
-    /** allow sorting by model name, status, severity, scan start time, asset region, or model provider ascending (+) or the default descending (-) */
+    /**
+     * allow sorting by model name, status, severity, scan start time, asset region, model provider, or policy status ascending (+) or the default descending (-)
+     *
+     * `policy_status` sorts by the scan's policy verdict. Descending puts `NONCOMPLIANT` first, then `COMPLIANT`, then scans without a verdict; ascending is the reverse.
+     */
     sort?: string;
     /** only return latest result per model version */
     latest_per_model_version_only?: boolean;
