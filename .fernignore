@@ -29,3 +29,6 @@ tests/wrapper/
 tests/lib/
 tests/security/
 tests/__mocks__/
+
+# Fern's token mock expires at once and fails every paginated wire test (PLT-1610); drop when Fern fixes it.
+tests/wire/mockAuth.ts
