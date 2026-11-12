@@ -130,6 +130,16 @@ describe("HiddenLayer", () => {
             expect(requests[0].headers.get("Authorization")).toBe("Bearer env-token");
         });
 
+        it("sends a token passed in an auth object", async () => {
+            vi.stubEnv("HIDDENLAYER_TOKEN", "env-token");
+            const { fetch, requests } = recordingFetch();
+
+            await retrieveSummary(new HiddenLayer({ auth: { token: "auth-token" }, fetch }));
+
+            expect(requests).toHaveLength(1);
+            expect(requests[0].headers.get("Authorization")).toBe("Bearer auth-token");
+        });
+
         it("prefers the token option over HIDDENLAYER_TOKEN", async () => {
             vi.stubEnv("HIDDENLAYER_TOKEN", "env-token");
             const { fetch, requests } = recordingFetch();
@@ -406,6 +416,17 @@ describe("HiddenLayer", () => {
             expect(requests).toHaveLength(0);
         });
 
+        it("sends what a custom auth function returns in place of any credentials", async () => {
+            vi.stubEnv("HIDDENLAYER_TOKEN", "env-token");
+            const { fetch, requests } = recordingFetch();
+            const auth = async () => ({ headers: { Authorization: "Custom credential" } });
+
+            await retrieveSummary(new HiddenLayer({ clientId: "id", clientSecret: "secret", auth, fetch }));
+
+            expect(requests).toHaveLength(1);
+            expect(requests[0].headers.get("Authorization")).toBe("Custom credential");
+        });
+
         it("sends no Authorization header with auth: false", async () => {
             const { fetch, requests } = recordingFetch();
 
@@ -435,13 +456,15 @@ describe("HiddenLayer", () => {
         });
 
         it.each([
-            { name: "empty", blank: "" },
-            { name: "whitespace-only", blank: "  " },
-        ])("falls back to HIDDENLAYER_TOKEN when clientId and clientSecret are $name", async ({ blank }) => {
+            { name: "an empty clientId and clientSecret", options: { clientId: "", clientSecret: "" } },
+            { name: "a whitespace-only clientId and clientSecret", options: { clientId: "  ", clientSecret: "  " } },
+            { name: "an empty token", options: { token: "" } },
+            { name: "a whitespace-only token", options: { token: "  " } },
+        ])("falls back to HIDDENLAYER_TOKEN given $name", async ({ options }) => {
             vi.stubEnv("HIDDENLAYER_TOKEN", "env-token");
             const { fetch, requests } = recordingFetch();
 
-            await retrieveSummary(new HiddenLayer({ clientId: blank, clientSecret: blank, fetch }));
+            await retrieveSummary(new HiddenLayer({ ...options, fetch }));
 
             expect(requests).toHaveLength(1);
             expect(requests[0].headers.get("Authorization")).toBe("Bearer env-token");

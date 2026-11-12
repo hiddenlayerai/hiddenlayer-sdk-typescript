@@ -18,7 +18,8 @@ export declare namespace HiddenLayer {
     export interface Options extends Omit<HiddenLayerClient.Options, "token" | "environment"> {
         /**
          * A bearer token. Options win over the environment: `token`, then `clientId` and `clientSecret`, then
-         * `HIDDENLAYER_TOKEN`, then `HIDDENLAYER_CLIENT_ID` and `HIDDENLAYER_CLIENT_SECRET`.
+         * `HIDDENLAYER_TOKEN`, then `HIDDENLAYER_CLIENT_ID` and `HIDDENLAYER_CLIENT_SECRET`. Credentials in an `auth`
+         * object count as options, after the top-level ones, and a blank one counts as not passed.
          */
         token?: core.Supplier<string>;
         /** Exchanged with `clientSecret` for an access token. Defaults to `HIDDENLAYER_CLIENT_ID`. */
@@ -106,7 +107,7 @@ function passed(value: core.Supplier<string> | undefined): core.Supplier<string>
 
 /** Top-level options win over an `auth` object's, and either wins over the environment. */
 function credentials(options: HiddenLayer.Options, fromAuth: AuthCredentials): Credentials {
-    const token = options.token ?? fromAuth.token;
+    const token = passed(options.token) ?? passed(fromAuth.token);
     if (token !== undefined) {
         return { token };
     }
