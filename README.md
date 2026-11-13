@@ -41,7 +41,7 @@ const client = new HiddenLayer({
 
 The client authenticates with the first of these it finds, options before the environment:
 
-1. `token` in the options: a Static API Key or a JWT, sent as a bearer token.
+1. `token` in the options: a Static API Key or a JWT, sent as a bearer token. The client never refreshes a token it's given. To keep one current, pass a function that returns it, which the client runs before every API call.
 2. `clientId` and `clientSecret` in the options.
 3. The `HIDDENLAYER_TOKEN` environment variable.
 4. The `HIDDENLAYER_CLIENT_ID` and `HIDDENLAYER_CLIENT_SECRET` environment variables.
