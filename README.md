@@ -28,14 +28,56 @@ const response = await client.interactions.analyze({
 
 ### Credentials
 
+Give the client a client ID and secret, created under Client Credentials in the HiddenLayer Console. It exchanges them for an access token on its first call, reuses that token, and gets a new one two minutes before it expires. Listing users needs a credential whose role grants `user:read`:
+
+```ts
+import { HiddenLayer } from "@hiddenlayerai/hiddenlayer-sdk";
+
+const client = new HiddenLayer({
+    clientId: process.env.HL_CLIENT_ID,
+    clientSecret: process.env.HL_CLIENT_SECRET,
+});
+
+for await (const user of await client.access.users.list()) {
+    console.log(user.email);
+}
+```
+
+Without `clientId` and `clientSecret`, the client reads `HIDDENLAYER_CLIENT_ID` and `HIDDENLAYER_CLIENT_SECRET`:
+
+```ts
+const client = new HiddenLayer();
+const users = await client.access.users.list({ limit: 5 });
+console.log(users.data.map((user) => user.email));
+```
+
+`token` takes a token you already have, a Static API Key or a JWT, and the client sends it as a bearer token in place of the client ID and secret:
+
+```ts
+const client = new HiddenLayer({ token: process.env.HL_TOKEN });
+const users = await client.access.users.list({ limit: 5 });
+console.log(users.data.map((user) => user.email));
+```
+
 The client authenticates with the first of these it finds, options before the environment:
 
-1. `token` in the options: sent as a bearer token.
-2. `clientId` and `clientSecret` in the options: exchanged for an access token, which the client reuses until shortly before it expires.
+1. `token` in the options.
+2. `clientId` and `clientSecret` in the options.
 3. The `HIDDENLAYER_TOKEN` environment variable.
 4. The `HIDDENLAYER_CLIENT_ID` and `HIDDENLAYER_CLIENT_SECRET` environment variables.
 
 With none of them, requests fail with a `HiddenLayerError`. For a deployment that takes unauthenticated requests, pass `auth: false`.
+
+`client.oauth2.token` returns an access token itself, for a caller that needs the token. It sends the client ID and secret you pass it, whatever the client was built with:
+
+```ts
+const token = await client.oauth2.token({
+    grant_type: "client_credentials",
+    client_id: process.env.HL_CLIENT_ID,
+    client_secret: process.env.HL_CLIENT_SECRET,
+});
+console.log(token.token_type, token.expires_in);
+```
 
 ### Environments
 
