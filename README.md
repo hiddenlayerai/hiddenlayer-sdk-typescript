@@ -34,8 +34,8 @@ Give the client a client ID and secret, created under Client Credentials in the 
 import { HiddenLayer } from "@hiddenlayerai/hiddenlayer-sdk";
 
 const client = new HiddenLayer({
-    clientId: process.env.HL_CLIENT_ID,
-    clientSecret: process.env.HL_CLIENT_SECRET,
+    clientId: process.env.HIDDENLAYER_CLIENT_ID,
+    clientSecret: process.env.HIDDENLAYER_CLIENT_SECRET,
 });
 
 for await (const user of await client.access.users.list()) {
@@ -54,7 +54,7 @@ console.log(users.data.map((user) => user.email));
 `token` takes a token you already have, a Static API Key or a JWT, and the client sends it as a bearer token in place of the client ID and secret:
 
 ```ts
-const client = new HiddenLayer({ token: process.env.HL_TOKEN });
+const client = new HiddenLayer({ token: process.env.HIDDENLAYER_TOKEN });
 const users = await client.access.users.list({ limit: 5 });
 console.log(users.data.map((user) => user.email));
 ```
@@ -73,8 +73,8 @@ With none of them, requests fail with a `HiddenLayerError`. For a deployment tha
 ```ts
 const token = await client.oauth2.token({
     grant_type: "client_credentials",
-    client_id: process.env.HL_CLIENT_ID,
-    client_secret: process.env.HL_CLIENT_SECRET,
+    client_id: process.env.HIDDENLAYER_CLIENT_ID,
+    client_secret: process.env.HIDDENLAYER_CLIENT_SECRET,
 });
 console.log(token.token_type, token.expires_in);
 ```
