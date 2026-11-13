@@ -28,14 +28,36 @@ const response = await client.interactions.analyze({
 
 ### Credentials
 
+Give the client a client ID and secret, created under Client Credentials in the HiddenLayer Console. It exchanges them for an access token on its first call, reuses that token, and gets a new one two minutes before it expires:
+
+```ts
+import { HiddenLayer } from "@hiddenlayerai/hiddenlayer-sdk";
+
+const client = new HiddenLayer({
+    clientId: process.env.HIDDENLAYER_CLIENT_ID,
+    clientSecret: process.env.HIDDENLAYER_CLIENT_SECRET,
+});
+```
+
 The client authenticates with the first of these it finds, options before the environment:
 
-1. `token` in the options: sent as a bearer token.
-2. `clientId` and `clientSecret` in the options: exchanged for an access token, which the client reuses until shortly before it expires.
+1. `token` in the options: a Static API Key or a JWT, sent as a bearer token. The client never refreshes a token it's given. To keep one current, pass a function that returns it, which the client runs before every API call.
+2. `clientId` and `clientSecret` in the options.
 3. The `HIDDENLAYER_TOKEN` environment variable.
 4. The `HIDDENLAYER_CLIENT_ID` and `HIDDENLAYER_CLIENT_SECRET` environment variables.
 
 With none of them, requests fail with a `HiddenLayerError`. For a deployment that takes unauthenticated requests, pass `auth: false`.
+
+`client.oauth2.token` returns an access token itself, for a caller that needs the token. It sends the client ID and secret you pass it, whatever the client was built with:
+
+```ts
+const token = await client.oauth2.token({
+    grant_type: "client_credentials",
+    client_id: process.env.HIDDENLAYER_CLIENT_ID,
+    client_secret: process.env.HIDDENLAYER_CLIENT_SECRET,
+});
+console.log(token.token_type, token.expires_in);
+```
 
 ### Environments
 
