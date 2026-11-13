@@ -1,6 +1,23 @@
 # Changelog
 
 
+## 4.1.0
+
+### Minor Changes
+
+- [#380](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/pull/380) [`e25ce56`](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/e25ce5617878b3cb0ed9d0f122882ca858f19481) Thanks [@hiddenlayer-opensource-exporter](https://github.com/apps/hiddenlayer-opensource-exporter)! - Generated from the API specification
+  
+  - added: enum type ActorType member THIRD_PARTY_TOKEN
+
+- [#381](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/pull/381) [`5ca7327`](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/5ca73271881a8d18b52cb4c70360f846e56589df) Thanks [@hl-dbohling](https://github.com/hl-dbohling)! - `HiddenLayerClient` fetches and refreshes its own access token from a client ID and secret, and `HiddenLayer` now uses it
+  
+  - added: `HiddenLayerClient` takes `clientId` and `clientSecret`, or reads `HIDDENLAYER_CLIENT_ID` and `HIDDENLAYER_CLIENT_SECRET`, and fetches and refreshes its own access token. A `HiddenLayerClient` with neither credentials nor a token now throws when it's constructed; pass `auth: false` for one that sends no `Authorization` header.
+  - added: client.oauth2.token body field client_id
+  - added: client.oauth2.token body field client_secret
+  - changed: `HiddenLayer` now sends the client ID and secret to `/oauth2/token` as form fields rather than Basic auth, and fetches a new access token two minutes before the current one expires rather than 30 seconds. A token that lives two minutes or less is fetched again for every request.
+  - changed: `HiddenLayer` reads credentials passed in an `auth` object too, after the top-level options. It trims the credentials it's given, and a blank token, client ID or secret counts as not passed, so the next source applies instead of a request that fails.
+  - removed: the `OauthScope` type, an enum of permission names that no method took or returned
+
 ## 4.0.0
 
 ### Major Changes
