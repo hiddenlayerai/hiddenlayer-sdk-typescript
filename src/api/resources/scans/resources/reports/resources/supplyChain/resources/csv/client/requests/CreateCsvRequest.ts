@@ -76,8 +76,10 @@ export interface CreateCsvRequest {
     /** Number of results to skip for pagination */
     offset?: number;
     /**
-     * Sort results by specified field. Prefix with `-` for descending order, `+` or no prefix for ascending.
+     * Sort results by specified field. Prefix with `+` for ascending order, `-` or no prefix for descending.
      * Supported fields: name, detections, scanned_on, policy_status, origin, region, provider, threat_level, start_time, model_name, severity, status.
+     *
+     * `policy_status` sorts by the scan's policy verdict. Descending puts `NONCOMPLIANT` first, then `COMPLIANT`, then scans without a verdict; ascending is the reverse.
      *
      * Note: If multiple sort parameters are provided, only the first one will be applied.
      */
