@@ -2,11 +2,19 @@
 
 import { HiddenLayerClient } from "../../src/Client";
 import { mockServerPool } from "../mock-server/MockServerPool";
+import { mockHiddenLayerOAuth } from "./mockAuth";
 
 describe("PromptAnalyzerClient", () => {
     test("create", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             prompt: "Hello World",
             output: "Hello, how can I help you today?",

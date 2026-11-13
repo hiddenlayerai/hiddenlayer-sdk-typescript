@@ -18,7 +18,7 @@ export declare namespace TokensClient {
 export class TokensClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<TokensClient.Options>;
 
-    constructor(options: TokensClient.Options) {
+    constructor(options: TokensClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

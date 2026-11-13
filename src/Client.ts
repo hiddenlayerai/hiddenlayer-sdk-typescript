@@ -65,7 +65,7 @@ export class HiddenLayerClient {
     protected _supplyChain: SupplyChainClient | undefined;
     protected _triage: TriageClient | undefined;
 
-    constructor(options: HiddenLayerClient.Options) {
+    constructor(options: HiddenLayerClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

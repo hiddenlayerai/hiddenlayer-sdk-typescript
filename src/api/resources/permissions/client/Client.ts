@@ -18,7 +18,7 @@ export declare namespace PermissionsClient {
 export class PermissionsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<PermissionsClient.Options>;
 
-    constructor(options: PermissionsClient.Options) {
+    constructor(options: PermissionsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

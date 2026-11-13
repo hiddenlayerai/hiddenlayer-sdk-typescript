@@ -3,11 +3,19 @@
 import * as HiddenLayerApi from "../../src/api/index";
 import { HiddenLayerClient } from "../../src/Client";
 import { mockServerPool } from "../mock-server/MockServerPool";
+import { mockHiddenLayerOAuth } from "./mockAuth";
 
 describe("RuntimeClient", () => {
     test("evaluate_interaction (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "gpt-4-turbo",
@@ -232,7 +240,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "claude-3-opus-20240229",
@@ -524,7 +539,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "gpt-4-turbo",
@@ -779,7 +801,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "gpt-4o",
@@ -1069,7 +1098,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "claude-3-5-sonnet-20240620",
@@ -1335,7 +1371,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "jev-latest",
@@ -1562,7 +1605,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (7)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "gpt-6-luna",
@@ -1796,7 +1846,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (8)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "jev-1.13.0",
@@ -2088,7 +2145,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (9)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "gpt-6-luna",
@@ -2349,7 +2413,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (10)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "gpt-4-turbo",
@@ -2574,7 +2645,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (11)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "gpt-4-turbo",
@@ -2718,7 +2796,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (12)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "gpt-4-turbo",
@@ -2838,7 +2923,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (13)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: {
                 model: "gpt-4-turbo",
@@ -3060,7 +3152,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (14)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: { model: "model", requester_id: "requester_id", provider: "provider" },
             interaction: {
@@ -3136,7 +3235,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (15)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: { model: "model", requester_id: "requester_id", provider: "provider" },
             interaction: {
@@ -3212,7 +3318,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (16)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: { model: "model", requester_id: "requester_id", provider: "provider" },
             interaction: {
@@ -3288,7 +3401,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (17)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: { model: "model", requester_id: "requester_id", provider: "provider" },
             interaction: {
@@ -3364,7 +3484,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_interaction (18)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             metadata: { model: "model", requester_id: "requester_id", provider: "provider" },
             interaction: {
@@ -3440,7 +3567,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_request (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             model: "gpt-4",
             messages: [
@@ -3495,7 +3629,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_request (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             model: "gpt-4o",
             input: [{ type: "message", role: "user", content: "What is the capital of France?" }],
@@ -3544,7 +3685,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_request (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             model: "claude-3-sonnet-20240229",
             max_tokens: 1024,
@@ -3589,7 +3737,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_request (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             model: "jev-latest",
             state: "Help! My payouts have been failing for 3 days.",
@@ -3653,7 +3808,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_request (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             model: "gpt-6-luna",
             input: "My order arrived with a cracked screen.",
@@ -3728,7 +3890,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_request (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             model: "gpt-4",
             messages: [
@@ -3775,7 +3944,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_response (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             id: "chatcmpl-abc123",
             object: "chat.completion",
@@ -3846,7 +4022,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_response (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             id: "resp_abc123",
             object: "response",
@@ -3922,7 +4105,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_response (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             id: "msg_abc123",
             type: "message",
@@ -3979,7 +4169,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_response (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             model: "jev-1.13.0",
             answers: {
@@ -4049,7 +4246,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_response (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             model: "gpt-6-luna",
             answers: [{ type: "predicate", name: "visible_damage", probability: 0.92 }, { type: "refusal" }],
@@ -4099,7 +4303,14 @@ describe("RuntimeClient", () => {
 
     test("evaluate_response (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             id: "chatcmpl-abc123",
             object: "chat.completion",

@@ -18,7 +18,7 @@ export declare namespace AnnotationsClient {
 export class AnnotationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<AnnotationsClient.Options>;
 
-    constructor(options: AnnotationsClient.Options) {
+    constructor(options: AnnotationsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

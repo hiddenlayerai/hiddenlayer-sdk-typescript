@@ -22,7 +22,7 @@ export declare namespace ObjectivesClient {
 export class ObjectivesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ObjectivesClient.Options>;
 
-    constructor(options: ObjectivesClient.Options) {
+    constructor(options: ObjectivesClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

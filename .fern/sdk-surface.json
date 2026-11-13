@@ -7807,7 +7807,8 @@
           "CLIENT_CREDENTIAL",
           "STATIC_API_KEY",
           "SYSTEM",
-          "API_KEY"
+          "API_KEY",
+          "THIRD_PARTY_TOKEN"
         ],
         "members": {},
         "locations": [

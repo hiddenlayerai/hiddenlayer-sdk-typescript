@@ -19,7 +19,7 @@ export declare namespace Oauth2Client {
 export class Oauth2Client {
     protected readonly _options: NormalizedClientOptionsWithAuth<Oauth2Client.Options>;
 
-    constructor(options: Oauth2Client.Options) {
+    constructor(options: Oauth2Client.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
@@ -52,12 +52,7 @@ export class Oauth2Client {
         request: HiddenLayerApi.AccessTokenRequest,
         requestOptions?: Oauth2Client.RequestOptions,
     ): Promise<core.WithRawResponse<HiddenLayerApi.AccessToken>> {
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
         const _response = await core.fetcher({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??

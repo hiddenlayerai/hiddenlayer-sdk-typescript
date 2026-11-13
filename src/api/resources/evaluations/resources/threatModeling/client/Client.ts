@@ -19,7 +19,7 @@ export declare namespace ThreatModelingClient {
 export class ThreatModelingClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ThreatModelingClient.Options>;
 
-    constructor(options: ThreatModelingClient.Options) {
+    constructor(options: ThreatModelingClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

@@ -3,11 +3,19 @@
 import * as HiddenLayerApi from "../../../../src/api/index";
 import { HiddenLayerClient } from "../../../../src/Client";
 import { mockServerPool } from "../../../mock-server/MockServerPool";
+import { mockHiddenLayerOAuth } from "../../mockAuth";
 
 describe("ObjectivesClient", () => {
     test("list (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = {
             first: "first",
@@ -48,7 +56,14 @@ describe("ObjectivesClient", () => {
 
     test("list (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -67,7 +82,14 @@ describe("ObjectivesClient", () => {
 
     test("list (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -86,7 +108,14 @@ describe("ObjectivesClient", () => {
 
     test("list (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -105,7 +134,14 @@ describe("ObjectivesClient", () => {
 
     test("list (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -124,7 +160,14 @@ describe("ObjectivesClient", () => {
 
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             objective_name: "objective_name",
             objective_description: "objective_description",
@@ -159,7 +202,14 @@ describe("ObjectivesClient", () => {
 
     test("create (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             objective_name: "objective_name",
             objective_description: "objective_description",
@@ -187,7 +237,14 @@ describe("ObjectivesClient", () => {
 
     test("create (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             objective_name: "objective_name",
             objective_description: "objective_description",
@@ -215,7 +272,14 @@ describe("ObjectivesClient", () => {
 
     test("create (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             objective_name: "objective_name",
             objective_description: "objective_description",
@@ -243,7 +307,14 @@ describe("ObjectivesClient", () => {
 
     test("create (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             objective_name: "objective_name",
             objective_description: "objective_description",
@@ -271,7 +342,14 @@ describe("ObjectivesClient", () => {
 
     test("create (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {
             objective_name: "objective_name",
             objective_description: "objective_description",
@@ -299,7 +377,14 @@ describe("ObjectivesClient", () => {
 
     test("get (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = {
             objective_id: "objective_id",
@@ -327,7 +412,14 @@ describe("ObjectivesClient", () => {
 
     test("get (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -348,7 +440,14 @@ describe("ObjectivesClient", () => {
 
     test("get (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -369,7 +468,14 @@ describe("ObjectivesClient", () => {
 
     test("get (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -390,7 +496,14 @@ describe("ObjectivesClient", () => {
 
     test("get (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -411,7 +524,14 @@ describe("ObjectivesClient", () => {
 
     test("delete (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         server
             .mockEndpoint()
@@ -428,7 +548,14 @@ describe("ObjectivesClient", () => {
 
     test("delete (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -449,7 +576,14 @@ describe("ObjectivesClient", () => {
 
     test("delete (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -470,7 +604,14 @@ describe("ObjectivesClient", () => {
 
     test("delete (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -491,7 +632,14 @@ describe("ObjectivesClient", () => {
 
     test("delete (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -512,7 +660,14 @@ describe("ObjectivesClient", () => {
 
     test("delete (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -533,7 +688,14 @@ describe("ObjectivesClient", () => {
 
     test("update (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {};
         const rawResponseBody = {
             objective_id: "objective_id",
@@ -562,7 +724,14 @@ describe("ObjectivesClient", () => {
 
     test("update (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 
@@ -584,7 +753,14 @@ describe("ObjectivesClient", () => {
 
     test("update (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 
@@ -606,7 +782,14 @@ describe("ObjectivesClient", () => {
 
     test("update (4)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 
@@ -628,7 +811,14 @@ describe("ObjectivesClient", () => {
 
     test("update (5)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 
@@ -650,7 +840,14 @@ describe("ObjectivesClient", () => {
 
     test("update (6)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 
@@ -672,7 +869,14 @@ describe("ObjectivesClient", () => {
 
     test("update (7)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 

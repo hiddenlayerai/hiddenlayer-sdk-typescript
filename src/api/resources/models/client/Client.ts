@@ -25,7 +25,7 @@ export class ModelsClient {
     protected _policyCompliance: PolicyComplianceClient | undefined;
     protected _versions: VersionsClient | undefined;
 
-    constructor(options: ModelsClient.Options) {
+    constructor(options: ModelsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

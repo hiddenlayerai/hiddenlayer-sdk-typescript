@@ -19,7 +19,7 @@ export declare namespace PromptSetsClient {
 export class PromptSetsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<PromptSetsClient.Options>;
 
-    constructor(options: PromptSetsClient.Options) {
+    constructor(options: PromptSetsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

@@ -22,7 +22,7 @@ export declare namespace CsvClient {
 export class CsvClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<CsvClient.Options>;
 
-    constructor(options: CsvClient.Options) {
+    constructor(options: CsvClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

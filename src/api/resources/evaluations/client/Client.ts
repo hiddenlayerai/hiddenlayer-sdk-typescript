@@ -18,7 +18,7 @@ export class EvaluationsClient {
     protected _systemPromptAnalysis: SystemPromptAnalysisClient | undefined;
     protected _threatModeling: ThreatModelingClient | undefined;
 
-    constructor(options: EvaluationsClient.Options) {
+    constructor(options: EvaluationsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

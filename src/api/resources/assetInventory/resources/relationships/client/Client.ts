@@ -18,7 +18,7 @@ export declare namespace RelationshipsClient {
 export class RelationshipsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<RelationshipsClient.Options>;
 
-    constructor(options: RelationshipsClient.Options) {
+    constructor(options: RelationshipsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

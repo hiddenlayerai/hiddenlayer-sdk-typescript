@@ -3,11 +3,19 @@
 import * as HiddenLayerApi from "../../../../src/api/index";
 import { HiddenLayerClient } from "../../../../src/Client";
 import { mockServerPool } from "../../../mock-server/MockServerPool";
+import { mockHiddenLayerOAuth } from "../../mockAuth";
 
 describe("CsvClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { job_id: "job_id" };
 
@@ -30,7 +38,14 @@ describe("CsvClient", () => {
 
     test("create (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 
@@ -54,7 +69,14 @@ describe("CsvClient", () => {
 
     test("create (3)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
 
         const rawResponseBody = { key: "value" };
 

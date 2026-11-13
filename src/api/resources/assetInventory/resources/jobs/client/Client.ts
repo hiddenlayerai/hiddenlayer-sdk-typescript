@@ -19,7 +19,7 @@ export declare namespace JobsClient {
 export class JobsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<JobsClient.Options>;
 
-    constructor(options: JobsClient.Options) {
+    constructor(options: JobsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

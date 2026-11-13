@@ -18,7 +18,7 @@ export declare namespace MetricsClient {
 export class MetricsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<MetricsClient.Options>;
 
-    constructor(options: MetricsClient.Options) {
+    constructor(options: MetricsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

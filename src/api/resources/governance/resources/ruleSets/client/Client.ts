@@ -21,7 +21,7 @@ export class RuleSetsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<RuleSetsClient.Options>;
     protected _rules: RulesClient | undefined;
 
-    constructor(options: RuleSetsClient.Options) {
+    constructor(options: RuleSetsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

@@ -18,7 +18,7 @@ export class AccessClient {
     protected _permissions: PermissionsClient | undefined;
     protected _tokens: TokensClient | undefined;
 
-    constructor(options: AccessClient.Options) {
+    constructor(options: AccessClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

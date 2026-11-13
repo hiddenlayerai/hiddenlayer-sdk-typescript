@@ -3,11 +3,19 @@
 import * as HiddenLayerApi from "../../src/api/index";
 import { HiddenLayerClient } from "../../src/Client";
 import { mockServerPool } from "../mock-server/MockServerPool";
+import { mockHiddenLayerOAuth } from "./mockAuth";
 
 describe("InteractionsClient", () => {
     test("analyze (1)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = { metadata: { model: "gpt-5", requester_id: "user-1234", provider: "openai" } };
         const rawResponseBody = {
             metadata: {
@@ -76,7 +84,14 @@ describe("InteractionsClient", () => {
 
     test("analyze (2)", async () => {
         const server = mockServerPool.createServer();
-        const client = new HiddenLayerClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
         const rawRequestBody = { metadata: { model: "model", requester_id: "requester_id" } };
         const rawResponseBody = { key: "value" };
 

@@ -21,7 +21,7 @@ export declare namespace SearchClient {
 export class SearchClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<SearchClient.Options>;
 
-    constructor(options: SearchClient.Options) {
+    constructor(options: SearchClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

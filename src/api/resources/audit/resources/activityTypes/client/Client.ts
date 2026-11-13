@@ -18,7 +18,7 @@ export declare namespace ActivityTypesClient {
 export class ActivityTypesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ActivityTypesClient.Options>;
 
-    constructor(options: ActivityTypesClient.Options) {
+    constructor(options: ActivityTypesClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

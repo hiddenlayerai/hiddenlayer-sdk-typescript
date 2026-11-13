@@ -21,7 +21,7 @@ export class UploadClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<UploadClient.Options>;
     protected _file: FileClient | undefined;
 
-    constructor(options: UploadClient.Options) {
+    constructor(options: UploadClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

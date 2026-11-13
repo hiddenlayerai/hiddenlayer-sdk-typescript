@@ -12,7 +12,7 @@ export class ModelIntelClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ModelIntelClient.Options>;
     protected _file: FileClient | undefined;
 
-    constructor(options: ModelIntelClient.Options) {
+    constructor(options: ModelIntelClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

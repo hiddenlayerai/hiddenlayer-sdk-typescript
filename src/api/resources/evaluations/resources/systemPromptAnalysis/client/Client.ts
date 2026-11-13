@@ -19,7 +19,7 @@ export declare namespace SystemPromptAnalysisClient {
 export class SystemPromptAnalysisClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<SystemPromptAnalysisClient.Options>;
 
-    constructor(options: SystemPromptAnalysisClient.Options) {
+    constructor(options: SystemPromptAnalysisClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

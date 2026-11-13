@@ -15,7 +15,7 @@ export class SupplyChainClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<SupplyChainClient.Options>;
     protected _csv: CsvClient | undefined;
 
-    constructor(options: SupplyChainClient.Options) {
+    constructor(options: SupplyChainClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

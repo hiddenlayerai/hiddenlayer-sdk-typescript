@@ -19,7 +19,7 @@ export declare namespace RuntimeClient {
 export class RuntimeClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<RuntimeClient.Options>;
 
-    constructor(options: RuntimeClient.Options) {
+    constructor(options: RuntimeClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

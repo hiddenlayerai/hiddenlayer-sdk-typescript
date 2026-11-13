@@ -23,7 +23,7 @@ export class RedTeamClient {
     protected _objectives: ObjectivesClient | undefined;
     protected _configs: ConfigsClient | undefined;
 
-    constructor(options: RedTeamClient.Options) {
+    constructor(options: RedTeamClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

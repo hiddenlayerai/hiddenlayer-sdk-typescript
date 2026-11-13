@@ -18,7 +18,7 @@ export declare namespace DiscoveredTagsClient {
 export class DiscoveredTagsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<DiscoveredTagsClient.Options>;
 
-    constructor(options: DiscoveredTagsClient.Options) {
+    constructor(options: DiscoveredTagsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

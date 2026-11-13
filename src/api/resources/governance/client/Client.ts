@@ -20,7 +20,7 @@ export class GovernanceClient {
     protected _policyPacks: PolicyPacksClient | undefined;
     protected _rulePacks: RulePacksClient | undefined;
 
-    constructor(options: GovernanceClient.Options) {
+    constructor(options: GovernanceClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

@@ -14,7 +14,7 @@ export class VersionsClient {
     protected _location: LocationClient | undefined;
     protected _locations: LocationsClient | undefined;
 
-    constructor(options: VersionsClient.Options) {
+    constructor(options: VersionsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
