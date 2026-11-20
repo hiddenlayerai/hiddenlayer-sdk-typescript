@@ -4,6 +4,7 @@ import type { BaseClientOptions } from "../../../../BaseClient.js";
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "../../../../BaseClient.js";
 import { PromptSetsClient } from "../resources/promptSets/client/Client.js";
 import { RedTeamClient } from "../resources/redTeam/client/Client.js";
+import { RedTeamV2Client } from "../resources/redTeamV2/client/Client.js";
 import { SystemPromptAnalysisClient } from "../resources/systemPromptAnalysis/client/Client.js";
 import { ThreatModelingClient } from "../resources/threatModeling/client/Client.js";
 
@@ -17,6 +18,7 @@ export class EvaluationsClient {
     protected _promptSets: PromptSetsClient | undefined;
     protected _systemPromptAnalysis: SystemPromptAnalysisClient | undefined;
     protected _threatModeling: ThreatModelingClient | undefined;
+    protected _redTeamV2: RedTeamV2Client | undefined;
 
     constructor(options: EvaluationsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -36,5 +38,9 @@ export class EvaluationsClient {
 
     public get threatModeling(): ThreatModelingClient {
         return (this._threatModeling ??= new ThreatModelingClient(this._options));
+    }
+
+    public get redTeamV2(): RedTeamV2Client {
+        return (this._redTeamV2 ??= new RedTeamV2Client(this._options));
     }
 }
