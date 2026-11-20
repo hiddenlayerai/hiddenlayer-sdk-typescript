@@ -1,6 +1,32 @@
 # Changelog
 
 
+## 4.2.0
+
+### Minor Changes
+
+- [#384](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/pull/384) [`a551458`](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/a5514587d12f5394b7f1935447d75b5313d541da) Thanks [@hiddenlayer-opensource-exporter](https://github.com/apps/hiddenlayer-opensource-exporter)! - Generated from the API specification
+  
+  - added: client.evaluations.red_team_v2.list (beta)
+  - added: client.evaluations.red_team_v2.create (beta)
+  - added: client.evaluations.red_team_v2.simulated (beta)
+  - added: client.evaluations.red_team_v2.settings (beta)
+  - added: client.evaluations.red_team_v2.get (beta)
+  - added: client.evaluations.red_team_v2.delete (beta)
+  - added: client.evaluations.red_team_v2.status (beta)
+  - added: client.evaluations.red_team_v2.next_action (beta)
+  - added: client.evaluations.red_team_v2.target_response (beta)
+  - added: client.evaluations.red_team_v2.csv (beta)
+  - added: client.evaluations.red_team_v2.sessions.list (beta)
+  - added: client.evaluations.red_team_v2.sessions.get (beta)
+  - added: client.evaluations.red_team_v2.sessions.runtime_session (beta)
+  - changed: RedTeamRunOutcome.run_status enum type unnamed → RedTeamRunStatus (beta)
+  - generator: fernapi/fern-typescript-sdk 3.108.15 → 3.109.1
+
+### Patch Changes
+
+- [#382](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/pull/382) [`16e4d6c`](https://github.com/hiddenlayerai/hiddenlayer-sdk-typescript/commit/16e4d6cac06d1fdcf8dd4886c4be7d989a68cd7c) Thanks [@hiddenlayer-opensource-exporter](https://github.com/apps/hiddenlayer-opensource-exporter)! - Generated from the API specification
+
 ## 4.1.0
 
 ### Minor Changes
