@@ -494,6 +494,17 @@
       },
       "default": "./dist/cjs/api/resources/evaluations/resources/threatModeling/exports.js"
     },
+    "./evaluations/redTeamV2": {
+      "import": {
+        "types": "./dist/esm/api/resources/evaluations/resources/redTeamV2/exports.d.mts",
+        "default": "./dist/esm/api/resources/evaluations/resources/redTeamV2/exports.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/api/resources/evaluations/resources/redTeamV2/exports.d.ts",
+        "default": "./dist/cjs/api/resources/evaluations/resources/redTeamV2/exports.js"
+      },
+      "default": "./dist/cjs/api/resources/evaluations/resources/redTeamV2/exports.js"
+    },
     "./evaluations/redTeam/objectives": {
       "import": {
         "types": "./dist/esm/api/resources/evaluations/resources/redTeam/resources/objectives/exports.d.mts",
@@ -515,6 +526,17 @@
         "default": "./dist/cjs/api/resources/evaluations/resources/redTeam/resources/configs/exports.js"
       },
       "default": "./dist/cjs/api/resources/evaluations/resources/redTeam/resources/configs/exports.js"
+    },
+    "./evaluations/redTeamV2/sessions": {
+      "import": {
+        "types": "./dist/esm/api/resources/evaluations/resources/redTeamV2/resources/sessions/exports.d.mts",
+        "default": "./dist/esm/api/resources/evaluations/resources/redTeamV2/resources/sessions/exports.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/api/resources/evaluations/resources/redTeamV2/resources/sessions/exports.d.ts",
+        "default": "./dist/cjs/api/resources/evaluations/resources/redTeamV2/resources/sessions/exports.js"
+      },
+      "default": "./dist/cjs/api/resources/evaluations/resources/redTeamV2/resources/sessions/exports.js"
     },
     "./governance": {
       "import": {

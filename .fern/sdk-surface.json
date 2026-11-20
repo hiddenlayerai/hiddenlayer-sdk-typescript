@@ -1,7 +1,7 @@
 {
   "fern_cli": "5.191.2",
   "generator": "fernapi/fern-typescript-sdk",
-  "generator_version": "3.108.15",
+  "generator_version": "3.109.1",
   "surface": {
     "operations": [
       {
@@ -6743,6 +6743,371 @@
       },
       {
         "method": "GET",
+        "path": "/evaluations/v2/red-team",
+        "operation_id": "evaluations_v2_red_team_list",
+        "group": [
+          "evaluations",
+          "red_team_v2"
+        ],
+        "name": "list",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "Limit"
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
+            "name": "start_time_from",
+            "in": "query",
+            "required": false,
+            "type": "string(date-time)"
+          },
+          {
+            "name": "start_time_to",
+            "in": "query",
+            "required": false,
+            "type": "string(date-time)"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "RedTeamRunStatus"
+          },
+          {
+            "name": "target_model",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "workflow_type",
+            "in": "query",
+            "required": false,
+            "type": "RedTeamWorkflowType"
+          }
+        ],
+        "pagination": {
+          "kind": "cursor",
+          "request": {
+            "cursor": "cursor"
+          },
+          "response": {
+            "items": "items",
+            "next": "next"
+          }
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "POST",
+        "path": "/evaluations/v2/red-team",
+        "operation_id": "evaluations_v2_red_team_start",
+        "group": [
+          "evaluations",
+          "red_team_v2"
+        ],
+        "name": "create",
+        "parameters": [],
+        "request_body": {
+          "type": "RedTeamCreateRunRequest",
+          "required": true
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "POST",
+        "path": "/evaluations/v2/red-team/simulated",
+        "operation_id": "evaluations_v2_red_team_simulated_start",
+        "group": [
+          "evaluations",
+          "red_team_v2"
+        ],
+        "name": "simulated",
+        "parameters": [],
+        "request_body": {
+          "type": "RedTeamCreateRunRequest",
+          "required": true
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v2/red-team/settings",
+        "operation_id": "evaluations_v2_red_team_settings_get",
+        "group": [
+          "evaluations",
+          "red_team_v2"
+        ],
+        "name": "settings",
+        "parameters": [],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v2/red-team/{workflow_id}",
+        "operation_id": "evaluations_v2_red_team_result_get",
+        "group": [
+          "evaluations",
+          "red_team_v2"
+        ],
+        "name": "get",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "DELETE",
+        "path": "/evaluations/v2/red-team/{workflow_id}",
+        "operation_id": "evaluations_v2_red_team_delete",
+        "group": [
+          "evaluations",
+          "red_team_v2"
+        ],
+        "name": "delete",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v2/red-team/{workflow_id}/status",
+        "operation_id": "evaluations_v2_red_team_status_get",
+        "group": [
+          "evaluations",
+          "red_team_v2"
+        ],
+        "name": "status",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v2/red-team/{workflow_id}/next-action",
+        "operation_id": "evaluations_v2_red_team_next_action_get",
+        "group": [
+          "evaluations",
+          "red_team_v2"
+        ],
+        "name": "next_action",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "POST",
+        "path": "/evaluations/v2/red-team/{workflow_id}/target-response",
+        "operation_id": "evaluations_v2_red_team_target_response_submit",
+        "group": [
+          "evaluations",
+          "red_team_v2"
+        ],
+        "name": "target_response",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "body",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "target_response",
+            "in": "body",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "request_body": {
+          "type": "RedTeamTargetResponse",
+          "required": true
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v2/red-team/{workflow_id}/csv",
+        "operation_id": "evaluations_v2_red_team_export_csv",
+        "group": [
+          "evaluations",
+          "red_team_v2"
+        ],
+        "name": "csv",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v2/red-team/{workflow_id}/sessions",
+        "operation_id": "evaluations_v2_red_team_sessions_list",
+        "group": [
+          "evaluations",
+          "red_team_v2",
+          "sessions"
+        ],
+        "name": "list",
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "Limit"
+          }
+        ],
+        "pagination": {
+          "kind": "cursor",
+          "request": {
+            "cursor": "cursor"
+          },
+          "response": {
+            "items": "items",
+            "next": "next"
+          }
+        },
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v2/red-team/{workflow_id}/sessions/{session_id}",
+        "operation_id": "evaluations_v2_red_team_session_get",
+        "group": [
+          "evaluations",
+          "red_team_v2",
+          "sessions"
+        ],
+        "name": "get",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
+        "path": "/evaluations/v2/red-team/{workflow_id}/sessions/{session_id}/runtime-session",
+        "operation_id": "evaluations_v2_red_team_runtime_session_get",
+        "group": [
+          "evaluations",
+          "red_team_v2",
+          "sessions"
+        ],
+        "name": "runtime_session",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "beta": true,
+        "deprecated": false,
+        "ignore": false
+      },
+      {
+        "method": "GET",
         "path": "/model-intel/v1/file/{sha256}",
         "operation_id": "get_file",
         "group": [
@@ -7706,6 +8071,17 @@
     ],
     "enums": [
       {
+        "name": "RedTeamRuleFrameworkSource",
+        "values": [
+          "RUNTIME_SECURITY",
+          "AAS"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamRuleFrameworkSource"
+        ]
+      },
+      {
         "values": [
           "ACCEPTED",
           "COMPLETED",
@@ -7727,6 +8103,30 @@
         "members": {},
         "locations": [
           "/components/schemas/EulaResponseValue/properties/response"
+        ]
+      },
+      {
+        "name": "RedTeamRunPhase",
+        "values": [
+          "INITIALIZING",
+          "PLANNING",
+          "CONTEXT",
+          "ACTIVE",
+          "ATTACK",
+          "FINALIZING",
+          "ANALYZING",
+          "RUNNING",
+          "COMPLETED",
+          "FAILED",
+          "CANCELED",
+          "TERMINATED",
+          "CONTINUED_AS_NEW",
+          "TIMED_OUT",
+          "PAUSED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamRunPhase"
         ]
       },
       {
@@ -7797,7 +8197,9 @@
         ],
         "members": {},
         "locations": [
-          "/components/schemas/EvaluationRequestSource"
+          "/components/schemas/EvaluationRequestSource",
+          "/components/schemas/RedTeamRun/properties/request_source",
+          "/components/schemas/RedTeamRunListItem/properties/request_source"
         ]
       },
       {
@@ -7889,6 +8291,18 @@
         "members": {},
         "locations": [
           "/components/schemas/RelationshipType"
+        ]
+      },
+      {
+        "name": "RedTeamNextActionType",
+        "values": [
+          "ATTACK_TASK",
+          "COMPLETED",
+          "FAILED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamNextActionType"
         ]
       },
       {
@@ -8002,6 +8416,21 @@
         ]
       },
       {
+        "name": "RedTeamPolicyAtExposureResult",
+        "values": [
+          "BLOCKED_INPUT",
+          "BLOCKED_REPLY",
+          "REDACTED",
+          "DETECTED",
+          "NO_ACTION",
+          "NOT_PLACED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamPolicyAtExposureResult"
+        ]
+      },
+      {
         "name": "AiAssetInventoryV1RelationshipType",
         "values": [
           "CONTAINS",
@@ -8027,6 +8456,37 @@
         ]
       },
       {
+        "name": "RedTeamRuntimeSessionStatus",
+        "values": [
+          "RESOLVED",
+          "NOT_FOUND",
+          "NOT_SENT",
+          "CALLS_FAILED",
+          "NOT_RECORDED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamRuntimeSessionStatus"
+        ]
+      },
+      {
+        "name": "RedTeamWorkflowStatus",
+        "values": [
+          "RUNNING",
+          "COMPLETED",
+          "FAILED",
+          "CANCELED",
+          "TERMINATED",
+          "CONTINUED_AS_NEW",
+          "TIMED_OUT",
+          "PAUSED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamWorkflowStatus"
+        ]
+      },
+      {
         "name": "RulePackType",
         "values": [
           "CATEGORY",
@@ -8047,6 +8507,18 @@
         "members": {},
         "locations": [
           "/components/schemas/PolicyPackApplicationType"
+        ]
+      },
+      {
+        "name": "RedTeamWorkflowType",
+        "values": [
+          "SIMULATED",
+          "CLIENT_DRIVEN",
+          "UNKNOWN"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamWorkflowType"
         ]
       },
       {
@@ -8097,13 +8569,15 @@
         ]
       },
       {
+        "name": "RedTeamRunStatus",
         "values": [
           "COMPLETED",
           "FAILED"
         ],
         "members": {},
         "locations": [
-          "/components/schemas/RedTeamRunOutcome/properties/run_status"
+          "/components/schemas/RedTeamRunOutcome/properties/run_status",
+          "/components/schemas/RedTeamRunStatus"
         ]
       },
       {
@@ -8146,6 +8620,19 @@
         ]
       },
       {
+        "name": "RedTeamPolicyCoverageStatus",
+        "values": [
+          "COVERED",
+          "PARTLY_COVERED",
+          "NOT_COVERED",
+          "UNKNOWN"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamPolicyCoverageStatus"
+        ]
+      },
+      {
         "name": "HighestSeverity",
         "values": [
           "CRITICAL",
@@ -8159,7 +8646,10 @@
           "/components/schemas/APEObjective/properties/default_severity",
           "/components/schemas/CreateCustomObjectiveRequest/properties/default_severity",
           "/components/schemas/InteractionEvaluationOutcome/properties/threat_level",
+          "/components/schemas/RedTeamObjectiveReport/properties/severity",
           "/components/schemas/RedTeamResultItem/properties/highest_severity",
+          "/components/schemas/RedTeamRunListItem/properties/highest_severity/oneOf/0",
+          "/components/schemas/RedTeamSeverityMapping/additionalProperties",
           "/components/schemas/SeverityMapping/additionalProperties",
           "/components/schemas/UpdateCustomObjectiveRequest/properties/default_severity"
         ]
@@ -8271,6 +8761,29 @@
         ]
       },
       {
+        "name": "RedTeamPolicyStatus",
+        "values": [
+          "EVALUATED",
+          "NOT_EVALUATED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamPolicyStatus"
+        ]
+      },
+      {
+        "name": "RedTeamNotPlacedReason",
+        "values": [
+          "EVIDENCE_NOT_FOUND",
+          "NOT_EVALUATED",
+          "REDACTION_UNAVAILABLE"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamNotPlacedReason"
+        ]
+      },
+      {
         "values": [
           "EXACT",
           "FUZZY"
@@ -8278,6 +8791,31 @@
         "members": {},
         "locations": [
           "/components/schemas/SearchResult/allOf/1/properties/match_type"
+        ]
+      },
+      {
+        "name": "RedTeamFrameworkItemState",
+        "values": [
+          "FAILED",
+          "PASSED",
+          "NOT_EVALUATED",
+          "NOT_TESTED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamFrameworkItemState"
+        ]
+      },
+      {
+        "name": "RedTeamOutcome",
+        "values": [
+          "SUCCEEDED",
+          "FAILED",
+          "NOT_MEASURED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamOutcome"
         ]
       },
       {
@@ -8303,6 +8841,19 @@
         ]
       },
       {
+        "name": "RedTeamRunFailureReason",
+        "values": [
+          "PLANNING_FAILED",
+          "NO_SESSIONS_PLANNED",
+          "NO_SESSIONS_MEASURED",
+          "INSUFFICIENT_COVERAGE"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamRunFailureReason"
+        ]
+      },
+      {
         "name": "PolicyPackApplicationExposure",
         "values": [
           "INTERNET_FACING",
@@ -8323,6 +8874,42 @@
         "members": {},
         "locations": [
           "/components/schemas/PromptSetStatus"
+        ]
+      },
+      {
+        "name": "RedTeamFrameworkSource",
+        "values": [
+          "TABLE",
+          "OBJECTIVE_MAPPING",
+          "JUDGE"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamFrameworkSource"
+        ]
+      },
+      {
+        "name": "RedTeamSessionNotMeasuredReason",
+        "values": [
+          "SESSION_ERROR",
+          "NO_VERDICTS",
+          "JUDGE_UNAVAILABLE",
+          "NO_REPLY"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamSessionNotMeasuredReason"
+        ]
+      },
+      {
+        "name": "RedTeamVerdictNotMeasuredReason",
+        "values": [
+          "JUDGE_UNAVAILABLE",
+          "NO_REPLY"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamVerdictNotMeasuredReason"
         ]
       },
       {
@@ -8364,6 +8951,28 @@
         ]
       },
       {
+        "name": "RedTeamDefenseEvasionGroup",
+        "values": [
+          "OBFUSCATED",
+          "NOT_OBFUSCATED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamDefenseEvasionGroup"
+        ]
+      },
+      {
+        "name": "RedTeamFrameworkBasis",
+        "values": [
+          "TESTED",
+          "OBSERVED"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamFrameworkBasis"
+        ]
+      },
+      {
         "values": [
           "RANDOM",
           "SINGLE",
@@ -8374,8 +8983,18 @@
           "/components/schemas/ClientRedTeamBody/properties/execution_strategy_type",
           "/components/schemas/CreateRedTeamConfigRequest/properties/execution_strategy_type",
           "/components/schemas/RedTeamConfig/properties/execution_strategy_type",
+          "/components/schemas/RedTeamRunSettings/properties/execution_strategy_type",
           "/components/schemas/StartRedTeamBody/properties/execution_strategy_type",
           "/components/schemas/UpdateRedTeamConfigRequest/properties/execution_strategy_type"
+        ]
+      },
+      {
+        "values": [
+          "RANDOM"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamCreateRandomRun/properties/execution_strategy_type"
         ]
       },
       {
@@ -8423,11 +9042,40 @@
       },
       {
         "values": [
+          "SINGLE"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamCreateSingleRun/properties/execution_strategy_type"
+        ]
+      },
+      {
+        "values": [
+          "STATIC_PROMPT_SET"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamCreateStaticPromptSetRun/properties/execution_strategy_type"
+        ]
+      },
+      {
+        "values": [
           "UNLINKED"
         ],
         "members": {},
         "locations": [
           "/components/schemas/TriageUnlinkedReference/properties/type"
+        ]
+      },
+      {
+        "name": "RedTeamRuntimeSecurityMode",
+        "values": [
+          "V1",
+          "V2"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamRuntimeSecurityMode"
         ]
       },
       {
@@ -8544,6 +9192,17 @@
         "members": {},
         "locations": [
           "/components/schemas/SensorSORQueryRequest/properties/order_dir"
+        ]
+      },
+      {
+        "name": "RedTeamMessageRole",
+        "values": [
+          "user",
+          "assistant"
+        ],
+        "members": {},
+        "locations": [
+          "/components/schemas/RedTeamMessageRole"
         ]
       },
       {
@@ -9065,15 +9724,27 @@
       "/components/parameters/RelatedToFilter",
       "/components/parameters/RulePackTypeQuery",
       "/components/parameters/ScanStartedAt",
+      "/components/parameters/SessionID",
       "/components/parameters/StaticApiKeyIfMatch",
       "/components/parameters/StaticApiKeySecretId",
+      "/components/parameters/WorkflowID",
+      "/components/responses/BadRequest",
       "/components/responses/BadRequestResponseProblemDetailsV2",
       "/components/responses/ConflictResponseProblemDetailsV2",
+      "/components/responses/ContentTooLarge",
+      "/components/responses/InternalError",
       "/components/responses/InternalServerErrorResponseProblemDetailsV2",
+      "/components/responses/InvalidWorkflowID",
+      "/components/responses/ListUnprocessable",
+      "/components/responses/NoSuchRun",
       "/components/responses/NotFoundResponseWithProblemDetailsV2",
       "/components/responses/PermissionAreas",
       "/components/responses/PreconditionFailedResponseProblemDetailsV2",
+      "/components/responses/RunNotFound",
+      "/components/responses/ServiceUnavailable",
+      "/components/responses/SessionNotFound",
       "/components/responses/StaticApiKeyForbidden",
+      "/components/responses/Unprocessable",
       "/components/responses/ValidationErrorResponseProblemDetailsV2",
       "/components/schemas/APEObjective",
       "/components/schemas/AnalysisResult",
@@ -9138,38 +9809,136 @@
       "/components/schemas/RedTeamAnalysisExposedItem",
       "/components/schemas/RedTeamAnalysisInsight",
       "/components/schemas/RedTeamAttackerSessionResult",
+      "/components/schemas/RedTeamCaughtByPolicy",
+      "/components/schemas/RedTeamCitation",
       "/components/schemas/RedTeamConfig",
       "/components/schemas/RedTeamConfigSummary",
       "/components/schemas/RedTeamConfigsResponse",
+      "/components/schemas/RedTeamConversationMessage",
+      "/components/schemas/RedTeamCoverageFramework",
+      "/components/schemas/RedTeamCoverageItem",
+      "/components/schemas/RedTeamCoverageMethod",
+      "/components/schemas/RedTeamCoverageNote",
+      "/components/schemas/RedTeamCoverageReport",
+      "/components/schemas/RedTeamCreateAttackerAttempts",
+      "/components/schemas/RedTeamCreateAttackerGuidance",
+      "/components/schemas/RedTeamCreateConfigID",
+      "/components/schemas/RedTeamCreateMaxParallelSessions",
+      "/components/schemas/RedTeamCreateMaxTurns",
+      "/components/schemas/RedTeamCreateModel",
+      "/components/schemas/RedTeamCreateName",
+      "/components/schemas/RedTeamCreateObjectiveIDs",
+      "/components/schemas/RedTeamCreateProjectID",
+      "/components/schemas/RedTeamCreateRandomRun",
+      "/components/schemas/RedTeamCreateRunRequest",
+      "/components/schemas/RedTeamCreateRuntimeTrace",
+      "/components/schemas/RedTeamCreateSessionsPerTechnique",
+      "/components/schemas/RedTeamCreateSingleRun",
+      "/components/schemas/RedTeamCreateStaticPromptSetRun",
+      "/components/schemas/RedTeamCreateTargetModel",
+      "/components/schemas/RedTeamCreateTargetSystemPrompt",
+      "/components/schemas/RedTeamCustomObjective",
+      "/components/schemas/RedTeamDefenseEvasion",
+      "/components/schemas/RedTeamDefenseEvasionGroup",
+      "/components/schemas/RedTeamDefenseEvasionRow",
+      "/components/schemas/RedTeamEvidencePassage",
+      "/components/schemas/RedTeamExposedItem",
+      "/components/schemas/RedTeamFrameworkBasis",
       "/components/schemas/RedTeamFrameworkCoverage",
       "/components/schemas/RedTeamFrameworkCoverageFramework",
       "/components/schemas/RedTeamFrameworkCoverageItem",
       "/components/schemas/RedTeamFrameworkEntry",
+      "/components/schemas/RedTeamFrameworkItemState",
       "/components/schemas/RedTeamFrameworkMethodNote",
       "/components/schemas/RedTeamFrameworkNote",
+      "/components/schemas/RedTeamFrameworkSource",
       "/components/schemas/RedTeamFrameworkState",
       "/components/schemas/RedTeamFrameworkTag",
+      "/components/schemas/RedTeamInsight",
+      "/components/schemas/RedTeamInsightEvidence",
       "/components/schemas/RedTeamListResultsResponse",
+      "/components/schemas/RedTeamMatchedRule",
+      "/components/schemas/RedTeamMatchedRulesByRole",
       "/components/schemas/RedTeamMessage",
       "/components/schemas/RedTeamMessageAnalysis",
       "/components/schemas/RedTeamMessageOutcomeCounts",
+      "/components/schemas/RedTeamMessagePolicy",
+      "/components/schemas/RedTeamMessageRole",
+      "/components/schemas/RedTeamMessageSignals",
+      "/components/schemas/RedTeamNextAction",
+      "/components/schemas/RedTeamNextActionType",
+      "/components/schemas/RedTeamNotPlacedReason",
       "/components/schemas/RedTeamObjectiveBreakdown",
+      "/components/schemas/RedTeamObjectiveRef",
+      "/components/schemas/RedTeamObjectiveReport",
       "/components/schemas/RedTeamObjectiveSummary",
       "/components/schemas/RedTeamObjectiveVerdict",
+      "/components/schemas/RedTeamOutcome",
+      "/components/schemas/RedTeamPolicyAtExposure",
+      "/components/schemas/RedTeamPolicyAtExposureResult",
+      "/components/schemas/RedTeamPolicyCoverage",
+      "/components/schemas/RedTeamPolicyCoverageRule",
+      "/components/schemas/RedTeamPolicyCoverageStatus",
+      "/components/schemas/RedTeamPolicyOutcomes",
+      "/components/schemas/RedTeamPolicyReport",
+      "/components/schemas/RedTeamPolicyRoleCounts",
+      "/components/schemas/RedTeamPolicyStatus",
+      "/components/schemas/RedTeamReplyNotEvaluated",
       "/components/schemas/RedTeamReport",
       "/components/schemas/RedTeamReportSummary",
       "/components/schemas/RedTeamResultItem",
       "/components/schemas/RedTeamResultPayload",
       "/components/schemas/RedTeamResultSettings",
+      "/components/schemas/RedTeamRuleCount",
+      "/components/schemas/RedTeamRuleFramework",
+      "/components/schemas/RedTeamRuleFrameworkItem",
+      "/components/schemas/RedTeamRuleFrameworkSource",
+      "/components/schemas/RedTeamRun",
+      "/components/schemas/RedTeamRunAnalysis",
+      "/components/schemas/RedTeamRunCreated",
+      "/components/schemas/RedTeamRunFailureReason",
+      "/components/schemas/RedTeamRunList",
+      "/components/schemas/RedTeamRunListItem",
+      "/components/schemas/RedTeamRunMeasurement",
+      "/components/schemas/RedTeamRunModels",
       "/components/schemas/RedTeamRunOutcome",
+      "/components/schemas/RedTeamRunPhase",
+      "/components/schemas/RedTeamRunProgress",
+      "/components/schemas/RedTeamRunReport",
+      "/components/schemas/RedTeamRunSettings",
+      "/components/schemas/RedTeamRunStatus",
+      "/components/schemas/RedTeamRunSummary",
       "/components/schemas/RedTeamRuntimeSecurityCounts",
       "/components/schemas/RedTeamRuntimeSecurityDetection",
+      "/components/schemas/RedTeamRuntimeSecurityMode",
       "/components/schemas/RedTeamRuntimeSecurityOutcome",
+      "/components/schemas/RedTeamRuntimeSessionCalls",
+      "/components/schemas/RedTeamRuntimeSessionLookup",
       "/components/schemas/RedTeamRuntimeSessionRecord",
+      "/components/schemas/RedTeamRuntimeSessionStatus",
+      "/components/schemas/RedTeamSession",
+      "/components/schemas/RedTeamSessionDetail",
       "/components/schemas/RedTeamSessionExecutionDetails",
+      "/components/schemas/RedTeamSessionFrameworkEntry",
+      "/components/schemas/RedTeamSessionList",
+      "/components/schemas/RedTeamSessionMessage",
+      "/components/schemas/RedTeamSessionNotMeasuredReason",
+      "/components/schemas/RedTeamSeverityMapping",
+      "/components/schemas/RedTeamStaticPrompt",
+      "/components/schemas/RedTeamSuggestedRule",
+      "/components/schemas/RedTeamTargetResponse",
+      "/components/schemas/RedTeamTargetResponseResult",
       "/components/schemas/RedTeamTechnique",
       "/components/schemas/RedTeamTechniqueBreakdown",
+      "/components/schemas/RedTeamTechniqueRef",
+      "/components/schemas/RedTeamTechniqueReport",
+      "/components/schemas/RedTeamTenantSettings",
       "/components/schemas/RedTeamTurnNotEvaluated",
+      "/components/schemas/RedTeamUsage",
+      "/components/schemas/RedTeamVerdict",
+      "/components/schemas/RedTeamVerdictNotMeasuredReason",
+      "/components/schemas/RedTeamWorkflowStatus",
+      "/components/schemas/RedTeamWorkflowType",
       "/components/schemas/RedactConditionConfig",
       "/components/schemas/RedactConfig",
       "/components/schemas/RegionCounts",
