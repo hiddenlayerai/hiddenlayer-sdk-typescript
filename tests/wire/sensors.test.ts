@@ -23,7 +23,7 @@ describe("SensorsClient", () => {
             sensor_id: "sensor_id",
             plaintext_name: "plaintext_name",
             created_at: "2024-01-15T09:30:00Z",
-            version: 1,
+            version: 1000000,
             active: true,
             tags: { key: "value" },
             adhoc: true,
@@ -148,7 +148,7 @@ describe("SensorsClient", () => {
             sensor_id: "sensor_id",
             plaintext_name: "plaintext_name",
             created_at: "2024-01-15T09:30:00Z",
-            version: 1,
+            version: 1000000,
             active: true,
             tags: { key: "value" },
             adhoc: true,
@@ -482,9 +482,9 @@ describe("SensorsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = {
-            total_count: 1,
-            page_size: 1,
-            page_number: 1,
+            total_count: 1000000,
+            page_size: 1000000,
+            page_number: 1000000,
             results: [
                 {
                     tenant_id: "tenant_id",
@@ -492,7 +492,7 @@ describe("SensorsClient", () => {
                     sensor_id: "sensor_id",
                     plaintext_name: "plaintext_name",
                     created_at: "2024-01-15T09:30:00Z",
-                    version: 1,
+                    version: 1000000,
                     active: true,
                     tags: { key: "value" },
                     adhoc: true,
@@ -557,9 +557,9 @@ describe("SensorsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = {
-            total_count: 1,
-            page_size: 1,
-            page_number: 1,
+            total_count: 1000000,
+            page_size: 1000000,
+            page_number: 1000000,
             results: [
                 {
                     tenant_id: "tenant_id",
@@ -567,7 +567,7 @@ describe("SensorsClient", () => {
                     sensor_id: "sensor_id",
                     plaintext_name: "plaintext_name",
                     created_at: "2024-01-15T09:30:00Z",
-                    version: 1,
+                    version: 1000000,
                     active: true,
                     tags: { key: "value" },
                     adhoc: true,

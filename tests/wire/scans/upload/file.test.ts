@@ -19,13 +19,13 @@ describe("FileClient", () => {
 
         const rawResponseBody = {
             upload_id: "upload_id",
-            parts: [{ part_number: 1, start_offset: 1, end_offset: 1, upload_url: "upload_url" }],
+            parts: [{ part_number: 1000000, start_offset: 1000000, end_offset: 1000000, upload_url: "upload_url" }],
         };
 
         server
             .mockEndpoint()
             .post("/scan/v3/upload/00000000-0000-0000-0000-000000000000/file")
-            .header("file-content-length", "1")
+            .header("file-content-length", "1000000")
             .header("file-name", "exampleFile.txt")
             .respondWith()
             .statusCode(200)
@@ -33,7 +33,7 @@ describe("FileClient", () => {
             .build();
 
         const response = await client.scans.upload.file.add({
-            "file-content-length": 1,
+            "file-content-length": 1000000,
             "file-name": "exampleFile.txt",
             scan_id: "00000000-0000-0000-0000-000000000000",
         });
@@ -56,7 +56,7 @@ describe("FileClient", () => {
         server
             .mockEndpoint()
             .post("/scan/v3/upload/scan_id/file")
-            .header("file-content-length", "1")
+            .header("file-content-length", "1000000")
             .respondWith()
             .statusCode(400)
             .jsonBody(rawResponseBody)
@@ -64,7 +64,7 @@ describe("FileClient", () => {
 
         await expect(async () => {
             return await client.scans.upload.file.add({
-                "file-content-length": 1,
+                "file-content-length": 1000000,
                 scan_id: "scan_id",
             });
         }).rejects.toThrow(HiddenLayerApi.BadRequestError);
@@ -86,7 +86,7 @@ describe("FileClient", () => {
         server
             .mockEndpoint()
             .post("/scan/v3/upload/scan_id/file")
-            .header("file-content-length", "1")
+            .header("file-content-length", "1000000")
             .respondWith()
             .statusCode(422)
             .jsonBody(rawResponseBody)
@@ -94,7 +94,7 @@ describe("FileClient", () => {
 
         await expect(async () => {
             return await client.scans.upload.file.add({
-                "file-content-length": 1,
+                "file-content-length": 1000000,
                 scan_id: "scan_id",
             });
         }).rejects.toThrow(HiddenLayerApi.UnprocessableEntityError);

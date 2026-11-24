@@ -17,7 +17,7 @@ describe("Oauth2Client", () => {
             environment: server.baseUrl,
         });
         const rawRequestBody = { grant_type: "client_credentials" };
-        const rawResponseBody = { access_token: "access_token", token_type: "Bearer", expires_in: 1 };
+        const rawResponseBody = { access_token: "access_token", token_type: "Bearer", expires_in: 1000000 };
 
         server
             .mockEndpoint()

@@ -18,9 +18,9 @@ describe("CardsClient", () => {
         });
 
         const rawResponseBody = {
-            total_count: 1,
-            page_size: 1,
-            page_number: 1,
+            total_count: 1000000,
+            page_size: 1000000,
+            page_number: 1000000,
             results: [
                 {
                     model_id: "model_id",
@@ -31,7 +31,7 @@ describe("CardsClient", () => {
                     model_scan_threat_level: "safe",
                     attack_monitoring_threat_level: "safe",
                     aidr_threat_level: "high",
-                    active_versions: [1],
+                    active_versions: [1000000],
                 },
             ],
         };
@@ -78,9 +78,9 @@ describe("CardsClient", () => {
         });
 
         const rawResponseBody = {
-            total_count: 1,
-            page_size: 1,
-            page_number: 1,
+            total_count: 1000000,
+            page_size: 1000000,
+            page_number: 1000000,
             results: [
                 {
                     model_id: "model_id",
@@ -91,7 +91,7 @@ describe("CardsClient", () => {
                     model_scan_threat_level: "safe",
                     attack_monitoring_threat_level: "safe",
                     aidr_threat_level: "high",
-                    active_version_count: 1,
+                    active_version_count: 1000000,
                     has_genealogy: true,
                     model_scan_severity: "not available",
                     model_scan_has_error: true,
