@@ -442,9 +442,9 @@ describe("JobsClient", () => {
         });
 
         const rawResponseBody = {
-            file_count: 1,
-            files_with_detections_count: 1,
-            detection_count: 1,
+            file_count: 1000000,
+            files_with_detections_count: 1000000,
+            detection_count: 1000000,
             severity: "critical",
             file_results: [
                 {
@@ -498,18 +498,20 @@ describe("JobsClient", () => {
             summary: {
                 severity: "critical",
                 highest_severity: "critical",
-                detection_count: 1,
-                advisory_count: 1,
-                file_count: 1,
-                files_with_detections_count: 1,
+                detection_count: 1000000,
+                advisory_count: 1000000,
+                file_count: 1000000,
+                files_with_detections_count: 1000000,
                 detection_categories: ["detection_categories"],
                 advisory_categories: ["advisory_categories"],
-                files_failed_to_scan: 1,
-                unknown_files: 1,
+                files_failed_to_scan: 1000000,
+                unknown_files: 1000000,
                 mitre_atlas: [{ technique: "AML.T0003.45", tactic: "AML.TA0001" }],
                 top_threat_type: "malicious",
-                findings_count: 1,
-                threat_types: { key: { count: 1, mitre_atlas: [{ technique: "AML.T0003.45", tactic: "AML.TA0001" }] } },
+                findings_count: 1000000,
+                threat_types: {
+                    key: { count: 1000000, mitre_atlas: [{ technique: "AML.T0003.45", tactic: "AML.TA0001" }] },
+                },
             },
             intelligence: {
                 geographic_footprint: ["US", "GB"],
@@ -631,9 +633,9 @@ describe("JobsClient", () => {
         const rawResponseBody = {
             items: [
                 {
-                    file_count: 1,
-                    files_with_detections_count: 1,
-                    detection_count: 1,
+                    file_count: 1000000,
+                    files_with_detections_count: 1000000,
+                    detection_count: 1000000,
                     severity: "critical",
                     summary: { mitre_atlas: [{ technique: "AML.T0003.45", tactic: "AML.TA0001" }] },
                     inventory: {

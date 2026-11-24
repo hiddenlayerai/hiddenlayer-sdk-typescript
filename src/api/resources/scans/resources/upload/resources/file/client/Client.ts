@@ -36,7 +36,7 @@ export class FileClient {
      *
      * @example
      *     await client.scans.upload.file.add({
-     *         "file-content-length": 1,
+     *         "file-content-length": 1000000,
      *         "file-name": "exampleFile.txt",
      *         scan_id: "00000000-0000-0000-0000-000000000000"
      *     })
