@@ -18,4 +18,5 @@ export interface RedTeamRunMeasurement {
     min_measured_ratio: number;
     /** A readable account of the failure; set only for a FAILED run. */
     failure_message?: string | undefined;
+    runtime_security?: HiddenLayerApi.RedTeamRunRuntimeSecurity | undefined;
 }
