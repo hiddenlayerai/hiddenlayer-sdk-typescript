@@ -4,4 +4,8 @@ import type * as HiddenLayerApi from "../../../../../index.js";
 
 export interface ListProjectsResponse extends HiddenLayerApi.Cursors {
     items: HiddenLayerApi.GetProjectItem[];
+    /** Start of the window detection_count was counted over, in whole seconds; returned only when sorting by detection_count. */
+    detection_count_start_at?: string | undefined;
+    /** End of the window detection_count was counted over, in whole seconds; returned only when sorting by detection_count. */
+    detection_count_end_at?: string | undefined;
 }

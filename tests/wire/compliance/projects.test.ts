@@ -46,6 +46,8 @@ describe("ProjectsClient", () => {
                     project_id: "project_id",
                 },
             ],
+            detection_count_start_at: "2024-01-15T09:30:00Z",
+            detection_count_end_at: "2024-01-15T09:30:00Z",
         };
 
         server
@@ -110,6 +112,32 @@ describe("ProjectsClient", () => {
             .mockEndpoint()
             .get("/compliance/v1/projects")
             .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.compliance.projects.list();
+        }).rejects.toThrow(HiddenLayerApi.UnprocessableEntityError);
+    });
+
+    test("list (4)", async () => {
+        const server = mockServerPool.createServer();
+        mockHiddenLayerOAuth(server);
+
+        const client = new HiddenLayerClient({
+            maxRetries: 0,
+            clientId: "test_client_id",
+            clientSecret: "test_client_secret",
+            environment: server.baseUrl,
+        });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .get("/compliance/v1/projects")
+            .respondWith()
             .statusCode(500)
             .jsonBody(rawResponseBody)
             .build();
@@ -119,7 +147,7 @@ describe("ProjectsClient", () => {
         }).rejects.toThrow(HiddenLayerApi.InternalServerError);
     });
 
-    test("list (4)", async () => {
+    test("list (5)", async () => {
         const server = mockServerPool.createServer();
         mockHiddenLayerOAuth(server);
 

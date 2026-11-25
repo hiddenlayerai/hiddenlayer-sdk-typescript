@@ -25,6 +25,8 @@ export interface ListProjectsRequest {
     limit?: HiddenLayerApi.Limit;
     /** Cursor for pagination, used to navigate through pages of results */
     cursor?: string;
-    /** allow sorting by name or modified_at, ascending (+) or the default descending (-) */
+    /** allow sorting by name, modified_at or detection_count, ascending (+) or the default descending (-). detection_count is the number of the project's events from `POST /api/v2/events/query` with severity HIGH, MEDIUM or LOW between the response's `detection_count_start_at` and `detection_count_end_at`, 0 when it has none; ties sort by name, then project ID. Every page of one listing keeps the first page's window; a detection that arrives late but is dated inside it can still move a project between pages. */
     sort?: string;
+    /** Start of the detection_count window; used only when sorting by detection_count. Must not be in the future or more than 8 days ago; fractional seconds are dropped. Defaults to midnight UTC 6 days ago. */
+    detection_count_start_at?: string;
 }
