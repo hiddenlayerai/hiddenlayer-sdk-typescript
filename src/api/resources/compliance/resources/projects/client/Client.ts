@@ -28,6 +28,7 @@ export class ProjectsClient {
      * @param {ProjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link HiddenLayerApi.BadRequestError}
+     * @throws {@link HiddenLayerApi.UnprocessableEntityError}
      * @throws {@link HiddenLayerApi.InternalServerError}
      * @throws {@link HiddenLayerApi.ServiceUnavailableError}
      * @throws {@link errors.HiddenLayerError}
@@ -56,6 +57,7 @@ export class ProjectsClient {
                     limit,
                     cursor,
                     sort,
+                    detection_count_start_at: detectionCountStartAt,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
                     name,
@@ -67,6 +69,7 @@ export class ProjectsClient {
                     limit,
                     cursor,
                     sort,
+                    detection_count_start_at: detectionCountStartAt != null ? detectionCountStartAt : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -104,6 +107,11 @@ export class ProjectsClient {
                     switch (_response.error.statusCode) {
                         case 400:
                             throw new HiddenLayerApi.BadRequestError(
+                                _response.error.body as unknown,
+                                _response.rawResponse,
+                            );
+                        case 422:
+                            throw new HiddenLayerApi.UnprocessableEntityError(
                                 _response.error.body as unknown,
                                 _response.rawResponse,
                             );
