@@ -6425,6 +6425,7 @@ const response = page.response;
 
 Start a new red team client workflow.
 Auto-triggers planning phase. Client should then poll /next-action.
+Runs use Runtime Security v1.
 </dd>
 </dl>
 </dd>
@@ -6905,6 +6906,7 @@ await client.evaluations.redTeam.terminate({
 [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
 
 Start a new simulated red team workflow with a built-in target model.
+Runs use Runtime Security v1.
 </dd>
 </dl>
 </dd>
@@ -8254,6 +8256,7 @@ const response = page.response;
 
 Starts a run against a target that the client calls. Poll `next-action` for each attack prompt and post the target's reply to `target-response` until `action_type` is `COMPLETED` or `FAILED`.
 The body's fields depend on `execution_strategy_type`; a field that strategy does not use is a 422. `is_runtime_trace_enabled: true` also requires the `inference:read` scope.
+Runs use Runtime Security v2 where the deployment supports it.
 </dd>
 </dl>
 </dd>
@@ -8323,6 +8326,7 @@ await client.evaluations.redTeamV2.create({
 
 Starts a run that attacks a built-in target model, with no client calls after this one. `target_model` must be in the target model catalog.
 The body's fields depend on `execution_strategy_type`; a field that strategy does not use is a 422. `is_runtime_trace_enabled: true` also requires the `inference:read` scope.
+Runs use Runtime Security v2 where the deployment supports it.
 </dd>
 </dl>
 </dd>
@@ -8390,7 +8394,7 @@ await client.evaluations.redTeamV2.simulated({
 
 [BETA] This endpoint is not GA or Production ready and is subject to changes at any time. Breaking changes may occur.
 
-Returns the settings the calling tenant's next run uses.
+Returns the Runtime Security mode supported by the deployment.
 </dd>
 </dl>
 </dd>
