@@ -38,4 +38,6 @@ export interface RedTeamRunProgress {
     elapsed_seconds: number | null;
     /** Estimated seconds until the run finishes. */
     eta_seconds: number | null;
+    /** The stored run's Runtime Security status; null until the run is stored, and for a run that recorded none. */
+    runtime_security: HiddenLayerApi.RedTeamRunRuntimeSecurity | null;
 }

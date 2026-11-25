@@ -31,4 +31,6 @@ export interface RedTeamRunListItem {
     hl_project_id: string | null;
     runtime_security_mode: HiddenLayerApi.RedTeamRuntimeSecurityMode;
     workflow_type: HiddenLayerApi.RedTeamWorkflowType;
+    /** Whether Runtime Security evaluated every message; null for a run that recorded no status. */
+    runtime_security_status: HiddenLayerApi.RedTeamRuntimeSecurityStatus | null;
 }

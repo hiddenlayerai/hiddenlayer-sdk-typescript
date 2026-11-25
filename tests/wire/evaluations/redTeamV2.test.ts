@@ -38,6 +38,7 @@ describe("RedTeamV2Client", () => {
                     hl_project_id: "hl_project_id",
                     runtime_security_mode: "V1",
                     workflow_type: "SIMULATED",
+                    runtime_security_status: "COMPLETE",
                 },
             ],
         };
@@ -831,6 +832,14 @@ describe("RedTeamV2Client", () => {
                     measured_ratio: 1.1,
                     min_measured_ratio: 1.1,
                     failure_message: "failure_message",
+                    runtime_security: {
+                        status: "COMPLETE",
+                        messages_total: 1,
+                        messages_evaluated: 1,
+                        not_evaluated: { key: 1 },
+                        not_checked: 1,
+                        message: "message",
+                    },
                 },
                 by_objective: [{ objective_id: "objective_id", attempts: 1, success: 1, errors: 1, not_evaluated: 1 }],
                 by_technique: [
@@ -1316,6 +1325,14 @@ describe("RedTeamV2Client", () => {
             percent_complete: 1.1,
             elapsed_seconds: 1.1,
             eta_seconds: 1.1,
+            runtime_security: {
+                status: "COMPLETE",
+                messages_total: 1,
+                messages_evaluated: 1,
+                not_evaluated: { key: 1 },
+                not_checked: 1,
+                message: "message",
+            },
         };
 
         server
